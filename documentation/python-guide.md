@@ -88,9 +88,10 @@ source = ["src/<package>"]
 
 ## Quick checklist for Codex
 
-* [ ] Use PEP 8 names/format; no wildcard imports. ([Python Enhancement Proposals (PEPs)][7])
-* [ ] Small, pure functions; complexity < \~10. ([GitHub][12])
-* [ ] No mutable defaults; catch specific exceptions; use `with` for resources. ([Python documentation][13], [Stack Overflow][16], [Real Python][19])
-* [ ] Type hints + docstrings on public APIs. ([Python Enhancement Proposals (PEPs)][21])
-* [ ] Tests with pytest: fixtures, parametrize, AAA; measure coverage. ([docs.pytest.org][24], [coverage.readthedocs.io][26])
-* [ ] Enforce Black + isort + Ruff via pre-commit/CI. ([black.readthedocs.io][8], [pycqa.github.io][9], [Astral Docs][10], [pre-commit.com][11])
+* [ ] Use PEP 8 names/format; no wildcard imports.
+* [ ] Small, pure functions; complexity < \~10.
+* [ ] No mutable defaults; catch specific exceptions; use `with` for resources.
+* [ ] Type hints + docstrings on public APIs.
+* [ ] Tests with pytest: fixtures, parametrize, AAA; measure coverage.
+* [ ] Enforce Black + isort + Ruff via pre-commit/CI.
+
