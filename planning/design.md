@@ -2,8 +2,6 @@
 
 **Hippocampal Episodic Index — Neuromodulated Writes**
 
-> Decision: **modern-Hopfield-style retrieval** is the default associative mechanism.
-
 ---
 
 ## 1) Purpose & Scope
@@ -13,6 +11,9 @@ HEI-NW augments a decoder-only LLM with a persistent, content‑addressable **ep
 ---
 
 ## 2) Executive Summary
+
+
+> Note: The **30% semantic facts** slice used during replay may, in future, be supplied by a schema store (e.g., SGC‑RSS). This is informational only and does not change the MVP.
 
 * **Augmentation, not surgery:** keep the base Transformer intact; add a slim **Episodic Adapter** (cross‑attention) and a **Memory Service** (DG keyer, associative store, replay queue).
 * **Core loop:**
@@ -94,6 +95,7 @@ interface TraceValue {
   tokens_span_ref: { doc: string; start: number; end: number }; // pointer only
   entity_slots: { who?: string; what?: string; where?: string; when?: string; extras?: Record<string,string> };
   lm_state_sketch?: { layer_ids: number[]; low_rank_q: number[][] }; // tiny bootstrap
+  action_trace?: Array<{ tool?: string; args?: Record<string, any>; result_hash?: string; ts?: string }>;
   salience_tags: { surprise: number; novelty: number; reward?: boolean; pin?: boolean; S: number };
   provenance?: { source: "chat"|"tool"|"file"; timestamp: string; confidence?: number };
 }
@@ -130,6 +132,7 @@ interface TraceValue {
 
   1. **LM replay row:** reconstruct the original token slice → next‑token loss.
   2. **Cue→Answer row:** synthesize a cue from `entity_slots` and target from snippet; supervise cross‑entropy.
+  3. **(Optional) Imitation/policy row:** if `action_trace` exists, emit macro‑policy imitation row(s) for a future policy head; **off by default**.
 * **Optimizer:** AdamW; start with **LoRA** on attention/FFN (r=16–64); escalate to selective full FT if stable.
 * **LR:** small (see §11); cosine decay per cycle; early‑stop if base‑task loss rises.
 
