@@ -5,7 +5,7 @@
 ---
 
 # Key artifacts
-- [hei-nw.md](hei-nw.md) - short introduction to the algorithm
+- [documentation/hei-nw.md](documentation/hei-nw.md) - short introduction to the algorithm
 - [planning/design.md](planning/design.md) - the design of the implementation
 - [planning/validation-plan.md](planning/validation-plan.md) - the plan how to validate the results of HEI-NW
 - [research/experiment-synthesis.md](research/experiment-synthesis.md) - the research document the algorithm originates from
