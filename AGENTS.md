@@ -1,2 +1,2 @@
 - Read documentation/python-guide.md before any coding and use the checklist for new code.
-- Do not edit any files inside "research" or "planning" folder.
+- Do not edit any files inside "research", "planning" or "prompts" folder.
