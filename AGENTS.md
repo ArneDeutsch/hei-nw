@@ -1,2 +1,6 @@
 - Read [documentation/python-guide.md](documentation/python-guide.md) before any coding and use the checklist for new code.
 - Do not edit any files inside "research", "planning" or "prompts" folder.
+- Our overall goal is
+  - to realize the design described in [planning/design.md](planning/design.md)
+  - validate the results as described in [planning/validation-plan.md](planning/validation-plan.md)
+  - according to the project plan from [planning/project-plan.md](planning/project-plan.md)
