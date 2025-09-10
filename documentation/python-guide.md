@@ -94,4 +94,6 @@ source = ["src/<package>"]
 * [ ] Type hints + docstrings on public APIs.
 * [ ] Tests with pytest: fixtures, parametrize, AAA; measure coverage.
 * [ ] Enforce Black + isort + Ruff via pre-commit/CI.
+* [ ] Refactor and test your code before commit.
+
 
