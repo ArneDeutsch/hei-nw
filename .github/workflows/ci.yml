@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          pip install -r codex-env/requirements.txt
+          pip install -e .
+      - name: Format
+        run: black --check .
+      - name: Lint
+        run: ruff .
+      - name: Type check
+        run: mypy .
+      - name: Tests
+        run: pytest -q
+      - name: No stubs
+        run: git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" || echo "No stubs."
