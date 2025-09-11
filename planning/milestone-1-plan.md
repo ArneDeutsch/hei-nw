@@ -47,7 +47,7 @@
 * **Quality gates:**
   `black . && ruff . && mypy . && pytest -q tests/test_adapter.py`
 * **Acceptance check:**
-  `python - <<'PY'\nfrom hei_nw.adapter import EpisodicAdapter; import torch\nh=32; m=EpisodicAdapter(h,4)\nH=torch.randn(2,5,h)\nassert torch.equal(m(H,None), H)\nprint('OK')\nPY`
+  `python3 -c "from hei_nw.adapter import EpisodicAdapter; import torch; h=32; m=EpisodicAdapter(h,4); H=torch.randn(2,5,h); assert torch.equal(m(H,None), H); print('OK')"`
 
 ---
 
