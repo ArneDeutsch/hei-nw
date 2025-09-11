@@ -13,7 +13,12 @@ def add_common_args(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
     parser.add_argument(
         "--device", type=str, default="cpu", help="Compute device, e.g. 'cpu' or 'cuda'."
     )
-    parser.add_argument("--outdir", type=Path, default=Path("outputs"), help="Output directory.")
+    parser.add_argument(
+        "--outdir",
+        type=Path,
+        default=Path("reports/baseline"),
+        help="Output directory.",
+    )
     return parser
 
 

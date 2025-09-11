@@ -37,6 +37,8 @@ Run a small baseline across scenarios A–E and generate reports:
 bash scripts/run_b0_small.sh
 ```
 
+The evaluation harness writes reports to `reports/baseline/` by default.
+
 To combine individual Markdown reports into a single file:
 
 ```bash

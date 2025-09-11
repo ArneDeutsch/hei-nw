@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -63,3 +64,29 @@ def test_cli_rag_smoke(tmp_path: Path) -> None:
     assert json_files
     data = json.loads(json_files[0].read_text())
     assert data["compute"]["baseline"] is not None
+
+
+@pytest.mark.slow
+def test_cli_default_outdir(tmp_path: Path) -> None:
+    cmd = [
+        sys.executable,
+        "-m",
+        "hei_nw.eval.harness",
+        "--mode",
+        "B0",
+        "--scenario",
+        "B",
+        "-n",
+        "0",
+        "--seed",
+        "0",
+        "--model",
+        str(TINY_MODEL),
+    ]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
+    subprocess.run(cmd, cwd=tmp_path, env=env, check=True)  # noqa: S603
+    outdir = tmp_path / "reports" / "baseline"
+    json_files = list(outdir.glob("*_metrics.json"))
+    md_files = list(outdir.glob("*_report.md"))
+    assert json_files and md_files
