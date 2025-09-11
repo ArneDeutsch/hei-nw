@@ -2,10 +2,46 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
 from hei_nw.utils.io import write_json, write_markdown
+
+
+def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[dict[str, Any]]:
+    """Aggregate *records* into lag bins.
+
+    Parameters
+    ----------
+    records:
+        Sequence of evaluation record dictionaries each containing ``lag``,
+        ``em``, ``f1`` and optional ``recall_at_k`` fields.
+    bins:
+        Monotonically increasing sequence of integer bin edges.
+
+    Returns
+    -------
+    list of dicts
+        Each dict contains ``lag_bin`` label, ``count`` of records in the bin,
+        mean ``em``/``f1``/``recall_at_k``.
+    """
+
+    if len(bins) < 2:
+        raise ValueError("bins must have at least two entries")
+    results: list[dict[str, Any]] = []
+    for start, end in zip(bins, bins[1:], strict=False):
+        members = [r for r in records if start <= int(r.get("lag", 0)) < end]
+        count = len(members)
+        em = sum(float(r.get("em", 0.0)) for r in members) / count if count else 0.0
+        f1 = sum(float(r.get("f1", 0.0)) for r in members) / count if count else 0.0
+        recalls = [r.get("recall_at_k") for r in members if r.get("recall_at_k") is not None]
+        recall = sum(float(x) for x in recalls) / len(recalls) if recalls else None
+        label = f"{start}-{end}"
+        results.append(
+            {"lag_bin": label, "count": count, "em": em, "f1": f1, "recall_at_k": recall}
+        )
+    return results
 
 
 def build_markdown_report(summary: dict[str, Any]) -> str:
@@ -18,10 +54,16 @@ def build_markdown_report(summary: dict[str, Any]) -> str:
     lines.append(f"- Latency: {agg.get('latency', 0):.3f}s")
     lines.append("")
     lines.append("## Lag bins")
-    lines.append("| lag | count | EM | F1 |")
-    lines.append("| --- | ----- | --- | --- |")
+    lines.append("| Lag bin | count | EM | F1 | Recall@k |")
+    lines.append("| ------- | ----- | --- | --- | -------- |")
     for bin_ in summary.get("lag_bins", []):
-        lines.append(f"| {bin_['lag']} | {bin_['count']} | {bin_['em']:.3f} | {bin_['f1']:.3f} |")
+        r = bin_.get("recall_at_k")
+        r_str = f"{r:.3f}" if isinstance(r, int | float) else "n/a"
+        line = (
+            f"| {bin_['lag_bin']} | {bin_['count']} | {bin_['em']:.3f} | "
+            f"{bin_['f1']:.3f} | {r_str} |"
+        )
+        lines.append(line)
     lines.append("")
     lines.append("## Compute")
     comp = summary.get("compute", {})

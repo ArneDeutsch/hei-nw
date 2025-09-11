@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections import defaultdict
 from collections.abc import Callable, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -12,7 +11,7 @@ from typing import Any, cast
 
 from hei_nw import datasets
 from hei_nw.baselines.long_context import run_long_context
-from hei_nw.eval.report import build_markdown_report
+from hei_nw.eval.report import bin_by_lag, build_markdown_report
 from hei_nw.metrics import (
     ComputeRecord,
     estimate_attention_flops,
@@ -152,25 +151,6 @@ def _aggregate_metrics(items: Sequence[EvalItem]) -> dict[str, float | None]:
     }
 
 
-def _lag_bins(items: Sequence[EvalItem]) -> list[dict[str, Any]]:
-    """Compute lag-bin aggregates for *items*."""
-
-    bins: dict[int, list[EvalItem]] = defaultdict(list)
-    for item in items:
-        bins[item.lag].append(item)
-    results: list[dict[str, Any]] = []
-    for lag, rows in sorted(bins.items()):
-        results.append(
-            {
-                "lag": lag,
-                "count": len(rows),
-                "em": sum(r.em for r in rows) / len(rows),
-                "f1": sum(r.f1 for r in rows) / len(rows),
-            }
-        )
-    return results
-
-
 def _run_baseline(
     baseline: str,
     gen_records: Sequence[dict[str, Any]],
@@ -218,10 +198,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     baseline_compute = _run_baseline(args.baseline, gen_records, model, tok)
 
+    record_dicts = [asdict(it) for it in items]
     summary = {
-        "records": [asdict(it) for it in items],
+        "records": record_dicts,
         "aggregate": _aggregate_metrics(items),
-        "lag_bins": _lag_bins(items),
+        "lag_bins": bin_by_lag(record_dicts, [0, 1, 3, 7, 30]),
         "compute": {
             "b0": compute.model_dump(),
             "baseline": baseline_compute,
