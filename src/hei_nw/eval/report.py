@@ -35,8 +35,10 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
         count = len(members)
         em = sum(float(r.get("em", 0.0)) for r in members) / count if count else 0.0
         f1 = sum(float(r.get("f1", 0.0)) for r in members) / count if count else 0.0
-        recalls = [r.get("recall_at_k") for r in members if r.get("recall_at_k") is not None]
-        recall = sum(float(x) for x in recalls) / len(recalls) if recalls else None
+        recalls = [
+            float(r.get("recall_at_k", 0.0)) for r in members if r.get("recall_at_k") is not None
+        ]
+        recall = sum(recalls) / len(recalls) if recalls else None
         label = f"{start}-{end}"
         results.append(
             {"lag_bin": label, "count": count, "em": em, "f1": f1, "recall_at_k": recall}
