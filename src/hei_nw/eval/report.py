@@ -46,7 +46,7 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     return results
 
 
-def build_markdown_report(summary: dict[str, Any]) -> str:
+def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) -> str:
     """Build a Markdown report string from *summary* data."""
 
     agg = summary.get("aggregate", {})
@@ -80,14 +80,25 @@ def build_markdown_report(summary: dict[str, Any]) -> str:
             f"\nBaseline attention FLOPs: {baseline.get('attention_flops', 'n/a')}\n"
             f"Baseline KV cache bytes: {baseline.get('kv_cache_bytes', 'n/a')}"
         )
+    lines.append("")
+    lines.append("## Dataset notes")
+    if scenario == "A":
+        dataset = summary.get("dataset", {})
+        ratio = dataset.get("hard_negative_ratio")
+        ratio_str = f"{ratio:.2f}" if isinstance(ratio, int | float) else "unknown"
+        lines.append(f"Hard negatives/confounders included (ratio {ratio_str})")
+    else:
+        lines.append("None")
     return "\n".join(lines)
 
 
-def save_reports(outdir: Path, base: str, summary: dict[str, Any]) -> tuple[Path, Path]:
+def save_reports(
+    outdir: Path, base: str, summary: dict[str, Any], scenario: str | None = None
+) -> tuple[Path, Path]:
     """Write JSON and Markdown reports and return their paths."""
 
     json_path = outdir / f"{base}_metrics.json"
     md_path = outdir / f"{base}_report.md"
     write_json(json_path, summary)
-    write_markdown(md_path, build_markdown_report(summary))
+    write_markdown(md_path, build_markdown_report(summary, scenario))
     return json_path, md_path

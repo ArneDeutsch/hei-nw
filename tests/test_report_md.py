@@ -14,8 +14,11 @@ def test_md_contains_required_sections() -> None:
             }
         ],
         "compute": {"b0": {"attention_flops": 0, "kv_cache_bytes": 0}},
+        "dataset": {"hard_negative_ratio": 1.0},
     }
-    md = build_markdown_report(summary)
+    md = build_markdown_report(summary, scenario="A")
     assert "Aggregate Metrics" in md
     assert "Lag bins" in md
     assert "Compute" in md
+    assert "Dataset notes" in md
+    assert "Hard negatives" in md
