@@ -55,6 +55,7 @@
 * Prefer **pytest fixtures** for setup/teardown; **parametrize** for scenario coverage; use **mocks** only at boundaries.
 * Measure **coverage**; optimize gaps rather than chasing 100%. Use `coverage.py` and `pytest-cov`.
 * You can mix in `unittest` when needed; pytest runs it too.
+* Ensure tests are fast. If a test is slow, mark it as slow.
 
 ## 10) Module patterns
 
@@ -95,5 +96,6 @@ source = ["src/<package>"]
 * [ ] Tests with pytest: fixtures, parametrize, AAA; measure coverage.
 * [ ] Enforce Black + isort + Ruff via pre-commit/CI.
 * [ ] Refactor and test your code before commit.
+
 
 
