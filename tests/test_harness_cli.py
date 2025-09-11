@@ -34,3 +34,32 @@ def test_cli_b0_smoke(tmp_path: Path) -> None:
     assert json_files and md_files
     data = json.loads(json_files[0].read_text())
     assert "aggregate" in data and "records" in data
+
+
+@pytest.mark.slow
+def test_cli_rag_smoke(tmp_path: Path) -> None:
+    outdir = tmp_path / "out"
+    cmd = [
+        sys.executable,
+        "-m",
+        "hei_nw.eval.harness",
+        "--mode",
+        "B0",
+        "--scenario",
+        "E",
+        "-n",
+        "4",
+        "--seed",
+        "0",
+        "--outdir",
+        str(outdir),
+        "--model",
+        str(TINY_MODEL),
+        "--baseline",
+        "rag",
+    ]
+    subprocess.run(cmd, check=True)  # noqa: S603
+    json_files = list(outdir.glob("*_metrics.json"))
+    assert json_files
+    data = json.loads(json_files[0].read_text())
+    assert data["compute"]["baseline"] is not None
