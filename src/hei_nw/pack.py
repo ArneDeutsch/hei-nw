@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 
-def pack_trace(trace: dict[str, Any], tokenizer, max_mem_tokens: int) -> list[int]:
+def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> list[int]:
     """Pack an episode trace into a list of token IDs.
 
     The packing follows a deterministic template with a stable field order and
