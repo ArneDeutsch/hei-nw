@@ -1,0 +1,90 @@
+{
+  "aggregate": {
+    "em": 0.0,
+    "f1": 0.0,
+    "latency": 0.09200215000009848,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 34848,
+      "kv_cache_bytes": 2112
+    },
+    "baseline": {
+      "attention_flops": 107152,
+      "kv_cache_bytes": 1808
+    }
+  },
+  "lag_bins": [
+    {
+      "count": 4,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08609119500033557,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08442641199962964,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.09619343800022762,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1012975550002011,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    }
+  ]
+}
