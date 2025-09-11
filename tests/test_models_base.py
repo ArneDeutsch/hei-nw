@@ -26,3 +26,11 @@ def test_generate_count_tokens_smoke() -> None:
     assert isinstance(out["text"], str)
     assert prompt_tokens == len(tok.encode(prompt))  # type: ignore[attr-defined]
     assert 0 < generated_tokens <= 8
+
+
+def test_generate_signature_accepts_mem_tokens() -> None:
+    load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    a = generate("Hello", max_new_tokens=4)
+    b = generate("Hello", max_new_tokens=4, mem_tokens=None)
+    c = generate("Hello", max_new_tokens=4, mem_tokens=[])
+    assert a["text"] == b["text"] == c["text"]

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import warnings
 from typing import cast
 
 import torch
@@ -17,6 +18,8 @@ from transformers import (
     TextGenerationPipeline,
     pipeline,
 )
+
+from hei_nw.adapter import EpisodicAdapter
 
 _tokenizer: PreTrainedTokenizerBase | None = None
 _model: PreTrainedModel | None = None
@@ -99,6 +102,9 @@ def generate(
     top_p: float = 0.9,
     do_sample: bool = False,
     stop: str | None = None,
+    mem_tokens: list[int] | None = None,
+    adapter: EpisodicAdapter | None = None,
+    **kwargs: object,
 ) -> dict[str, int | str]:
     """Generate text using the loaded base model.
 
@@ -116,6 +122,11 @@ def generate(
         Whether to enable sampling; otherwise greedy.
     stop:
         Optional substring at which generation should stop.
+    mem_tokens:
+        Optional list of memory token IDs. Ignored in M1.
+    adapter:
+        Optional ``EpisodicAdapter`` instance. When provided together with
+        ``mem_tokens`` a ``UserWarning`` is emitted and the adapter is ignored.
 
     Returns
     -------
@@ -126,6 +137,13 @@ def generate(
         load_base()
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
+
+    if adapter is not None and mem_tokens:
+        warnings.warn(
+            "Episodic adapter read path is inactive in M1; memory tokens are ignored.",
+            UserWarning,
+            stacklevel=2,
+        )
 
     inputs = _tokenizer(prompt, return_tensors="pt")
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
@@ -139,6 +157,7 @@ def generate(
     if do_sample:
         gen_kwargs["temperature"] = temperature
         gen_kwargs["top_p"] = top_p
+    gen_kwargs.update(kwargs)
 
     output_ids = _model.generate(**inputs, **gen_kwargs)
     generated_ids = output_ids[0][prompt_len:]
@@ -156,3 +175,13 @@ def generate(
         "generated_tokens": int(len(generated_ids)),
     }
     return result
+
+
+def build_default_adapter(model: PreTrainedModel) -> EpisodicAdapter:
+    """Construct a default ``EpisodicAdapter`` matching ``model`` geometry."""
+
+    hidden_size = getattr(model.config, "hidden_size", None)
+    n_heads = getattr(model.config, "num_attention_heads", None)
+    if hidden_size is None or n_heads is None:
+        raise ValueError("Model config lacks hidden_size or num_attention_heads")
+    return EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads)
