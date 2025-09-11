@@ -161,10 +161,24 @@ def _run_baseline(
 
     if baseline != "long-context":
         return None
-    lc_records = [
-        {"context": r["episode_text"], "query": r["cues"][0], "expected": r["answers"][0]}
-        for r in gen_records
-    ]
+    lc_records: list[dict[str, Any]] = []
+    for r in gen_records:
+        if {"context", "query", "expected"} <= r.keys():
+            lc_records.append(
+                {
+                    "context": r["context"],
+                    "query": r["query"],
+                    "expected": r["expected"],
+                }
+            )
+        else:
+            lc_records.append(
+                {
+                    "context": r.get("episode_text", ""),
+                    "query": r.get("cues", [""])[0],
+                    "expected": r.get("answers", [""])[0],
+                }
+            )
     baseline_out = run_long_context(model, tok, lc_records, {"max_new_tokens": 32})
     return cast(dict[str, Any], baseline_out["compute"].model_dump())
 
