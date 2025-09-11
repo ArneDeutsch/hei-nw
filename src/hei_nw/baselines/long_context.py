@@ -62,8 +62,10 @@ def _model_config(model: Any) -> tuple[int, int, int, str]:
     layers = int(getattr(cfg, "num_hidden_layers", getattr(cfg, "n_layer", 0)))
     hidden = int(getattr(cfg, "hidden_size", getattr(cfg, "n_embd", 0)))
     heads = int(getattr(cfg, "num_attention_heads", getattr(cfg, "n_head", 0)))
-    dtype = getattr(cfg, "torch_dtype", "float16")
-    dtype_str = str(dtype).replace("torch.", "") if dtype else "float16"
+    dtype_attr = getattr(cfg, "dtype", None)
+    if dtype_attr is None:
+        dtype_attr = vars(cfg).get("torch_dtype")
+    dtype_str = str(dtype_attr).replace("torch.", "") if dtype_attr else "float16"
     return layers, hidden, heads, dtype_str
 
 

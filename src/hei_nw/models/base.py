@@ -48,9 +48,9 @@ def load_base(
     if _tokenizer is not None and _model is not None and _pipe is not None:
         return _tokenizer, _model, _pipe
 
-    torch_dtype: torch.dtype | str = dtype
+    resolved_dtype: torch.dtype | str = dtype
     if isinstance(dtype, str) and dtype != "auto":
-        torch_dtype = getattr(torch, dtype)
+        resolved_dtype = getattr(torch, dtype)
 
     quant_config: BitsAndBytesConfig | None = None
     if quant_4bit:
@@ -60,7 +60,7 @@ def load_base(
     if dtype == "auto":
         model_kwargs["dtype"] = "auto"
     else:
-        model_kwargs["dtype"] = torch_dtype
+        model_kwargs["dtype"] = resolved_dtype
     if quant_config is not None:
         model_kwargs["quantization_config"] = quant_config
 
