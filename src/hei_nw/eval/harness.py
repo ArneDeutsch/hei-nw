@@ -36,6 +36,10 @@ SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
     "E": datasets.scenario_e.generate,
 }
 
+# Default model used when none is specified on the command line. Mirrors the
+# fallback in :func:`hei_nw.models.base.load_base`.
+DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B-Instruct"
+
 
 @dataclass
 class ModelGeometry:
@@ -72,7 +76,12 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         default="none",
         help="Optional baseline for compute measurements",
     )
-    parser.add_argument("--model", type=str, default=None, help="Model identifier")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=DEFAULT_MODEL_ID,
+        help="Model identifier",
+    )
     add_common_args(parser)
     return parser.parse_args(args)
 

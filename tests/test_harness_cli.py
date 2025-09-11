@@ -9,6 +9,23 @@ import pytest
 TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
 
 
+def test_parse_args_default_model(tmp_path: Path) -> None:
+    from hei_nw.eval.harness import DEFAULT_MODEL_ID, parse_args
+
+    args = [
+        "--mode",
+        "B0",
+        "--scenario",
+        "A",
+        "-n",
+        "1",
+        "--outdir",
+        str(tmp_path),
+    ]
+    parsed = parse_args(args)
+    assert parsed.model == DEFAULT_MODEL_ID
+
+
 @pytest.mark.slow
 def test_cli_b0_smoke(tmp_path: Path) -> None:
     outdir = tmp_path / "out"
