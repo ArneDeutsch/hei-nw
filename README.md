@@ -28,3 +28,17 @@
 ├── pyproject.toml           - Python package and build configuration
 └── README.md                - Overview and navigation
 ```
+
+## Usage
+
+Run a small baseline across scenarios A–E and generate reports:
+
+```bash
+bash scripts/run_b0_small.sh
+```
+
+To combine individual Markdown reports into a single file:
+
+```bash
+bash scripts/make_report.sh
+```
