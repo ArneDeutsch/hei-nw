@@ -3,14 +3,18 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 from collections.abc import Callable, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, cast
 
+import numpy as np
+
 from hei_nw import datasets
 from hei_nw.baselines.long_context import run_long_context
+from hei_nw.baselines.rag import HFEmbedder, run_rag
 from hei_nw.eval.report import bin_by_lag, build_markdown_report
 from hei_nw.metrics import (
     ComputeRecord,
@@ -143,12 +147,112 @@ def _aggregate_metrics(items: Sequence[EvalItem]) -> dict[str, float | None]:
     if not items:
         return {"em": 0.0, "f1": 0.0, "latency": 0.0, "recall_at_k": None}
     n = len(items)
+    recall_vals = [i.recall_at_k for i in items if i.recall_at_k is not None]
+    recall_avg = sum(recall_vals) / len(recall_vals) if recall_vals else None
     return {
         "em": sum(i.em for i in items) / n,
         "f1": sum(i.f1 for i in items) / n,
         "latency": sum(i.latency for i in items) / n,
-        "recall_at_k": None,
+        "recall_at_k": recall_avg,
     }
+
+
+class ToyEmbedder:
+    """Deterministic hashed embedder used when HF model is unavailable."""
+
+    def __init__(self, dim: int = 64) -> None:
+        self.dim = dim
+
+    def embed(self, texts: Sequence[str]) -> np.ndarray:  # pragma: no cover - simple
+        vecs: list[np.ndarray] = []
+        for text in texts:
+            h = int(hashlib.sha256(text.encode()).hexdigest(), 16) % self.dim
+            vec = np.zeros(self.dim, dtype="float32")
+            vec[h] = 1.0
+            vecs.append(vec)
+        return np.stack(vecs)
+
+
+def _get_embedder() -> Any:
+    """Return an HF embedder, falling back to :class:`ToyEmbedder`."""
+
+    try:
+        return HFEmbedder()
+    except Exception:  # pragma: no cover - network failures
+        return ToyEmbedder()
+
+
+def _prepare_long_context_records(
+    gen_records: Sequence[dict[str, Any]],
+) -> list[dict[str, str]]:
+    """Convert generic records into long-context baseline format."""
+
+    lc_records: list[dict[str, str]] = []
+    for r in gen_records:
+        if {"context", "query", "expected"} <= r.keys():
+            record = {
+                "context": str(r["context"]),
+                "query": str(r["query"]),
+                "expected": str(r["expected"]),
+            }
+        else:
+            record = {
+                "context": str(r.get("episode_text", "")),
+                "query": str(r.get("cues", [""])[0]),
+                "expected": str(r.get("answers", [""])[0]),
+            }
+        lc_records.append(record)
+    return lc_records
+
+
+def _run_long_context_baseline(
+    gen_records: Sequence[dict[str, Any]], model: Any, tok: Any
+) -> tuple[dict[str, Any], None]:
+    """Run the long-context baseline and return compute metrics."""
+
+    lc_records = _prepare_long_context_records(gen_records)
+    out = run_long_context(model, tok, lc_records, {"max_new_tokens": 32})
+    return cast(dict[str, Any], out["compute"].model_dump()), None
+
+
+def _prepare_rag_records(gen_records: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Convert generic records into RAG baseline format."""
+
+    rag_records: list[dict[str, Any]] = []
+    for r in gen_records:
+        if {"documents", "query", "answers"} <= r.keys():
+            docs = list(cast(Sequence[str], r["documents"]))
+            query = cast(str, r["query"])
+            answers = list(cast(Sequence[str], r["answers"]))
+            expected = r.get("expected", answers[0] if answers else "")
+        else:
+            docs = [cast(str, r.get("context", r.get("episode_text", "")))]
+            query = cast(str, r.get("query", r.get("cues", [""])[0]))
+            ans = r.get("answers") or [r.get("expected", "")]
+            answers = list(cast(Sequence[str], ans))
+            expected = r.get("expected", answers[0] if answers else "")
+        rag_records.append(
+            {
+                "documents": docs,
+                "query": query,
+                "answers": answers,
+                "expected": expected,
+            }
+        )
+    return rag_records
+
+
+def _run_rag_baseline(
+    gen_records: Sequence[dict[str, Any]], model: Any, tok: Any
+) -> tuple[dict[str, Any], list[float]]:
+    """Run the RAG baseline and return compute and recall metrics."""
+
+    embedder = _get_embedder()
+    rag_records = _prepare_rag_records(gen_records)
+    out = run_rag(model, tok, rag_records, embedder=embedder, k=5, gen_cfg={"max_new_tokens": 32})
+    recalls = [cast(float, resp.get("recall_at_k")) for resp in out["responses"]]
+    compute = cast(dict[str, Any], out["compute"].model_dump())
+    return compute, recalls
 
 
 def _run_baseline(
@@ -156,31 +260,14 @@ def _run_baseline(
     gen_records: Sequence[dict[str, Any]],
     model: Any,
     tok: Any,
-) -> dict[str, Any] | None:
-    """Optionally run baseline compute estimates."""
+) -> tuple[dict[str, Any] | None, list[float] | None]:
+    """Dispatch to baseline runners based on *baseline* type."""
 
-    if baseline != "long-context":
-        return None
-    lc_records: list[dict[str, Any]] = []
-    for r in gen_records:
-        if {"context", "query", "expected"} <= r.keys():
-            lc_records.append(
-                {
-                    "context": r["context"],
-                    "query": r["query"],
-                    "expected": r["expected"],
-                }
-            )
-        else:
-            lc_records.append(
-                {
-                    "context": r.get("episode_text", ""),
-                    "query": r.get("cues", [""])[0],
-                    "expected": r.get("answers", [""])[0],
-                }
-            )
-    baseline_out = run_long_context(model, tok, lc_records, {"max_new_tokens": 32})
-    return cast(dict[str, Any], baseline_out["compute"].model_dump())
+    if baseline == "long-context":
+        return _run_long_context_baseline(gen_records, model, tok)
+    if baseline == "rag":
+        return _run_rag_baseline(gen_records, model, tok)
+    return None, None
 
 
 def _save_reports(outdir: Path, scenario: str, mode: str, summary: dict[str, Any]) -> None:
@@ -212,11 +299,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
         items, compute = _evaluate_records(gen_records, geom)
-        baseline_compute = _run_baseline(args.baseline, gen_records, model, tok)
+        baseline_compute, recalls = _run_baseline(args.baseline, gen_records, model, tok)
+        if recalls is not None:
+            for itm, r in zip(items, recalls, strict=False):
+                itm.recall_at_k = r
     else:
         items = []
         compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
         baseline_compute = None
+        recalls = None
 
     record_dicts = [asdict(it) for it in items]
     summary = {
