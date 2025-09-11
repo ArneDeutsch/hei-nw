@@ -278,7 +278,7 @@ def _save_reports(outdir: Path, scenario: str, mode: str, summary: dict[str, Any
     json_path = outdir / f"{base}_metrics.json"
     md_path = outdir / f"{base}_report.md"
     write_json(json_path, summary)
-    md_content = build_markdown_report(summary)
+    md_content = build_markdown_report(summary, scenario)
     write_markdown(md_path, md_content)
 
 
@@ -292,6 +292,12 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     set_global_seed(args.seed)
     gen_records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
+    hard_neg_ratio: float | None = None
+    if args.scenario == "A":
+        pos = sum(1 for r in gen_records if r.get("should_remember"))
+        neg = sum(1 for r in gen_records if not r.get("should_remember"))
+        if pos:
+            hard_neg_ratio = neg / pos
 
     if gen_records:
         from hei_nw.models.base import load_base
@@ -319,6 +325,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             "baseline": baseline_compute,
         },
     }
+    dataset_info: dict[str, Any] = {"scenario": args.scenario}
+    if hard_neg_ratio is not None:
+        dataset_info["hard_negative_ratio"] = hard_neg_ratio
+    summary["dataset"] = dataset_info
 
     _save_reports(args.outdir, args.scenario, args.mode, summary)
     return 0
