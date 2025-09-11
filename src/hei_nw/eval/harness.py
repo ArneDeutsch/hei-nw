@@ -313,9 +313,7 @@ ModeHandler = Callable[
 ]
 
 
-def _hard_negative_ratio(
-    scenario: str, records: Sequence[dict[str, Any]]
-) -> float | None:
+def _hard_negative_ratio(scenario: str, records: Sequence[dict[str, Any]]) -> float | None:
     """Return the hard-negative ratio for scenario ``A``."""
 
     if scenario != "A":
@@ -395,9 +393,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        items, compute, baseline_compute, extra = handler(
-            records, args.baseline, model, tok, geom
-        )
+        items, compute, baseline_compute, extra = handler(records, args.baseline, model, tok, geom)
     else:
         items = []
         compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
