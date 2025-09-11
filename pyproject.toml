@@ -38,6 +38,9 @@ testpaths = ["tests"]
 markers = [
     "slow: marks tests as slow",
 ]
+filterwarnings = [
+    "ignore:.*[Ss]wig.*has no __module__ attribute:DeprecationWarning",
+]
 
 [tool.coverage.run]
 branch = true
