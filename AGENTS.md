@@ -5,3 +5,4 @@
   - to realize the design described in [planning/design.md](planning/design.md)
   - validate the results as described in [planning/validation-plan.md](planning/validation-plan.md)
   - according to the project plan from [planning/project-plan.md](planning/project-plan.md)
+- When running tests remember to set PYTHONPATH=src first
