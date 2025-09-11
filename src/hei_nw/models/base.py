@@ -10,6 +10,8 @@ import torch
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
+    BitsAndBytesConfig,
+    GenerationConfig,
     PreTrainedModel,
     PreTrainedTokenizerBase,
     TextGenerationPipeline,
@@ -50,13 +52,17 @@ def load_base(
     if isinstance(dtype, str) and dtype != "auto":
         torch_dtype = getattr(torch, dtype)
 
+    quant_config: BitsAndBytesConfig | None = None
+    if quant_4bit:
+        quant_config = BitsAndBytesConfig(load_in_4bit=True)
+
     model_kwargs: dict[str, object] = {"device_map": "auto"}
     if dtype == "auto":
-        model_kwargs["torch_dtype"] = "auto"
+        model_kwargs["dtype"] = "auto"
     else:
-        model_kwargs["torch_dtype"] = torch_dtype
-    if quant_4bit:
-        model_kwargs["load_in_4bit"] = True
+        model_kwargs["dtype"] = torch_dtype
+    if quant_config is not None:
+        model_kwargs["quantization_config"] = quant_config
 
     _tokenizer = cast(
         PreTrainedTokenizerBase,
@@ -73,6 +79,12 @@ def load_base(
     )
     if _model.config.pad_token_id is None:
         _model.config.pad_token_id = _tokenizer.pad_token_id
+
+    gen_conf: GenerationConfig = _model.generation_config
+    gen_conf.top_k = 0
+    gen_conf.top_p = 1.0
+    gen_conf.temperature = 1.0
+    gen_conf.do_sample = False
 
     _pipe = pipeline(  # type: ignore[no-untyped-call]
         "text-generation", model=_model, tokenizer=_tokenizer
@@ -119,13 +131,16 @@ def generate(
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
     prompt_len = inputs["input_ids"].shape[-1]
 
-    output_ids = _model.generate(
-        **inputs,
-        max_new_tokens=max_new_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        do_sample=do_sample,
-    )
+    gen_kwargs: dict[str, object | None] = {
+        "max_new_tokens": max_new_tokens,
+        "do_sample": do_sample,
+        "top_k": None,
+    }
+    if do_sample:
+        gen_kwargs["temperature"] = temperature
+        gen_kwargs["top_p"] = top_p
+
+    output_ids = _model.generate(**inputs, **gen_kwargs)
     generated_ids = output_ids[0][prompt_len:]
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
 
