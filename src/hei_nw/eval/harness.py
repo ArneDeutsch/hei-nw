@@ -115,7 +115,10 @@ class EvalItem:
 
 
 def _evaluate_records(
-    records: Sequence[dict[str, Any]], geom: ModelGeometry
+    records: Sequence[dict[str, Any]],
+    geom: ModelGeometry,
+    adapter: Any | None = None,
+    mem_tokens: list[int] | None = None,
 ) -> tuple[list[EvalItem], ComputeRecord]:
     """Run evaluation for *records* and return item metrics and compute."""
     from hei_nw.models.base import generate
@@ -125,7 +128,12 @@ def _evaluate_records(
     for rec in records:
         prompt, truth = _build_prompt(rec)
         with time_block() as t:
-            out = generate(prompt, max_new_tokens=32)
+            out = generate(
+                prompt,
+                max_new_tokens=32,
+                adapter=adapter,
+                mem_tokens=mem_tokens,
+            )
         pred = str(out["text"]).strip()
         em = exact_match(pred, truth)
         f1 = token_f1(pred, truth)
@@ -293,53 +301,120 @@ def _save_reports(outdir: Path, scenario: str, mode: str, summary: dict[str, Any
     write_markdown(md_path, md_content)
 
 
+ModeResult = tuple[
+    list[EvalItem],
+    ComputeRecord,
+    dict[str, Any] | None,
+    dict[str, Any],
+]
+ModeHandler = Callable[
+    [Sequence[dict[str, Any]], str, Any, Any, ModelGeometry],
+    ModeResult,
+]
+
+
+def _hard_negative_ratio(
+    scenario: str, records: Sequence[dict[str, Any]]
+) -> float | None:
+    """Return the hard-negative ratio for scenario ``A``."""
+
+    if scenario != "A":
+        return None
+    pos = sum(1 for r in records if r.get("should_remember"))
+    neg = sum(1 for r in records if not r.get("should_remember"))
+    return neg / pos if pos else None
+
+
+def _evaluate_mode_b0(
+    records: Sequence[dict[str, Any]],
+    baseline: str,
+    model: Any,
+    tok: Any,
+    geom: ModelGeometry,
+) -> ModeResult:
+    """Evaluate records in B0 mode."""
+
+    items, compute = _evaluate_records(records, geom)
+    baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
+    if recalls is not None:
+        for itm, r in zip(items, recalls, strict=False):
+            itm.recall_at_k = r
+    return items, compute, baseline_compute, {}
+
+
+def _evaluate_mode_b1(
+    records: Sequence[dict[str, Any]],
+    baseline: str,
+    model: Any,
+    tok: Any,
+    geom: ModelGeometry,
+) -> ModeResult:
+    """Evaluate records in B1 mode with adapter latency."""
+
+    from transformers import PreTrainedModel
+
+    from hei_nw.models.base import build_default_adapter
+
+    adapter = build_default_adapter(cast(PreTrainedModel, model))
+    b0_items, _ = _evaluate_records(records, geom)
+    items, compute = _evaluate_records(records, geom, adapter=adapter, mem_tokens=None)
+    baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
+    if recalls is not None:
+        for itm, r in zip(items, recalls, strict=False):
+            itm.recall_at_k = r
+    b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
+    b1_latency = cast(float, _aggregate_metrics(items)["latency"])
+    extra = {"adapter_latency_overhead_s": b1_latency - b0_latency}
+    return items, compute, baseline_compute, extra
+
+
+MODE_HANDLERS: dict[str, ModeHandler] = {
+    "B0": _evaluate_mode_b0,
+    "B1": _evaluate_mode_b1,
+}
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """Entry point for the evaluation harness CLI."""
 
     args = parse_args(argv)
-    if args.mode != "B0":
-        print("Only B0 mode is supported in M0", file=sys.stderr)
+    handler = MODE_HANDLERS.get(args.mode)
+    if handler is None:
+        print(f"Mode {args.mode} is not supported in M1", file=sys.stderr)
         return 64
+    if args.mode == "B1" and args.outdir == Path("reports/baseline"):
+        args.outdir = Path("reports/m1-episodic-adapter")
+        args.outdir.mkdir(parents=True, exist_ok=True)
 
     set_global_seed(args.seed)
-    gen_records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
-    hard_neg_ratio: float | None = None
-    if args.scenario == "A":
-        pos = sum(1 for r in gen_records if r.get("should_remember"))
-        neg = sum(1 for r in gen_records if not r.get("should_remember"))
-        if pos:
-            hard_neg_ratio = neg / pos
+    records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
+    hard_neg_ratio = _hard_negative_ratio(args.scenario, records)
 
-    if gen_records:
+    if records:
         from hei_nw.models.base import load_base
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        items, compute = _evaluate_records(gen_records, geom)
-        baseline_compute, recalls = _run_baseline(args.baseline, gen_records, model, tok)
-        if recalls is not None:
-            for itm, r in zip(items, recalls, strict=False):
-                itm.recall_at_k = r
+        items, compute, baseline_compute, extra = handler(
+            records, args.baseline, model, tok, geom
+        )
     else:
         items = []
         compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
         baseline_compute = None
-        recalls = None
+        extra = {}
 
     record_dicts = [asdict(it) for it in items]
-    summary = {
+    summary: dict[str, Any] = {
         "records": record_dicts,
         "aggregate": _aggregate_metrics(items),
         "lag_bins": bin_by_lag(record_dicts, [0, 1, 3, 7, 30]),
-        "compute": {
-            "b0": compute.model_dump(),
-            "baseline": baseline_compute,
-        },
+        "compute": {"b0": compute.model_dump(), "baseline": baseline_compute},
+        "dataset": {"scenario": args.scenario},
     }
-    dataset_info: dict[str, Any] = {"scenario": args.scenario}
     if hard_neg_ratio is not None:
-        dataset_info["hard_negative_ratio"] = hard_neg_ratio
-    summary["dataset"] = dataset_info
+        summary["dataset"]["hard_negative_ratio"] = hard_neg_ratio
+    summary.update(extra)
 
     _save_reports(args.outdir, args.scenario, args.mode, summary)
     return 0
