@@ -58,7 +58,9 @@ def _model_geometry(model: Any) -> ModelGeometry:
     layers = int(getattr(cfg, "num_hidden_layers", getattr(cfg, "n_layer", 0)))
     hidden = int(getattr(cfg, "hidden_size", getattr(cfg, "n_embd", 0)))
     heads = int(getattr(cfg, "num_attention_heads", getattr(cfg, "n_head", 0)))
-    dtype_attr = getattr(cfg, "torch_dtype", "float32")
+    dtype_attr = getattr(cfg, "dtype", None)
+    if dtype_attr is None:
+        dtype_attr = vars(cfg).get("torch_dtype")
     dtype = str(dtype_attr).replace("torch.", "") if dtype_attr else "float32"
     return ModelGeometry(layers=layers, hidden=hidden, heads=heads, dtype=dtype)
 
