@@ -25,4 +25,4 @@ jobs:
       - name: Tests
         run: pytest -q
       - name: No stubs
-        run: git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" || echo "No stubs."
+        run: git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" -- . ':!planning' ':!prompts' ':!.github/workflows/ci.yml' || echo "No stubs."
