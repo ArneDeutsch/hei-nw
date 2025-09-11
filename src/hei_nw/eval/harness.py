@@ -20,7 +20,6 @@ from hei_nw.metrics import (
     time_block,
     token_f1,
 )
-from hei_nw.models.base import generate, load_base
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.io import timestamp_slug, write_json, write_markdown
 from hei_nw.utils.seed import set_global_seed
@@ -104,6 +103,7 @@ def _evaluate_records(
     records: Sequence[dict[str, Any]], geom: ModelGeometry
 ) -> tuple[list[EvalItem], ComputeRecord]:
     """Run evaluation for *records* and return item metrics and compute."""
+    from hei_nw.models.base import generate
 
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
@@ -190,13 +190,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 64
 
     set_global_seed(args.seed)
-    tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
-    geom = _model_geometry(model)
-
     gen_records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
-    items, compute = _evaluate_records(gen_records, geom)
 
-    baseline_compute = _run_baseline(args.baseline, gen_records, model, tok)
+    if gen_records:
+        from hei_nw.models.base import load_base
+
+        tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
+        geom = _model_geometry(model)
+        items, compute = _evaluate_records(gen_records, geom)
+        baseline_compute = _run_baseline(args.baseline, gen_records, model, tok)
+    else:
+        items = []
+        compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
+        baseline_compute = None
 
     record_dicts = [asdict(it) for it in items]
     summary = {

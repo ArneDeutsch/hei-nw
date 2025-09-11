@@ -6,6 +6,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import requests
 
 from hei_nw.baselines.rag import run_rag
 from hei_nw.models.base import load_base
@@ -50,7 +51,9 @@ def test_index_and_query_toyembedder() -> None:
 @pytest.mark.slow
 def test_hfembedder_smoke() -> None:
     from hei_nw.baselines.rag import HFEmbedder
-
-    emb = HFEmbedder()
-    vecs = emb.embed(["hello", "world"])
+    try:
+        emb = HFEmbedder()
+        vecs = emb.embed(["hello", "world"])
+    except requests.exceptions.RequestException:
+        pytest.skip("HF embedding model not available")
     assert vecs.shape[0] == 2
