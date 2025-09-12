@@ -1,0 +1,539 @@
+{
+  "adapter_latency_overhead_s": -0.005075939957957118,
+  "aggregate": {
+    "em": 0.0,
+    "f1": 0.0,
+    "latency": 0.05853581685460085,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 1256896,
+      "kv_cache_bytes": 43936
+    },
+    "baseline": null
+  },
+  "dataset": {
+    "hard_negative_ratio": 1.0,
+    "scenario": "A"
+  },
+  "lag_bins": [
+    {
+      "count": 12,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0712787490010669,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-21, Fay left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05655886300155544,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-12, Bob left a wallet at the library.\nwho left a wallet at the library?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.05662560400014627,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-03, Ivan left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 24,
+      "latency": 0.056627964000654174,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-03, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05689823600187083,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-04, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.05747139000231982,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-19, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.056387262000498595,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 10,
+      "latency": 0.05654637399857165,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-18, Eli left a key at the market.\nwho left a key at the market?\n",
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05661777400018764,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-27, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05663941400052863,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-21, Bob left a book at the beach.\nwho left a book at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.056507822999265045,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-23, Fay left a notebook at the school.\nwho left a notebook at the school?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.056671263999305665,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-07, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05624492100105272,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-15, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.0566672640015895,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-26, Fay left a phone at the museum.\nwho left a phone at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.05736098000124912,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-10, Dana left a notebook at the beach.\nwho left a notebook at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 9,
+      "latency": 0.057609400999353966,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-20, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.056994366001163144,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-06, Bob left a wallet at the bakery.\nwho left a wallet at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.0569795469964447,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-02, Charlie left a bottle at the bakery.\nwho left a bottle at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 5,
+      "latency": 0.059921528001723345,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-11, Ivan left a book at the station.\nwho left a book at the station?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 21,
+      "latency": 0.05769870199947036,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-26, Judy left a bottle at the beach.\nwho left a bottle at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05795450300138327,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-16, Bob left a notebook at the park.\nwho left a notebook at the park?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.05707690700000967,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-22, Alice left a phone at the beach.\nwho left a phone at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.05972071599899209,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-01, Eli left a key at the station.\nwho left a key at the station?\n",
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.05904331200144952,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-04, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.057243438001023605,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-21, Dana left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05766637099804939,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-12, Bob left a wallet at the museum.\nwho left a wallet at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.05664103399976739,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-03, Ivan left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 24,
+      "latency": 0.05924838300052215,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-28, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05782992300009937,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-03, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.058346557001641486,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-19, Judy left a wallet at the beach.\nwho left a wallet at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.05949706500177854,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 10,
+      "latency": 0.06081287400229485,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-18, Eli left a key at the museum.\nwho left a key at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05835806700270041,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-28, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05954342499899212,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-21, Bob left a book at the bakery.\nwho left a book at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.060085799002990825,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-23, Fay left a notebook at the bakery.\nwho left a notebook at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.06080650399962906,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-07, Judy left a jacket at the beach.\nwho left a jacket at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05983362700135331,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-15, Charlie left a key at the station.\nwho left a key at the station?\n",
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05934605400034343,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-26, Fay left a jacket at the museum.\nwho left a jacket at the museum?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.05960266500187572,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-10, Dana left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 9,
+      "latency": 0.05921165199833922,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-27, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.060575052000785945,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-06, Bob left a phone at the bakery.\nwho left a phone at the bakery?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.061528308997367276,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-02, Charlie left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 5,
+      "latency": 0.05950051499894471,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-11, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 21,
+      "latency": 0.06003952900209697,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-26, Judy left a bottle at the station.\nwho left a bottle at the station?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05840199700105586,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-16, Bob left a book at the park.\nwho left a book at the park?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.0586676279999665,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-22, Ivan left a phone at the beach.\nwho left a phone at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.058649118000175804,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-13, Eli left a key at the station.\nwho left a key at the station?\n",
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.06018075899919495,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-13, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    }
+  ],
+  "retrieval": {
+    "collision_rate": 0.2916666666666667,
+    "completion_lift": 0.0,
+    "mrr": 0.5198960944026735,
+    "near_miss_rate": 0.125,
+    "p_at_1": 0.3333333333333333
+  }
+}
