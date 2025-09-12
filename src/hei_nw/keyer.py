@@ -7,6 +7,8 @@ from typing import TypedDict
 import torch
 from torch import Tensor, nn
 
+__all__ = ["KeyDict", "DGKeyer", "to_dense"]
+
 
 class KeyDict(TypedDict):
     """Sparse key representation returned by :class:`DGKeyer`."""

@@ -18,3 +18,13 @@ def test_no_stubs_regex(tmp_path: Path) -> None:
     matches = [p for p in tmp_path.rglob("*.py") if pattern.search(p.read_text())]
     assert bad in matches
     assert good not in matches
+
+
+def test_m2_scripts_present_and_executable() -> None:
+    scripts = [
+        Path("scripts/run_m2_retrieval.sh"),
+        Path("scripts/compare_b0_b1_m2.sh"),
+    ]
+    for script in scripts:
+        assert script.exists(), f"{script} missing"
+        assert script.stat().st_mode & 0o111, f"{script} not executable"

@@ -1,3 +1,5 @@
+"""Vector store components for episodic retrieval."""
+
 from __future__ import annotations
 
 import hashlib
@@ -10,6 +12,8 @@ import torch
 from torch import Tensor, nn
 
 from .keyer import DGKeyer, to_dense
+
+__all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore"]
 
 
 class ANNIndex:
@@ -30,6 +34,8 @@ class ANNIndex:
     """
 
     def __init__(self, dim: int, m: int = 32, ef_search: int = 64) -> None:  # noqa: ARG002
+        """Create an empty index of dimensionality ``dim``."""
+
         self.dim = dim
         self.index = faiss.IndexFlatIP(dim)
         self.meta: list[dict[str, Any]] = []
@@ -115,6 +121,8 @@ class HopfieldReadout(nn.Module):
     """
 
     def __init__(self, patterns: Tensor, steps: int = 1, temperature: float = 1.0) -> None:
+        """Initialise the readout with stored ``patterns``."""
+
         super().__init__()
         if patterns.ndim != 2:
             raise ValueError("patterns must have shape [p, d]")
@@ -203,6 +211,8 @@ class EpisodicStore:
         embed_dim: int,
         max_mem_tokens: int,
     ) -> None:
+        """Initialise the store with precomputed components."""
+
         self.keyer = keyer
         self.index = index
         self.hopfield = hopfield

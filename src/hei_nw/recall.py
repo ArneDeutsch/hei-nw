@@ -1,3 +1,5 @@
+"""Recall service for episodic memory retrieval."""
+
 from __future__ import annotations
 
 from collections.abc import Sequence
@@ -5,6 +7,8 @@ from typing import Any
 
 from .pack import pack_trace
 from .store import EpisodicStore
+
+__all__ = ["RecallService"]
 
 
 class RecallService:
