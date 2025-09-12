@@ -21,8 +21,6 @@
 ├── research/                - Research notes and background material
 ├── src/                     - Source code for HEI-NW
 ├── tests/                   - Automated test suite
-├── .github/                 - GitHub workflow configuration
-├── .pre-commit-config.yaml  - Pre-commit hook definitions
 ├── AGENTS.md                - Guidelines and project instructions
 ├── LICENSE                  - Project licensing information
 ├── pyproject.toml           - Python package and build configuration
