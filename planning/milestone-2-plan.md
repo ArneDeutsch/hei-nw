@@ -236,9 +236,9 @@
    ```bash
    export PYTHONPATH=src
    python -m hei_nw.eval.harness --mode B0 --scenario A -n 24 --seed 7 \
-     --model tests/models/tiny-gpt2 --outdir reports/m2-retrieval-stack
+     --model models/tiny-gpt2 --outdir reports/m2-retrieval-stack
    python -m hei_nw.eval.harness --mode B1 --scenario A -n 24 --seed 7 \
-     --model tests/models/tiny-gpt2 --outdir reports/m2-retrieval-stack
+     --model models/tiny-gpt2 --outdir reports/m2-retrieval-stack
    ```
 
    **Success signal:** `A_B1_metrics.json` contains `retrieval` with finite P\@k/MRR and `A_B1_report.md` shows the Retrieval section.
@@ -246,7 +246,7 @@
 
    ```bash
    python -m hei_nw.eval.harness --mode B1 --scenario A -n 24 --seed 7 \
-     --model tests/models/tiny-gpt2 --outdir reports/m2-retrieval-stack --no-hopfield
+     --model models/tiny-gpt2 --outdir reports/m2-retrieval-stack --no-hopfield
    ```
 
    **Success signal:** `completion_ablation.png` written; completion-lift in JSON > 0 on average.
