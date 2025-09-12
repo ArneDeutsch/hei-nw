@@ -18,12 +18,19 @@ from hei_nw.baselines.rag import HFEmbedder, run_rag
 from hei_nw.eval.report import bin_by_lag, build_markdown_report
 from hei_nw.metrics import (
     ComputeRecord,
+    collision_rate,
+    completion_lift,
     estimate_attention_flops,
     estimate_kv_bytes,
     exact_match,
+    mrr,
+    near_miss_rate,
+    precision_at_k,
     time_block,
     token_f1,
 )
+from hei_nw.pack import pack_trace
+from hei_nw.recall import RecallService
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.io import timestamp_slug, write_json, write_markdown
 from hei_nw.utils.seed import set_global_seed
@@ -347,22 +354,78 @@ def _evaluate_mode_b1(
     tok: Any,
     geom: ModelGeometry,
 ) -> ModeResult:
-    """Evaluate records in B1 mode with adapter latency."""
+    """Evaluate records in B1 mode using episodic recall."""
 
     from transformers import PreTrainedModel
 
     from hei_nw.models.base import build_default_adapter
 
     adapter = build_default_adapter(cast(PreTrainedModel, model))
+    service = RecallService.build(records, tok, max_mem_tokens=64)
     b0_items, _ = _evaluate_records(records, geom)
-    items, compute = _evaluate_records(records, geom, adapter=adapter, mem_tokens=None)
+    items: list[EvalItem] = []
+    compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
+    cand_groups: list[list[int]] = []
+    truths: list[int] = []
+    diagnostics: list[dict[str, Any]] = []
+    hopfield_top1: list[bool] = []
+    baseline_top1: list[bool] = []
+    for rec in records:
+        cue = rec.get("cues", [""])[0]
+        group_id = int(rec.get("group_id", -1))
+        should_remember = bool(rec.get("should_remember"))
+        res_no = service.store.query(
+            cue,
+            return_m=service.return_m,
+            use_hopfield=False,
+            group_id=group_id,
+            should_remember=should_remember,
+        )
+        res_h = service.store.query(
+            cue,
+            return_m=service.return_m,
+            use_hopfield=True,
+            group_id=group_id,
+            should_remember=should_remember,
+        )
+        cand_groups.append([c["group_id"] for c in res_no["candidates"]])
+        truths.append(group_id)
+        diagnostics.append(res_no["diagnostics"])
+        baseline_top1.append(
+            bool(res_no["selected"]) and res_no["selected"][0]["group_id"] == group_id
+        )
+        hopfield_top1.append(
+            bool(res_h["selected"]) and res_h["selected"][0]["group_id"] == group_id
+        )
+        tokens: list[int] = []
+        for trace in res_h["selected"]:
+            answers = trace.get("answers", [])
+            fields = {
+                key: answers[i] if i < len(answers) else ""
+                for i, key in enumerate(["who", "what", "where", "when"])
+            }
+            tokens.extend(pack_trace(fields, service.tokenizer, service.max_mem_tokens))
+            if len(tokens) >= 128:
+                break
+        mem_tokens = tokens[:128]
+        itm_list, comp = _evaluate_records([rec], geom, adapter=adapter, mem_tokens=mem_tokens)
+        items.extend(itm_list)
+        compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
+        compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
     baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
     if recalls is not None:
         for itm, r in zip(items, recalls, strict=False):
             itm.recall_at_k = r
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
-    extra = {"adapter_latency_overhead_s": b1_latency - b0_latency}
+    retrieval = {
+        "p_at_1": precision_at_k(cand_groups, truths, 1),
+        "mrr": mrr(cand_groups, truths),
+        "near_miss_rate": near_miss_rate(diagnostics),
+        "collision_rate": collision_rate(diagnostics),
+        "completion_lift": completion_lift(baseline_top1, hopfield_top1),
+    }
+    extra = {"adapter_latency_overhead_s": b1_latency - b0_latency, "retrieval": retrieval}
     return items, compute, baseline_compute, extra
 
 
