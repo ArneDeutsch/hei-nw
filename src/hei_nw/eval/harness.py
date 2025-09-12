@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import sys
 from collections.abc import Callable, Sequence
 from dataclasses import asdict, dataclass
@@ -15,7 +16,11 @@ import numpy as np
 from hei_nw import datasets
 from hei_nw.baselines.long_context import run_long_context
 from hei_nw.baselines.rag import HFEmbedder, run_rag
-from hei_nw.eval.report import bin_by_lag, build_markdown_report
+from hei_nw.eval.report import (
+    bin_by_lag,
+    save_completion_ablation_plot,
+    save_reports,
+)
 from hei_nw.metrics import (
     ComputeRecord,
     collision_rate,
@@ -32,7 +37,6 @@ from hei_nw.metrics import (
 from hei_nw.pack import pack_trace
 from hei_nw.recall import RecallService
 from hei_nw.utils.cli import add_common_args
-from hei_nw.utils.io import timestamp_slug, write_json, write_markdown
 from hei_nw.utils.seed import set_global_seed
 
 SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
@@ -301,16 +305,35 @@ def _run_baseline(
     return None, None
 
 
-def _save_reports(outdir: Path, scenario: str, mode: str, summary: dict[str, Any]) -> None:
-    """Persist JSON and Markdown reports to *outdir*."""
+def _save_reports(
+    outdir: Path, scenario: str, mode: str, summary: dict[str, Any], no_hopfield: bool
+) -> Path:
+    """Persist JSON and Markdown reports to *outdir*.
 
-    ts = timestamp_slug()
-    base = f"{ts}_{scenario}_{mode}"
-    json_path = outdir / f"{base}_metrics.json"
-    md_path = outdir / f"{base}_report.md"
-    write_json(json_path, summary)
-    md_content = build_markdown_report(summary, scenario)
-    write_markdown(md_path, md_content)
+    Parameters
+    ----------
+    outdir:
+        Destination directory for the reports.
+    scenario:
+        Scenario identifier (A–E).
+    mode:
+        Benchmark mode (B0/B1/etc.).
+    summary:
+        Metrics summary to serialize.
+    no_hopfield:
+        Whether the run was executed without Hopfield readout.
+
+    Returns
+    -------
+    Path
+        Path to the written JSON metrics file.
+    """
+
+    base = f"{scenario}_{mode}"
+    if no_hopfield:
+        base += "_no-hopfield"
+    json_path, _ = save_reports(outdir, base, summary, scenario)
+    return json_path
 
 
 ModeResult = tuple[
@@ -488,7 +511,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         summary["dataset"]["hard_negative_ratio"] = hard_neg_ratio
     summary.update(extra)
 
-    _save_reports(args.outdir, args.scenario, args.mode, summary)
+    _save_reports(args.outdir, args.scenario, args.mode, summary, args.no_hopfield)
+    if args.mode == "B1" and args.no_hopfield:
+        with_hp_path = args.outdir / f"{args.scenario}_B1_metrics.json"
+        if with_hp_path.exists():
+            with with_hp_path.open("r", encoding="utf8") as fh:
+                with_hp_summary = json.load(fh)
+            save_completion_ablation_plot(args.outdir, with_hp_summary, summary)
+
     return 0
 
 
