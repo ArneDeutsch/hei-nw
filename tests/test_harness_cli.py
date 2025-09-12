@@ -107,3 +107,29 @@ def test_cli_default_outdir(tmp_path: Path) -> None:
     json_files = list(outdir.glob("*_metrics.json"))
     md_files = list(outdir.glob("*_report.md"))
     assert json_files and md_files
+
+
+@pytest.mark.slow
+def test_cli_default_outdir_b1(tmp_path: Path) -> None:
+    cmd = [
+        sys.executable,
+        "-m",
+        "hei_nw.eval.harness",
+        "--mode",
+        "B1",
+        "--scenario",
+        "B",
+        "-n",
+        "0",
+        "--seed",
+        "0",
+        "--model",
+        str(TINY_MODEL),
+    ]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
+    subprocess.run(cmd, cwd=tmp_path, env=env, check=True)  # noqa: S603
+    outdir = tmp_path / "reports" / "m1-episodic-adapter"
+    json_files = list(outdir.glob("*_metrics.json"))
+    md_files = list(outdir.glob("*_report.md"))
+    assert json_files and md_files
