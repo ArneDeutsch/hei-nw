@@ -91,6 +91,11 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         default=DEFAULT_MODEL_ID,
         help="Model identifier",
     )
+    parser.add_argument(
+        "--no-hopfield",
+        action="store_true",
+        help="Disable Hopfield readout and use raw ANN candidates",
+    )
     add_common_args(parser)
     return parser.parse_args(args)
 
@@ -315,7 +320,7 @@ ModeResult = tuple[
     dict[str, Any],
 ]
 ModeHandler = Callable[
-    [Sequence[dict[str, Any]], str, Any, Any, ModelGeometry],
+    [Sequence[dict[str, Any]], str, Any, Any, ModelGeometry, bool],
     ModeResult,
 ]
 
@@ -336,6 +341,7 @@ def _evaluate_mode_b0(
     model: Any,
     tok: Any,
     geom: ModelGeometry,
+    _no_hopfield: bool = False,
 ) -> ModeResult:
     """Evaluate records in B0 mode."""
 
@@ -353,6 +359,7 @@ def _evaluate_mode_b1(
     model: Any,
     tok: Any,
     geom: ModelGeometry,
+    no_hopfield: bool = False,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -370,6 +377,7 @@ def _evaluate_mode_b1(
     diagnostics: list[dict[str, Any]] = []
     hopfield_top1: list[bool] = []
     baseline_top1: list[bool] = []
+    use_hopfield = not no_hopfield
     for rec in records:
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
@@ -381,13 +389,16 @@ def _evaluate_mode_b1(
             group_id=group_id,
             should_remember=should_remember,
         )
-        res_h = service.store.query(
-            cue,
-            return_m=service.return_m,
-            use_hopfield=True,
-            group_id=group_id,
-            should_remember=should_remember,
-        )
+        if use_hopfield:
+            res_h = service.store.query(
+                cue,
+                return_m=service.return_m,
+                use_hopfield=True,
+                group_id=group_id,
+                should_remember=should_remember,
+            )
+        else:
+            res_h = res_no
         cand_groups.append([c["group_id"] for c in res_no["candidates"]])
         truths.append(group_id)
         diagnostics.append(res_no["diagnostics"])
@@ -456,7 +467,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        items, compute, baseline_compute, extra = handler(records, args.baseline, model, tok, geom)
+        items, compute, baseline_compute, extra = handler(
+            records, args.baseline, model, tok, geom, args.no_hopfield
+        )
     else:
         items = []
         compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
