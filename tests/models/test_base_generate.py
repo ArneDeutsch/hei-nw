@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import pytest
+import torch
 
 from hei_nw.adapter import EpisodicAdapter
 from hei_nw.models.base import generate, load_base
@@ -18,7 +18,10 @@ def test_generate_stops_on_substring() -> None:
     assert out["generated_tokens"] < 8
 
 
-def test_warning_when_adapter_and_mem_tokens() -> None:
-    adapter = EpisodicAdapter(hidden_size=1, n_heads=1)
-    with pytest.warns(UserWarning):
-        generate("Hello", max_new_tokens=1, adapter=adapter, mem_tokens=[0])
+def test_mem_tokens_affect_generation() -> None:
+    torch.manual_seed(3)
+    adapter = EpisodicAdapter(hidden_size=2, n_heads=2)
+    baseline = generate("Hello", max_new_tokens=1)
+    with_mem = generate("Hello", max_new_tokens=1, adapter=adapter, mem_tokens=[2])
+    assert baseline["text"] == " stairs"
+    assert with_mem["text"] == " factors"
