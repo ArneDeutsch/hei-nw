@@ -192,4 +192,12 @@ def build_default_adapter(model: PreTrainedModel) -> EpisodicAdapter:
     n_heads = getattr(model.config, "num_attention_heads", None)
     if hidden_size is None or n_heads is None:
         raise ValueError("Model config lacks hidden_size or num_attention_heads")
-    return EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads)
+
+    adapter = EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads)
+    model_device = getattr(model, "device", None)
+    if model_device is None:
+        try:
+            model_device = next(model.parameters()).device
+        except StopIteration:  # pragma: no cover - defensive
+            model_device = None
+    return adapter.to(model_device) if model_device is not None else adapter
