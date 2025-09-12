@@ -280,10 +280,11 @@ class EpisodicStore:
             vectors.append(dense)
         index = ANNIndex(dim=keyer.d)
         if vectors:
-            index.add(np.stack(vectors), meta)
-        patterns = (
-            torch.tensor(vectors, dtype=torch.float32) if vectors else torch.zeros(1, keyer.d)
-        )
+            vec_array = np.stack(vectors).astype("float32")
+            index.add(vec_array, meta)
+            patterns = torch.from_numpy(vec_array)
+        else:
+            patterns = torch.zeros(1, keyer.d, dtype=torch.float32)
         hopfield = HopfieldReadout(patterns)
         group_ids = {m["group_id"] for m in meta}
         return cls(keyer, index, hopfield, tokenizer, vectors, group_ids, embed_dim, max_mem_tokens)
@@ -330,7 +331,9 @@ class EpisodicStore:
             }
             return {"selected": [], "candidates": [], "diagnostics": diagnostics}
         if use_hopfield:
-            cand_vecs = torch.tensor([r["key_vector"] for r in results], dtype=torch.float32)
+            cand_vecs = torch.from_numpy(
+                np.stack([r["key_vector"] for r in results]).astype("float32")
+            )
             scores = self.hopfield(
                 torch.from_numpy(dense.squeeze(0)), candidates=cand_vecs, return_scores=True
             )

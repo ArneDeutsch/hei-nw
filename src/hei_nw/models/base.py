@@ -159,7 +159,9 @@ def generate(
         gen_kwargs["top_p"] = top_p
     gen_kwargs.update(kwargs)
 
-    output_ids = _model.generate(**inputs, **gen_kwargs)
+    output_ids = _model.generate(
+        **inputs, pad_token_id=_tokenizer.pad_token_id, **gen_kwargs
+    )
     generated_ids = output_ids[0][prompt_len:]
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
 
