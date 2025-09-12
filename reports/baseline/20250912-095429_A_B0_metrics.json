@@ -1,0 +1,211 @@
+{
+  "aggregate": {
+    "em": 0.0,
+    "f1": 0.0,
+    "latency": 0.09632413362498937,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 418648,
+      "kv_cache_bytes": 14640
+    },
+    "baseline": null
+  },
+  "dataset": {
+    "hard_negative_ratio": 1.0,
+    "scenario": "A"
+  },
+  "lag_bins": [
+    {
+      "count": 4,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 4,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 4,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 4,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6832170380000093,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-09, Gus left a key at Café Lumen.\nwho left a key at Café Lumen?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.05700026599998864,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-12, Gus left a phone at the office.\nwho left a phone at the office?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.05658317600000373,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-05, Ivan left a umbrella at the park.\nwho left a umbrella at the park?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 26,
+      "latency": 0.056611126999996486,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-23, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05817756799996232,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-24, Charlie left a phone at the library.\nwho left a phone at the library?\n",
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.05738187199995082,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-04, Fay left a bottle at the school.\nwho left a bottle at the school?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.05733462099999542,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-21, Gus left a laptop at the beach.\nwho left a laptop at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 23,
+      "latency": 0.05661346399995182,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-28, Ivan left a bottle at the office.\nwho left a bottle at the office?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.057382260999986556,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-09, Gus left a key at the library.\nwho left a key at the library?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.056460954999977275,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-12, Bob left a phone at the office.\nwho left a phone at the office?\n",
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.05716996299997845,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-23, Ivan left a umbrella at the park.\nwho left a umbrella at the park?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 26,
+      "latency": 0.05734137199999623,
+      "prediction": "factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+      "prompt": "On 2025-01-23, Hana left a phone at the school.\nwho left a phone at the school?\n",
+      "recall_at_k": null,
+      "truth": "Hana"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.05652314400003888,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-24, Charlie left a phone at the park.\nwho left a phone at the park?\n",
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.05759826100000964,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-04, Fay left a bottle at the library.\nwho left a bottle at the library?\n",
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.05828153900000643,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-21, Gus left a jacket at the beach.\nwho left a jacket at the beach?\n",
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 23,
+      "latency": 0.05750951099997792,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs stairs",
+      "prompt": "On 2025-01-28, Ivan left a umbrella at the office.\nwho left a umbrella at the office?\n",
+      "recall_at_k": null,
+      "truth": "Ivan"
+    }
+  ]
+}
