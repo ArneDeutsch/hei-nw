@@ -246,7 +246,7 @@
 
    ```bash
    python -m hei_nw.eval.harness --mode B1 --scenario A -n 24 --seed 7 \
-     --model models/tiny-gpt2 --outdir reports/m2-retrieval-stack --no-hopfield
+     --model models/tiny-gpt2 --outdir reports/m2-retrieval-stack-no-hopfield --no-hopfield
    ```
 
    **Success signal:** `completion_ablation.png` written; completion-lift in JSON > 0 on average.
