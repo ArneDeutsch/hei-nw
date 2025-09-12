@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import warnings
 from typing import cast
 
 import torch
@@ -18,8 +17,11 @@ from transformers import (
     TextGenerationPipeline,
     pipeline,
 )
+from transformers.utils import logging as hf_logging
 
 from hei_nw.adapter import EpisodicAdapter
+
+hf_logging.set_verbosity_error()
 
 _tokenizer: PreTrainedTokenizerBase | None = None
 _model: PreTrainedModel | None = None
@@ -123,10 +125,11 @@ def generate(
     stop:
         Optional substring at which generation should stop.
     mem_tokens:
-        Optional list of memory token IDs. Ignored in M1.
+        Optional list of memory token IDs. When used with ``adapter`` they are
+        converted to embeddings and cross-attended during generation.
     adapter:
-        Optional ``EpisodicAdapter`` instance. When provided together with
-        ``mem_tokens`` a ``UserWarning`` is emitted and the adapter is ignored.
+        Optional ``EpisodicAdapter`` instance applied when ``mem_tokens`` are
+        supplied.
 
     Returns
     -------
@@ -138,31 +141,34 @@ def generate(
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
 
-    if adapter is not None and mem_tokens:
-        warnings.warn(
-            "Episodic adapter read path is inactive in M1; memory tokens are ignored.",
-            UserWarning,
-            stacklevel=2,
-        )
-
     inputs = _tokenizer(prompt, return_tensors="pt")
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
-    prompt_len = inputs["input_ids"].shape[-1]
+    input_ids = inputs["input_ids"]
+    prompt_len = input_ids.shape[-1]
 
     gen_kwargs: dict[str, object | None] = {
         "max_new_tokens": max_new_tokens,
         "do_sample": do_sample,
-        "top_k": None,
     }
     if do_sample:
         gen_kwargs["temperature"] = temperature
         gen_kwargs["top_p"] = top_p
     gen_kwargs.update(kwargs)
 
-    output_ids = _model.generate(
-        **inputs, pad_token_id=_tokenizer.pad_token_id, **gen_kwargs
-    )
-    generated_ids = output_ids[0][prompt_len:]
+    if adapter is not None and mem_tokens:
+        mem_ids = torch.tensor([mem_tokens], dtype=input_ids.dtype, device=_model.device)
+        mem_embeds = _model.get_input_embeddings()(mem_ids)
+        prompt_embeds = _model.get_input_embeddings()(input_ids)
+        adapted = adapter(prompt_embeds, mem_embeds)
+        gen_input = {"inputs_embeds": adapted, "attention_mask": inputs["attention_mask"]}
+    else:
+        gen_input = inputs
+
+    output_ids = _model.generate(**gen_input, pad_token_id=_tokenizer.pad_token_id, **gen_kwargs)
+    if adapter is not None and mem_tokens:
+        generated_ids = output_ids[0]
+    else:
+        generated_ids = output_ids[0][prompt_len:]
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
 
     if stop:
