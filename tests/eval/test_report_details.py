@@ -1,6 +1,12 @@
+from pathlib import Path
+
 import pytest
 
-from hei_nw.eval.report import bin_by_lag, build_markdown_report
+from hei_nw.eval.report import (
+    bin_by_lag,
+    build_markdown_report,
+    save_completion_ablation_plot,
+)
 
 
 def test_bin_by_lag_requires_two_bins() -> None:
@@ -33,3 +39,10 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "Adapter latency overhead" in md
     assert "P@1" in md
     assert "Completion lift" in md
+
+
+def test_ablation_plot_written(tmp_path: Path) -> None:
+    with_hp = {"retrieval": {"completion_lift": 0.2}}
+    without_hp = {"retrieval": {"completion_lift": 0.0}}
+    path = save_completion_ablation_plot(tmp_path, with_hp, without_hp)
+    assert path.exists()

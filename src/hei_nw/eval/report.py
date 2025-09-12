@@ -6,6 +6,8 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
+import matplotlib.pyplot as plt
+
 from hei_nw.utils.io import write_json, write_markdown
 
 
@@ -116,3 +118,40 @@ def save_reports(
     write_json(json_path, summary)
     write_markdown(md_path, build_markdown_report(summary, scenario))
     return json_path, md_path
+
+
+def save_completion_ablation_plot(
+    outdir: Path,
+    with_hopfield: dict[str, Any],
+    without_hopfield: dict[str, Any],
+) -> Path:
+    """Save a bar plot comparing completion lift with and without Hopfield.
+
+    Parameters
+    ----------
+    outdir:
+        Directory where ``completion_ablation.png`` will be written.
+    with_hopfield:
+        Summary dictionary from a run with Hopfield enabled. The
+        ``completion_lift`` value is read from ``retrieval``.
+    without_hopfield:
+        Summary dictionary from a run with Hopfield disabled.
+
+    Returns
+    -------
+    Path
+        Path to the written PNG file.
+    """
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    path = outdir / "completion_ablation.png"
+    lift_with = float(with_hopfield.get("retrieval", {}).get("completion_lift", 0.0))
+    lift_without = float(without_hopfield.get("retrieval", {}).get("completion_lift", 0.0))
+    fig, ax = plt.subplots()
+    ax.bar(["no-hopfield", "hopfield"], [lift_without, lift_with])
+    ax.set_ylabel("Completion lift")
+    ax.set_ylim(bottom=0)
+    fig.tight_layout()
+    fig.savefig(path)
+    plt.close(fig)
+    return path
