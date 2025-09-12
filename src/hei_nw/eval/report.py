@@ -84,6 +84,17 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
             f"Baseline KV cache bytes: {baseline.get('kv_cache_bytes', 'n/a')}"
         )
     lines.append("")
+    lines.append("## Retrieval")
+    retrieval = summary.get("retrieval")
+    if retrieval:
+        lines.append(f"- P@1: {retrieval.get('p_at_1', 0):.3f}")
+        lines.append(f"- MRR: {retrieval.get('mrr', 0):.3f}")
+        lines.append(f"- Near-miss rate: {retrieval.get('near_miss_rate', 0):.3f}")
+        lines.append(f"- Collision rate: {retrieval.get('collision_rate', 0):.3f}")
+        lines.append(f"- Completion lift: {retrieval.get('completion_lift', 0):.3f}")
+    else:
+        lines.append("- None")
+    lines.append("")
     lines.append("## Dataset notes")
     if scenario == "A":
         dataset = summary.get("dataset", {})

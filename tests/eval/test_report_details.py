@@ -18,9 +18,18 @@ def test_markdown_includes_baseline_and_notes() -> None:
         },
         "dataset": {"hard_negative_ratio": 0.5},
         "adapter_latency_overhead_s": 0.012,
+        "retrieval": {
+            "p_at_1": 0.5,
+            "mrr": 0.5,
+            "near_miss_rate": 0.0,
+            "collision_rate": 0.0,
+            "completion_lift": 0.1,
+        },
     }
     md = build_markdown_report(summary, scenario="A")
     assert "Baseline attention FLOPs: 1" in md
     assert "Baseline KV cache bytes: 2" in md
     assert "Hard negatives/confounders included" in md
     assert "Adapter latency overhead" in md
+    assert "P@1" in md
+    assert "Completion lift" in md
