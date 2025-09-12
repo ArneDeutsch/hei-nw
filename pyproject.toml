@@ -27,13 +27,14 @@ src = ["src", "tests"]
 select = ["E","F","I","B","UP","S"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101", "S311"]
+"tests/*" = ["S101", "S311", "S603"]
 
 [tool.mypy]
 python_version = "3.10"
 strict = true
 ignore_missing_imports = true
 warn_unused_configs = true
+no_implicit_reexport = true
 files = ["src"]
 
 [tool.pytest.ini_options]

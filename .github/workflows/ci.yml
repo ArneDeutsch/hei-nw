@@ -19,7 +19,7 @@ jobs:
       - name: Format
         run: black --check .
       - name: Lint
-        run: ruff .
+        run: ruff check .
       - name: Type check
         run: mypy .
       - name: Tests
@@ -35,4 +35,10 @@ jobs:
           name: coverage
           path: coverage.xml
       - name: No stubs
-        run: bash scripts/grep_no_stubs.sh
+        run: |
+          if git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" -- ':!tests' ':!prompts' ':!planning' ':!reviews' ':!.github/workflows/ci.yml' ':!scripts/grep_no_stubs.sh'; then
+            echo "Stubs found."
+            exit 1
+          else
+            echo "No stubs."
+          fi
