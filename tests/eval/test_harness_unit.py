@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -52,7 +53,7 @@ def test_aggregate_metrics_empty_and_recall() -> None:
 
 
 def test_prepare_long_context_records() -> None:
-    gen_records = [
+    gen_records: list[dict[str, Any]] = [
         {"context": "ctx", "query": "q", "expected": "a"},
         {"episode_text": "ep", "cues": ["cue"], "answers": ["ans"]},
     ]
@@ -64,7 +65,7 @@ def test_prepare_long_context_records() -> None:
 
 
 def test_prepare_rag_records() -> None:
-    gen_records = [
+    gen_records: list[dict[str, Any]] = [
         {
             "documents": ["d1", "d2"],
             "query": "q1",
@@ -95,7 +96,7 @@ def test_run_baseline_none() -> None:
 
 def test_save_reports(tmp_path: Path) -> None:
     summary = {"foo": "bar"}
-    _save_reports(tmp_path, "A", "B0", summary)
+    _save_reports(tmp_path, "A", "B0", summary, False)
     json_files = list(tmp_path.glob("*_metrics.json"))
     md_files = list(tmp_path.glob("*_report.md"))
     assert json_files and md_files
