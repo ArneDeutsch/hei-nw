@@ -261,6 +261,20 @@
 
 ---
 
+### Model policy (IMPORTANT)
+
+- **CI/Smoke (tiny model):** `tests/models/tiny-gpt2` is used only to check that
+  reports are produced and retrieval metrics fields are finite. **No EM-lift
+  requirement** is evaluated on tiny.
+- **HUMAN/GPU Acceptance (real LLM):** Use **Qwen/Qwen2.5-1.5B-Instruct**
+  (quantized OK). The acceptance gate **B1 − B0 ≥ +0.30 EM (Scenario A, small set)**
+  is evaluated **only** with Qwen.
+- The helper scripts implement this:
+  - `scripts/run_m2_retrieval_ci.sh` → tiny (smoke)
+  - `scripts/run_m2_retrieval.sh` → defaults to Qwen (acceptance)
+
+---
+
 ## 5) Deliverables & Artifacts
 
 * **Code:**
@@ -279,7 +293,7 @@
 
 ## 6) Definition of Done (DoD) Checklist
 
-* [ ] **Quality lift:** On Scenario A small set, `B1 − B0 ≥ +30 EM` (≥ +0.30 absolute).
+* [ ] **Quality lift (measured with Qwen/Qwen2.5-1.5B-Instruct):**  On Scenario A small set, `B1 − B0 ≥ +30 EM` (≥ +0.30 absolute).
 * [ ] **Retrieval health logged:** JSON includes `retrieval: { p_at_k, mrr, near_miss_rate, collision_rate, completion_lift }` with finite values.
 * [ ] **Hopfield inference is read-only:** unit/integration test proves parameters unchanged and `requires_grad=False`.
 * [ ] **End-to-end B1:** Harness uses RecallService to feed **memory tokens** into the adapter.
