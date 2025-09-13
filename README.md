@@ -4,6 +4,7 @@
 
 # Key artifacts
 - [documentation/hei-nw.md](documentation/hei-nw.md) - short introduction to the algorithm
+- [documentation/quick-validate.md](documentation/quick-validate.md) - bash command to run validation command on the algorithms (with GPU machine)
 - [planning/design.md](planning/design.md) - the design of the implementation
 - [planning/project-plan.md](planning/project-plan.md) - The plan we follow to implement and validate the HEI-NW
 - [planning/validation-plan.md](planning/validation-plan.md) - the plan how to validate the results of HEI-NW
