@@ -1,0 +1,690 @@
+{
+  "aggregate": {
+    "em": 0.0,
+    "f1": 0.0,
+    "latency": 0.6490665345468729,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 5994971136,
+      "kv_cache_bytes": 12976128
+    },
+    "baseline": null
+  },
+  "dataset": {
+    "scenario": "B"
+  },
+  "lag_bins": [
+    {
+      "count": 64,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "f1": 0.0,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 1.1745473169999627,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6516180400000167,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6459473119999757,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6426501810000218,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6416813339999976,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6341400419999559,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6303905109999732,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6367384769999944,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6363171140000077,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6370411369999829,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6313613099999884,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6368777260000229,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6547582449999823,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6689790660000199,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6906772309999951,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6593789370000422,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6484753839999939,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.649563569999998,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6668398090000096,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6614592380000204,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.63794569800001,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6358301749999669,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6372674769999662,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6343733690000022,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6480444519999651,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6441709520000245,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.65299509700003,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6470914029999904,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6468592350000222,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6464031929999692,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6319678950000025,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6419736160000298,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6389252029999852,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6391591150000409,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6391821309999841,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6396884529999625,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6396013760000301,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6394182720000003,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6324231849999933,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6302903289999904,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6340868940000064,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6389460120000194,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6395410210000136,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6386057700000265,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6393747230000031,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6387946140000054,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6398589479999828,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6395896700000208,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6331870939999931,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6301387159999763,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6333440860000223,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6372895939999808,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6515350809999632,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6310613179999791,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.629757063999989,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6346531249999998,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6298868979999952,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6286387129999866,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6394872859999623,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6317508530000282,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6296216479999543,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6299598100000026,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6286526960000174,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    },
+    {
+      "em": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.6294439700000112,
+      "prediction": "# Calculate the total number of ways to choose 3 items from 10\ntotal_ways = math.comb(10, 3)\n\n#",
+      "prompt": "\n\n",
+      "recall_at_k": null,
+      "truth": ""
+    }
+  ]
+}

@@ -3,20 +3,20 @@
 ## Aggregate Metrics
 
 - EM: 0.000
-- F1: 0.000
-- Latency: 0.065s
+- F1: 0.077
+- Latency: 0.632s
 
 ## Lag bins
 | Lag bin | count | EM | F1 | Recall@k |
 | ------- | ----- | --- | --- | -------- |
-| 0-1 | 12 | 0.000 | 0.000 | n/a |
-| 1-3 | 12 | 0.000 | 0.000 | n/a |
-| 3-7 | 12 | 0.000 | 0.000 | n/a |
-| 7-30 | 12 | 0.000 | 0.000 | n/a |
+| 0-1 | 32 | 0.000 | 0.063 | n/a |
+| 1-3 | 32 | 0.000 | 0.075 | n/a |
+| 3-7 | 32 | 0.000 | 0.081 | n/a |
+| 7-30 | 32 | 0.000 | 0.088 | n/a |
 
 ## Compute
-B0 attention FLOPs: 1256896
-B0 KV cache bytes: 43936
+B0 attention FLOPs: 40647118848
+B0 KV cache bytes: 47769600
 
 ## Retrieval
 - None
