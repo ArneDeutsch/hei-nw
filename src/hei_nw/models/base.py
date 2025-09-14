@@ -195,9 +195,22 @@ def build_default_adapter(model: PreTrainedModel) -> EpisodicAdapter:
 
     adapter = EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads)
     model_device = getattr(model, "device", None)
-    if model_device is None:
+    model_dtype = getattr(model, "dtype", None)
+
+    if model_device is None or model_dtype is None:
         try:
-            model_device = next(model.parameters()).device
-        except StopIteration:  # pragma: no cover - defensive
-            model_device = None
-    return adapter.to(model_device) if model_device is not None else adapter
+            param = next(model.parameters())
+            if model_device is None:
+                model_device = param.device
+            if model_dtype is None:
+                model_dtype = param.dtype
+        except (StopIteration, AttributeError):  # pragma: no cover - defensive
+            pass
+
+    to_kwargs: dict[str, object] = {}
+    if model_device is not None:
+        to_kwargs["device"] = model_device
+    if model_dtype is not None:
+        to_kwargs["dtype"] = model_dtype
+
+    return adapter.to(**to_kwargs) if to_kwargs else adapter
