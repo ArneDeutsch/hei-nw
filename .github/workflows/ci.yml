@@ -36,6 +36,8 @@ jobs:
           path: coverage.xml
       - name: M2 smoke (tiny model)
         run: bash scripts/run_m2_retrieval_ci.sh
+      - name: QA prompting + metrics smoke
+        run: bash scripts/ci_qa_prompting_smoke.sh
       - name: No stubs
         run: |
           if git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" -- ':!tests' ':!prompts' ':!planning' ':!reviews' ':!.github/workflows/ci.yml' ':!scripts/grep_no_stubs.sh'; then

@@ -29,3 +29,18 @@ def test_m2_scripts_present_and_executable() -> None:
     for script in scripts:
         assert script.exists(), f"{script} missing"
         assert script.stat().st_mode & 0o111, f"{script} not executable"
+
+
+def test_ci_smoke_scripts_present_and_executable() -> None:
+    script = Path("scripts/ci_qa_prompting_smoke.sh")
+    assert script.exists(), f"{script} missing"
+    assert script.stat().st_mode & 0o111, f"{script} not executable"
+
+
+def test_run_m2_retrieval_flags() -> None:
+    script_text = Path("scripts/run_m2_retrieval.sh").read_text(encoding="utf8")
+    assert "--qa.prompt_style chat" in script_text
+    assert "--qa.max_new_tokens 8" in script_text
+    assert "--qa.stop $'\\n'" in script_text
+    assert "--hopfield.steps 2" in script_text
+    assert "--hopfield.temperature 0.5" in script_text

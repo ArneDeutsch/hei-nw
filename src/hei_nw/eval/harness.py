@@ -181,28 +181,28 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         "--qa.prompt_style",
         dest="qa_prompt_style",
         choices=["plain", "chat"],
-        default="chat",
+        default=None,
         help="Prompt formatting used for QA episodes.",
     )
     parser.add_argument(
         "--qa.max_new_tokens",
         dest="qa_max_new_tokens",
         type=int,
-        default=8,
+        default=None,
         help="Maximum number of tokens to generate for QA answers.",
     )
     parser.add_argument(
         "--qa.stop",
         dest="qa_stop",
         type=str,
-        default="\n",
+        default=None,
         help="Substring that stops generation for QA answers.",
     )
     parser.add_argument(
         "--qa.answer_hint",
         dest="qa_answer_hint",
         action=argparse.BooleanOptionalAction,
-        default=True,
+        default=None,
         help="Include an instruction to answer with a single word or name.",
     )
     parser.add_argument(
@@ -578,6 +578,32 @@ def _decode_mem_preview(tokenizer: Any, token_ids: Sequence[int]) -> list[str]:
     return [str(tid) for tid in token_ids]
 
 
+def _scenario_default_qa_settings(scenario: str) -> QAPromptSettings:
+    """Return scenario-specific default QA settings."""
+
+    if scenario == "A":
+        return QAPromptSettings(prompt_style="chat", max_new_tokens=8, stop="\n", answer_hint=True)
+    return QAPromptSettings()
+
+
+def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
+    """Construct :class:`QAPromptSettings` from CLI *args* with defaults."""
+
+    defaults = _scenario_default_qa_settings(args.scenario)
+    prompt_style = args.qa_prompt_style if args.qa_prompt_style is not None else defaults.prompt_style
+    max_new_tokens = (
+        args.qa_max_new_tokens if args.qa_max_new_tokens is not None else defaults.max_new_tokens
+    )
+    stop = args.qa_stop if args.qa_stop is not None else defaults.stop
+    answer_hint = defaults.answer_hint if args.qa_answer_hint is None else args.qa_answer_hint
+    return QAPromptSettings(
+        prompt_style=prompt_style,
+        max_new_tokens=max_new_tokens,
+        stop=stop,
+        answer_hint=answer_hint,
+    )
+
+
 def _resolve_qa_settings(qa: QAPromptSettings | None) -> QAPromptSettings:
     """Return concrete QA settings with defaults applied."""
 
@@ -832,12 +858,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        qa_settings = QAPromptSettings(
-            prompt_style=args.qa_prompt_style,
-            max_new_tokens=args.qa_max_new_tokens,
-            stop=args.qa_stop,
-            answer_hint=args.qa_answer_hint,
-        )
+        qa_settings = _qa_settings_from_args(args)
         hopfield_settings = HopfieldSettings(
             steps=args.hopfield_steps, temperature=args.hopfield_temperature
         )
