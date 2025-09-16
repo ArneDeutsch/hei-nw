@@ -5,7 +5,8 @@
 - EM (relaxed): 1.000
 - EM_strict: 1.000
 - F1: 1.000
-- Latency: 0.064s
+- Non-empty rate: 1.000
+- Latency: 0.065s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |

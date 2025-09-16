@@ -5,8 +5,9 @@
 - EM (relaxed): 0.000
 - EM_strict: 0.000
 - F1: 0.000
-- Latency: 0.171s
-- Adapter latency overhead: 0.101s
+- Non-empty rate: 1.000
+- Latency: 0.331s
+- Adapter latency overhead: 0.263s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -17,8 +18,8 @@
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 23980228608
-B0 KV cache bytes: 22474752
+B0 attention FLOPs: 34348597248
+B0 KV cache bytes: 26898432
 
 ## Retrieval
 - P@1: 0.375

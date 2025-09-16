@@ -1,17 +1,18 @@
 {
-  "adapter_latency_overhead_s": 0.09981344108340788,
+  "adapter_latency_overhead_s": 0.2597037528125069,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.1697933238957603,
+    "latency": 0.32757688354167297,
+    "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 23980228608,
-      "kv_cache_bytes": 22474752
+      "attention_flops": 34348597248,
+      "kv_cache_bytes": 26898432
     },
     "baseline": null
   },
@@ -130,8 +131,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.18284769999991113,
-      "prediction": "",
+      "latency": 0.34064065900003015,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -151,8 +152,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16761766399940825,
-      "prediction": "",
+      "latency": 0.3232083130000092,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -172,8 +173,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.16819795700030227,
-      "prediction": "",
+      "latency": 0.32797467599999663,
+      "prediction": "•\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -193,8 +194,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.17384223500084772,
-      "prediction": "",
+      "latency": 0.32500358799995865,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -214,8 +215,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16805762599869922,
-      "prediction": "",
+      "latency": 0.32453791900002216,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -235,8 +236,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.16563832399879175,
-      "prediction": "",
+      "latency": 0.32471868400000403,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -256,8 +257,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.16636759799985157,
-      "prediction": "",
+      "latency": 0.3253198580000003,
+      "prediction": "•\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -277,8 +278,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.16932595300022513,
-      "prediction": "",
+      "latency": 0.3257449370000245,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -298,8 +299,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16721323300043878,
-      "prediction": "",
+      "latency": 0.3248496219999879,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -319,8 +320,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16936540300048364,
-      "prediction": "",
+      "latency": 0.3229735640000513,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -340,8 +341,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.1710939820004569,
-      "prediction": "",
+      "latency": 0.3242308810000054,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -361,8 +362,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.1700826070009498,
-      "prediction": "",
+      "latency": 0.3245079730000384,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -382,8 +383,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16800998699909542,
-      "prediction": "",
+      "latency": 0.32497984899998755,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -403,8 +404,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16856691900102305,
-      "prediction": "",
+      "latency": 0.3243107710000004,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -424,8 +425,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.16650081899933866,
-      "prediction": "",
+      "latency": 0.3232199260000357,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -445,8 +446,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.16919974299889873,
-      "prediction": "",
+      "latency": 0.32405589100000043,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -466,8 +467,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16762227500112203,
-      "prediction": "",
+      "latency": 0.3244126100000244,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section, we",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -487,8 +488,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16631099799997173,
-      "prediction": "",
+      "latency": 0.3283259819999671,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -508,8 +509,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.16657475899955898,
-      "prediction": "",
+      "latency": 0.3259904459999916,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -529,8 +530,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.16764453599898843,
-      "prediction": "",
+      "latency": 0.3281657809999956,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -550,8 +551,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17213232799986145,
-      "prediction": "",
+      "latency": 0.3274766239999849,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -571,8 +572,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.16865368000071612,
-      "prediction": "",
+      "latency": 0.32643424399998366,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -592,8 +593,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.16871134099892515,
-      "prediction": "",
+      "latency": 0.3283835299999964,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -613,8 +614,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.16622366900082852,
-      "prediction": "",
+      "latency": 0.32603934600001594,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -634,8 +635,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1658168960002513,
-      "prediction": "",
+      "latency": 0.32957575700004327,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -655,8 +656,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16591790699931153,
-      "prediction": "",
+      "latency": 0.3277356609999629,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -676,8 +677,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.16666533099851222,
-      "prediction": "",
+      "latency": 0.33008732600001167,
+      "prediction": "•\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -697,8 +698,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.1667228710011841,
-      "prediction": "",
+      "latency": 0.32935327700005246,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -718,8 +719,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16727320400059398,
-      "prediction": "",
+      "latency": 0.327644810000038,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -739,8 +740,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.17642298899954767,
-      "prediction": "",
+      "latency": 0.32695395199999666,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -760,8 +761,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17631353899923852,
-      "prediction": "",
+      "latency": 0.3296486350000123,
+      "prediction": "•\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -781,8 +782,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.17473419199995988,
-      "prediction": "",
+      "latency": 0.3285186169999861,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -802,8 +803,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17625094799950602,
-      "prediction": "",
+      "latency": 0.32869142700002385,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -823,8 +824,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.1706275310007186,
-      "prediction": "",
+      "latency": 0.3282508270000335,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -844,8 +845,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.16938000499976624,
-      "prediction": "",
+      "latency": 0.3290500150000071,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -865,8 +866,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.17000505800024257,
-      "prediction": "",
+      "latency": 0.3291050949999885,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -886,8 +887,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16962922599850572,
-      "prediction": "",
+      "latency": 0.3271010070000102,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -907,8 +908,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.1735898660008388,
-      "prediction": "",
+      "latency": 0.33539934999998877,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section, we",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -928,8 +929,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.16933242400045856,
-      "prediction": "",
+      "latency": 0.3315151190000165,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -949,8 +950,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.16761555599987332,
-      "prediction": "",
+      "latency": 0.32618798800001514,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -970,8 +971,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16902797399961855,
-      "prediction": "",
+      "latency": 0.32615324900001497,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -991,8 +992,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16897881400109327,
-      "prediction": "",
+      "latency": 0.32818862400000626,
+      "prediction": "•\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1012,8 +1013,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.17221064899968042,
-      "prediction": "",
+      "latency": 0.3308456859999751,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1033,8 +1034,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.1751255939998373,
-      "prediction": "",
+      "latency": 0.33046731800004636,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1054,8 +1055,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.16829101999974228,
-      "prediction": "",
+      "latency": 0.33056855799998175,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1075,8 +1076,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.17436783999983163,
-      "prediction": "",
+      "latency": 0.33062357500000417,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1096,8 +1097,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.17063542200048687,
-      "prediction": "",
+      "latency": 0.3283696909999776,
+      "prediction": "•\\n\\n## 1. Introduction\n\nIn this section the author",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1117,8 +1118,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.16934335499900044,
-      "prediction": "",
+      "latency": 0.32814917199999627,
+      "prediction": "•\n•••••••••••••",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",

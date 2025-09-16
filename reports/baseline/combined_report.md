@@ -5,7 +5,8 @@
 - EM (relaxed): 1.000
 - EM_strict: 1.000
 - F1: 1.000
-- Latency: 0.064s
+- Non-empty rate: 1.000
+- Latency: 0.065s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -33,7 +34,8 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - EM (relaxed): 0.000
 - EM_strict: 0.000
 - F1: 0.000
-- Latency: 0.660s
+- Non-empty rate: 1.000
+- Latency: 0.632s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -61,7 +63,8 @@ None# Evaluation Report
 - EM (relaxed): 0.000
 - EM_strict: 0.000
 - F1: 0.000
-- Latency: 0.665s
+- Non-empty rate: 1.000
+- Latency: 0.647s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -89,7 +92,8 @@ None# Evaluation Report
 - EM (relaxed): 0.000
 - EM_strict: 0.000
 - F1: 0.000
-- Latency: 0.661s
+- Non-empty rate: 1.000
+- Latency: 0.666s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -117,7 +121,8 @@ None# Evaluation Report
 - EM (relaxed): 0.000
 - EM_strict: 0.000
 - F1: 0.000
-- Latency: 0.667s
+- Non-empty rate: 1.000
+- Latency: 0.656s
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
