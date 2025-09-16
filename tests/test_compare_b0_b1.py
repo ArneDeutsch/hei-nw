@@ -7,7 +7,18 @@ from pathlib import Path
 
 
 def _write(path: Path, em: float, f1: float) -> None:
-    path.write_text(json.dumps({"aggregate": {"em": em, "f1": f1}}))
+    path.write_text(
+        json.dumps(
+            {
+                "aggregate": {
+                    "em": em,
+                    "em_relaxed": em,
+                    "em_strict": em,
+                    "f1": f1,
+                }
+            }
+        )
+    )
 
 
 def test_compare_script_pass(tmp_path: Path) -> None:

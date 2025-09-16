@@ -7,7 +7,7 @@ import hashlib
 import json
 import sys
 from collections.abc import Callable, Sequence
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, cast
 
@@ -27,10 +27,11 @@ from hei_nw.metrics import (
     completion_lift,
     estimate_attention_flops,
     estimate_kv_bytes,
-    exact_match,
     mrr,
     near_miss_rate,
     precision_at_k,
+    relaxed_em,
+    strict_em,
     time_block,
     token_f1,
 )
@@ -219,11 +220,16 @@ class EvalItem:
     prompt: str
     prediction: str
     truth: str
-    em: float
+    em_relaxed: float
+    em_strict: float
     f1: float
     latency: float
     recall_at_k: float | None
     lag: int
+    em: float = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "em", self.em_relaxed)
 
 
 def _evaluate_records(
@@ -252,14 +258,16 @@ def _evaluate_records(
                 prompt_style=qa.prompt_style,
             )
         pred = str(out["text"]).strip()
-        em = exact_match(pred, truth)
+        em_rel = relaxed_em(pred, truth)
+        em_str = strict_em(pred, truth)
         f1 = token_f1(pred, truth)
         items.append(
             EvalItem(
                 prompt=prompt,
                 prediction=pred,
                 truth=truth,
-                em=em,
+                em_relaxed=em_rel,
+                em_strict=em_str,
                 f1=f1,
                 latency=t.elapsed,
                 recall_at_k=None,
@@ -281,12 +289,23 @@ def _aggregate_metrics(items: Sequence[EvalItem]) -> dict[str, float | None]:
     """Aggregate exact-match, F1, and latency over *items*."""
 
     if not items:
-        return {"em": 0.0, "f1": 0.0, "latency": 0.0, "recall_at_k": None}
+        return {
+            "em": 0.0,
+            "em_relaxed": 0.0,
+            "em_strict": 0.0,
+            "f1": 0.0,
+            "latency": 0.0,
+            "recall_at_k": None,
+        }
     n = len(items)
     recall_vals = [i.recall_at_k for i in items if i.recall_at_k is not None]
     recall_avg = sum(recall_vals) / len(recall_vals) if recall_vals else None
+    em_relaxed = sum(i.em_relaxed for i in items) / n
+    em_strict = sum(i.em_strict for i in items) / n
     return {
-        "em": sum(i.em for i in items) / n,
+        "em": em_relaxed,
+        "em_relaxed": em_relaxed,
+        "em_strict": em_strict,
         "f1": sum(i.f1 for i in items) / n,
         "latency": sum(i.latency for i in items) / n,
         "recall_at_k": recall_avg,

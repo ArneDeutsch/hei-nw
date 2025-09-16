@@ -17,7 +17,8 @@ def _load_metrics(path: Path) -> tuple[float, float]:
     with path.open("r", encoding="utf8") as fh:
         data = json.load(fh)
     agg = data.get("aggregate", {})
-    return float(agg.get("em", 0.0)), float(agg.get("f1", 0.0))
+    em = float(agg.get("em_relaxed", agg.get("em", 0.0)))
+    return em, float(agg.get("f1", 0.0))
 
 
 def compare_pairs(paths: Sequence[Path], threshold: float = 0.1) -> bool:

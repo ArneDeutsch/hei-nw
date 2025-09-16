@@ -1,14 +1,38 @@
-"""Simple text metrics: exact match, token-level F1, and recall@k."""
+"""Simple text metrics: exact match, relaxed EM, token-level F1, and recall@k."""
 
 from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Sequence
+import unicodedata
+
+
+def canonicalize(text: str) -> str:
+    """Return a normalized version of ``text`` for relaxed comparisons."""
+
+    stripped = text.strip().lower()
+    no_punct = "".join(
+        ch for ch in stripped if not unicodedata.category(ch).startswith("P")
+    )
+    return " ".join(no_punct.split())
+
+
+def strict_em(prediction: str, truth: str) -> float:
+    """Return 1.0 if *prediction* matches *truth* exactly, else 0.0."""
+
+    return 1.0 if prediction.strip() == truth.strip() else 0.0
+
+
+def relaxed_em(prediction: str, truth: str) -> float:
+    """Return relaxed exact match after canonicalization."""
+
+    return strict_em(canonicalize(prediction), canonicalize(truth))
 
 
 def exact_match(prediction: str, truth: str) -> float:
-    """Return 1.0 if *prediction* matches *truth* exactly, else 0.0."""
-    return 1.0 if prediction.strip() == truth.strip() else 0.0
+    """Alias kept for backwards compatibility with strict EM."""
+
+    return strict_em(prediction, truth)
 
 
 def _tokens(text: str) -> list[str]:
