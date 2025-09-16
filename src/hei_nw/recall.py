@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
+from .keyer import DGKeyer
 from .pack import pack_trace
 from .store import EpisodicStore
 
@@ -43,6 +44,7 @@ class RecallService:
         *,
         hopfield_steps: int = 1,
         hopfield_temperature: float = 1.0,
+        keyer: DGKeyer | None = None,
     ) -> RecallService:
         """Construct a :class:`RecallService` from raw records.
 
@@ -60,6 +62,10 @@ class RecallService:
             Number of refinement iterations applied by the Hopfield readout.
         hopfield_temperature:
             Softmax temperature used inside the Hopfield readout.
+        keyer:
+            Optional :class:`DGKeyer` instance controlling sparsity of dense
+            keys. When omitted, a new instance with default parameters is
+            created.
         """
 
         store = EpisodicStore.from_records(
@@ -68,6 +74,7 @@ class RecallService:
             max_mem_tokens,
             hopfield_steps=hopfield_steps,
             hopfield_temperature=hopfield_temperature,
+            keyer=keyer,
         )
         return cls(store, tokenizer, max_mem_tokens, return_m)
 
