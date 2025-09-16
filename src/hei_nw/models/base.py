@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import Sequence, cast
 
 import torch
 from transformers import (
@@ -97,8 +97,58 @@ def load_base(
     return _tokenizer, _model, _pipe
 
 
+PromptData = str | Sequence[dict[str, str]]
+
+
+def build_prompt(
+    tokenizer: PreTrainedTokenizerBase,
+    prompt_or_messages: PromptData,
+    prompt_style: str,
+) -> str:
+    """Render *prompt_or_messages* according to *prompt_style*."""
+
+    if prompt_style == "chat":
+        if isinstance(prompt_or_messages, str):
+            messages: list[dict[str, str]] = [{"role": "user", "content": prompt_or_messages}]
+        else:
+            messages = [
+                {
+                    "role": str(msg.get("role", "user")),
+                    "content": str(msg.get("content", "")),
+                }
+                for msg in prompt_or_messages
+            ]
+        apply_template = getattr(tokenizer, "apply_chat_template", None)
+        if callable(apply_template):
+            rendered: str | list[int] | None
+            try:
+                rendered = apply_template(  # type: ignore[call-arg]
+                    messages,
+                    add_generation_prompt=True,
+                    tokenize=False,
+                )
+            except (TypeError, ValueError):
+                try:
+                    rendered = apply_template(messages, add_generation_prompt=True)
+                except (TypeError, ValueError):
+                    rendered = None
+            if rendered is not None:
+                if isinstance(rendered, list):
+                    return tokenizer.decode(rendered, skip_special_tokens=True)
+                return cast(str, rendered)
+        formatted = [
+            f"{msg['role'].upper()}: {msg['content']}".strip() for msg in messages if msg.get("content")
+        ]
+        formatted.append("ASSISTANT:")
+        return "\n\n".join(formatted)
+
+    if not isinstance(prompt_or_messages, str):
+        raise TypeError("Plain prompt style expects a string input.")
+    return prompt_or_messages
+
+
 def generate(
-    prompt: str,
+    prompt: PromptData,
     max_new_tokens: int = 128,
     temperature: float = 0.2,
     top_p: float = 0.9,
@@ -106,6 +156,7 @@ def generate(
     stop: str | None = None,
     mem_tokens: list[int] | None = None,
     adapter: EpisodicAdapter | None = None,
+    prompt_style: str = "plain",
     **kwargs: object,
 ) -> dict[str, int | str]:
     """Generate text using the loaded base model.
@@ -113,7 +164,7 @@ def generate(
     Parameters
     ----------
     prompt:
-        Input prompt string.
+        Input prompt string or chat message sequence.
     max_new_tokens:
         Maximum number of tokens to generate.
     temperature:
@@ -130,6 +181,8 @@ def generate(
     adapter:
         Optional ``EpisodicAdapter`` instance applied when ``mem_tokens`` are
         supplied.
+    prompt_style:
+        Rendering style to apply to ``prompt`` (``"plain"`` or ``"chat"``).
 
     Returns
     -------
@@ -141,7 +194,8 @@ def generate(
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
 
-    inputs = _tokenizer(prompt, return_tensors="pt")
+    prompt_text = build_prompt(_tokenizer, prompt, prompt_style)
+    inputs = _tokenizer(prompt_text, return_tensors="pt")
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
     input_ids = inputs["input_ids"]
     prompt_len = input_ids.shape[-1]
