@@ -150,3 +150,353 @@
 * **Why we’re confident:** degenerate metrics (1.0 vs 0.0) + healthy retrieval + direct code path showing truncation; CI bounds show lift ≪ +0.30.
 * **Ablation:** Hopfield off has same EM=0 but completion\_lift 0.0 vs −0.292 → re-rank works but masked by empty generations.
 * **Next run recipe:** `bash scripts/run_m2_retrieval.sh` after changing to `--qa.stop ''` and `--qa.max_new_tokens 16` — expect non-empty answers and positive EM.
+
+---
+
+### M2-F1 — \[CODEX] Fix adapter-path newline stop truncation in `generate()`
+
+* **Goal:** Prevent **blank predictions** in B1 when `prompt_style=chat` and `stop="\n"` by making stop-handling robust in the **adapter path**.
+
+* **Key changes:**
+
+  * Edit `src/hei_nw/models/base.py` in `generate()`:
+
+    * Current adapter branch decodes **all** returned ids:
+
+      > `"if adapter is not None and mem_tokens: ... generated_ids = output_ids[0]"`
+      > and then truncates by first newline:
+      > `"stop_idx = text.find(stop)"`
+    * **Change**: After decoding, **strip leading whitespace** *before* applying `stop`. E.g., insert right after decode:
+
+      ```python
+      text = text.lstrip()  # avoid empty on leading newline in chat
+      ```
+    * Keep existing prompt-slice for the non-adapter branch:
+
+      > `"generated_ids = output_ids[0][prompt_len:]"` (unchanged).
+    * Optional safety: restrict the first stop search to index ≥1:
+
+      ```python
+      stop_idx = text.find(stop, 1) if stop else -1
+      ```
+
+      (Use either `lstrip()` or `find(..., 1)`; prefer `lstrip()`.)
+  * Add an inline comment explaining parity differences between `inputs_embeds` vs `input_ids` paths.
+
+* **Tests:**
+
+  * New: `tests/models/test_base_generate_newline.py`
+
+    * `test_adapter_branch_does_not_truncate_to_empty_on_newline_stop()`:
+
+      * Build `EpisodicAdapter()`, call
+        `generate("Hello", max_new_tokens=2, stop="\n", adapter=adapter, mem_tokens=[2])`
+      * Assert `out["text"].strip() != ""` and `out["generated_tokens"] >= 1`.
+    * `test_plain_vs_adapter_stop_parity()`:
+
+      * Compare `generate(..., stop="\n")` with and without adapter; both non-empty.
+  * Keep existing `tests/models/test_base_generate.py` intact.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  pytest -k "test_base_generate_newline or test_base_generate"
+  ```
+
+* **Definition of Done:**
+
+  * B1 predictions are **never empty** due to a leading newline.
+  * All tests pass locally and in CI.
+
+---
+
+### M2-F2 — \[CODEX] Adjust M2 run script defaults for chat mode (no explicit newline stop)
+
+* **Goal:** Make acceptance runs **robust** by removing brittle newline stop and providing **more headroom** for short answers.
+
+* **Key changes:**
+
+  * Edit `scripts/run_m2_retrieval.sh` (all three invocations):
+
+    * Replace `--qa.stop $'\n'` with `--qa.stop ''` (maps to **None** via `QAPromptSettings.stop_value()`).
+    * Bump `--qa.max_new_tokens 8` → `--qa.max_new_tokens 16`.
+  * Update `documentation/quick-validate.md` lines describing newline stop to reflect **no‐stop / max\_new\_tokens=16**.
+
+* **Tests:**
+
+  * Update `tests/utils/test_scripts.py::test_run_m2_retrieval_flags`:
+
+    * Expect `--qa.max_new_tokens 16`.
+    * Expect `--qa.stop ''` instead of newline.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  bash scripts/run_m2_retrieval_ci.sh   # unchanged smoke
+  pytest -k test_run_m2_retrieval_flags
+  ```
+
+* **Definition of Done:**
+
+  * Script changes present; doc updated.
+  * Related test updated and passing.
+
+---
+
+### M2-F3 — \[CODEX] Add non-empty-prediction gate for B1
+
+* **Goal:** Fail fast when B1 predictions are mostly blank, **before** uplift checks.
+
+* **Key changes:**
+
+  * New: `scripts/gate_non_empty_predictions.py`
+
+    * Input: a metrics JSON path (e.g., `reports/m2-retrieval-stack/A_B1_metrics.json`).
+    * Logic: read `records[*].prediction`; compute `non_empty_rate = mean(pred.strip() != "")`.
+    * Exit non-zero if `non_empty_rate < 0.9`. Print the rate.
+  * New: `scripts/gate_non_empty_predictions.sh` wrapper (calls Python script on A\_B1 file).
+
+* **Tests:**
+
+  * New: `tests/test_gate_non_empty_predictions.py`
+
+    * Write a temp JSON with `records` containing some `prediction=""`.
+    * Assert exit non-zero below threshold and zero above.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  python scripts/gate_non_empty_predictions.py reports/m2-retrieval-stack/A_B1_metrics.json
+  ```
+
+* **Definition of Done:**
+
+  * Gate script exists, documented in quick-validate notes (optional).
+  * Unit tests pass.
+
+---
+
+### M2-F4 — \[CODEX] Report surface for non-empty rate & decode diagnostics
+
+* **Goal:** Improve **observability**: expose `non_empty_rate` and minimal decode diagnostics in reports.
+
+* **Key changes:**
+
+  * Edit `src/hei_nw/eval/harness.py` near summary construction (≈ lines 880–900):
+
+    * Compute `non_empty_rate = sum(bool(it.prediction.strip()) for it in items)/len(items) if items else 0.0`.
+    * Add to `summary["aggregate"]`.
+  * Edit `src/hei_nw/eval/report.py::build_markdown_report()` to render it under “## Aggregate Metrics”.
+  * (Keep the “## Debug” section minimal; no per-item dumps.)
+
+* **Tests:**
+
+  * Update `tests/eval/test_report_details.py` to assert the markdown includes “Non-empty rate”.
+  * Add unit test that JSON contains `"non_empty_rate"` in `aggregate`.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  pytest -k test_report_details
+  ```
+
+* **Definition of Done:**
+
+  * New field present in JSON and markdown.
+  * Tests updated and green.
+
+---
+
+### M2-F5 — \[CODEX] Minimal isolation probes script for M2
+
+* **Goal:** Add a **tiny** driver to falsify the top hypothesis quickly (stop handling vs. retrieval stack).
+
+* **Key changes:**
+
+  * New: `scripts/m2_isolation_probes.sh`
+
+    * Probes (N=16):
+
+      * **No stop**: `--qa.stop '' --qa.max_new_tokens 16` (B1).
+      * **Stop on**: `--qa.stop $'\n'` (B1) — to contrast.
+      * **Retrieval-only**: `--dev.retrieval_only` (B1).
+      * **Oracle trace**: `--dev.oracle_trace` (B1).
+    * Save outputs under `reports/m2-probes/` with suffixes.
+  * Document in `documentation/quick-validate.md` (Optional section “Isolation Probes”).
+
+* **Tests:**
+
+  * `tests/utils/test_scripts.py`:
+
+    * Assert script exists and is executable.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  bash scripts/m2_isolation_probes.sh
+  ```
+
+* **Definition of Done:**
+
+  * Script runs on the tiny model (CI smoke) and Qwen locally.
+  * Artifacts appear in `reports/m2-probes/`.
+
+---
+
+### M2-F6 — \[CODEX] Unit tests for chat prompt ↔ stop semantics
+
+* **Goal:** Lock in correct **chat** prompting and stop handling through the harness layer.
+
+* **Key changes:**
+
+  * New: `tests/eval/test_chat_stop_semantics.py`
+
+    * Build one record (Scenario-A like).
+    * Use `_evaluate_records(...)` with `QAPromptSettings(prompt_style="chat", stop="")`.
+    * Monkeypatch `hei_nw.models.base.generate` to capture `stop` and ensure it is **None** (normalized by `stop_value()` when `""`).
+    * Variant where `stop="\n"` confirms pass-through of literal newline.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  pytest -k test_chat_stop_semantics
+  ```
+
+* **Definition of Done:**
+
+  * Tests enforce that `'' -> None` and literal `"\n"` is honored.
+
+---
+
+### M2-F7 — \[CODEX] Acceptance gate script refactor: keep EM-lift check, add helpful printouts
+
+* **Goal:** Keep the **existing** acceptance gate but improve the operator readout.
+
+* **Key changes:**
+
+  * Edit `scripts/compare_b0_b1_m2.sh`:
+
+    * After `compare_b0_b1.py`, run a short inline Python that:
+
+      * Prints B1 `non_empty_rate` (from JSON) if present else computes it from `records`.
+      * Prints retrieval health (P\@1/MRR) if present.
+    * No change to the **EM≥+0.30** requirement.
+
+* **Tests:**
+
+  * Update `tests/test_compare_b0_b1.py` (optional): ensure script remains runnable (`--help` already covered in `test_utils`).
+
+* **QA gates & CI commands:**
+
+  ```bash
+  bash scripts/compare_b0_b1_m2.sh
+  ```
+
+* **Definition of Done:**
+
+  * Gate output includes **non-empty rate** and retrieval hints.
+  * Exit code logic unchanged.
+
+---
+
+### M2-F8 — \[CODEX] Hopfield ablation parity micro-test (deterministic toy)
+
+* **Goal:** Prove ablation wiring is correct even when generations are OK.
+
+* **Key changes:**
+
+  * New: `tests/test_hopfield_ablation_parity.py`
+
+    * Build a tiny store with known “patterns” and a query so that Hopfield re-scoring **changes** ranks.
+    * Assert:
+
+      * With `--no-hopfield`, selection equals baseline ANN top-K.
+      * With Hopfield, top-1 **differs** as expected (using the same candidates).
+
+* **QA gates & CI commands:**
+
+  ```bash
+  pytest -k hopfield_ablation_parity
+  ```
+
+* **Definition of Done:**
+
+  * Test demonstrates **wiring parity** and effect.
+
+---
+
+### M2-F9 — \[CODEX] Optional: memory token cap sweep hook (64/96/128)
+
+* **Goal:** Add a simple **config hook** to cap total memory tokens and enable quick sweeps.
+
+* **Key changes:**
+
+  * Edit `src/hei_nw/pack.py` (or the call site in harness B1 path):
+
+    * Introduce `--mem.max_tokens` (default 128) enforced after concatenation:
+
+      > `"mem_tokens = tokens[:max_mem_tokens]"`
+  * Add CLI parse in `src/hei_nw/eval/harness.py` (B1 only).
+
+* **Tests:**
+
+  * `tests/test_pack.py` add `test_total_memory_token_cap_enforced()`.
+
+* **QA gates & CI commands:**
+
+  ```bash
+  pytest -k memory_token_cap
+  ```
+
+* **Definition of Done:**
+
+  * Cap enforced; default preserves current behavior (128).
+
+---
+
+### M2-F10 — \[CODEX] Docs: update `quick-validate.md` to match fixes and gates
+
+* **Goal:** Keep operator instructions in lock-step with code and scripts.
+
+* **Key changes:**
+
+  * Update **Section 4** to reflect `--qa.stop ''` and `--qa.max_new_tokens 16`.
+  * Mention the new **non-empty gate** and optional **isolation probes**.
+
+* **Tests:** None (docs only).
+
+* **QA gates & CI commands:** N/A
+
+* **Definition of Done:**
+
+  * Doc reflects current scripts and acceptance flow.
+  * PR passes CI (lint) and links to new scripts.
+
+---
+
+## Quick acceptance checklist for this task bundle
+
+* [ ] `generate()` no longer blanks on leading newline with adapter path.
+* [ ] `run_m2_retrieval.sh` uses **no stop** and **16 tokens**.
+* [ ] New **non-empty gate** exists and passes for healthy runs.
+* [ ] Reports/markdown include **Non-empty rate**.
+* [ ] Isolation probes script present and executable.
+* [ ] Hopfield ablation parity micro-test added.
+* [ ] All tests (existing + new) pass in CI.
+
+---
+
+## Handy commands
+
+```bash
+# Unit tests
+pytest -q
+
+# M2 acceptance run (now robust)
+bash scripts/run_m2_retrieval.sh
+bash scripts/gate_non_empty_predictions.sh           # new fast-fail
+bash scripts/compare_b0_b1_m2.sh                    # uplift gate
+
+# Isolation probes (diagnostics)
+bash scripts/m2_isolation_probes.sh
+```
