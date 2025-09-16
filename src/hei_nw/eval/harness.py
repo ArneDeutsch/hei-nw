@@ -538,6 +538,24 @@ def _hard_negative_ratio(scenario: str, records: Sequence[dict[str, Any]]) -> fl
     return neg / pos if pos else None
 
 
+def _decode_mem_preview(tokenizer: Any, token_ids: Sequence[int]) -> list[str]:
+    """Return a human-readable preview of *token_ids* using *tokenizer*."""
+
+    if not token_ids:
+        return []
+    convert_tokens = getattr(tokenizer, "convert_ids_to_tokens", None)
+    if callable(convert_tokens):
+        tokens = convert_tokens(list(token_ids))
+        return [str(token) for token in tokens]
+    decode = getattr(tokenizer, "decode", None)
+    if callable(decode):  # pragma: no cover - tokenizer always exposes convert
+        text = str(decode(list(token_ids)))
+        if not text:
+            return []
+        return text.split()
+    return [str(tid) for tid in token_ids]
+
+
 def _evaluate_mode_b0(
     records: Sequence[dict[str, Any]],
     baseline: str,
@@ -597,6 +615,8 @@ def _evaluate_mode_b1(
     hopfield_top1: list[bool] = []
     baseline_top1: list[bool] = []
     use_hopfield = not no_hopfield
+    mem_lengths: list[int] = []
+    preview_tokens: list[str] | None = None
     for rec in records:
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
@@ -638,6 +658,11 @@ def _evaluate_mode_b1(
             if len(tokens) >= 128:
                 break
         mem_tokens = tokens[:128]
+        mem_lengths.append(len(mem_tokens))
+        if preview_tokens is None and mem_tokens:
+            preview_tokens = _decode_mem_preview(
+                service.tokenizer, mem_tokens[:8]
+            )
         itm_list, comp = _evaluate_records(
             [rec],
             geom,
@@ -661,7 +686,14 @@ def _evaluate_mode_b1(
         "collision_rate": collision_rate(diagnostics),
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),
     }
-    extra = {"adapter_latency_overhead_s": b1_latency - b0_latency, "retrieval": retrieval}
+    extra = {
+        "adapter_latency_overhead_s": b1_latency - b0_latency,
+        "retrieval": retrieval,
+        "debug": {
+            "mem_len": mem_lengths,
+            "mem_preview": preview_tokens or [],
+        },
+    }
     return items, compute, baseline_compute, extra
 
 

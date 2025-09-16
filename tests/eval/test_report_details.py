@@ -45,6 +45,8 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "Adapter latency overhead" in md
     assert "P@1" in md
     assert "Completion lift" in md
+    debug_section = md.split("## Debug", maxsplit=1)[1]
+    assert "- None" in debug_section.split("## Dataset", maxsplit=1)[0]
 
 
 def test_ablation_plot_written(tmp_path: Path) -> None:
