@@ -6,7 +6,7 @@ from collections.abc import Sequence
 from typing import Any
 
 from .keyer import DGKeyer
-from .pack import pack_trace
+from .pack import pack_trace, truncate_memory_tokens
 from .store import EpisodicStore
 
 __all__ = ["RecallService"]
@@ -104,4 +104,4 @@ class RecallService:
             tokens.extend(pack_trace(fields, self.tokenizer, self.max_mem_tokens))
             if len(tokens) >= 128:
                 break
-        return tokens[:128]
+        return truncate_memory_tokens(tokens, 128)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Sequence
 
 
 def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> list[int]:
@@ -42,3 +42,27 @@ def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> li
     )
     input_ids: list[int] = tokenizer(template)["input_ids"]
     return input_ids[:max_mem_tokens]
+
+
+def truncate_memory_tokens(tokens: Sequence[int], max_total_tokens: int) -> list[int]:
+    """Return *tokens* truncated to at most ``max_total_tokens`` elements.
+
+    Parameters
+    ----------
+    tokens:
+        Sequence of token identifiers representing concatenated episodic
+        memories.
+    max_total_tokens:
+        Maximum number of tokens to keep. Must be a positive integer.
+
+    Returns
+    -------
+    list[int]
+        Truncated token identifiers. The returned list is always a new list,
+        ensuring callers can mutate it without affecting the input sequence.
+    """
+
+    if max_total_tokens <= 0:
+        msg = "max_total_tokens must be a positive integer"
+        raise ValueError(msg)
+    return list(tokens[:max_total_tokens])

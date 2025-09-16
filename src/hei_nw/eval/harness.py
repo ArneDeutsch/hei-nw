@@ -36,7 +36,7 @@ from hei_nw.metrics import (
     time_block,
     token_f1,
 )
-from hei_nw.pack import pack_trace
+from hei_nw.pack import pack_trace, truncate_memory_tokens
 from hei_nw.recall import RecallService
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.seed import set_global_seed
@@ -197,6 +197,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         type=str,
         default=None,
         help="Substring that stops generation for QA answers.",
+    )
+    parser.add_argument(
+        "--mem.max_tokens",
+        dest="mem_max_tokens",
+        type=_positive_int,
+        default=128,
+        help=(
+            "Maximum number of episodic memory tokens concatenated per record. "
+            "Applies to B1 mode only."
+        ),
     )
     parser.add_argument(
         "--qa.answer_hint",
@@ -537,21 +547,7 @@ ModeResult = tuple[
     dict[str, Any] | None,
     dict[str, Any],
 ]
-ModeHandler = Callable[
-    [
-        Sequence[dict[str, Any]],
-        str,
-        Any,
-        Any,
-        ModelGeometry,
-        bool,
-        DGKeyer | None,
-        QAPromptSettings | None,
-        HopfieldSettings | None,
-        DevIsolationSettings | None,
-    ],
-    ModeResult,
-]
+ModeHandler = Callable[..., ModeResult]
 
 
 def _hard_negative_ratio(scenario: str, records: Sequence[dict[str, Any]]) -> float | None:
@@ -682,6 +678,8 @@ def _evaluate_mode_b1(
     qa: QAPromptSettings | None = None,
     hopfield: HopfieldSettings | None = None,
     dev: DevIsolationSettings | None = None,
+    *,
+    mem_max_tokens: int = 128,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -762,9 +760,9 @@ def _evaluate_mode_b1(
                 for i, key in enumerate(["who", "what", "where", "when"])
             }
             tokens.extend(pack_trace(fields, service.tokenizer, service.max_mem_tokens))
-            if len(tokens) >= 128:
+            if len(tokens) >= mem_max_tokens:
                 break
-        mem_tokens = tokens[:128]
+        mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
         mem_lengths.append(len(mem_tokens))
         if preview_tokens is None and mem_tokens:
             preview_tokens = _decode_mem_preview(
@@ -871,6 +869,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             retrieval_only=args.dev_retrieval_only,
             oracle_trace=args.dev_oracle_trace,
         )
+        handler_kwargs: dict[str, Any] = {}
+        if args.mode == "B1":
+            handler_kwargs["mem_max_tokens"] = args.mem_max_tokens
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -882,6 +883,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             qa_settings,
             hopfield_settings,
             dev_settings,
+            **handler_kwargs,
         )
     else:
         items = []
