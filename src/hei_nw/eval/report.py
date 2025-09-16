@@ -116,6 +116,24 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     else:
         lines.append("- None")
     lines.append("")
+    lines.append("## Debug")
+    debug = summary.get("debug")
+    if debug:
+        mem_len = debug.get("mem_len")
+        if isinstance(mem_len, Sequence) and not isinstance(mem_len, (str, bytes)):
+            mem_len_str = ", ".join(str(v) for v in mem_len)
+            lines.append(f"- Memory token counts: [{mem_len_str}]")
+        else:
+            lines.append(f"- Memory token counts: {mem_len}")
+        preview = debug.get("mem_preview") or []
+        if isinstance(preview, Sequence) and not isinstance(preview, (str, bytes)):
+            preview_str = ", ".join(str(tok) for tok in preview)
+            lines.append(f"- Memory token preview: [{preview_str}]")
+        else:
+            lines.append(f"- Memory token preview: {preview}")
+    else:
+        lines.append("- None")
+    lines.append("")
     lines.append("## Dataset notes")
     if scenario == "A":
         dataset = summary.get("dataset", {})

@@ -26,6 +26,7 @@ def test_markdown_content_matches_summary() -> None:
             "baseline": {"attention_flops": 1, "kv_cache_bytes": 2},
         },
         "dataset": {"hard_negative_ratio": 1.0},
+        "debug": {"mem_len": [1, 2], "mem_preview": ["<episodic>", "Alice"]},
     }
     md = build_markdown_report(summary, scenario="A")
     assert "- EM (relaxed): 0.500" in md
@@ -36,3 +37,5 @@ def test_markdown_content_matches_summary() -> None:
     assert "Baseline attention FLOPs: 1" in md
     assert "Baseline KV cache bytes: 2" in md
     assert "Hard negatives/confounders included (ratio 1.00)" in md
+    assert "- Memory token counts: [1, 2]" in md
+    assert "- Memory token preview: [<episodic>, Alice]" in md
