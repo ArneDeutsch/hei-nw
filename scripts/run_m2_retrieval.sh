@@ -9,15 +9,15 @@ SEED="${SEED:-7}"
 
 python -m hei_nw.eval.harness --mode B0 --scenario A -n "$N" --seed "$SEED" \
   --model "$MODEL" --outdir "$OUT" \
-  --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n' --qa.answer_hint \
+  --qa.prompt_style chat --qa.max_new_tokens 16 --qa.stop '' --qa.answer_hint \
   --hopfield.steps 2 --hopfield.temperature 0.5
 
 python -m hei_nw.eval.harness --mode B1 --scenario A -n "$N" --seed "$SEED" \
   --model "$MODEL" --outdir "$OUT" \
-  --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n' --qa.answer_hint \
+  --qa.prompt_style chat --qa.max_new_tokens 16 --qa.stop '' --qa.answer_hint \
   --hopfield.steps 2 --hopfield.temperature 0.5
 
 python -m hei_nw.eval.harness --mode B1 --scenario A -n "$N" --seed "$SEED" \
   --model "$MODEL" --outdir "$OUT" --no-hopfield \
-  --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n' --qa.answer_hint \
+  --qa.prompt_style chat --qa.max_new_tokens 16 --qa.stop '' --qa.answer_hint \
   --hopfield.steps 2 --hopfield.temperature 0.5

@@ -22,7 +22,7 @@ bash scripts/make_report.sh reports/baseline reports/baseline/combined_report.md
 # 4) M2 acceptance: Scenario A — B0, B1, and B1(no-hopfield) with Qwen
 #    (N defaults to 24; you can bump to 64 if lift is noisy).
 #    The script pins the short-answer chat prompt, Hopfield (steps=2, T=0.5),
-#    and newline stop for consistent QA behavior.
+#    removes the explicit newline stop, and gives short answers more headroom.
 bash scripts/run_m2_retrieval.sh
 # -> outputs in reports/m2-retrieval-stack/ :
 #    A_B0_metrics.json, A_B0_report.md
@@ -76,7 +76,7 @@ bash scripts/run_m2_retrieval_ci.sh
 
 * All commands assume **repo root** and `export PYTHONPATH=src`.
 * `run_m2_retrieval.sh` now **defaults to `Qwen/Qwen2.5-1.5B-Instruct`** and honors `MODEL`, `N`, `SEED`, and `OUT` while
-  forcing Scenario A to use the chat short-answer prompt (`max_new_tokens=8`, `stop="\n"`).
+  forcing Scenario A to use the chat short-answer prompt (`max_new_tokens=16`, no explicit stop).
 * Scenario **A** picks the QA defaults automatically; other scenarios remain on the plain prompt unless overridden.
 * `run_m2_retrieval_ci.sh` is **pinned to the tiny test model** and is **not** used for acceptance.
 * If Hugging Face prompts for auth on first run, log in separately (`huggingface-cli login`) and rerun.
