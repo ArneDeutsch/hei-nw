@@ -90,6 +90,14 @@ class HopfieldSettings:
     temperature: float = 1.0
 
 
+@dataclass(frozen=True)
+class DevIsolationSettings:
+    """Developer-only switches used to isolate failure modes."""
+
+    retrieval_only: bool = False
+    oracle_trace: bool = False
+
+
 def _positive_int(value: str) -> int:
     """Return ``value`` parsed as a positive integer."""
 
@@ -196,6 +204,18 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         action=argparse.BooleanOptionalAction,
         default=True,
         help="Include an instruction to answer with a single word or name.",
+    )
+    parser.add_argument(
+        "--dev.retrieval_only",
+        dest="dev_retrieval_only",
+        action="store_true",
+        help="Bypass generation and emit the top retrieved answer only.",
+    )
+    parser.add_argument(
+        "--dev.oracle_trace",
+        dest="dev_oracle_trace",
+        action="store_true",
+        help="Inject the ground-truth trace as the sole retrieved memory.",
     )
     add_common_args(parser)
     return parser.parse_args(args)
@@ -521,8 +541,10 @@ ModeHandler = Callable[
         Any,
         ModelGeometry,
         bool,
-        QAPromptSettings,
-        HopfieldSettings,
+        DGKeyer | None,
+        QAPromptSettings | None,
+        HopfieldSettings | None,
+        DevIsolationSettings | None,
     ],
     ModeResult,
 ]
@@ -556,6 +578,47 @@ def _decode_mem_preview(tokenizer: Any, token_ids: Sequence[int]) -> list[str]:
     return [str(tid) for tid in token_ids]
 
 
+def _resolve_qa_settings(qa: QAPromptSettings | None) -> QAPromptSettings:
+    """Return concrete QA settings with defaults applied."""
+
+    return qa if qa is not None else QAPromptSettings()
+
+
+def _evaluate_b0_records(
+    records: Sequence[dict[str, Any]],
+    geom: ModelGeometry,
+    qa_settings: QAPromptSettings,
+) -> tuple[list[EvalItem], ComputeRecord]:
+    """Evaluate plain QA records and return generated items and compute."""
+
+    return _evaluate_records(records, geom, qa_settings)
+
+
+def _apply_recall_metrics(
+    items: Sequence[EvalItem], recalls: Sequence[float] | None
+) -> None:
+    """Attach recall@k metrics from *recalls* onto ``items`` in-place."""
+
+    if recalls is None:
+        return
+    for itm, recall in zip(items, recalls, strict=False):
+        itm.recall_at_k = recall
+
+
+def _run_baseline_with_recalls(
+    baseline: str,
+    records: Sequence[dict[str, Any]],
+    model: Any,
+    tok: Any,
+    items: Sequence[EvalItem],
+) -> dict[str, Any] | None:
+    """Run *baseline* and propagate recall metrics onto ``items``."""
+
+    baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
+    _apply_recall_metrics(items, recalls)
+    return baseline_compute
+
+
 def _evaluate_mode_b0(
     records: Sequence[dict[str, Any]],
     baseline: str,
@@ -566,15 +629,15 @@ def _evaluate_mode_b0(
     _dg_keyer: DGKeyer | None = None,
     qa: QAPromptSettings | None = None,
     _hopfield: HopfieldSettings | None = None,
+    _dev: DevIsolationSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B0 mode."""
 
-    qa_settings = qa or QAPromptSettings()
-    items, compute = _evaluate_records(records, geom, qa_settings)
-    baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
-    if recalls is not None:
-        for itm, r in zip(items, recalls, strict=False):
-            itm.recall_at_k = r
+    qa_settings = _resolve_qa_settings(qa)
+    items, compute = _evaluate_b0_records(records, geom, qa_settings)
+    baseline_compute = _run_baseline_with_recalls(
+        baseline, records, model, tok, items
+    )
     return items, compute, baseline_compute, {}
 
 
@@ -588,6 +651,7 @@ def _evaluate_mode_b1(
     dg_keyer: DGKeyer | None = None,
     qa: QAPromptSettings | None = None,
     hopfield: HopfieldSettings | None = None,
+    dev: DevIsolationSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -595,8 +659,9 @@ def _evaluate_mode_b1(
 
     from hei_nw.models.base import build_default_adapter
 
-    qa_settings = qa or QAPromptSettings()
+    qa_settings = _resolve_qa_settings(qa)
     hopfield_settings = hopfield or HopfieldSettings()
+    dev_settings = dev or DevIsolationSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model))
     service = RecallService.build(
         records,
@@ -606,7 +671,7 @@ def _evaluate_mode_b1(
         hopfield_temperature=hopfield_settings.temperature,
         keyer=dg_keyer,
     )
-    b0_items, _ = _evaluate_records(records, geom, qa_settings)
+    b0_items, _ = _evaluate_b0_records(records, geom, qa_settings)
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     cand_groups: list[list[int]] = []
@@ -628,6 +693,7 @@ def _evaluate_mode_b1(
             group_id=group_id,
             should_remember=should_remember,
         )
+        res_h = res_no
         if use_hopfield:
             res_h = service.store.query(
                 cue,
@@ -636,8 +702,19 @@ def _evaluate_mode_b1(
                 group_id=group_id,
                 should_remember=should_remember,
             )
-        else:
-            res_h = res_no
+        if dev_settings.oracle_trace:
+            oracle_answers = [str(ans) for ans in rec.get("answers", [])]
+            res_h = {
+                "selected": [
+                    {
+                        "answers": oracle_answers,
+                        "group_id": group_id,
+                    }
+                ],
+                "candidates": res_no.get("candidates", []),
+                "diagnostics": res_no.get("diagnostics", {}),
+            }
+        selected_traces = cast(list[dict[str, Any]], res_h.get("selected", []))
         cand_groups.append([c["group_id"] for c in res_no["candidates"]])
         truths.append(group_id)
         diagnostics.append(res_no["diagnostics"])
@@ -645,10 +722,10 @@ def _evaluate_mode_b1(
             bool(res_no["selected"]) and res_no["selected"][0]["group_id"] == group_id
         )
         hopfield_top1.append(
-            bool(res_h["selected"]) and res_h["selected"][0]["group_id"] == group_id
+            bool(selected_traces) and selected_traces[0].get("group_id") == group_id
         )
         tokens: list[int] = []
-        for trace in res_h["selected"]:
+        for trace in selected_traces:
             answers = trace.get("answers", [])
             fields = {
                 key: answers[i] if i < len(answers) else ""
@@ -663,6 +740,34 @@ def _evaluate_mode_b1(
             preview_tokens = _decode_mem_preview(
                 service.tokenizer, mem_tokens[:8]
             )
+        if dev_settings.retrieval_only:
+            prompt, truth = _build_prompt(
+                rec,
+                prompt_style=qa_settings.prompt_style,
+                answer_hint=qa_settings.answer_hint,
+            )
+            pred = ""
+            if selected_traces:
+                top_answers = selected_traces[0].get("answers", [])
+                if top_answers:
+                    pred = str(top_answers[0])
+            em_rel = relaxed_em(pred, truth)
+            em_str = strict_em(pred, truth)
+            f1 = token_f1(pred, truth)
+            items.append(
+                EvalItem(
+                    prompt=prompt,
+                    prediction=pred,
+                    truth=truth,
+                    em_relaxed=em_rel,
+                    em_strict=em_str,
+                    f1=f1,
+                    latency=0.0,
+                    recall_at_k=None,
+                    lag=int(rec.get("lag", 0)),
+                )
+            )
+            continue
         itm_list, comp = _evaluate_records(
             [rec],
             geom,
@@ -673,10 +778,9 @@ def _evaluate_mode_b1(
         items.extend(itm_list)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
-    baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
-    if recalls is not None:
-        for itm, r in zip(items, recalls, strict=False):
-            itm.recall_at_k = r
+    baseline_compute = _run_baseline_with_recalls(
+        baseline, records, model, tok, items
+    )
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
     retrieval = {
@@ -692,6 +796,10 @@ def _evaluate_mode_b1(
         "debug": {
             "mem_len": mem_lengths,
             "mem_preview": preview_tokens or [],
+            "dev_modes": {
+                "retrieval_only": dev_settings.retrieval_only,
+                "oracle_trace": dev_settings.oracle_trace,
+            },
         },
     }
     return items, compute, baseline_compute, extra
@@ -734,6 +842,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             steps=args.hopfield_steps, temperature=args.hopfield_temperature
         )
         dg_keyer = DGKeyer(k=args.dg_k) if args.mode == "B1" else None
+        dev_settings = DevIsolationSettings(
+            retrieval_only=args.dev_retrieval_only,
+            oracle_trace=args.dev_oracle_trace,
+        )
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -744,6 +856,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             dg_keyer,
             qa_settings,
             hopfield_settings,
+            dev_settings,
         )
     else:
         items = []
