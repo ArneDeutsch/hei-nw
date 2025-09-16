@@ -62,6 +62,23 @@ class ModelGeometry:
     dtype: str
 
 
+@dataclass(frozen=True)
+class QAPromptSettings:
+    """Configuration for QA-style prompting and decoding."""
+
+    prompt_style: str = "plain"
+    max_new_tokens: int = 32
+    stop: str | None = None
+    answer_hint: bool = True
+
+    def stop_value(self) -> str | None:
+        """Return ``stop`` with empty strings normalized to ``None``."""
+
+        if self.stop == "":
+            return None
+        return self.stop
+
+
 def _model_geometry(model: Any) -> ModelGeometry:
     """Extract relevant model configuration fields."""
 
@@ -100,20 +117,99 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Disable Hopfield readout and use raw ANN candidates",
     )
+    parser.add_argument(
+        "--qa.prompt_style",
+        dest="qa_prompt_style",
+        choices=["plain", "chat"],
+        default="chat",
+        help="Prompt formatting used for QA episodes.",
+    )
+    parser.add_argument(
+        "--qa.max_new_tokens",
+        dest="qa_max_new_tokens",
+        type=int,
+        default=8,
+        help="Maximum number of tokens to generate for QA answers.",
+    )
+    parser.add_argument(
+        "--qa.stop",
+        dest="qa_stop",
+        type=str,
+        default="\n",
+        help="Substring that stops generation for QA answers.",
+    )
+    parser.add_argument(
+        "--qa.answer_hint",
+        dest="qa_answer_hint",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Include an instruction to answer with a single word or name.",
+    )
     add_common_args(parser)
     return parser.parse_args(args)
 
 
-def _build_prompt(record: dict[str, Any]) -> tuple[str, str]:
-    """Create prompt and expected answer from a record."""
+PromptInput = str | list[dict[str, str]]
 
-    episode = record.get("episode_text", "")
+
+def _build_prompt(
+    record: dict[str, Any],
+    *,
+    prompt_style: str,
+    answer_hint: bool,
+) -> tuple[PromptInput, str]:
+    """Create prompt data and expected answer from a record."""
+
+    episode = str(record.get("episode_text", ""))
     cues = record.get("cues", [])
     answers = record.get("answers", [])
-    cue = cues[0] if cues else ""
-    answer = answers[0] if answers else ""
-    prompt = f"{episode}\n{cue}\n"
-    return prompt, str(answer)
+    cue = str(cues[0]) if cues else ""
+    answer = str(answers[0]) if answers else ""
+
+    hint_instruction = (
+        "Answer the question using the episode. Reply with ONLY the single correct word or name."
+        if answer_hint
+        else "Answer the question using the episode."
+    )
+    episode_body = episode.strip()
+    if not episode_body:
+        episode_body = "(none)"
+    cue_text = cue.strip()
+
+    if prompt_style == "chat":
+        system_message = (
+            "You are a helpful assistant. "
+            "Read the episode and answer the question accurately and concisely."
+        )
+        if answer_hint:
+            system_message = (
+                "You are a helpful assistant. Read the episode and answer with ONLY the single "
+                "correct word or name."
+            )
+        user_lines = ["Episode:", episode_body]
+        user_lines.extend(["", f"Question: {cue_text}" if cue_text else "Question:"])
+        if answer_hint:
+            user_lines.append("Respond with only the single correct word or name.")
+        else:
+            user_lines.append("Respond with a concise answer.")
+        messages: list[dict[str, str]] = [
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": "\n".join(user_lines).strip()},
+        ]
+        return messages, answer
+
+    prompt_parts = [
+        hint_instruction,
+        "",
+        f"Episode:\n{episode_body}",
+        "",
+        f"Question: {cue_text}",
+        "Answer:",
+    ]
+    prompt = "\n".join(part for part in prompt_parts if part is not None)
+    if not prompt.endswith(" "):
+        prompt = f"{prompt} "
+    return prompt, answer
 
 
 @dataclass
@@ -133,6 +229,7 @@ class EvalItem:
 def _evaluate_records(
     records: Sequence[dict[str, Any]],
     geom: ModelGeometry,
+    qa: QAPromptSettings,
     adapter: Any | None = None,
     mem_tokens: list[int] | None = None,
 ) -> tuple[list[EvalItem], ComputeRecord]:
@@ -142,13 +239,17 @@ def _evaluate_records(
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     for rec in records:
-        prompt, truth = _build_prompt(rec)
+        prompt, truth = _build_prompt(
+            rec, prompt_style=qa.prompt_style, answer_hint=qa.answer_hint
+        )
         with time_block() as t:
             out = generate(
                 prompt,
-                max_new_tokens=32,
+                max_new_tokens=qa.max_new_tokens,
                 adapter=adapter,
                 mem_tokens=mem_tokens,
+                stop=qa.stop_value(),
+                prompt_style=qa.prompt_style,
             )
         pred = str(out["text"]).strip()
         em = exact_match(pred, truth)
@@ -343,7 +444,15 @@ ModeResult = tuple[
     dict[str, Any],
 ]
 ModeHandler = Callable[
-    [Sequence[dict[str, Any]], str, Any, Any, ModelGeometry, bool],
+    [
+        Sequence[dict[str, Any]],
+        str,
+        Any,
+        Any,
+        ModelGeometry,
+        bool,
+        QAPromptSettings,
+    ],
     ModeResult,
 ]
 
@@ -365,10 +474,12 @@ def _evaluate_mode_b0(
     tok: Any,
     geom: ModelGeometry,
     _no_hopfield: bool = False,
+    qa: QAPromptSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B0 mode."""
 
-    items, compute = _evaluate_records(records, geom)
+    qa_settings = qa or QAPromptSettings()
+    items, compute = _evaluate_records(records, geom, qa_settings)
     baseline_compute, recalls = _run_baseline(baseline, records, model, tok)
     if recalls is not None:
         for itm, r in zip(items, recalls, strict=False):
@@ -383,6 +494,7 @@ def _evaluate_mode_b1(
     tok: Any,
     geom: ModelGeometry,
     no_hopfield: bool = False,
+    qa: QAPromptSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -390,9 +502,10 @@ def _evaluate_mode_b1(
 
     from hei_nw.models.base import build_default_adapter
 
+    qa_settings = qa or QAPromptSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model))
     service = RecallService.build(records, tok, max_mem_tokens=64)
-    b0_items, _ = _evaluate_records(records, geom)
+    b0_items, _ = _evaluate_records(records, geom, qa_settings)
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     cand_groups: list[list[int]] = []
@@ -442,7 +555,13 @@ def _evaluate_mode_b1(
             if len(tokens) >= 128:
                 break
         mem_tokens = tokens[:128]
-        itm_list, comp = _evaluate_records([rec], geom, adapter=adapter, mem_tokens=mem_tokens)
+        itm_list, comp = _evaluate_records(
+            [rec],
+            geom,
+            qa_settings,
+            adapter=adapter,
+            mem_tokens=mem_tokens,
+        )
         items.extend(itm_list)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
@@ -490,8 +609,14 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
+        qa_settings = QAPromptSettings(
+            prompt_style=args.qa_prompt_style,
+            max_new_tokens=args.qa_max_new_tokens,
+            stop=args.qa_stop,
+            answer_hint=args.qa_answer_hint,
+        )
         items, compute, baseline_compute, extra = handler(
-            records, args.baseline, model, tok, geom, args.no_hopfield
+            records, args.baseline, model, tok, geom, args.no_hopfield, qa_settings
         )
     else:
         items = []
