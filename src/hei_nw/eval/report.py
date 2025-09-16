@@ -187,7 +187,10 @@ def save_completion_ablation_plot(
     fig, ax = plt.subplots()
     ax.bar(["no-hopfield", "hopfield"], [lift_without, lift_with])
     ax.set_ylabel("Completion lift")
-    ax.set_ylim(bottom=0)
+
+    max_val = max(lift_with, lift_without, 0.0)
+    margin = max(max_val * 0.1, 0.1)
+    ax.set_ylim(bottom=0, top=max_val + margin)
     fig.tight_layout()
     fig.savefig(path)
     plt.close(fig)
