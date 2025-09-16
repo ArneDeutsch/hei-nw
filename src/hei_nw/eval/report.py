@@ -72,6 +72,8 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     lines.append(f"- EM (relaxed): {em_relaxed:.3f}")
     lines.append(f"- EM_strict: {em_strict:.3f}")
     lines.append(f"- F1: {agg.get('f1', 0):.3f}")
+    non_empty_rate = float(agg.get("non_empty_rate", 0.0))
+    lines.append(f"- Non-empty rate: {non_empty_rate:.3f}")
     lines.append(f"- Latency: {agg.get('latency', 0):.3f}s")
     overhead = summary.get("adapter_latency_overhead_s")
     if overhead is not None:

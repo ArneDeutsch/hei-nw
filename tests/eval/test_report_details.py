@@ -22,6 +22,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
             "em_strict": 0,
             "f1": 0,
             "latency": 0,
+            "non_empty_rate": 1.0,
         },
         "lag_bins": [],
         "compute": {
@@ -45,6 +46,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "Adapter latency overhead" in md
     assert "P@1" in md
     assert "Completion lift" in md
+    assert "- Non-empty rate: 1.000" in md
     debug_section = md.split("## Debug", maxsplit=1)[1]
     assert "- None" in debug_section.split("## Dataset", maxsplit=1)[0]
 
