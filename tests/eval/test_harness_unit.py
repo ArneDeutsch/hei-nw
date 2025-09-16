@@ -42,10 +42,11 @@ def test_aggregate_metrics_empty_and_recall() -> None:
         "f1": 0.0,
         "latency": 0.0,
         "recall_at_k": None,
+        "non_empty_rate": 0.0,
     }
     items = [
-        EvalItem("", "", "", 1.0, 0.8, 0.5, 0.1, 0.3, 0),
-        EvalItem("", "", "", 0.0, 0.2, 0.5, 0.3, None, 1),
+        EvalItem("", "Answer", "", 1.0, 0.8, 0.5, 0.1, 0.3, 0),
+        EvalItem("", " ", "", 0.0, 0.2, 0.5, 0.3, None, 1),
     ]
     agg = _aggregate_metrics(items)
     assert agg["em"] == pytest.approx(0.5)
@@ -54,6 +55,7 @@ def test_aggregate_metrics_empty_and_recall() -> None:
     assert agg["f1"] == pytest.approx(0.5)
     assert agg["latency"] == pytest.approx(0.2)
     assert agg["recall_at_k"] == pytest.approx(0.3)
+    assert agg["non_empty_rate"] == pytest.approx(0.5)
 
 
 def test_prepare_long_context_records() -> None:
@@ -99,14 +101,16 @@ def test_run_baseline_none() -> None:
 
 
 def test_save_reports(tmp_path: Path) -> None:
-    summary = {"foo": "bar"}
+    summary = {"aggregate": {"non_empty_rate": 0.5}}
     _save_reports(tmp_path, "A", "B0", summary, False)
     json_files = list(tmp_path.glob("*_metrics.json"))
     md_files = list(tmp_path.glob("*_report.md"))
     assert json_files and md_files
     data = json.loads(json_files[0].read_text())
-    assert data["foo"] == "bar"
-    assert md_files[0].read_text().startswith("# Evaluation Report")
+    assert data["aggregate"]["non_empty_rate"] == pytest.approx(0.5)
+    md_text = md_files[0].read_text()
+    assert md_text.startswith("# Evaluation Report")
+    assert "Non-empty rate" in md_text
 
 
 def test_hard_negative_ratio() -> None:
