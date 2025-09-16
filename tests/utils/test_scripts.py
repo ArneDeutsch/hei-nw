@@ -25,6 +25,7 @@ def test_m2_scripts_present_and_executable() -> None:
         Path("scripts/run_m2_retrieval.sh"),
         Path("scripts/run_m2_retrieval_ci.sh"),
         Path("scripts/compare_b0_b1_m2.sh"),
+        Path("scripts/m2_isolation_probes.sh"),
     ]
     for script in scripts:
         assert script.exists(), f"{script} missing"
