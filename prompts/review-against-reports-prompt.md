@@ -4,6 +4,7 @@ You are a principal-level ML/IR reviewer. Your job is to **stress-test the entir
 
 ## Inputs you have (adapt as needed)
 
+* Unzip **hei-nw-main.zip** to inspect the repository content.
 * **Planning/design docs**: `AGENTS.md`, `README.md`, `planning/design.md`, `planning/project-plan.md`, `planning/validation-plan.md`, `planning/milestone-2-plan.md`.
 * **Past review notes**: any files in `reviews/` (e.g., `review-m2-*.md`).
 * **Produced numbers**: everything under `reports/` (JSON + Markdown), plus any “quick validate” notes (e.g., `documentation/quick-validate.md`).
