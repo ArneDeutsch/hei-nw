@@ -22,7 +22,8 @@ bash scripts/make_report.sh reports/baseline reports/baseline/combined_report.md
 # 4) M2 acceptance: Scenario A — B0, B1, and B1(no-hopfield) with Qwen
 #    (N defaults to 24; you can bump to 64 if lift is noisy).
 #    The script pins the short-answer chat prompt, Hopfield (steps=2, T=0.5),
-#    removes the explicit newline stop, and gives short answers more headroom.
+#    and passes `--qa.stop ''` (no explicit newline stop) with
+#    `--qa.max_new_tokens 16` to give short answers more headroom.
 bash scripts/run_m2_retrieval.sh
 # -> outputs in reports/m2-retrieval-stack/ :
 #    A_B0_metrics.json, A_B0_report.md
@@ -30,11 +31,14 @@ bash scripts/run_m2_retrieval.sh
 #    A_B1_no-hopfield_metrics.json, A_B1_no-hopfield_report.md
 #    completion_ablation.png
 
-# 5) gate: relaxed-EM uplift must be ≥ +0.30 on the small set (exit 0 on success).
+# 5) gate: fast-fail on empty generations (B1 non-empty rate must be ≥ 0.90).
+bash scripts/gate_non_empty_predictions.sh
+
+# 6) gate: relaxed-EM uplift must be ≥ +0.30 on the small set (exit 0 on success).
 #    The gate also prints the strict-EM values for reference.
 bash scripts/compare_b0_b1_m2.sh
 
-# 6) (optional) make a combined file for M2 too
+# 7) (optional) make a combined file for M2 too
 bash scripts/make_report.sh reports/m2-retrieval-stack reports/m2-retrieval-stack/combined_report.md
 ```
 
@@ -53,6 +57,14 @@ bash scripts/compare_b0_b1_m2.sh
 bash scripts/run_m2_retrieval_ci.sh
 ```
 
+## Optional: isolation probes (diagnostics)
+
+```bash
+# Runs B1 with/without explicit newline stop, retrieval-only, and oracle traces
+# to isolate decode vs retrieval issues on a small sample.
+bash scripts/m2_isolation_probes.sh
+```
+
 ---
 
 ## Outputs to check (at a glance)
@@ -65,10 +77,13 @@ bash scripts/run_m2_retrieval_ci.sh
   * `A_B0_metrics.json`, `A_B1_metrics.json`
   * `A_B1_no-hopfield_metrics.json`
   * `completion_ablation.png`
-  * `combined_report.md` (if you ran step 6)
-* **Gate result:** `bash scripts/compare_b0_b1_m2.sh` prints
+  * `combined_report.md` (if you ran step 7)
+* **Gate results:**
 
-  * `EM lift +0.3xx >= 0.30` and **exits 0**.
+  * `bash scripts/gate_non_empty_predictions.sh` prints the B1 non-empty rate
+    (target ≥ 0.90) and **exits 0** when generations look healthy.
+  * `bash scripts/compare_b0_b1_m2.sh` prints `EM lift +0.3xx >= 0.30` and
+    **exits 0** when uplift clears the bar.
 
 ---
 
