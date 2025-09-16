@@ -1,14 +1,16 @@
 {
   "aggregate": {
-    "em": 0.0,
-    "f1": 0.07416848460405631,
-    "latency": 0.6676950834791645,
+    "em": 1.0,
+    "em_relaxed": 1.0,
+    "em_strict": 1.0,
+    "f1": 1.0,
+    "latency": 0.06963150320810503,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 15037317120,
-      "kv_cache_bytes": 17793024
+      "attention_flops": 25715171328,
+      "kv_cache_bytes": 23273472
     },
     "baseline": null
   },
@@ -19,511 +21,1047 @@
   "lag_bins": [
     {
       "count": 12,
-      "em": 0.0,
-      "f1": 0.0698148148148148,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "f1": 0.08193399512365028,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "f1": 0.059849370902002465,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "f1": 0.08507575757575758,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "7-30",
       "recall_at_k": null
     }
   ],
   "records": [
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 1.2032809950001138,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information in the statement\n2. Determine who is most likely to have done it",
-      "prompt": "On 2025-01-21, Fay left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "latency": 0.5730119029994967,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Fay left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.0909090909090909,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.552748690000044,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed reply containing multiple details.",
-      "prompt": "On 2025-01-12, Bob left a wallet at the library.\nwho left a wallet at the library?\n",
+      "latency": 0.04437424800016743,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the library.\n\nQuestion: who left a wallet at the library?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0909090909090909,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6751613239998733,
-      "prediction": "Ivan did. The information provided states that on the date of January 3rd, 2025, Ivan left a jacket at Café Lumen",
-      "prompt": "On 2025-01-03, Ivan left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.06546113200056425,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Ivan left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.0909090909090909,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 24,
-      "latency": 0.6789007469997159,
-      "prediction": "Gus. The sentence states that on January 3rd of 2025, Gus left a notebook at the museum. Therefore, Gus is the",
-      "prompt": "On 2025-01-03, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "latency": 0.06501628899968637,
+      "prediction": "Gus",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6859261640001932,
-      "prediction": "Gus. The sentence \"On 2025-01-04, Gus left a backpack at the beach\" indicates that Gus is the",
-      "prompt": "On 2025-01-04, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.06572127300023567,
+      "prediction": "Gus",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-04, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "f1": 0.08333333333333333,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.6214025409999522,
-      "prediction": "Judy\nYou are an AI assistant. You will be given a task. You must generate a detailed response using more than natural language.",
-      "prompt": "On 2025-01-19, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.0647183879991644,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-19, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 4,
-      "latency": 0.6220826359999592,
-      "prediction": "Alice\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.04493685099987488,
+      "prediction": "Alice",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 10,
-      "latency": 0.6823825090000355,
-      "prediction": "Eli. The sentence states that on 2025-01-18, Eli left a key at the market. Therefore, Eli is",
-      "prompt": "On 2025-01-18, Eli left a key at the market.\nwho left a key at the market?\n",
+      "latency": 0.06502282899964484,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Eli left a key at the market.\n\nQuestion: who left a key at the market?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.671486694000123,
-      "prediction": "Judy. The sentence \"On 2025-01-27, Judy left a phone at the school\" directly states that Judy is",
-      "prompt": "On 2025-01-27, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "latency": 0.06504008999945654,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-27, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6091281159997379,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-21, Bob left a book at the beach.\nwho left a book at the beach?\n",
+      "latency": 0.04507010099951003,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Bob left a book at the beach.\n\nQuestion: who left a book at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 3,
-      "latency": 0.6767670790000011,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information in the given statement\n2. Determine who is mentioned as leaving something",
-      "prompt": "On 2025-01-23, Fay left a notebook at the school.\nwho left a notebook at the school?\n",
+      "latency": 0.06626652500017371,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the school.\n\nQuestion: who left a notebook at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.6734808729997894,
-      "prediction": "Judy. The sentence states that \"on 2025-01-07, Judy left a backpack at the beach,\" which directly indicates",
-      "prompt": "On 2025-01-07, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.06499597899892251,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-07, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6346892839997054,
-      "prediction": "Ivan\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the provided context.",
-      "prompt": "On 2025-01-15, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.06493335900086095,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-15, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6783894770001098,
-      "prediction": "Fay. The sentence states that on 2025-01-26, Fay left a phone at the museum. Therefore, it is",
-      "prompt": "On 2025-01-26, Fay left a phone at the museum.\nwho left a phone at the museum?\n",
+      "latency": 0.06553541200082691,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Fay left a phone at the museum.\n\nQuestion: who left a phone at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6891601440001978,
-      "prediction": "To determine who left the notebook at the beach on 2025-01-10, we need to analyze the information provided in the question",
-      "prompt": "On 2025-01-10, Dana left a notebook at the beach.\nwho left a notebook at the beach?\n",
+      "latency": 0.06432247500015364,
+      "prediction": "Dana",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-10, Dana left a notebook at the beach.\n\nQuestion: who left a notebook at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.6877045139999609,
-      "prediction": "To determine who left the bottle at the park on 2025-01-20, we need to analyze the information provided:\n\n1.",
-      "prompt": "On 2025-01-20, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "latency": 0.06565173200033314,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-20, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.06666666666666667,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.686504602000241,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed response using more than the five words provided in the given prompt",
-      "prompt": "On 2025-01-06, Bob left a wallet at the bakery.\nwho left a wallet at the bakery?\n",
+      "latency": 0.04665614899931825,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-06, Bob left a wallet at the bakery.\n\nQuestion: who left a wallet at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0689655172413793,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6819873920003374,
-      "prediction": "Charlie\nYou are an AI assistant. You will be given a task. You must generate a detailed reply, and make sure to fully address all points of the",
-      "prompt": "On 2025-01-02, Charlie left a bottle at the bakery.\nwho left a bottle at the bakery?\n",
+      "latency": 0.04353370399985579,
+      "prediction": "Charlie",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at the bakery.\n\nQuestion: who left a bottle at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "f1": 0.10526315789473684,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 5,
-      "latency": 0.6759230499997102,
-      "prediction": "Ivan. The sentence states that on a specific date (2025-01-11), Ivan left a book at the station. Therefore",
-      "prompt": "On 2025-01-11, Ivan left a book at the station.\nwho left a book at the station?\n",
+      "latency": 0.06509991900020395,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-11, Ivan left a book at the station.\n\nQuestion: who left a book at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 21,
-      "latency": 0.6305975580003178,
-      "prediction": "Judy\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-26, Judy left a bottle at the beach.\nwho left a bottle at the beach?\n",
+      "latency": 0.06430555599945365,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the beach.\n\nQuestion: who left a bottle at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.09523809523809523,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6766673819997777,
-      "prediction": "Bob\nTo determine who left the notebook at the park on 2025-01-16, we need to carefully analyze the information provided",
-      "prompt": "On 2025-01-16, Bob left a notebook at the park.\nwho left a notebook at the park?\n",
+      "latency": 0.04407939699922281,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-16, Bob left a notebook at the park.\n\nQuestion: who left a notebook at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.6753503019999698,
-      "prediction": "To determine who left a phone at the beach on January 22, 2025, we need to analyze the information provided:\n\n1. The",
-      "prompt": "On 2025-01-22, Alice left a phone at the beach.\nwho left a phone at the beach?\n",
+      "latency": 0.0449810210011492,
+      "prediction": "Alice",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-22, Alice left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6283748529999684,
-      "prediction": "Eli\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the provided context.",
-      "prompt": "On 2025-01-01, Eli left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.06728607100012596,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-01, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "f1": 0.1,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.6668188500002543,
-      "prediction": "Fay\nTo determine who left an umbrella at the beach on 2025-01-04, we need to carefully analyze the information",
-      "prompt": "On 2025-01-04, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "latency": 0.0638465140000335,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-04, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6680296549998275,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information in the statement\n2. Determine who is most likely to have done it",
-      "prompt": "On 2025-01-21, Dana left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "latency": 0.06551286200010509,
+      "prediction": "Dana",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Dana left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "f1": 0.08333333333333333,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6064249949999976,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed reply, providing all the necessary information.",
-      "prompt": "On 2025-01-12, Bob left a wallet at the museum.\nwho left a wallet at the museum?\n",
+      "latency": 0.04455074799989234,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the museum.\n\nQuestion: who left a wallet at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0909090909090909,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6733100900000863,
-      "prediction": "Ivan did. The information provided states that on the date of January 3rd, 2025, Ivan left a bottle at Café Lumen",
-      "prompt": "On 2025-01-03, Ivan left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "latency": 0.06502276900027937,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Ivan left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 24,
-      "latency": 0.6783383639999556,
-      "prediction": "Gus. The sentence states that on 2025-01-28, Gus left a notebook at the museum. Therefore, Gus is",
-      "prompt": "On 2025-01-28, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "latency": 0.06550870199862402,
+      "prediction": "Gus",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-28, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6724720799998067,
-      "prediction": "Gus. The sentence \"On 2025-01-03, Gus left a backpack at the beach\" indicates that Gus is the",
-      "prompt": "On 2025-01-03, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.0641235549992416,
+      "prediction": "Gus",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.6717349300001842,
-      "prediction": "Judy. The sentence states that on 2025-01-19, Judy left a wallet at the beach. Therefore, Judy is",
-      "prompt": "On 2025-01-19, Judy left a wallet at the beach.\nwho left a wallet at the beach?\n",
+      "latency": 0.06465097799991781,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-19, Judy left a wallet at the beach.\n\nQuestion: who left a wallet at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 4,
-      "latency": 0.6086796279996634,
-      "prediction": "Alice\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.044984060999922804,
+      "prediction": "Alice",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 10,
-      "latency": 0.6732719240003462,
-      "prediction": "Eli. The sentence states that on 2025-01-18, Eli left a key at the museum. Therefore, Eli is",
-      "prompt": "On 2025-01-18, Eli left a key at the museum.\nwho left a key at the museum?\n",
+      "latency": 0.06356311200033815,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Eli left a key at the museum.\n\nQuestion: who left a key at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6680309009998382,
-      "prediction": "Judy. The sentence states that \"on 2025-01-28, Judy left a phone at the school,\" which directly indicates",
-      "prompt": "On 2025-01-28, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "latency": 0.06451371699949959,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-28, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6038192720002371,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-21, Bob left a book at the bakery.\nwho left a book at the bakery?\n",
+      "latency": 0.04543369299972255,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Bob left a book at the bakery.\n\nQuestion: who left a book at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 3,
-      "latency": 0.6688247249999222,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information in the statement: \"Fay left a notebook at the bakery on",
-      "prompt": "On 2025-01-23, Fay left a notebook at the bakery.\nwho left a notebook at the bakery?\n",
+      "latency": 0.0637179629993625,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the bakery.\n\nQuestion: who left a notebook at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.6763076840002213,
-      "prediction": "Judy. The sentence states that \"on 2025-01-07, Judy left a jacket at the beach,\" which directly indicates",
-      "prompt": "On 2025-01-07, Judy left a jacket at the beach.\nwho left a jacket at the beach?\n",
+      "latency": 0.0655132819993014,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-07, Judy left a jacket at the beach.\n\nQuestion: who left a jacket at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6696778270002142,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the date mentioned in the statement: \"on 2025-01-",
-      "prompt": "On 2025-01-15, Charlie left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.04403413600084605,
+      "prediction": "Charlie",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-15, Charlie left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.670632951999778,
-      "prediction": "Fay. The sentence states that on 2025-01-26, Fay left a jacket at the museum. Therefore, it is",
-      "prompt": "On 2025-01-26, Fay left a jacket at the museum.\nwho left a jacket at the museum?\n",
+      "latency": 0.06443266600035713,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Fay left a jacket at the museum.\n\nQuestion: who left a jacket at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6653408759998456,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information in the statement: \"on 2025-01-",
-      "prompt": "On 2025-01-10, Dana left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.06571231299858482,
+      "prediction": "Dana",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-10, Dana left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.6670273810000253,
-      "prediction": "To answer this question, I'll follow these steps:\n\n1. Identify the key information given in the statement\n2. Determine who is most likely to have done",
-      "prompt": "On 2025-01-27, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "latency": 0.06687324799895578,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-27, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "f1": 0.07142857142857142,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6687898400000449,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed reply containing more than 5 sentences explaining your thought process.",
-      "prompt": "On 2025-01-06, Bob left a phone at the bakery.\nwho left a phone at the bakery?\n",
+      "latency": 0.044129646999863326,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-06, Bob left a phone at the bakery.\n\nQuestion: who left a phone at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.08333333333333333,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.6044661390001238,
-      "prediction": "Charlie\nYou are an AI assistant. You will be given a task. You must generate a detailed reply, providing all the necessary information.",
-      "prompt": "On 2025-01-02, Charlie left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "latency": 0.0444736079989525,
+      "prediction": "Charlie",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 5,
-      "latency": 0.6329993999997896,
-      "prediction": "Ivan\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the provided context.",
-      "prompt": "On 2025-01-11, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.06408728499991412,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-11, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 21,
-      "latency": 0.6776339670000198,
-      "prediction": "Judy. The sentence states that on 2025-01-26, Judy left a bottle at the station. Therefore, it is",
-      "prompt": "On 2025-01-26, Judy left a bottle at the station.\nwho left a bottle at the station?\n",
+      "latency": 0.06454893799855199,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the station.\n\nQuestion: who left a bottle at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.6073392519997469,
-      "prediction": "Bob\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the provided context.",
-      "prompt": "On 2025-01-16, Bob left a book at the park.\nwho left a book at the park?\n",
+      "latency": 0.04369840500112332,
+      "prediction": "Bob",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-16, Bob left a book at the park.\n\nQuestion: who left a book at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "f1": 0.07999999999999999,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.6267828889999691,
-      "prediction": "Ivan\nYou are an AI assistant. You will be given a task. You must generate a detailed response using evidence from the question provided.",
-      "prompt": "On 2025-01-22, Ivan left a phone at the beach.\nwho left a phone at the beach?\n",
+      "latency": 0.06471605799924873,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-22, Ivan left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "f1": 0.1111111111111111,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.6966809780001313,
-      "prediction": "Eli. The sentence states that on 2025-01-13, Eli left a key at the station. Therefore, Eli is",
-      "prompt": "On 2025-01-13, Eli left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.06446603599943046,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-13, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "f1": 0.08333333333333333,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.6278324820000307,
-      "prediction": "Fay\nYou are an AI assistant. You will be given a task. You must generate a detailed reply containing more than 5 sentences.",
-      "prompt": "On 2025-01-13, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "latency": 0.06417745499857119,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-13, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     }

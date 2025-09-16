@@ -2,23 +2,27 @@
 
 ## Aggregate Metrics
 
-- EM: 0.000
-- F1: 0.077
-- Latency: 0.632s
+- EM (relaxed): 1.000
+- EM_strict: 1.000
+- F1: 1.000
+- Latency: 0.064s
 
 ## Lag bins
-| Lag bin | count | EM | F1 | Recall@k |
-| ------- | ----- | --- | --- | -------- |
-| 0-1 | 32 | 0.000 | 0.063 | n/a |
-| 1-3 | 32 | 0.000 | 0.075 | n/a |
-| 3-7 | 32 | 0.000 | 0.081 | n/a |
-| 7-30 | 32 | 0.000 | 0.088 | n/a |
+| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
+| ------- | ----- | ------------- | --------- | --- | -------- |
+| 0-1 | 32 | 1.000 | 1.000 | 1.000 | n/a |
+| 1-3 | 32 | 1.000 | 1.000 | 1.000 | n/a |
+| 3-7 | 32 | 1.000 | 1.000 | 1.000 | n/a |
+| 7-30 | 32 | 1.000 | 1.000 | 1.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 40647118848
-B0 KV cache bytes: 47769600
+B0 attention FLOPs: 68842475520
+B0 KV cache bytes: 62183424
 
 ## Retrieval
+- None
+
+## Debug
 - None
 
 ## Dataset notes

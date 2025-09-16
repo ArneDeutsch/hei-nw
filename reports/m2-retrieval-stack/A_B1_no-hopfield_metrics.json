@@ -1,15 +1,17 @@
 {
-  "adapter_latency_overhead_s": 0.00810963279163468,
+  "adapter_latency_overhead_s": 0.09981344108340788,
   "aggregate": {
     "em": 0.0,
+    "em_relaxed": 0.0,
+    "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.6743934084166389,
+    "latency": 0.1697933238957603,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 15469805568,
-      "kv_cache_bytes": 18051072
+      "attention_flops": 23980228608,
+      "kv_cache_bytes": 22474752
     },
     "baseline": null
   },
@@ -17,10 +19,78 @@
     "hard_negative_ratio": 1.0,
     "scenario": "A"
   },
+  "debug": {
+    "dev_modes": {
+      "oracle_trace": false,
+      "retrieval_only": false
+    },
+    "mem_len": [
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128
+    ],
+    "mem_preview": [
+      "<",
+      "ep",
+      "is",
+      "odic",
+      ">Ċ",
+      "who",
+      ":",
+      "G"
+    ]
+  },
   "lag_bins": [
     {
       "count": 12,
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag_bin": "0-1",
       "recall_at_k": null
@@ -28,6 +98,8 @@
     {
       "count": 12,
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag_bin": "1-3",
       "recall_at_k": null
@@ -35,6 +107,8 @@
     {
       "count": 12,
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag_bin": "3-7",
       "recall_at_k": null
@@ -42,6 +116,8 @@
     {
       "count": 12,
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag_bin": "7-30",
       "recall_at_k": null
@@ -50,481 +126,1009 @@
   "records": [
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.690550696000173,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-21, Fay left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "latency": 0.18284769999991113,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Fay left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.671470061999571,
-      "prediction": "• 1.000.000 - 5.000.000\n• 5.000.",
-      "prompt": "On 2025-01-12, Bob left a wallet at the library.\nwho left a wallet at the library?\n",
+      "latency": 0.16761766399940825,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the library.\n\nQuestion: who left a wallet at the library?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6698896309999327,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-03, Ivan left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.16819795700030227,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Ivan left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.6691001959998175,
-      "prediction": "1. Giới thiệu về mình:\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-03, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "latency": 0.17384223500084772,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.664740183000049,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-04, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.16805762599869922,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-04, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.6686271059998035,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-19, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.16563832399879175,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-19, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.6665690730001188,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.16636759799985157,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.6723108139999567,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-18, Eli left a key at the market.\nwho left a key at the market?\n",
+      "latency": 0.16932595300022513,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Eli left a key at the market.\n\nQuestion: who left a key at the market?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6697480170000745,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-27, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "latency": 0.16721323300043878,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-27, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6714413670001704,
-      "prediction": "1. Giới thiệu về chúng tôi\n2. Các dịch vụ của chúng tôi\n3. Liên hệ với chúng tôi\n4. Chính sách bảo mật",
-      "prompt": "On 2025-01-21, Bob left a book at the beach.\nwho left a book at the beach?\n",
+      "latency": 0.16936540300048364,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Bob left a book at the beach.\n\nQuestion: who left a book at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.6765708350003479,
-      "prediction": "1. Giới thiệu về chúng tôi\n2. Các dịch vụ của chúng tôi\n3. Liên hệ với chúng tôi\n4. Chính sách bảo mật",
-      "prompt": "On 2025-01-23, Fay left a notebook at the school.\nwho left a notebook at the school?\n",
+      "latency": 0.1710939820004569,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the school.\n\nQuestion: who left a notebook at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.6733339540000998,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-07, Judy left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.1700826070009498,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-07, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6702562519999447,
-      "prediction": "Đăng ký tài khoản\nĐăng nhập\nTài liệu học tập\nTrang chủ\nGiới thiệu\nSản phẩm\nCông ty",
-      "prompt": "On 2025-01-15, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.16800998699909542,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-15, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6726952949998122,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-26, Fay left a phone at the museum.\nwho left a phone at the museum?\n",
+      "latency": 0.16856691900102305,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Fay left a phone at the museum.\n\nQuestion: who left a phone at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6681896239997513,
-      "prediction": "1. Giới thiệu về mình\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-10, Dana left a notebook at the beach.\nwho left a notebook at the beach?\n",
+      "latency": 0.16650081899933866,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-10, Dana left a notebook at the beach.\n\nQuestion: who left a notebook at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.6744789839999612,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-20, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "latency": 0.16919974299889873,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-20, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6698435189996417,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-06, Bob left a wallet at the bakery.\nwho left a wallet at the bakery?\n",
+      "latency": 0.16762227500112203,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-06, Bob left a wallet at the bakery.\n\nQuestion: who left a wallet at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6718315910002275,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-02, Charlie left a bottle at the bakery.\nwho left a bottle at the bakery?\n",
+      "latency": 0.16631099799997173,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at the bakery.\n\nQuestion: who left a bottle at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.6709970940000858,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-11, Ivan left a book at the station.\nwho left a book at the station?\n",
+      "latency": 0.16657475899955898,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-11, Ivan left a book at the station.\n\nQuestion: who left a book at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.681890120999924,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-26, Judy left a bottle at the beach.\nwho left a bottle at the beach?\n",
+      "latency": 0.16764453599898843,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the beach.\n\nQuestion: who left a bottle at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.682564844999888,
-      "prediction": "1. Giới thiệu về mình:\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-16, Bob left a notebook at the park.\nwho left a notebook at the park?\n",
+      "latency": 0.17213232799986145,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-16, Bob left a notebook at the park.\n\nQuestion: who left a notebook at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.6893610380002428,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-22, Alice left a phone at the beach.\nwho left a phone at the beach?\n",
+      "latency": 0.16865368000071612,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-22, Alice left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6738939719998598,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-01, Eli left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.16871134099892515,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-01, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.6750100489998658,
-      "prediction": "1. Giới thiệu về chúng tôi\n2. Các dịch vụ của chúng tôi\n3. Liên hệ với chúng tôi\n4. Chính sách bảo mật",
-      "prompt": "On 2025-01-04, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "latency": 0.16622366900082852,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-04, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6749421569998049,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-21, Dana left a umbrella at the bakery.\nwho left a umbrella at the bakery?\n",
+      "latency": 0.1658168960002513,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Dana left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6808476890000748,
-      "prediction": "1. Giới thiệu về mình:\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-12, Bob left a wallet at the museum.\nwho left a wallet at the museum?\n",
+      "latency": 0.16591790699931153,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the museum.\n\nQuestion: who left a wallet at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6757104579996849,
-      "prediction": "<div class=\"container\">\n        <h1>Our Team</h1>\n        <p>We are a team of experienced professionals with over",
-      "prompt": "On 2025-01-03, Ivan left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "latency": 0.16666533099851222,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Ivan left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.6734287310000582,
-      "prediction": "1. Giới thiệu về mình:\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-28, Gus left a notebook at the museum.\nwho left a notebook at the museum?\n",
+      "latency": 0.1667228710011841,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-28, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6671288820002701,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-03, Gus left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.16727320400059398,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-03, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Gus"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.6714979620001031,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-19, Judy left a wallet at the beach.\nwho left a wallet at the beach?\n",
+      "latency": 0.17642298899954767,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-19, Judy left a wallet at the beach.\n\nQuestion: who left a wallet at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.695746773999872,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-18, Alice left a jacket at Café Lumen.\nwho left a jacket at Café Lumen?\n",
+      "latency": 0.17631353899923852,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Alice"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.6896196160000727,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-18, Eli left a key at the museum.\nwho left a key at the museum?\n",
+      "latency": 0.17473419199995988,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-18, Eli left a key at the museum.\n\nQuestion: who left a key at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6750714710001375,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-28, Judy left a phone at the school.\nwho left a phone at the school?\n",
+      "latency": 0.17625094799950602,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-28, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6728408240001045,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-21, Bob left a book at the bakery.\nwho left a book at the bakery?\n",
+      "latency": 0.1706275310007186,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-21, Bob left a book at the bakery.\n\nQuestion: who left a book at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.6765499799998906,
-      "prediction": "1. Giới thiệu về mình:\nTôi tên là Nguyễn Thị Thùy Linh, sinh năm 1987 tại TP.HCM. Tôi",
-      "prompt": "On 2025-01-23, Fay left a notebook at the bakery.\nwho left a notebook at the bakery?\n",
+      "latency": 0.16938000499976624,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the bakery.\n\nQuestion: who left a notebook at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.6745743299998139,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-07, Judy left a jacket at the beach.\nwho left a jacket at the beach?\n",
+      "latency": 0.17000505800024257,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-07, Judy left a jacket at the beach.\n\nQuestion: who left a jacket at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.676886593999825,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-15, Charlie left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.16962922599850572,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-15, Charlie left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.6763227709998318,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-26, Fay left a jacket at the museum.\nwho left a jacket at the museum?\n",
+      "latency": 0.1735898660008388,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Fay left a jacket at the museum.\n\nQuestion: who left a jacket at the museum?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6782072470000458,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-10, Dana left a backpack at the beach.\nwho left a backpack at the beach?\n",
+      "latency": 0.16933242400045856,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-10, Dana left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Dana"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.6771381190001193,
-      "prediction": "• 1.000,00\n• 2.000,00\n• 3.000,0",
-      "prompt": "On 2025-01-27, Fay left a bottle at the park.\nwho left a bottle at the park?\n",
+      "latency": 0.16761555599987332,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-27, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.6653392469997925,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-06, Bob left a phone at the bakery.\nwho left a phone at the bakery?\n",
+      "latency": 0.16902797399961855,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-06, Bob left a phone at the bakery.\n\nQuestion: who left a phone at the bakery?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.668309632999808,
-      "prediction": "<div class=\"container\">\n        <h1>Our Team</h1>\n        <p>We are a team of experienced and dedicated professionals who",
-      "prompt": "On 2025-01-02, Charlie left a bottle at Café Lumen.\nwho left a bottle at Café Lumen?\n",
+      "latency": 0.16897881400109327,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Charlie"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.6648059459998876,
-      "prediction": "Đăng ký tài khoản\nĐăng nhập\nTài liệu học tập\nTrang chủ\nGiới thiệu\nSản phẩm\nLiên hệ",
-      "prompt": "On 2025-01-11, Ivan left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.17221064899968042,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-11, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.6692519260000154,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-26, Judy left a bottle at the station.\nwho left a bottle at the station?\n",
+      "latency": 0.1751255939998373,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the station.\n\nQuestion: who left a bottle at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Judy"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.676509650999833,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-16, Bob left a book at the park.\nwho left a book at the park?\n",
+      "latency": 0.16829101999974228,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-16, Bob left a book at the park.\n\nQuestion: who left a book at the park?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Bob"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.6778169379999781,
-      "prediction": "• 1.000.000 - 5.000.000\n• 5.000.",
-      "prompt": "On 2025-01-22, Ivan left a phone at the beach.\nwho left a phone at the beach?\n",
+      "latency": 0.17436783999983163,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-22, Ivan left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Ivan"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.6738522400000875,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于修改宪法部分内容",
-      "prompt": "On 2025-01-13, Eli left a key at the station.\nwho left a key at the station?\n",
+      "latency": 0.17063542200048687,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-13, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Eli"
     },
     {
       "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.6731201000002329,
-      "prediction": "1. 2019年1月1日，中国共产党第十九届中央委员会第四次全体会议通过了《中共中央关于坚持和完善中国特色",
-      "prompt": "On 2025-01-13, Fay left a umbrella at the beach.\nwho left a umbrella at the beach?\n",
+      "latency": 0.16934335499900044,
+      "prediction": "",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Episode:\nOn 2025-01-13, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.",
+          "role": "user"
+        }
+      ],
       "recall_at_k": null,
       "truth": "Fay"
     }
