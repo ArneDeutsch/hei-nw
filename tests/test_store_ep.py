@@ -1,3 +1,5 @@
+import math
+
 from hei_nw.datasets import scenario_a
 from hei_nw.store import EpisodicStore
 
@@ -37,3 +39,17 @@ def test_near_miss_and_collision_counters() -> None:
     pos1 = next(r for r in records if r["should_remember"] and r["group_id"] != pos0["group_id"])
     out_col = store.query(pos0["cues"][0], group_id=pos1["group_id"], should_remember=True)
     assert out_col["diagnostics"]["collision"] is True
+
+
+def test_custom_hopfield_parameters() -> None:
+    tok = DummyTokenizer()
+    records = scenario_a.generate(n=2, seed=0)
+    store = EpisodicStore.from_records(
+        records,
+        tok,
+        max_mem_tokens=64,
+        hopfield_steps=3,
+        hopfield_temperature=0.5,
+    )
+    assert store.hopfield.steps == 3
+    assert math.isclose(store.hopfield.temperature, 0.5)

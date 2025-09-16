@@ -80,6 +80,34 @@ class QAPromptSettings:
         return self.stop
 
 
+@dataclass(frozen=True)
+class HopfieldSettings:
+    """Parameters controlling Hopfield readout refinement."""
+
+    steps: int = 1
+    temperature: float = 1.0
+
+
+def _positive_int(value: str) -> int:
+    """Return ``value`` parsed as a positive integer."""
+
+    parsed = int(value)
+    if parsed <= 0:
+        msg = "Hopfield steps must be a positive integer"
+        raise argparse.ArgumentTypeError(msg)
+    return parsed
+
+
+def _positive_float(value: str) -> float:
+    """Return ``value`` parsed as a positive float."""
+
+    parsed = float(value)
+    if parsed <= 0.0:
+        msg = "Hopfield temperature must be positive"
+        raise argparse.ArgumentTypeError(msg)
+    return parsed
+
+
 def _model_geometry(model: Any) -> ModelGeometry:
     """Extract relevant model configuration fields."""
 
@@ -117,6 +145,20 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         "--no-hopfield",
         action="store_true",
         help="Disable Hopfield readout and use raw ANN candidates",
+    )
+    parser.add_argument(
+        "--hopfield.steps",
+        dest="hopfield_steps",
+        type=_positive_int,
+        default=1,
+        help="Number of refinement steps used by the Hopfield readout.",
+    )
+    parser.add_argument(
+        "--hopfield.temperature",
+        dest="hopfield_temperature",
+        type=_positive_float,
+        default=1.0,
+        help="Softmax temperature applied inside the Hopfield readout.",
     )
     parser.add_argument(
         "--qa.prompt_style",
@@ -471,6 +513,7 @@ ModeHandler = Callable[
         ModelGeometry,
         bool,
         QAPromptSettings,
+        HopfieldSettings,
     ],
     ModeResult,
 ]
@@ -494,6 +537,7 @@ def _evaluate_mode_b0(
     geom: ModelGeometry,
     _no_hopfield: bool = False,
     qa: QAPromptSettings | None = None,
+    _hopfield: HopfieldSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B0 mode."""
 
@@ -514,6 +558,7 @@ def _evaluate_mode_b1(
     geom: ModelGeometry,
     no_hopfield: bool = False,
     qa: QAPromptSettings | None = None,
+    hopfield: HopfieldSettings | None = None,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -522,8 +567,15 @@ def _evaluate_mode_b1(
     from hei_nw.models.base import build_default_adapter
 
     qa_settings = qa or QAPromptSettings()
+    hopfield_settings = hopfield or HopfieldSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model))
-    service = RecallService.build(records, tok, max_mem_tokens=64)
+    service = RecallService.build(
+        records,
+        tok,
+        max_mem_tokens=64,
+        hopfield_steps=hopfield_settings.steps,
+        hopfield_temperature=hopfield_settings.temperature,
+    )
     b0_items, _ = _evaluate_records(records, geom, qa_settings)
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
@@ -634,8 +686,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             stop=args.qa_stop,
             answer_hint=args.qa_answer_hint,
         )
+        hopfield_settings = HopfieldSettings(
+            steps=args.hopfield_steps, temperature=args.hopfield_temperature
+        )
         items, compute, baseline_compute, extra = handler(
-            records, args.baseline, model, tok, geom, args.no_hopfield, qa_settings
+            records,
+            args.baseline,
+            model,
+            tok,
+            geom,
+            args.no_hopfield,
+            qa_settings,
+            hopfield_settings,
         )
     else:
         items = []
