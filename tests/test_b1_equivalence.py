@@ -25,7 +25,13 @@ def _predict(
     records: Sequence[dict[str, Any]],
     adapter: object | None = None,
 ) -> tuple[list[str], list[str]]:
-    items, _ = harness._evaluate_records(records, GEOM, adapter=adapter, mem_tokens=None)
+    items, _ = harness._evaluate_records(
+        records,
+        GEOM,
+        harness.QAPromptSettings(),
+        adapter=adapter,
+        mem_tokens=None,
+    )
     preds = [it.prediction for it in items]
     truths = [it.truth for it in items]
     return preds, truths

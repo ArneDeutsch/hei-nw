@@ -10,12 +10,15 @@ from .retrieval import (
     near_miss_rate,
     precision_at_k,
 )
-from .text import exact_match, recall_at_k, token_f1
+from .text import canonicalize, exact_match, recall_at_k, relaxed_em, strict_em, token_f1
 from .timing import time_block
 
 __all__ = [
+    "canonicalize",
     "exact_match",
     "recall_at_k",
+    "relaxed_em",
+    "strict_em",
     "token_f1",
     "time_block",
     "estimate_attention_flops",

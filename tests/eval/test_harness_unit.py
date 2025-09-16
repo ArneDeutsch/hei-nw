@@ -37,16 +37,20 @@ def test_model_geometry_extracts_fields() -> None:
 def test_aggregate_metrics_empty_and_recall() -> None:
     assert _aggregate_metrics([]) == {
         "em": 0.0,
+        "em_relaxed": 0.0,
+        "em_strict": 0.0,
         "f1": 0.0,
         "latency": 0.0,
         "recall_at_k": None,
     }
     items = [
-        EvalItem("", "", "", 1.0, 0.5, 0.1, 0.3, 0),
-        EvalItem("", "", "", 0.0, 0.5, 0.3, None, 1),
+        EvalItem("", "", "", 1.0, 0.8, 0.5, 0.1, 0.3, 0),
+        EvalItem("", "", "", 0.0, 0.2, 0.5, 0.3, None, 1),
     ]
     agg = _aggregate_metrics(items)
     assert agg["em"] == pytest.approx(0.5)
+    assert agg["em_relaxed"] == pytest.approx(0.5)
+    assert agg["em_strict"] == pytest.approx(0.5)
     assert agg["f1"] == pytest.approx(0.5)
     assert agg["latency"] == pytest.approx(0.2)
     assert agg["recall_at_k"] == pytest.approx(0.3)

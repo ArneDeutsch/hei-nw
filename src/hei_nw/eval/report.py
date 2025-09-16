@@ -18,7 +18,8 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     ----------
     records:
         Sequence of evaluation record dictionaries each containing ``lag``,
-        ``em``, ``f1`` and optional ``recall_at_k`` fields.
+        ``em_relaxed``/``em_strict`` (or legacy ``em``), ``f1`` and optional
+        ``recall_at_k`` fields.
     bins:
         Monotonically increasing sequence of integer bin edges.
 
@@ -26,7 +27,7 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     -------
     list of dicts
         Each dict contains ``lag_bin`` label, ``count`` of records in the bin,
-        mean ``em``/``f1``/``recall_at_k``.
+        mean ``em_relaxed``/``em_strict``/``f1``/``recall_at_k``.
     """
 
     if len(bins) < 2:
@@ -35,7 +36,12 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     for start, end in zip(bins, bins[1:], strict=False):
         members = [r for r in records if start <= int(r.get("lag", 0)) < end]
         count = len(members)
-        em = sum(float(r.get("em", 0.0)) for r in members) / count if count else 0.0
+        em_relaxed_vals = [
+            float(r.get("em_relaxed", r.get("em", 0.0))) for r in members
+        ]
+        em_strict_vals = [float(r.get("em_strict", r.get("em", 0.0))) for r in members]
+        em_relaxed = sum(em_relaxed_vals) / count if count else 0.0
+        em_strict = sum(em_strict_vals) / count if count else 0.0
         f1 = sum(float(r.get("f1", 0.0)) for r in members) / count if count else 0.0
         recalls = [
             float(r.get("recall_at_k", 0.0)) for r in members if r.get("recall_at_k") is not None
@@ -43,7 +49,15 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
         recall = sum(recalls) / len(recalls) if recalls else None
         label = f"{start}-{end}"
         results.append(
-            {"lag_bin": label, "count": count, "em": em, "f1": f1, "recall_at_k": recall}
+            {
+                "lag_bin": label,
+                "count": count,
+                "em": em_relaxed,
+                "em_relaxed": em_relaxed,
+                "em_strict": em_strict,
+                "f1": f1,
+                "recall_at_k": recall,
+            }
         )
     return results
 
@@ -53,7 +67,10 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
 
     agg = summary.get("aggregate", {})
     lines = ["# Evaluation Report", "", "## Aggregate Metrics", ""]
-    lines.append(f"- EM: {agg.get('em', 0):.3f}")
+    em_relaxed = float(agg.get("em_relaxed", agg.get("em", 0)))
+    em_strict = float(agg.get("em_strict", agg.get("em", 0)))
+    lines.append(f"- EM (relaxed): {em_relaxed:.3f}")
+    lines.append(f"- EM_strict: {em_strict:.3f}")
     lines.append(f"- F1: {agg.get('f1', 0):.3f}")
     lines.append(f"- Latency: {agg.get('latency', 0):.3f}s")
     overhead = summary.get("adapter_latency_overhead_s")
@@ -61,14 +78,16 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         lines.append(f"- Adapter latency overhead: {overhead:.3f}s")
     lines.append("")
     lines.append("## Lag bins")
-    lines.append("| Lag bin | count | EM | F1 | Recall@k |")
-    lines.append("| ------- | ----- | --- | --- | -------- |")
+    lines.append("| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |")
+    lines.append("| ------- | ----- | ------------- | --------- | --- | -------- |")
     for bin_ in summary.get("lag_bins", []):
         r = bin_.get("recall_at_k")
         r_str = f"{r:.3f}" if isinstance(r, int | float) else "n/a"
+        em_relaxed_bin = float(bin_.get("em_relaxed", bin_.get("em", 0)))
+        em_strict_bin = float(bin_.get("em_strict", bin_.get("em", 0)))
         line = (
-            f"| {bin_['lag_bin']} | {bin_['count']} | {bin_['em']:.3f} | "
-            f"{bin_['f1']:.3f} | {r_str} |"
+            f"| {bin_['lag_bin']} | {bin_['count']} | {em_relaxed_bin:.3f} | "
+            f"{em_strict_bin:.3f} | {bin_['f1']:.3f} | {r_str} |"
         )
         lines.append(line)
     lines.append("")

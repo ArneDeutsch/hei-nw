@@ -16,7 +16,13 @@ def test_bin_by_lag_requires_two_bins() -> None:
 
 def test_markdown_includes_baseline_and_notes() -> None:
     summary = {
-        "aggregate": {"em": 0, "f1": 0, "latency": 0},
+        "aggregate": {
+            "em": 0,
+            "em_relaxed": 0,
+            "em_strict": 0,
+            "f1": 0,
+            "latency": 0,
+        },
         "lag_bins": [],
         "compute": {
             "b0": {"attention_flops": 0, "kv_cache_bytes": 0},

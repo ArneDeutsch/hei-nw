@@ -3,12 +3,20 @@ from hei_nw.eval.report import build_markdown_report
 
 def test_markdown_content_matches_summary() -> None:
     summary = {
-        "aggregate": {"em": 0.5, "f1": 0.5, "latency": 0.1},
+        "aggregate": {
+            "em": 0.5,
+            "em_relaxed": 0.5,
+            "em_strict": 0.25,
+            "f1": 0.5,
+            "latency": 0.1,
+        },
         "lag_bins": [
             {
                 "lag_bin": "0-1",
                 "count": 1,
                 "em": 0.5,
+                "em_relaxed": 0.5,
+                "em_strict": 0.25,
                 "f1": 0.5,
                 "recall_at_k": None,
             }
@@ -20,10 +28,11 @@ def test_markdown_content_matches_summary() -> None:
         "dataset": {"hard_negative_ratio": 1.0},
     }
     md = build_markdown_report(summary, scenario="A")
-    assert "- EM: 0.500" in md
+    assert "- EM (relaxed): 0.500" in md
+    assert "- EM_strict: 0.250" in md
     assert "- F1: 0.500" in md
     assert "- Latency: 0.100s" in md
-    assert "| 0-1 | 1 | 0.500 | 0.500 | n/a |" in md
+    assert "| 0-1 | 1 | 0.500 | 0.250 | 0.500 | n/a |" in md
     assert "Baseline attention FLOPs: 1" in md
     assert "Baseline KV cache bytes: 2" in md
     assert "Hard negatives/confounders included (ratio 1.00)" in md
