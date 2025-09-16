@@ -178,3 +178,331 @@ Baseline A–E snapshot (B0 only):
 * **Debug:** memory tokens fixed at **128**; preview looks reasonable (`"<episodic>\nwho:Ivan"`).
 
 **Interpretation:** Retrieval is passable; decode is the bottleneck. Fix B1 generation (slice/stop), then right-size memory tokens and evaluate Hopfield ablation.
+
+### Context and expectations
+
+* You’ll fix the **B1 decode/prompt/slicing bug** that makes EM/F1=0 while outputs are non-empty, then harden QA formatting and reporting so we can quickly see uplift and debug issues.
+* Keep everything consistent with:
+
+  * `planning/design.md` (adapter + memory read, defaults),
+  * `planning/validation-plan.md` (Scenario A defaults; metrics),
+  * `planning/project-plan.md` (modes B0–B3, acceptance).
+* No stubs/mocks. If a helper is needed (e.g., for stop-truncation), add it—then add a task to remove any temporary code before DoD.
+
+---
+
+## 1) Objectives (what changes by EoM)
+
+* **B1 decode outputs are properly sliced and stopped**, matching B0’s short-answer format in Scenario A.
+* **Scenario A defaults are honored** (chat template, `max_new_tokens=8`, `stop="\n"`, `answer_hint=true`) unless explicitly overridden.
+* **Reports are traceable and reproducible** (seed, N requested vs actual record count, QA / memory / Hopfield settings stamped into JSON + Markdown).
+* **Ablations are straightforward** (mem token cap sweep; retrieval-only and oracle-trace toggles work in CI; completion-lift bar plot).
+* Unit tests cover the adapter path, stop-truncation, retrieval metrics invariants, and dev isolation flags.
+
+---
+
+## 2) Scope (code you will touch)
+
+* Core gen & prompting: `src/hei_nw/models/base.py`
+* Eval harness & reports: `src/hei_nw/eval/harness.py`, `src/hei_nw/eval/report.py`
+* Metrics: `src/hei_nw/metrics/retrieval.py`
+* Scripts: `scripts/run_m2_retrieval.sh`, `scripts/m2_isolation_probes.sh` (new sweep script to add)
+* Tests (new & updates): under `tests/` (see each task)
+
+---
+
+## 3) \[CODEX] Implementation Tasks
+
+### M2.1-T1 — \[CODEX] Fix adapter-path output slicing in `generate()`
+
+**Goal:** When `adapter` **and** `mem_tokens` are provided, slice generated IDs to exclude the prompt (same behavior as non-adapter path). Also ensure stop-truncation happens on the final text.
+
+**Where/What to change**
+
+* File: `src/hei_nw/models/base.py`
+
+  * Function: `generate(...)`
+  * Current bug:
+
+    ```py
+    output_ids = _model.generate(...)
+
+    if adapter is not None and mem_tokens:
+        generated_ids = output_ids[0]          # ❌ includes prompt tokens
+    else:
+        generated_ids = output_ids[0][prompt_len:]
+    ```
+  * **Fix:** Always slice off `prompt_len`:
+
+    ```py
+    generated_ids = output_ids[0][prompt_len:]
+    ```
+  * Keep existing stop handling, but ensure it applies to the text **after** slicing (it currently does; retain retokenize logic).
+
+**Tests to add**
+
+* File: `tests/test_models_base.py`
+
+  * `test_generate_slices_prompt_with_adapter_and_stop()`
+
+    * Load tiny model (`tests/models/tiny-gpt2`)
+    * Call `generate("Answer: ", max_new_tokens=6, stop="\n", mem_tokens=[1,2,3], adapter=...)`
+    * **Asserts:**
+
+      * `out["generated_tokens"] <= 6`
+      * The decoded `out["text"]` **does not** include the full prompt (heuristic: it shouldn’t start with `"Answer:"`), and contains **no newline**.
+* File: `tests/test_harness_b1.py`
+
+  * Add a smoke that runs `-n 1` with `--dev.oracle_trace --qa.stop $'\n' --qa.max_new_tokens 8` and asserts returned predictions are **short** (`len(pred.split()) <= 3`).
+
+**Acceptance**
+
+* All new tests pass locally (`pytest -q`) with tiny model.
+* Manual dry run:
+
+  ```bash
+  PYTHONPATH=src python -m hei_nw.eval.harness \
+    --mode B1 --scenario A -n 4 --seed 0 --model tests/models/tiny-gpt2 \
+    --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n' --qa.answer_hint \
+    --outdir reports/dev-check
+  ```
+
+  Outputs show non-empty short predictions; no markdowny boilerplate.
+
+**Quality gates:** `ruff .` · `black .` · `mypy .` · `pytest -q`
+
+---
+
+### M2.1-T2 — \[CODEX] Enforce Scenario-A QA defaults and stop overriding in CI script
+
+**Goal:** Ensure the standard Scenario-A QA defaults (chat, `max_new_tokens=8`, `stop="\n"`, `answer_hint`) are used for M2 runs unless explicitly experimenting.
+
+**Changes**
+
+* File: `scripts/run_m2_retrieval.sh`
+
+  * **Change** the three invocations to **remove** overrides for `--qa.max_new_tokens` and `--qa.stop` so harness defaults apply (defaults are set in `_scenario_default_qa_settings('A')`).
+* File: `tests/utils/test_scripts.py`
+
+  * Update expectations: no longer require `--qa.max_new_tokens 16` and `--qa.stop ''`.
+  * Instead assert the script **does** set `--qa.prompt_style chat` and Hopfield flags remain.
+
+**Acceptance**
+
+* CI script still runs in local smoke (tiny model) and writes JSON/MD.
+* Unit tests updated and passing.
+
+---
+
+### M2.1-T3 — \[CODEX] Stamp run config into JSON & Markdown reports
+
+**Goal:** Reproducibility & clarity (e.g., N vs records discrepancy for Scenario A with hard negatives).
+
+**Changes**
+
+* File: `src/hei_nw/eval/harness.py`
+
+  * In `main()`, when building `summary`, add:
+
+    ```py
+    summary["run"] = {
+      "seed": args.seed,
+      "requested_n": args.n,
+      "actual_records": len(items),
+      "mode": args.mode,
+      "scenario": args.scenario,
+      "qa": asdict(qa_settings),
+      "mem_max_tokens": args.mem_max_tokens if args.mode=="B1" else None,
+      "hopfield": asdict(hopfield_settings) if args.mode=="B1" else None,
+      "no_hopfield": args.no_hopfield if args.mode=="B1" else None,
+      "baseline": args.baseline,
+      "model_id": args.model,
+    }
+    ```
+* File: `src/hei_nw/eval/report.py`
+
+  * In `build_markdown_report`, render a small “Run config” block (seed, requested\_n, actual\_records, QA stop/max, mem cap, hopfield on/off).
+
+**Tests**
+
+* File: `tests/test_report_md.py`
+
+  * Extend the synthetic `summary` to include `"run"` and assert some key lines are present in MD: `Seed:`, `Requested N:`, `Actual records:`, `QA.stop`, `mem_max_tokens`, `Hopfield steps/temperature`.
+
+**Acceptance**
+
+* New fields exist in newly written `*_metrics.json` and appear in MD.
+
+---
+
+### M2.1-T4 — \[CODEX] Retrieval metrics invariants (unit tests)
+
+**Goal:** Ensure retrieval metrics can’t silently regress.
+
+**Changes**
+
+* New file: `tests/test_metrics_retrieval.py`
+
+  * Tests:
+
+    * `precision_at_k` monotonicity & bounds.
+    * `mrr` sanity (single hit at rank r ⇒ 1/r).
+    * `near_miss_rate` and `collision_rate` correctly aggregate booleans.
+    * `completion_lift` = 0 on empty or mismatched lengths; equals Δ of means otherwise.
+
+**Acceptance**
+
+* `pytest -q` passes; coverage includes `src/hei_nw/metrics/retrieval.py`.
+
+---
+
+### M2.1-T5 — \[CODEX] Memory-cap sweep & ablation script
+
+**Goal:** Quickly probe latency vs EM under different memory budgets.
+
+**Changes**
+
+* New file: `scripts/m2_mem_sweep.sh`
+
+  * Loop `mem.max_tokens ∈ {8,16,32,64,128}`; run B1 with hopfield **on** using Scenario A defaults; write each run to a subdir under `reports/m2-mem-sweep/`.
+  * Summarize per-cap EM/latency to a tiny TSV/CSV in the root of the sweep dir.
+
+**Acceptance**
+
+* Running the script with tiny model completes and writes 5 JSONs + 5 MDs + a CSV summary.
+* For real model (offline), the CSV shows the latency/EM tradeoff.
+
+**Tests**
+
+* `tests/utils/test_scripts.py` add a presence/executable smoke for the new script (no execution in CI).
+
+---
+
+### M2.1-T6 — \[CODEX] Dev isolation flags: retrieval-only & oracle-trace tests
+
+**Goal:** Lock in behavior of `--dev.retrieval_only` and `--dev.oracle_trace`.
+
+**Changes**
+
+* File: `src/hei_nw/eval/harness.py` (no functional change; ensure flags already used in `_evaluate_mode_b1`).
+* New file: `tests/test_harness_dev_flags.py`
+
+  * Arrange: generate 2 Scenario-A records; build store deterministically via tiny model.
+  * `retrieval_only` run:
+
+    * Assert latency field is 0 for items.
+    * Assert prediction equals the selected top candidate’s first answer when available.
+  * `oracle_trace` run:
+
+    * Assert memory preview tokens (from `summary["debug"]["mem_preview"]`) match the ground-truth episode template tokens for at least one record (very small, ≤8 tokens).
+
+**Acceptance**
+
+* Unit tests pass.
+
+---
+
+### M2.1-T7 — \[CODEX] Refactor stop-truncation into a helper with tests
+
+**Goal:** Make stop-behavior robust and testable outside model gen.
+
+**Changes**
+
+* File: `src/hei_nw/models/base.py`
+
+  * Extract the stop-cut logic into a pure helper:
+
+    ```py
+    def _truncate_at_stop(text: str, stop: str) -> tuple[str, bool]:
+        """Return (possibly truncated text, did_truncate)."""
+    ```
+  * Use it inside `generate(...)`.
+* New file: `tests/test_models_stop.py`
+
+  * Cases: no stop; stop not present; stop at start; multiple occurrences; Unicode edge; retokenization length check (simulate by asserting returned text shorter when stop present).
+
+**Acceptance**
+
+* Helper is covered by tests; `generate(...)` still passes all model tests.
+
+---
+
+### M2.1-T8 — \[CODEX] Update M2 probe script; ensure completion-lift plot generation is exercised
+
+**Goal:** Keep probes useful; guarantee the completion-lift plot path is produced in B1 vs B1(no-hopfield).
+
+**Changes**
+
+* File: `scripts/m2_isolation_probes.sh`
+
+  * Ensure there are two runs under the same root: with hopfield and `--no-hopfield` (both with default Scenario-A QA settings).
+  * After both finish, verify `completion_ablation.png` exists in the root (non-CI assertion).
+* File: `tests/utils/test_scripts.py`
+
+  * Add a check the script references both modes (`--no-hopfield` present once).
+
+**Acceptance**
+
+* Manual run writes the plot at `reports/m2-probes/completion_ablation.png`.
+
+---
+
+## 4) Deliverables
+
+* Fixed decode behavior in `src/hei_nw/models/base.py::generate`.
+* Updated CI script with Scenario-A defaults.
+* Enhanced JSON+MD reports with `run` config block.
+* New mem-sweep script and dev-flag unit tests.
+* Retrieval-metrics unit tests.
+* Stop-truncation helper + tests.
+
+---
+
+## 5) Definition of Done (DoD)
+
+* `pytest -q` passes locally with tiny model; coverage for touched files ≥90% (adapter & stop helper, retrieval metrics).
+* `ruff .`, `black .`, `mypy .` clean.
+* `scripts/run_m2_retrieval.sh` produces three artifacts under `reports/m2-retrieval-stack/` and **uses defaults** for Scenario A QA.
+* B1 run with a real instruction model (offline) shows **non-zero EM/F1** (manual check acceptable here), and JSON includes seed/N/QA/memory/Hopfield config.
+* `completion_ablation.png` is produced when both with/without Hopfield metrics exist.
+
+---
+
+## 6) Out of scope (for this milestone)
+
+* Changing retrieval algorithms (DG keyer, ANN, Hopfield math) beyond the decode & reporting fixes.
+* Replay / B2–B3 pipeline changes.
+* New scenarios or datasets.
+
+---
+
+## 7) Task order & dependencies
+
+1. **M2.1-T1** (decode fix) → **blocks** everything else that inspects predictions.
+2. **M2.1-T7** (stop helper) can be done with T1; modest coupling.
+3. **M2.1-T2** (script defaults) after T1.
+4. **M2.1-T3** (report stamping) anytime; verify with T2 run.
+5. **M2.1-T4** (retrieval metrics tests) independent.
+6. **M2.1-T6** (dev flags tests) after T1 (uses predictions).
+7. **M2.1-T5** (mem sweep script) after T2.
+8. **M2.1-T8** (probe script update) after T2.
+
+---
+
+## 8) Risks & Mitigations
+
+* **Tiny model nondeterminism** could make formatting assertions flaky → keep assertions structural (token counts, presence/absence of prompt/newline) rather than semantic.
+* **Script default change** may break existing tests → we already planned the test updates in T2.
+* **Stop-truncation edge cases** (Unicode, multiple stops) → covered by the new helper tests.
+* **Real-model runs not available in CI** → acceptance relies on unit tests + local smoke; reviewers can run offline with Qwen2.5-1.5B-Instruct.
+
+---
+
+### Quick pointers to the exact places you’ll work
+
+* **Bug location:** `src/hei_nw/models/base.py::generate` under the branch `if adapter is not None and mem_tokens: …`
+* **Scenario-A defaults:** `src/hei_nw/eval/harness.py::_scenario_default_qa_settings("A")`
+* **Report writer:** `src/hei_nw/eval/report.py::build_markdown_report`, `save_completion_ablation_plot`
+* **Dev flags:** `src/hei_nw/eval/harness.py` (`--dev.retrieval_only`, `--dev.oracle_trace`)
+* **Retrieval metrics:** `src/hei_nw/metrics/retrieval.py`
+
