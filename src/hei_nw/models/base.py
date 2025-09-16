@@ -224,12 +224,25 @@ def generate(
     else:
         generated_ids = output_ids[0][prompt_len:]
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
+    retokenize = False
+
+    if adapter is not None and mem_tokens:
+        # The adapter path feeds inputs_embeds directly, so we cannot slice off the prompt
+        # tokens like the input_ids path. Chat templates often leave a leading newline at the
+        # assistant turn boundary; trim it so stop handling does not erase the entire output.
+        stripped_text = text.lstrip()
+        if stripped_text != text:
+            text = stripped_text
+            retokenize = True
 
     if stop:
         stop_idx = text.find(stop)
         if stop_idx != -1:
             text = text[:stop_idx]
-            generated_ids = _tokenizer(text, add_special_tokens=False)["input_ids"]
+            retokenize = True
+
+    if retokenize:
+        generated_ids = _tokenizer(text, add_special_tokens=False)["input_ids"]
 
     result = {
         "text": text,
