@@ -245,13 +245,17 @@ class EpisodicStore:
         max_mem_tokens: int,
         *,
         embed_dim: int = 64,
+        hopfield_steps: int = 1,
+        hopfield_temperature: float = 1.0,
     ) -> EpisodicStore:
         """Build a store from Scenario A-style records.
 
         Only records with ``should_remember=True`` are indexed. For each such
         record we compute a dense key, attach metadata, and add it to the ANN
         index. The resulting dense keys are also used to initialise the
-        Hopfield readout.
+        Hopfield readout. Callers may override the number of refinement steps
+        and the softmax temperature applied by the Hopfield module via
+        ``hopfield_steps`` and ``hopfield_temperature`` respectively.
         """
 
         keyer = DGKeyer()
@@ -285,7 +289,9 @@ class EpisodicStore:
             patterns = torch.from_numpy(vec_array)
         else:
             patterns = torch.zeros(1, keyer.d, dtype=torch.float32)
-        hopfield = HopfieldReadout(patterns)
+        hopfield = HopfieldReadout(
+            patterns, steps=hopfield_steps, temperature=hopfield_temperature
+        )
         group_ids = {m["group_id"] for m in meta}
         return cls(keyer, index, hopfield, tokenizer, vectors, group_ids, embed_dim, max_mem_tokens)
 

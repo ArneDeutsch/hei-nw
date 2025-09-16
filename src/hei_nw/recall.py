@@ -40,10 +40,35 @@ class RecallService:
         tokenizer: Any,
         max_mem_tokens: int,
         return_m: int = 4,
+        *,
+        hopfield_steps: int = 1,
+        hopfield_temperature: float = 1.0,
     ) -> RecallService:
-        """Construct a :class:`RecallService` from raw records."""
+        """Construct a :class:`RecallService` from raw records.
 
-        store = EpisodicStore.from_records(records, tokenizer, max_mem_tokens)
+        Parameters
+        ----------
+        records:
+            Source episodic records used to build the store.
+        tokenizer:
+            Tokenizer responsible for splitting episode text.
+        max_mem_tokens:
+            Per-trace token budget used when packing episodic fields.
+        return_m:
+            Number of traces returned when querying the store.
+        hopfield_steps:
+            Number of refinement iterations applied by the Hopfield readout.
+        hopfield_temperature:
+            Softmax temperature used inside the Hopfield readout.
+        """
+
+        store = EpisodicStore.from_records(
+            records,
+            tokenizer,
+            max_mem_tokens,
+            hopfield_steps=hopfield_steps,
+            hopfield_temperature=hopfield_temperature,
+        )
         return cls(store, tokenizer, max_mem_tokens, return_m)
 
     def recall(self, cue_text: str) -> list[int]:
