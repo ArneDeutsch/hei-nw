@@ -247,6 +247,7 @@ class EpisodicStore:
         embed_dim: int = 64,
         hopfield_steps: int = 1,
         hopfield_temperature: float = 1.0,
+        keyer: DGKeyer | None = None,
     ) -> EpisodicStore:
         """Build a store from Scenario A-style records.
 
@@ -255,17 +256,19 @@ class EpisodicStore:
         index. The resulting dense keys are also used to initialise the
         Hopfield readout. Callers may override the number of refinement steps
         and the softmax temperature applied by the Hopfield module via
-        ``hopfield_steps`` and ``hopfield_temperature`` respectively.
+        ``hopfield_steps`` and ``hopfield_temperature`` respectively. A
+        custom :class:`DGKeyer` can be supplied via ``keyer`` to control
+        sparsity of the dense keys.
         """
 
-        keyer = DGKeyer()
+        keyer_module = keyer if keyer is not None else DGKeyer()
         vectors: list[np.ndarray] = []
         meta: list[dict[str, Any]] = []
         for rec in records:
             if not bool(rec.get("should_remember")):
                 continue
             H = cls._hash_embed(str(rec["episode_text"]), tokenizer, embed_dim)
-            key = keyer(H)
+            key = keyer_module(H)
             dense = to_dense(key).squeeze(0).detach().cpu().numpy()
             trace = {
                 "group_id": rec["group_id"],
@@ -282,18 +285,27 @@ class EpisodicStore:
                 }
             )
             vectors.append(dense)
-        index = ANNIndex(dim=keyer.d)
+        index = ANNIndex(dim=keyer_module.d)
         if vectors:
             vec_array = np.stack(vectors).astype("float32")
             index.add(vec_array, meta)
             patterns = torch.from_numpy(vec_array)
         else:
-            patterns = torch.zeros(1, keyer.d, dtype=torch.float32)
+            patterns = torch.zeros(1, keyer_module.d, dtype=torch.float32)
         hopfield = HopfieldReadout(
             patterns, steps=hopfield_steps, temperature=hopfield_temperature
         )
         group_ids = {m["group_id"] for m in meta}
-        return cls(keyer, index, hopfield, tokenizer, vectors, group_ids, embed_dim, max_mem_tokens)
+        return cls(
+            keyer_module,
+            index,
+            hopfield,
+            tokenizer,
+            vectors,
+            group_ids,
+            embed_dim,
+            max_mem_tokens,
+        )
 
     def _embed(self, text: str) -> Tensor:
         return self._hash_embed(text, self.tokenizer, self._embed_dim)

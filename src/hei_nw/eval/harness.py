@@ -21,6 +21,7 @@ from hei_nw.eval.report import (
     save_completion_ablation_plot,
     save_reports,
 )
+from hei_nw.keyer import DGKeyer
 from hei_nw.metrics import (
     ComputeRecord,
     collision_rate,
@@ -51,6 +52,7 @@ SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
 # Default model used when none is specified on the command line. Mirrors the
 # fallback in :func:`hei_nw.models.base.load_base`.
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B-Instruct"
+DEFAULT_DG_K = DGKeyer().k
 
 
 @dataclass
@@ -93,7 +95,7 @@ def _positive_int(value: str) -> int:
 
     parsed = int(value)
     if parsed <= 0:
-        msg = "Hopfield steps must be a positive integer"
+        msg = "Value must be a positive integer"
         raise argparse.ArgumentTypeError(msg)
     return parsed
 
@@ -159,6 +161,13 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         type=_positive_float,
         default=1.0,
         help="Softmax temperature applied inside the Hopfield readout.",
+    )
+    parser.add_argument(
+        "--dg.k",
+        dest="dg_k",
+        type=_positive_int,
+        default=DEFAULT_DG_K,
+        help="Number of non-zero components retained by the DG keyer.",
     )
     parser.add_argument(
         "--qa.prompt_style",
@@ -536,6 +545,7 @@ def _evaluate_mode_b0(
     tok: Any,
     geom: ModelGeometry,
     _no_hopfield: bool = False,
+    _dg_keyer: DGKeyer | None = None,
     qa: QAPromptSettings | None = None,
     _hopfield: HopfieldSettings | None = None,
 ) -> ModeResult:
@@ -557,6 +567,7 @@ def _evaluate_mode_b1(
     tok: Any,
     geom: ModelGeometry,
     no_hopfield: bool = False,
+    dg_keyer: DGKeyer | None = None,
     qa: QAPromptSettings | None = None,
     hopfield: HopfieldSettings | None = None,
 ) -> ModeResult:
@@ -575,6 +586,7 @@ def _evaluate_mode_b1(
         max_mem_tokens=64,
         hopfield_steps=hopfield_settings.steps,
         hopfield_temperature=hopfield_settings.temperature,
+        keyer=dg_keyer,
     )
     b0_items, _ = _evaluate_records(records, geom, qa_settings)
     items: list[EvalItem] = []
@@ -689,6 +701,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         hopfield_settings = HopfieldSettings(
             steps=args.hopfield_steps, temperature=args.hopfield_temperature
         )
+        dg_keyer = DGKeyer(k=args.dg_k) if args.mode == "B1" else None
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -696,6 +709,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             tok,
             geom,
             args.no_hopfield,
+            dg_keyer,
             qa_settings,
             hopfield_settings,
         )
