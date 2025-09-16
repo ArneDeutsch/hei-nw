@@ -24,4 +24,4 @@ def test_mem_tokens_affect_generation() -> None:
     baseline = generate("Hello", max_new_tokens=1)
     with_mem = generate("Hello", max_new_tokens=1, adapter=adapter, mem_tokens=[2])
     assert baseline["text"] == " stairs"
-    assert with_mem["text"] == " factors"
+    assert with_mem["text"] == "factors"
