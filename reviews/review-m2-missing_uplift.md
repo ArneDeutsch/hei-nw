@@ -346,3 +346,290 @@ bash scripts/compare_b0_b1_m2.sh
 * The earlier milestone review correctly called out **missing +0.30 EM**. CI **is present** in this repo snapshot (`.github/workflows/ci.yml`), so that part of the earlier report is out-of-date; the **uplift gap remains** and is traced above to **prompting/metric** issues.&#x20;
 
 **End of report.**
+
+Below is a task plan formatted per `prompts/HEI-NW_milestone_task_prompt_template.md`.
+
+---
+
+# M2 — Retrieval Stack: **Missing +0.30 EM** Remediation (B1 vs B0, Scenario A)
+
+## Milestone Summary
+
+* Fix the **prompting + metric brittleness** that keeps EM at **0.00** in `reports/m2-retrieval-stack/`.
+* Expose/verify **retrieval controls** (Hopfield, DG-k) and add **diagnostic modes** to isolate root cause.
+* Re-run Scenario **A** and achieve **B1 − B0 ≥ +0.30 EM** (relaxed EM) with artifacts & ablations.
+
+## Dependencies / Inputs
+
+* Repo code paths to touch:
+
+  * Prompting/generation: `src/hei_nw/eval/harness.py`, `src/hei_nw/models/base.py`
+  * Metrics: `src/hei_nw/metrics/text.py`, `src/hei_nw/eval/report.py`
+  * Retrieval plumbing/params: `src/hei_nw/store.py`, `src/hei_nw/recall.py`, `src/hei_nw/keyer.py`
+  * CLI utilities: `src/hei_nw/utils/cli.py`
+  * Scripts: `scripts/run_m2_retrieval.sh`, `scripts/compare_b0_b1_m2.sh`
+* Planning anchors:
+
+  * `planning/milestone-2-plan.md` (M2 scope/acceptance)
+  * `planning/validation-plan.md` (Scenario A, metrics & modes)
+  * `documentation/quick-validate.md` (runbook & artifact paths)
+
+---
+
+## \[CODEX] Implementation Tasks
+
+### T1 — Instruction-friendly prompting (+short answers) for B0/B1
+
+**Why:** Current `_build_prompt()` uses raw continuation (`episode + cue`), leading to verbose/non-canonical outputs and EM=0.
+**Changes:**
+
+* In `src/hei_nw/eval/harness.py`:
+
+  * Add CLI flags:
+
+    * `--qa.prompt_style {plain,chat}` (default: `chat`)
+    * `--qa.max_new_tokens INT` (default: `8`)
+    * `--qa.stop STRING` (default: `"\n"`)
+    * `--qa.answer_hint BOOL` (default: `true`) → adds “answer with ONE word/name” instruction.
+  * Update `_build_prompt(record)` to return **(messages, truth)** if `prompt_style=chat`; else keep existing plain string.
+* In `src/hei_nw/models/base.py`:
+
+  * Add helper: `def build_prompt(tokenizer, prompt_or_messages, prompt_style):`
+
+    * For `chat`, use `tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)` if available; else fallback to a simple system/user template string.
+    * For `plain`, pass through string.
+  * In `generate(...)`, before tokenization call `build_prompt(...)`.
+  * Ensure `stop` from kwargs trims the decoded text (already supported) and set default `max_new_tokens` via caller.
+    **Acceptance:**
+* Unit test (`tests/eval/test_harness_prompting.py`):
+
+  * With tiny model (`models/tiny-gpt2`), `--qa.stop "\n"` ensures outputs end before newline and `generated_tokens <= 8`.
+  * `prompt_style=chat` path exercised without exceptions (use fallback template when tokenizer lacks chat template).
+
+### T2 — Relaxed EM metric + dual reporting
+
+**Why:** `exact_match()` only `.strip()` → brittle.
+**Changes:**
+
+* In `src/hei_nw/metrics/text.py`:
+
+  * Add `canonicalize(s: str) -> str` (lowercase, strip punctuation, collapse whitespace).
+  * Add `relaxed_em(pred, truth)`: `exact_match(canonicalize(pred), canonicalize(truth))`.
+  * Keep old function as `strict_em` for comparability.
+* In `src/hei_nw/eval/harness.py`:
+
+  * Compute and store **both** metrics per item.
+* In `src/hei_nw/eval/report.py`:
+
+  * Aggregate and display `EM (relaxed)` and `EM_strict`.
+    **Acceptance:**
+* Unit tests (`tests/metrics/test_em_relaxed.py`):
+
+  * `"Dana."` vs `"dana"` → `relaxed_em=1.0`, `strict_em=0.0`.
+  * Punctuation/case/extra spaces robustness.
+
+### T3 — Hopfield controls (steps & temperature) exposed via CLI
+
+**Why:** Defaults (`steps=1`, `T=1.0`) showed `completion_lift=0.0`.
+**Changes:**
+
+* In `src/hei_nw/eval/harness.py` args:
+
+  * `--hopfield.steps INT` (default: `2`)
+  * `--hopfield.T FLOAT` (default: `0.5`)
+* Thread these into `EpisodicStore.from_records(... HopfieldReadout(patterns, steps=..., temperature=...) )`.
+  **Acceptance:**
+* Unit test (`tests/test_store_ep.py::test_hopfield_params_threaded`) asserts constructed module has requested params.
+
+### T4 — Expose DG Keyer sparsity `k`
+
+**Why:** Enable quick `k ∈ {16,32,64,128}` sweeps.
+**Changes:**
+
+* In `src/hei_nw/eval/harness.py`:
+
+  * Add `--dg.k INT` (default: current in `DGKeyer`).
+  * Pass into `EpisodicStore.from_records(... keyer=DGKeyer(d=?, k=args.dg_k))`.
+    **Acceptance:**
+* Unit test (`tests/test_keyer.py::test_cli_k_threads`) with a tiny store verifies different `k` changes dense vector sparsity.
+
+### T5 — Retrieval diagnostics: memory token preview + counts
+
+**Why:** Prove `mem_tokens` are created & injected.
+**Changes:**
+
+* In `src/hei_nw/recall.py::RecallService.get_tokens`:
+
+  * Keep behavior; no change needed.
+* In B1 handler `src/hei_nw/eval/harness.py::_evaluate_mode_b1`:
+
+  * Add `summary["debug"]["mem_len"]` and `summary["debug"]["mem_preview"]` (first \~8 decoded tokens via tokenizer).
+* In reports JSON & Markdown, include `debug` block.
+  **Acceptance:**
+* Unit test (`tests/eval/test_harness_b1_debug.py`) ensures fields exist when `mode=B1`.
+
+### T6 — Developer isolation modes (guarded)
+
+**Why:** Cheap experiments to isolate root-cause.
+**Changes (flag-gated; not used in acceptance):**
+
+* In `src/hei_nw/eval/harness.py`:
+
+  * `--dev.retrieval_only` → prediction = top-1 `answers[0]` from retrieved trace (bypass model).
+  * `--dev.oracle_trace` → inject the **ground-truth** trace as the only memory.
+    **Acceptance:**
+* Unit tests using synthetic mini-records (`tests/eval/test_dev_modes.py`) confirm code paths and artifact presence.
+
+### T7 — Wire harness to use QA defaults by scenario
+
+**Why:** Ensure Scenario A uses short-answer defaults consistently.
+**Changes:**
+
+* In harness, when `scenario=="A"` and `--qa.*` not explicitly set:
+
+  * Apply `{prompt_style=chat, max_new_tokens=8, stop="\n", answer_hint=True}`.
+    **Acceptance:**
+* Unit test toggling `scenario="A"` without flags yields the above defaults in the call to `generate`.
+
+### T8 — Scripts & docs refresh
+
+**Why:** Keep runbooks reliable.
+**Changes:**
+
+* Update `scripts/run_m2_retrieval.sh` to pass new defaults:
+
+  * Example: `--hopfield.steps 2 --hopfield.T 0.5 --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'`
+* Update `scripts/compare_b0_b1_m2.sh` to compare **relaxed EM** (plus print strict EM).
+* Update `documentation/quick-validate.md` with new flags and an explicit acceptance section referencing **relaxed EM** primary metric (and still reporting strict EM).
+  **Acceptance:**
+* `tests/utils/test_scripts.py` updated to assert new flags appear in script text.
+
+### T9 — CI: add tiny smoke for prompting & metrics
+
+**Why:** Prevent regressions in the crucial paths.
+**Changes:**
+
+* In `.github/workflows/ci.yml`:
+
+  * Add a job running tiny Scenario A (`-n 4`) with `prompt_style=plain` and `chat`, ensuring:
+
+    * Outputs length `<= 8` when `--qa.max_new_tokens 8`.
+    * `relaxed_em >= strict_em` on a crafted pair set (use local fake generation stub via tiny model & seeding).
+      **Acceptance:**
+* CI green and demonstrates the checks; no GPU required.
+
+---
+
+## \[HUMAN/ChatGPT] Review & GPU Tasks
+
+1. **Sanity (E0):** prove B1 path active
+
+```bash
+export PYTHONPATH=src
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 2 --seed 0 \
+  --outdir /tmp/m2/E0 --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'
+jq '.debug.mem_len' /tmp/m2/E0/A_B1_metrics.json
+```
+
+**Pass:** `mem_len > 0` and predictions differ from B0 on at least one item.
+
+2. **Oracle upper bound (E1):**
+
+```bash
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 24 --seed 7 \
+  --dev.oracle_trace --outdir /tmp/m2/E1 --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'
+```
+
+**Interpretation:** If EM\_relaxed jumps, retrieval/generation wiring is fine; original issue was prompting/metric.
+
+3. **Retrieval-only (E2):**
+
+```bash
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 24 --seed 7 \
+  --dev.retrieval_only --outdir /tmp/m2/E2
+```
+
+**Interpretation:** EM\_relaxed ≈ `p@1` → generation format was at fault.
+
+4. **Hopfield ablation (E3):**
+
+```bash
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 64 --seed 0 \
+  --outdir /tmp/m2/H_yes --hopfield.steps 2 --hopfield.T 0.5
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 64 --seed 0 \
+  --outdir /tmp/m2/H_no --no-hopfield
+```
+
+**Pass:** `completion_lift > 0` or at least non-negative.
+
+5. **DG-k sweep (E4):**
+
+```bash
+for k in 16 32 64 128; do
+  python -m hei_nw.eval.harness --scenario A --mode B1 -n 64 --seed 0 \
+    --outdir /tmp/m2/k$k --dg.k $k --hopfield.steps 2 --hopfield.T 0.5 \
+    --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'
+done
+```
+
+**Interpretation:** Track P\@1/MRR vs EM lift.
+
+6. **Prompt template swap (E5):**
+
+```bash
+python -m hei_nw.eval.harness --scenario A --mode B0 -n 32 --seed 7 \
+  --outdir /tmp/m2/P_B0 --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'
+python -m hei_nw.eval.harness --scenario A --mode B1 -n 32 --seed 7 \
+  --outdir /tmp/m2/P_B1 --qa.prompt_style chat --qa.max_new_tokens 8 --qa.stop $'\n'
+```
+
+**Pass:** `EM_relaxed(B1) − EM_relaxed(B0) ≥ 0.30`.
+
+---
+
+## Definition of Done (DoD) Checklist
+
+* [ ] **EM uplift achieved:** On Scenario A, `n≥32`, `seed=7`, **B1 − B0 ≥ +0.30** using **relaxed EM**; strict EM reported side-by-side.
+* [ ] **Prompting fixed:** `--qa.*` flags exist; default Scenario A uses chat + short-answer; generator respects `stop` and small `max_new_tokens`.
+* [ ] **Retrieval controls:** `--hopfield.steps`, `--hopfield.T`, and `--dg.k` are wired and reflected in summaries.
+* [ ] **Diagnostics present:** JSON includes `debug.mem_len` and `debug.mem_preview`.
+* [ ] **Reports updated:** Markdown/JSON show `EM (relaxed)`, `EM_strict`, retrieval metrics, and ablation plot.
+* [ ] **Scripts & docs:** `scripts/run_m2_retrieval.sh` & `documentation/quick-validate.md` updated; `scripts/compare_b0_b1_m2.sh` checks relaxed EM.
+* [ ] **Tests & CI:** New unit tests pass; CI covers prompting & metric smoke.
+
+---
+
+## Artifacts
+
+* `reports/m2-retrieval-stack/A_B0_metrics.json` (now includes relaxed + strict EM)
+* `reports/m2-retrieval-stack/A_B1_metrics.json` (+ `debug` block, retrieval block)
+* `reports/m2-retrieval-stack/A_B1_no-hopfield_metrics.json`
+* `reports/m2-retrieval-stack/completion_ablation.png`
+* Optional: `/tmp/m2/E*/*.json` for E0–E5 diagnostics
+
+---
+
+## Out of Scope
+
+* Replay/consolidation modes (B2/B3).
+* Cross-scenario tuning (B, C, D, E).
+* Model-specific fine-tuning or distillation.
+* Non-Qwen model support beyond existing loader.
+
+---
+
+## Risks & Mitigations
+
+* **Tokenizer lacks `apply_chat_template`:** Fallback to a simple system/user template string; keep behavior selectable via `--qa.prompt_style`.
+* **Relaxed EM inflates gains:** We keep **strict EM** reported side-by-side to watch for gaming; acceptance uses **relaxed EM** per intent to measure content correctness.
+* **Hopfield still neutral:** Expose params and verify with E3; if lift remains ≈0, at least ensure it doesn’t hurt EM; future tuning can follow.
+* **Variance at small N:** Prefer `n=32`–`64` for acceptance; scripts default to `N=32`.
+
+---
+
+### Notes for Codex
+
+* Touch only the files listed; keep diffs small and covered by tests.
+* Maintain backward compatibility: plain prompting still works when `--qa.prompt_style plain`.
+* Do not break existing tiny-model tests; keep `generate(stop=...)` semantics intact.
+
