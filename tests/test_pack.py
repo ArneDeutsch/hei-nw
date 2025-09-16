@@ -2,7 +2,7 @@ from pathlib import Path
 
 from transformers import AutoTokenizer
 
-from hei_nw.pack import pack_trace
+from hei_nw.pack import pack_trace, truncate_memory_tokens
 
 TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
 
@@ -28,3 +28,18 @@ def test_pack_handles_missing_fields() -> None:
     expected_text = "<episodic>\n" "who:\n" "what:backpack\n" "where:\n" "when:\n" "</episodic>"
     expected_ids = tokenizer(expected_text)["input_ids"][:50]
     assert tokens == expected_ids
+
+
+def test_total_memory_token_cap_enforced() -> None:
+    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    trace = {
+        "who": "Dana",
+        "what": "backpack",
+        "where": "Café Lumen",
+        "when": "2025-09-10",
+    }
+    per_trace_tokens = pack_trace(trace, tokenizer, 32)
+    combined = per_trace_tokens + per_trace_tokens
+    capped = truncate_memory_tokens(combined, 48)
+    assert capped == combined[:48]
+    assert len(capped) == 48
