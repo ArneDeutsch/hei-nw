@@ -40,7 +40,7 @@ def test_ci_smoke_scripts_present_and_executable() -> None:
 def test_run_m2_retrieval_flags() -> None:
     script_text = Path("scripts/run_m2_retrieval.sh").read_text(encoding="utf8")
     assert "--qa.prompt_style chat" in script_text
-    assert "--qa.max_new_tokens 8" in script_text
-    assert "--qa.stop $'\\n'" in script_text
+    assert "--qa.max_new_tokens 16" in script_text
+    assert "--qa.stop ''" in script_text
     assert "--hopfield.steps 2" in script_text
     assert "--hopfield.temperature 0.5" in script_text
