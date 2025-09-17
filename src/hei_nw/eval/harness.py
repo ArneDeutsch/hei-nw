@@ -854,16 +854,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     set_global_seed(args.seed)
     records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
     hard_neg_ratio = _hard_negative_ratio(args.scenario, records)
+    qa_settings = _qa_settings_from_args(args)
+    hopfield_settings = HopfieldSettings(
+        steps=args.hopfield_steps, temperature=args.hopfield_temperature
+    )
 
     if records:
         from hei_nw.models.base import load_base
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        qa_settings = _qa_settings_from_args(args)
-        hopfield_settings = HopfieldSettings(
-            steps=args.hopfield_steps, temperature=args.hopfield_temperature
-        )
         dg_keyer = DGKeyer(k=args.dg_k) if args.mode == "B1" else None
         dev_settings = DevIsolationSettings(
             retrieval_only=args.dev_retrieval_only,
@@ -902,6 +902,23 @@ def main(argv: Sequence[str] | None = None) -> int:
     if hard_neg_ratio is not None:
         summary["dataset"]["hard_negative_ratio"] = hard_neg_ratio
     summary.update(extra)
+    summary["run_config"] = {
+        "seed": args.seed,
+        "requested_records": args.n,
+        "actual_records": len(record_dicts),
+        "qa": {
+            "prompt_style": qa_settings.prompt_style,
+            "max_new_tokens": qa_settings.max_new_tokens,
+            "stop": qa_settings.stop,
+            "answer_hint": qa_settings.answer_hint,
+        },
+        "memory": {"max_tokens": args.mem_max_tokens if args.mode == "B1" else None},
+        "hopfield": {
+            "enabled": not args.no_hopfield,
+            "steps": hopfield_settings.steps,
+            "temperature": hopfield_settings.temperature,
+        },
+    }
 
     _save_reports(args.outdir, args.scenario, args.mode, summary, args.no_hopfield)
     if args.mode == "B1" and args.no_hopfield:

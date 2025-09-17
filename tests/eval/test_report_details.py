@@ -30,6 +30,19 @@ def test_markdown_includes_baseline_and_notes() -> None:
             "baseline": {"attention_flops": 1, "kv_cache_bytes": 2},
         },
         "dataset": {"hard_negative_ratio": 0.5},
+        "run_config": {
+            "seed": 11,
+            "requested_records": 48,
+            "actual_records": 48,
+            "qa": {
+                "prompt_style": "chat",
+                "max_new_tokens": 8,
+                "stop": "\n",
+                "answer_hint": True,
+            },
+            "memory": {"max_tokens": 64},
+            "hopfield": {"enabled": False},
+        },
         "adapter_latency_overhead_s": 0.012,
         "retrieval": {
             "p_at_1": 0.5,
@@ -47,6 +60,10 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "P@1" in md
     assert "Completion lift" in md
     assert "- Non-empty rate: 1.000" in md
+    assert "- Seed: 11" in md
+    assert "- QA stop: \\n" in md
+    assert "- Memory cap: 64 tokens" in md
+    assert "- Hopfield: off" in md
     debug_section = md.split("## Debug", maxsplit=1)[1]
     assert "- None" in debug_section.split("## Dataset", maxsplit=1)[0]
 

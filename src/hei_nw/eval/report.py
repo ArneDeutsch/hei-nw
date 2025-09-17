@@ -65,6 +65,17 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
 def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) -> str:
     """Build a Markdown report string from *summary* data."""
 
+    def _format_stop_value(stop: Any) -> str:
+        if stop is None:
+            return "None"
+        stop_str = str(stop)
+        if stop_str == "":
+            return "(empty string)"
+        try:
+            return stop_str.encode("unicode_escape").decode("ascii")
+        except UnicodeEncodeError:  # pragma: no cover - str.encode rarely fails
+            return stop_str
+
     agg = summary.get("aggregate", {})
     lines = ["# Evaluation Report", "", "## Aggregate Metrics", ""]
     em_relaxed = float(agg.get("em_relaxed", agg.get("em", 0)))
@@ -78,6 +89,41 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     overhead = summary.get("adapter_latency_overhead_s")
     if overhead is not None:
         lines.append(f"- Adapter latency overhead: {overhead:.3f}s")
+    lines.append("")
+    lines.append("## Run config")
+    run_config = summary.get("run_config")
+    if isinstance(run_config, dict) and run_config:
+        lines.append(f"- Seed: {run_config.get('seed', 'n/a')}")
+        lines.append(f"- Requested records: {run_config.get('requested_records', 'n/a')}")
+        lines.append(f"- Actual records: {run_config.get('actual_records', 'n/a')}")
+        qa_cfg = run_config.get("qa", {}) if isinstance(run_config, dict) else {}
+        lines.append(f"- QA prompt style: {qa_cfg.get('prompt_style', 'n/a')}")
+        lines.append(f"- QA max new tokens: {qa_cfg.get('max_new_tokens', 'n/a')}")
+        lines.append(f"- QA stop: {_format_stop_value(qa_cfg.get('stop'))}")
+        lines.append(f"- QA answer hint: {qa_cfg.get('answer_hint', 'n/a')}")
+        mem_cfg = run_config.get("memory", {}) if isinstance(run_config, dict) else {}
+        mem_tokens = mem_cfg.get("max_tokens")
+        mem_str = f"{mem_tokens} tokens" if mem_tokens is not None else "n/a"
+        lines.append(f"- Memory cap: {mem_str}")
+        hop_cfg = run_config.get("hopfield", {}) if isinstance(run_config, dict) else {}
+        hop_enabled = hop_cfg.get("enabled")
+        if hop_enabled is None:
+            hop_line = "- Hopfield: unknown"
+        elif hop_enabled:
+            details: list[str] = []
+            steps = hop_cfg.get("steps")
+            temperature = hop_cfg.get("temperature")
+            if steps is not None:
+                details.append(f"steps={steps}")
+            if temperature is not None:
+                details.append(f"temperature={temperature}")
+            detail_str = f" ({', '.join(details)})" if details else ""
+            hop_line = f"- Hopfield: on{detail_str}"
+        else:
+            hop_line = "- Hopfield: off"
+        lines.append(hop_line)
+    else:
+        lines.append("- None")
     lines.append("")
     lines.append("## Lag bins")
     lines.append("| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |")
