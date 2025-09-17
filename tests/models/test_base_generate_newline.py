@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import torch
 
 import hei_nw.models.base as base
 from hei_nw.adapter import EpisodicAdapter
@@ -71,3 +72,31 @@ def test_plain_vs_adapter_stop_parity(monkeypatch: pytest.MonkeyPatch) -> None:
 
     assert plain["text"].strip() != ""
     assert with_adapter["text"].strip() != ""
+
+
+def test_adapter_branch_strips_prompt_prefix(monkeypatch: pytest.MonkeyPatch) -> None:
+    adapter = _build_adapter()
+    prompt = "Hello"
+
+    prompt_ids = base._tokenizer(prompt, return_tensors="pt")["input_ids"].to(base._model.device)
+    prompt_prefix = prompt_ids.clone()
+    new_token_ids = base._tokenizer("Answer", add_special_tokens=False)["input_ids"]
+    new_tokens = torch.tensor(
+        [new_token_ids], dtype=prompt_prefix.dtype, device=prompt_prefix.device
+    )
+
+    def fake_generate(*args, **kwargs):  # type: ignore[unused-argument]
+        return torch.cat([prompt_prefix, new_tokens], dim=1)
+
+    monkeypatch.setattr(base._model, "generate", fake_generate)
+
+    out = base.generate(
+        prompt,
+        max_new_tokens=len(new_token_ids),
+        adapter=adapter,
+        mem_tokens=[2],
+    )
+
+    expected = base._tokenizer.decode(new_token_ids, skip_special_tokens=True)
+    assert out["text"] == expected
+    assert out["generated_tokens"] == len(new_token_ids)
