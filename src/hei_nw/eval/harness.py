@@ -326,9 +326,7 @@ def _evaluate_records(
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     for rec in records:
-        prompt, truth = _build_prompt(
-            rec, prompt_style=qa.prompt_style, answer_hint=qa.answer_hint
-        )
+        prompt, truth = _build_prompt(rec, prompt_style=qa.prompt_style, answer_hint=qa.answer_hint)
         with time_block() as t:
             out = generate(
                 prompt,
@@ -590,7 +588,9 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
     """Construct :class:`QAPromptSettings` from CLI *args* with defaults."""
 
     defaults = _scenario_default_qa_settings(args.scenario)
-    prompt_style = args.qa_prompt_style if args.qa_prompt_style is not None else defaults.prompt_style
+    prompt_style = (
+        args.qa_prompt_style if args.qa_prompt_style is not None else defaults.prompt_style
+    )
     max_new_tokens = (
         args.qa_max_new_tokens if args.qa_max_new_tokens is not None else defaults.max_new_tokens
     )
@@ -620,9 +620,7 @@ def _evaluate_b0_records(
     return _evaluate_records(records, geom, qa_settings)
 
 
-def _apply_recall_metrics(
-    items: Sequence[EvalItem], recalls: Sequence[float] | None
-) -> None:
+def _apply_recall_metrics(items: Sequence[EvalItem], recalls: Sequence[float] | None) -> None:
     """Attach recall@k metrics from *recalls* onto ``items`` in-place."""
 
     if recalls is None:
@@ -661,9 +659,7 @@ def _evaluate_mode_b0(
 
     qa_settings = _resolve_qa_settings(qa)
     items, compute = _evaluate_b0_records(records, geom, qa_settings)
-    baseline_compute = _run_baseline_with_recalls(
-        baseline, records, model, tok, items
-    )
+    baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     return items, compute, baseline_compute, {}
 
 
@@ -765,9 +761,7 @@ def _evaluate_mode_b1(
         mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
         mem_lengths.append(len(mem_tokens))
         if preview_tokens is None and mem_tokens:
-            preview_tokens = _decode_mem_preview(
-                service.tokenizer, mem_tokens[:8]
-            )
+            preview_tokens = _decode_mem_preview(service.tokenizer, mem_tokens[:8])
         if dev_settings.retrieval_only:
             prompt, truth = _build_prompt(
                 rec,
@@ -806,9 +800,7 @@ def _evaluate_mode_b1(
         items.extend(itm_list)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
-    baseline_compute = _run_baseline_with_recalls(
-        baseline, records, model, tok, items
-    )
+    baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
     retrieval = {
@@ -854,16 +846,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     set_global_seed(args.seed)
     records = SCENARIOS[args.scenario](n=args.n, seed=args.seed)
     hard_neg_ratio = _hard_negative_ratio(args.scenario, records)
+    qa_settings = _qa_settings_from_args(args)
+    hopfield_settings = HopfieldSettings(
+        steps=args.hopfield_steps, temperature=args.hopfield_temperature
+    )
 
     if records:
         from hei_nw.models.base import load_base
 
         tok, model, _ = load_base(model_id=args.model, quant_4bit=False)
         geom = _model_geometry(model)
-        qa_settings = _qa_settings_from_args(args)
-        hopfield_settings = HopfieldSettings(
-            steps=args.hopfield_steps, temperature=args.hopfield_temperature
-        )
         dg_keyer = DGKeyer(k=args.dg_k) if args.mode == "B1" else None
         dev_settings = DevIsolationSettings(
             retrieval_only=args.dev_retrieval_only,
@@ -901,6 +893,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     }
     if hard_neg_ratio is not None:
         summary["dataset"]["hard_negative_ratio"] = hard_neg_ratio
+    summary["run"] = {
+        "seed": args.seed,
+        "requested_n": args.n,
+        "actual_records": len(items),
+        "mode": args.mode,
+        "scenario": args.scenario,
+        "qa": asdict(qa_settings),
+        "mem_max_tokens": args.mem_max_tokens if args.mode == "B1" else None,
+        "hopfield": asdict(hopfield_settings) if args.mode == "B1" else None,
+        "no_hopfield": args.no_hopfield if args.mode == "B1" else None,
+        "baseline": args.baseline,
+        "model_id": args.model,
+    }
     summary.update(extra)
 
     _save_reports(args.outdir, args.scenario, args.mode, summary, args.no_hopfield)

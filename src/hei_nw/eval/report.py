@@ -36,9 +36,7 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     for start, end in zip(bins, bins[1:], strict=False):
         members = [r for r in records if start <= int(r.get("lag", 0)) < end]
         count = len(members)
-        em_relaxed_vals = [
-            float(r.get("em_relaxed", r.get("em", 0.0))) for r in members
-        ]
+        em_relaxed_vals = [float(r.get("em_relaxed", r.get("em", 0.0))) for r in members]
         em_strict_vals = [float(r.get("em_strict", r.get("em", 0.0))) for r in members]
         em_relaxed = sum(em_relaxed_vals) / count if count else 0.0
         em_strict = sum(em_strict_vals) / count if count else 0.0
@@ -65,6 +63,21 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
 def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) -> str:
     """Build a Markdown report string from *summary* data."""
 
+    def _format_value(value: Any) -> str:
+        if value is None:
+            return "n/a"
+        if isinstance(value, bool):
+            return "yes" if value else "no"
+        if isinstance(value, float):
+            return f"{value:.3f}"
+        if isinstance(value, str):
+            if not value:
+                return '""'
+            if any(ch in value for ch in ("\n", "\r")):
+                return repr(value)
+            return value
+        return str(value)
+
     agg = summary.get("aggregate", {})
     lines = ["# Evaluation Report", "", "## Aggregate Metrics", ""]
     em_relaxed = float(agg.get("em_relaxed", agg.get("em", 0)))
@@ -79,6 +92,33 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     if overhead is not None:
         lines.append(f"- Adapter latency overhead: {overhead:.3f}s")
     lines.append("")
+    run_cfg = summary.get("run")
+    if isinstance(run_cfg, dict):
+        lines.append("## Run config")
+        lines.append("")
+        lines.append(f"- Mode: {_format_value(run_cfg.get('mode'))}")
+        lines.append(f"- Scenario: {_format_value(run_cfg.get('scenario'))}")
+        lines.append(f"- Seed: {_format_value(run_cfg.get('seed'))}")
+        lines.append(f"- Requested N: {_format_value(run_cfg.get('requested_n'))}")
+        lines.append(f"- Actual records: {_format_value(run_cfg.get('actual_records'))}")
+        lines.append(f"- Model: {_format_value(run_cfg.get('model_id'))}")
+        lines.append(f"- Baseline: {_format_value(run_cfg.get('baseline'))}")
+        qa_cfg = run_cfg.get("qa") if isinstance(run_cfg.get("qa"), dict) else {}
+        lines.append(f"- QA.prompt_style: {_format_value(qa_cfg.get('prompt_style'))}")
+        lines.append(f"- QA.max_new_tokens: {_format_value(qa_cfg.get('max_new_tokens'))}")
+        lines.append(f"- QA.stop: {_format_value(qa_cfg.get('stop'))}")
+        lines.append(f"- QA.answer_hint: {_format_value(qa_cfg.get('answer_hint'))}")
+        mem_cap = run_cfg.get("mem_max_tokens")
+        lines.append(f"- mem_max_tokens: {_format_value(mem_cap)}")
+        hop_cfg = run_cfg.get("hopfield") if isinstance(run_cfg.get("hopfield"), dict) else {}
+        lines.append(
+            "- Hopfield steps/temperature: "
+            f"{_format_value(hop_cfg.get('steps'))} / {_format_value(hop_cfg.get('temperature'))}"
+        )
+        no_hopfield = run_cfg.get("no_hopfield")
+        hop_enabled = None if no_hopfield is None else not bool(no_hopfield)
+        lines.append(f"- Hopfield enabled: {_format_value(hop_enabled)}")
+        lines.append("")
     lines.append("## Lag bins")
     lines.append("| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |")
     lines.append("| ------- | ----- | ------------- | --------- | --- | -------- |")
@@ -122,13 +162,13 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     debug = summary.get("debug")
     if debug:
         mem_len = debug.get("mem_len")
-        if isinstance(mem_len, Sequence) and not isinstance(mem_len, (str, bytes)):
+        if isinstance(mem_len, Sequence) and not isinstance(mem_len, str | bytes):
             mem_len_str = ", ".join(str(v) for v in mem_len)
             lines.append(f"- Memory token counts: [{mem_len_str}]")
         else:
             lines.append(f"- Memory token counts: {mem_len}")
         preview = debug.get("mem_preview") or []
-        if isinstance(preview, Sequence) and not isinstance(preview, (str, bytes)):
+        if isinstance(preview, Sequence) and not isinstance(preview, str | bytes):
             preview_str = ", ".join(str(tok) for tok in preview)
             lines.append(f"- Memory token preview: [{preview_str}]")
         else:

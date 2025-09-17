@@ -27,6 +27,24 @@ def test_markdown_content_matches_summary() -> None:
         },
         "dataset": {"hard_negative_ratio": 1.0},
         "debug": {"mem_len": [1, 2], "mem_preview": ["<episodic>", "Alice"]},
+        "run": {
+            "seed": 7,
+            "requested_n": 4,
+            "actual_records": 3,
+            "mode": "B1",
+            "scenario": "A",
+            "qa": {
+                "prompt_style": "chat",
+                "max_new_tokens": 8,
+                "stop": "\n",
+                "answer_hint": True,
+            },
+            "mem_max_tokens": 64,
+            "hopfield": {"steps": 2, "temperature": 0.5},
+            "no_hopfield": False,
+            "baseline": "long-context",
+            "model_id": "tests/models/tiny-gpt2",
+        },
     }
     md = build_markdown_report(summary, scenario="A")
     assert "- EM (relaxed): 0.500" in md
@@ -39,3 +57,9 @@ def test_markdown_content_matches_summary() -> None:
     assert "Hard negatives/confounders included (ratio 1.00)" in md
     assert "- Memory token counts: [1, 2]" in md
     assert "- Memory token preview: [<episodic>, Alice]" in md
+    assert "- Seed: 7" in md
+    assert "- Requested N: 4" in md
+    assert "- Actual records: 3" in md
+    assert "- QA.stop: '\\n'" in md
+    assert "- mem_max_tokens: 64" in md
+    assert "- Hopfield steps/temperature: 2 / 0.500" in md
