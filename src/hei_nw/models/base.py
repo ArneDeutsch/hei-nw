@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from typing import Sequence, cast
+from collections.abc import Sequence
+from typing import cast
 
 import torch
 from transformers import (
@@ -137,7 +138,9 @@ def build_prompt(
                     return tokenizer.decode(rendered, skip_special_tokens=True)
                 return cast(str, rendered)
         formatted = [
-            f"{msg['role'].upper()}: {msg['content']}".strip() for msg in messages if msg.get("content")
+            f"{msg['role'].upper()}: {msg['content']}".strip()
+            for msg in messages
+            if msg.get("content")
         ]
         formatted.append("ASSISTANT:")
         return "\n\n".join(formatted)
@@ -219,17 +222,26 @@ def generate(
         gen_input = inputs
 
     output_ids = _model.generate(**gen_input, pad_token_id=_tokenizer.pad_token_id, **gen_kwargs)
+    generated_ids = output_ids[0]
+
     if adapter is not None and mem_tokens:
-        generated_ids = output_ids[0]
+        # ``generate`` returns full sequences when ``inputs_embeds`` are supplied. Some
+        # models (e.g., Qwen) include the prompt token IDs at the front of the output,
+        # so strip them when they exactly match the original prompt.
+        prompt_prefix = input_ids[0]
+        prefix_len = prompt_prefix.shape[-1]
+        if generated_ids.shape[-1] >= prefix_len:
+            candidate_prefix = generated_ids[:prefix_len]
+            if torch.equal(candidate_prefix, prompt_prefix):
+                generated_ids = generated_ids[prefix_len:]
     else:
-        generated_ids = output_ids[0][prompt_len:]
+        generated_ids = generated_ids[prompt_len:]
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
     retokenize = False
 
     if adapter is not None and mem_tokens:
-        # The adapter path feeds inputs_embeds directly, so we cannot slice off the prompt
-        # tokens like the input_ids path. Chat templates often leave a leading newline at the
-        # assistant turn boundary; trim it so stop handling does not erase the entire output.
+        # Chat templates often leave a leading newline at the assistant turn boundary; trim it
+        # so stop handling does not erase the entire output.
         stripped_text = text.lstrip()
         if stripped_text != text:
             text = stripped_text
