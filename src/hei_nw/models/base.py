@@ -101,6 +101,31 @@ def load_base(
 PromptData = str | Sequence[dict[str, str]]
 
 
+def _truncate_at_stop(text: str, stop: str | None) -> tuple[str, bool]:
+    """Return ``text`` truncated at the first occurrence of ``stop``.
+
+    Parameters
+    ----------
+    text:
+        Generated text to truncate.
+    stop:
+        Optional stop substring. When ``None`` or empty the input text is
+        returned unchanged.
+
+    Returns
+    -------
+    tuple[str, bool]
+        ``(possibly_truncated_text, did_truncate)``
+    """
+
+    if not stop:
+        return text, False
+    index = text.find(stop)
+    if index == -1:
+        return text, False
+    return text[:index], True
+
+
 def build_prompt(
     tokenizer: PreTrainedTokenizerBase,
     prompt_or_messages: PromptData,
@@ -247,11 +272,9 @@ def generate(
             text = stripped_text
             retokenize = True
 
-    if stop:
-        stop_idx = text.find(stop)
-        if stop_idx != -1:
-            text = text[:stop_idx]
-            retokenize = True
+    text, did_truncate = _truncate_at_stop(text, stop)
+    if did_truncate:
+        retokenize = True
 
     if retokenize:
         generated_ids = _tokenizer(text, add_special_tokens=False)["input_ids"]

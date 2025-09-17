@@ -26,6 +26,7 @@ def test_m2_scripts_present_and_executable() -> None:
         Path("scripts/run_m2_retrieval_ci.sh"),
         Path("scripts/compare_b0_b1_m2.sh"),
         Path("scripts/m2_isolation_probes.sh"),
+        Path("scripts/m2_mem_sweep.sh"),
     ]
     for script in scripts:
         assert script.exists(), f"{script} missing"
@@ -45,3 +46,8 @@ def test_run_m2_retrieval_flags() -> None:
     assert "--qa.stop" not in script_text
     assert "--hopfield.steps 2" in script_text
     assert "--hopfield.temperature 0.5" in script_text
+
+
+def test_m2_probe_script_includes_no_hopfield() -> None:
+    script_text = Path("scripts/m2_isolation_probes.sh").read_text(encoding="utf8")
+    assert script_text.count("--no-hopfield") == 1
