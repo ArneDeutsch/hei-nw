@@ -705,7 +705,7 @@ def _evaluate_mode_b1(
     service = RecallService.build(
         records,
         tok,
-        max_mem_tokens=64,
+        max_mem_tokens=mem_max_tokens,
         hopfield_steps=hopfield_settings.steps,
         hopfield_temperature=hopfield_settings.temperature,
         keyer=dg_keyer,
