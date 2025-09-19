@@ -5,9 +5,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 TINY_MODEL = Path(__file__).resolve().parent.parent.parent / "models" / "tiny-gpt2"
 
 
+@pytest.mark.slow
 def test_b1_summary_includes_memory_debug(tmp_path: Path) -> None:
     outdir = tmp_path / "debug"
     cmd = [

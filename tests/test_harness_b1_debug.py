@@ -5,9 +5,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
 
 
+@pytest.mark.slow
 def test_mem_len_respects_cli_cap(tmp_path: Path) -> None:
     outdir = tmp_path / "mem_cap"
     cmd = [
