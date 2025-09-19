@@ -163,3 +163,272 @@ This keeps M2 laser-focused on proving the **retrieval stack + memory injection*
 * M2 DoD lacks a critical **parity guard** and **component-level probes**.
 * Apply the \[CODEX] edits above to make acceptance **headroom-aware**, add **oracle/retrieval-only** checks, specify **sample sizes/CI**, and include **decoding sanity**.
   That will let us *actually* test whether HEI-NW works—and debug it fast when it doesn’t.
+
+---
+
+## \[CODEX-1] Fix B1 decoding (root cause)
+
+**Goal.** Make B1’s `inputs_embeds` path decode cleanly (no chat boilerplate / HTML), returning just the answer.
+
+**Edits.**
+
+* `src/hei_nw/models/base.py :: generate`
+
+  * **Unconditional prompt slicing when using `inputs_embeds`:** after `output_ids = _model.generate(...)`, replace the equality-guarded strip with:
+    *“If adapter+mem\_tokens and len(generated\_ids) > prompt\_len, slice `generated_ids = generated_ids[prompt_len:]`.”*
+  * **Add explicit `position_ids` when using `inputs_embeds`:**
+
+    ```python
+    if adapter is not None and mem_tokens:
+        attn = inputs["attention_mask"]
+        position_ids = attn.cumsum(dim=1) - 1
+        position_ids.masked_fill_(attn.eq(0), 0)
+        gen_input = {
+            "inputs_embeds": adapted,
+            "attention_mask": attn,
+            "position_ids": position_ids,
+        }
+    ```
+  * **Tiny debug:** return `{"prefix_stripped": True|False}` for visibility (doesn’t affect harness).
+
+**Acceptance.**
+
+```bash
+PYTHONPATH=src python -m hei_nw.eval.harness --mode B1 --scenario A -n 4 --seed 7 \
+  --model Qwen/Qwen2.5-1.5B-Instruct --outdir /tmp/m2/decoding_fix \
+  --qa.prompt_style chat --qa.answer_hint --qa.max_new_tokens 16 --qa.stop ''
+jq '.debug.first_token' /tmp/m2/decoding_fix/A_B1_metrics.json | head
+```
+
+**Pass if:** first tokens are alphabetic names (no leading `<`, `•`, “Human:”); `aggregate.non_empty_rate == 1.0`.
+
+---
+
+## \[CODEX-2] Add “plain template” escape hatch for B1
+
+**Goal.** Provide a one-flag way to bypass chat-template quirks during B1 while we lock in the decoding fix.
+
+**Edits.**
+
+* No code change needed (already supported): `--qa.template_policy plain`.
+* Update script default for M2 runs:
+
+  * `scripts/run_m2_retrieval.sh` → add `--qa.template_policy plain` on **B1** invocations only.
+
+**Acceptance.**
+
+```bash
+bash scripts/run_m2_retrieval.sh
+jq '.aggregate.non_empty_rate' reports/m2-retrieval-stack/A_B1_metrics.json
+```
+
+**Pass if:** `non_empty_rate == 1.0` and predictions no longer contain boilerplate.
+
+---
+
+## \[CODEX-3] Headroom gate + memory-dependent baseline
+
+**Goal.** Ensure uplift is only checked when there is headroom; otherwise use a baseline that needs memory.
+
+**Edits.**
+
+* `src/hei_nw/eval/harness.py`
+
+  * **QAPromptSettings**: add `omit_episode: bool = False`.
+  * **CLI**: add `--qa.omit_episode` (BooleanOptionalAction).
+  * **\_build\_prompt(...)**: if `omit_episode`, pass an empty episode (it already renders as “(none)”).
+* `scripts/compare_b0_b1_m2.sh`
+
+  * Implement **Headroom Gate**: read B0 EM; if `EM_B0 >= 0.70`, **skip uplift failure** and print “Headroom gate triggered”.
+* New script `scripts/run_m2_uplift_headroom.sh`
+
+  * B0: `--qa.omit_episode` (and keep answer hint).
+  * B1: same prompt + memory + `--qa.template_policy plain`.
+
+**Acceptance.**
+
+```bash
+# Headroom-aware path
+bash scripts/run_m2_uplift_headroom.sh
+bash scripts/compare_b0_b1_m2.sh
+```
+
+**Pass if:** script prints either (a) “Headroom gate triggered” **or** (b) uplift computed on the memory-dependent baseline (no error exit).
+
+---
+
+## \[CODEX-4] Isolation probes (E0–E3) as a one-shot
+
+**Goal.** Bake the fast probes into a single dev entry point to localize failures in minutes.
+
+**Edits.**
+
+* New `scripts/m2_isolation_probes.sh`:
+
+  * **E0**: tiny B0/B1 (n=4).
+  * **E1**: `--dev.oracle_trace`.
+  * **E2**: `--dev.retrieval_only`.
+  * **E3**: `--no-hopfield`.
+  * Print a compact table and exit non-zero only on wiring failures (e.g., empty outputs).
+* CI: add a job “M2 isolation probes (tiny model)” calling this script with `MODEL=tests/models/tiny-gpt2`.
+
+**Acceptance.**
+
+```bash
+bash scripts/m2_isolation_probes.sh
+```
+
+**Pass if:** the script prints 4 sections with metrics; **no non-empty gate failure**.
+
+---
+
+## \[CODEX-5] Bootstrap CI for EM lift (hard subset)
+
+**Goal.** Quantify uplift with uncertainty when headroom exists.
+
+**Edits.**
+
+* New `scripts/compute_lift_ci.py`:
+
+  * Input: B0/B1 metrics JSON.
+  * Compute per-item EM and paired bootstrap (≥1000) for **lift**.
+  * Optional `--hard-subset` filter file (item IDs where B0 wrong & retrieval top1 correct).
+* CI step: run this script only when Headroom Gate passes.
+
+**Acceptance.**
+
+```bash
+python scripts/compute_lift_ci.py reports/m2-retrieval-stack/A_B0_metrics.json \
+  reports/m2-retrieval-stack/A_B1_metrics.json --resamples 1000
+```
+
+**Pass if:** prints `lift_mean`, `ci_low`, `ci_high` without error.
+
+---
+
+## \[CODEX-6] Parity guard (B1 empty ≈ B0)
+
+**Goal.** Ensure adapter path doesn’t degrade generation when memory is empty.
+
+**Edits.**
+
+* New script `scripts/run_parity_guard.sh`:
+
+  * B0: default Scenario A.
+  * B1: `--mem.max_tokens 0` (forces empty memory).
+  * Use `scripts/compare_b0_b1.py --threshold 0.1`.
+* CI: insert before M2 smoke.
+
+**Acceptance.**
+
+```bash
+bash scripts/run_parity_guard.sh
+```
+
+**Pass if:** compare script exits **0** (EM/F1 deltas ≤ 0.1).
+
+---
+
+## \[CODEX-7] Unit test for prefix stripping in `inputs_embeds`
+
+**Goal.** Lock the decoding fix with a deterministic test that doesn’t need a big model.
+
+**Edits.**
+
+* `tests/models/test_base_generate_strip.py` (new):
+
+  * Monkeypatch `_model.generate` to return `torch.cat([input_ids[0], new_ids])` when `inputs_embeds` present.
+  * Assert: with adapter+mem, `generate(...).text` decodes **only** `new_ids` (no prompt echo).
+  * Assert: `prefix_stripped` flag is **True**.
+
+**Acceptance.**
+
+```bash
+pytest -q tests/models/test_base_generate_strip.py
+```
+
+**Pass if:** green.
+
+---
+
+## \[CODEX-8] Guardrails: first-token & non-empty gates
+
+**Goal.** Fail fast when decoding regresses.
+
+**Edits.**
+
+* Extend `scripts/gate_non_empty_predictions.py` to also gate on **invalid first tokens** (e.g., `<`, `•`, “Human:”).
+* Add to `scripts/run_m2_retrieval.sh` after B1 runs.
+
+**Acceptance.**
+
+```bash
+bash scripts/run_m2_retrieval.sh
+bash scripts/gate_non_empty_predictions.sh reports/m2-retrieval-stack/A_B1_metrics.json
+```
+
+**Pass if:** gate passes.
+
+---
+
+## \[CODEX-9] One-button M2 acceptance runner
+
+**Goal.** Provide a single command that produces all artifacts and enforces the updated DoD.
+
+**Edits.**
+
+* New `scripts/m2_acceptance.sh`:
+
+  1. **Parity guard** (CODEX-6).
+  2. **Isolation probes** (CODEX-4).
+  3. **Headroom check** on regular config; if no headroom → print notice & exit **0**.
+  4. **Memory-dependent uplift run** (CODEX-3) + **bootstrap CI** (CODEX-5).
+  5. Emit summary (`reports/m2-acceptance/summary.md`) with: B0/B1 EM, uplift, CI, retrieval health, Hopfield ablation.
+
+**Acceptance.**
+
+```bash
+bash scripts/m2_acceptance.sh
+```
+
+**Pass if:** summary generated and script exits **0** (or non-zero only when an explicit DoD guard fails).
+
+---
+
+## \[CODEX-10] (Optional) k-sweep harness for retrieval diagnostics
+
+**Goal.** Make it trivial to see whether DG k impacts retrieval vs EM (to avoid chasing the wrong fix).
+
+**Edits.**
+
+* New `scripts/m2_k_sweep.sh`:
+
+  ```bash
+  for k in 16 32 64 128; do
+    PYTHONPATH=src python -m hei_nw.eval.harness --mode B1 --scenario A -n 64 \
+      --seed 7 --outdir "reports/m2-k/$k" --dg.k $k --qa.template_policy plain
+  done
+  ```
+* Plot MRR vs EM in a tiny Python snippet (optional).
+
+**Acceptance.**
+
+```bash
+bash scripts/m2_k_sweep.sh
+```
+
+**Pass if:** runs complete; reports contain retrieval metrics per-k.
+
+---
+
+# What “done” looks like for Milestone 2 (post-implementation)
+
+* ✅ **Decoding fixed**: B1 no longer emits chat boilerplate; non-empty = 1.00; first-token gate passes.
+* ✅ **Parity guard holds**: B1 (empty memory) ≈ B0 (≤0.1 deltas).
+* ✅ **Isolation probes pass**: E0–E3 run without gates failing; E1 (oracle) shows **high EM**; E2 tracks P\@1.
+* ✅ **Headroom respected**: uplift only enforced when B0 < 0.70 (or on the memory-dependent baseline).
+* ✅ **Uplift demonstrated (when eligible)**: on the hard subset or memory-dependent baseline, **B1 − B0 ≥ +0.30 EM** with 95% CI excluding 0.
+* ✅ **Artifacts**: `reports/m2-acceptance/summary.md` + per-run metrics JSONs are produced and checked into CI.
+
+These tasks, in this order, will (1) remove the B1 decoding blocker, (2) make uplift measurable and fair, and (3) give you one-shot, reproducible acceptance for Milestone 2.
+
