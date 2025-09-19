@@ -55,6 +55,28 @@ if [[ ! -f "$B0_PATH" || ! -f "$B1_PATH" ]]; then
   exit 1
 fi
 
+headroom_status=$(B0_PATH="$B0_PATH" python - <<'PY'
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+
+threshold = 0.70
+metrics = json.loads(Path(os.environ["B0_PATH"]).read_text(encoding="utf8"))
+aggregate = metrics.get("aggregate", {})
+em = float(aggregate.get("em_relaxed", aggregate.get("em", 0.0)))
+status = "PASS" if em < threshold else "BLOCKED"
+print(f"{status}|{em:.3f}|{threshold:.3f}")
+PY
+)
+IFS='|' read -r HEADROOM_STATUS HEADROOM_EM HEADROOM_THRESHOLD <<<"$headroom_status"
+if [[ "$HEADROOM_STATUS" == "BLOCKED" ]]; then
+  echo "[compare] Headroom gate triggered (EM_B0=${HEADROOM_EM} ≥ ${HEADROOM_THRESHOLD})."
+  echo "[compare] Skipping uplift computation." >&2
+  exit 0
+fi
+
 python scripts/compare_b0_b1.py "$B0_PATH" "$B1_PATH" || true
 
 python - <<PY

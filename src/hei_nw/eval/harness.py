@@ -76,6 +76,7 @@ class QAPromptSettings:
     answer_hint: bool = True
     template_policy: str = "auto"
     stop_mode: str = "substring"
+    omit_episode: bool = False
 
     def stop_value(self) -> str | None:
         """Return ``stop`` with empty strings normalized to ``None``."""
@@ -249,6 +250,13 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         help="Include an instruction to answer with a single word or name.",
     )
     parser.add_argument(
+        "--qa.omit_episode",
+        dest="qa_omit_episode",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Drop the episode text from prompts to create a memory-dependent baseline.",
+    )
+    parser.add_argument(
         "--dev.retrieval_only",
         dest="dev_retrieval_only",
         action="store_true",
@@ -272,10 +280,11 @@ def _build_prompt(
     *,
     prompt_style: str,
     answer_hint: bool,
+    omit_episode: bool,
 ) -> tuple[PromptInput, str]:
     """Create prompt data and expected answer from a record."""
 
-    episode = str(record.get("episode_text", ""))
+    episode = "" if omit_episode else str(record.get("episode_text", ""))
     cues = record.get("cues", [])
     answers = record.get("answers", [])
     cue = str(cues[0]) if cues else ""
@@ -361,7 +370,10 @@ def _evaluate_records(
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     for rec in records:
         prompt, truth = _build_prompt(
-            rec, prompt_style=qa.prompt_style, answer_hint=qa.answer_hint
+            rec,
+            prompt_style=qa.prompt_style,
+            answer_hint=qa.answer_hint,
+            omit_episode=qa.omit_episode,
         )
         with time_block() as t:
             out = generate(
@@ -625,6 +637,7 @@ def _scenario_default_qa_settings(scenario: str) -> QAPromptSettings:
             answer_hint=True,
             template_policy="auto",
             stop_mode="none",
+            omit_episode=False,
         )
     return QAPromptSettings()
 
@@ -651,6 +664,7 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         args.qa_template_policy if args.qa_template_policy is not None else defaults.template_policy
     )
     stop_mode = args.qa_stop_mode if args.qa_stop_mode is not None else defaults.stop_mode
+    omit_episode = defaults.omit_episode if args.qa_omit_episode is None else args.qa_omit_episode
     return QAPromptSettings(
         prompt_style=prompt_style,
         max_new_tokens=max_new_tokens,
@@ -658,6 +672,7 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         answer_hint=answer_hint,
         template_policy=template_policy,
         stop_mode=stop_mode,
+        omit_episode=omit_episode,
     )
 
 
@@ -834,6 +849,7 @@ def _evaluate_mode_b1(
                 rec,
                 prompt_style=qa_settings.prompt_style,
                 answer_hint=qa_settings.answer_hint,
+                omit_episode=qa_settings.omit_episode,
             )
             pred = ""
             if selected_traces:
