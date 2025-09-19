@@ -252,12 +252,20 @@ def generate(
         gen_kwargs["top_p"] = top_p
     gen_kwargs.update(kwargs)
 
+    prefix_stripped = False
     if adapter is not None and mem_tokens:
         mem_ids = torch.tensor([mem_tokens], dtype=input_ids.dtype, device=_model.device)
         mem_embeds = _model.get_input_embeddings()(mem_ids)
         prompt_embeds = _model.get_input_embeddings()(input_ids)
         adapted = adapter(prompt_embeds, mem_embeds)
-        gen_input = {"inputs_embeds": adapted, "attention_mask": inputs["attention_mask"]}
+        attn = inputs["attention_mask"]
+        position_ids = attn.cumsum(dim=1) - 1
+        position_ids.masked_fill_(attn.eq(0), 0)
+        gen_input = {
+            "inputs_embeds": adapted,
+            "attention_mask": attn,
+            "position_ids": position_ids,
+        }
     else:
         gen_input = inputs
 
@@ -265,17 +273,13 @@ def generate(
     generated_ids = output_ids[0]
 
     if adapter is not None and mem_tokens:
-        # ``generate`` returns full sequences when ``inputs_embeds`` are supplied. Some
-        # models (e.g., Qwen) include the prompt token IDs at the front of the output,
-        # so strip them when they exactly match the original prompt.
-        prompt_prefix = input_ids[0]
-        prefix_len = prompt_prefix.shape[-1]
-        if generated_ids.shape[-1] >= prefix_len:
-            candidate_prefix = generated_ids[:prefix_len]
-            if torch.equal(candidate_prefix, prompt_prefix):
-                generated_ids = generated_ids[prefix_len:]
+        # ``generate`` returns full sequences when ``inputs_embeds`` are supplied.
+        if generated_ids.shape[-1] > prompt_len:
+            generated_ids = generated_ids[prompt_len:]
+            prefix_stripped = True
     else:
         generated_ids = generated_ids[prompt_len:]
+        prefix_stripped = True
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
     retokenize = False
 
@@ -306,6 +310,7 @@ def generate(
         "text": text,
         "prompt_tokens": int(prompt_len),
         "generated_tokens": int(len(generated_ids)),
+        "prefix_stripped": prefix_stripped,
     }
     return result
 
