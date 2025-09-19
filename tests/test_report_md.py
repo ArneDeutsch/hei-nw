@@ -37,6 +37,7 @@ def test_markdown_content_matches_summary() -> None:
                 "answer_hint": True,
             },
             "memory": {"max_tokens": 128},
+            "adapter": {"scale": 0.25},
             "hopfield": {"enabled": True, "steps": 2, "temperature": 0.5},
         },
         "debug": {"mem_len": [1, 2], "mem_preview": ["<episodic>", "Alice"]},
@@ -54,6 +55,7 @@ def test_markdown_content_matches_summary() -> None:
     assert "- QA stop: (empty string)" in md
     assert "- QA answer hint: True" in md
     assert "- Memory cap: 128 tokens" in md
+    assert "- Adapter residual scale: 0.250" in md
     assert "- Hopfield: on (steps=2, temperature=0.5)" in md
     assert "| 0-1 | 1 | 0.500 | 0.250 | 0.500 | n/a |" in md
     assert "Baseline attention FLOPs: 1" in md

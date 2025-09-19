@@ -64,3 +64,27 @@ def test_adapter_uses_model_dtype(monkeypatch: pytest.MonkeyPatch) -> None:
     build_default_adapter(ModelWithDType())
     assert captured["device"] == ModelWithDType.device
     assert captured["dtype"] == ModelWithDType.dtype
+
+
+def test_adapter_exposes_residual_gate() -> None:
+    class ModelWithGate(DummyModel):
+        class Config:
+            hidden_size = 8
+            num_attention_heads = 2
+
+        config = Config()
+        device = torch.device("cpu")
+        dtype = torch.bfloat16
+
+    adapter = build_default_adapter(ModelWithGate(), scale=0.3)
+    assert hasattr(adapter, "alpha")
+    assert isinstance(adapter.alpha, torch.nn.Parameter)
+    assert adapter.alpha.requires_grad is True
+    assert adapter.alpha.device.type == "cpu"
+    assert adapter.alpha.dtype == torch.bfloat16
+    assert torch.isclose(
+        adapter.alpha.detach().float(),
+        torch.tensor(0.3),
+        atol=1e-2,
+        rtol=1e-2,
+    )

@@ -94,7 +94,10 @@ def stub_generation(monkeypatch: pytest.MonkeyPatch) -> None:
         return {"text": "model-output", "prompt_tokens": 4, "generated_tokens": 1}
 
     monkeypatch.setattr("hei_nw.models.base.generate", fake_generate)
-    monkeypatch.setattr("hei_nw.models.base.build_default_adapter", lambda _model: object())
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
 
 
 @pytest.fixture()

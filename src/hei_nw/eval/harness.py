@@ -209,6 +209,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--adapter.scale",
+        dest="adapter_scale",
+        type=float,
+        default=0.2,
+        help=(
+            "Initial value for the learnable residual gate applied by the "
+            "episodic adapter."
+        ),
+    )
+    parser.add_argument(
         "--qa.answer_hint",
         dest="qa_answer_hint",
         action=argparse.BooleanOptionalAction,
@@ -680,6 +690,7 @@ def _evaluate_mode_b1(
     dev: DevIsolationSettings | None = None,
     *,
     mem_max_tokens: int = 128,
+    adapter_scale: float = 0.2,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -690,7 +701,7 @@ def _evaluate_mode_b1(
     qa_settings = _resolve_qa_settings(qa)
     hopfield_settings = hopfield or HopfieldSettings()
     dev_settings = dev or DevIsolationSettings()
-    adapter = build_default_adapter(cast(PreTrainedModel, model))
+    adapter = build_default_adapter(cast(PreTrainedModel, model), scale=adapter_scale)
     service = RecallService.build(
         records,
         tok,
@@ -872,6 +883,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         handler_kwargs: dict[str, Any] = {}
         if args.mode == "B1":
             handler_kwargs["mem_max_tokens"] = args.mem_max_tokens
+            handler_kwargs["adapter_scale"] = args.adapter_scale
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -913,6 +925,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "answer_hint": qa_settings.answer_hint,
         },
         "memory": {"max_tokens": args.mem_max_tokens if args.mode == "B1" else None},
+        "adapter": {"scale": args.adapter_scale if args.mode == "B1" else None},
         "hopfield": {
             "enabled": not args.no_hopfield,
             "steps": hopfield_settings.steps,
