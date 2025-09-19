@@ -28,6 +28,7 @@ def test_prompt_styles_and_stop_behavior() -> None:
         record,
         prompt_style=qa_plain.prompt_style,
         answer_hint=qa_plain.answer_hint,
+        omit_episode=qa_plain.omit_episode,
     )
     plain_output = generate(
         plain_prompt,
@@ -48,6 +49,7 @@ def test_prompt_styles_and_stop_behavior() -> None:
         record,
         prompt_style=qa_chat.prompt_style,
         answer_hint=qa_chat.answer_hint,
+        omit_episode=qa_chat.omit_episode,
     )
     assert isinstance(chat_prompt, list)
     assert any("no Markdown" in msg.get("content", "") for msg in chat_prompt if msg.get("role") == "user")
@@ -106,6 +108,7 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     assert qa_settings.answer_hint is True
     assert qa_settings.template_policy == "auto"
     assert qa_settings.stop_mode == "none"
+    assert qa_settings.omit_episode is False
 
     records = [
         {
@@ -149,3 +152,45 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     assert captured["template_policy"] == "auto"
     assert isinstance(captured["prompt"], list)
     assert items[0].prediction == "Alice"
+
+
+def test_omit_episode_flag_changes_prompt() -> None:
+    record = {
+        "episode_text": "Yesterday, Alice bought a red apple from the market.",
+        "cues": ["Who bought the apple?"],
+        "answers": ["Alice"],
+    }
+
+    qa_settings = QAPromptSettings(
+        prompt_style="plain",
+        max_new_tokens=8,
+        stop=None,
+        answer_hint=True,
+        omit_episode=True,
+    )
+    prompt, _ = _build_prompt(
+        record,
+        prompt_style=qa_settings.prompt_style,
+        answer_hint=qa_settings.answer_hint,
+        omit_episode=qa_settings.omit_episode,
+    )
+    assert "Episode:\n(none)" in prompt
+    assert "Alice bought" not in prompt
+
+
+def test_parse_args_supports_omit_episode(tmp_path) -> None:
+    args = parse_args(
+        [
+            "--mode",
+            "B0",
+            "--scenario",
+            "A",
+            "-n",
+            "1",
+            "--outdir",
+            str(tmp_path),
+            "--qa.omit_episode",
+        ]
+    )
+    qa_settings = _qa_settings_from_args(args)
+    assert qa_settings.omit_episode is True
