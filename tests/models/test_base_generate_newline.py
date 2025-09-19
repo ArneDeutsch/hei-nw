@@ -97,6 +97,28 @@ def test_adapter_branch_retains_output_when_stop_none(
     assert out["text"] == "•\nAnswer"
 
 
+def test_stop_mode_none_disables_newline_truncation(monkeypatch: pytest.MonkeyPatch) -> None:
+    adapter = _build_adapter()
+
+    monkeypatch.setattr(
+        base._tokenizer,
+        "decode",
+        lambda token_ids, skip_special_tokens=True: "•\nAnswer",
+    )
+
+    out = base.generate(
+        "Hello",
+        max_new_tokens=2,
+        stop="\n",
+        stop_mode="none",
+        adapter=adapter,
+        mem_tokens=[2],
+        prompt_style="chat",
+    )
+
+    assert out["text"] == "•\nAnswer"
+
+
 def test_adapter_branch_strips_prompt_prefix(monkeypatch: pytest.MonkeyPatch) -> None:
     adapter = _build_adapter()
     prompt = "Hello"

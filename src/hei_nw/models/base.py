@@ -130,10 +130,15 @@ def build_prompt(
     tokenizer: PreTrainedTokenizerBase,
     prompt_or_messages: PromptData,
     prompt_style: str,
+    template_policy: str = "auto",
 ) -> str:
     """Render *prompt_or_messages* according to *prompt_style*."""
 
     if prompt_style == "chat":
+        normalized_policy = template_policy.lower()
+        if normalized_policy not in {"auto", "plain"}:
+            msg = f"Unsupported template policy: {template_policy}"
+            raise ValueError(msg)
         if isinstance(prompt_or_messages, str):
             messages: list[dict[str, str]] = [{"role": "user", "content": prompt_or_messages}]
         else:
@@ -145,7 +150,7 @@ def build_prompt(
                 for msg in prompt_or_messages
             ]
         apply_template = getattr(tokenizer, "apply_chat_template", None)
-        if callable(apply_template):
+        if normalized_policy == "auto" and callable(apply_template):
             rendered: str | list[int] | None
             try:
                 rendered = apply_template(  # type: ignore[call-arg]
@@ -182,9 +187,12 @@ def generate(
     top_p: float = 0.9,
     do_sample: bool = False,
     stop: str | None = None,
+    *,
+    stop_mode: str = "substring",
     mem_tokens: list[int] | None = None,
     adapter: EpisodicAdapter | None = None,
     prompt_style: str = "plain",
+    template_policy: str = "auto",
     **kwargs: object,
 ) -> dict[str, int | str]:
     """Generate text using the loaded base model.
@@ -203,6 +211,9 @@ def generate(
         Whether to enable sampling; otherwise greedy.
     stop:
         Optional substring at which generation should stop.
+    stop_mode:
+        Strategy used to apply ``stop``. ``"substring"`` retains the previous
+        behaviour; ``"none"`` disables substring truncation.
     mem_tokens:
         Optional list of memory token IDs. When used with ``adapter`` they are
         converted to embeddings and cross-attended during generation.
@@ -211,6 +222,8 @@ def generate(
         supplied.
     prompt_style:
         Rendering style to apply to ``prompt`` (``"plain"`` or ``"chat"``).
+    template_policy:
+        Policy controlling chat template application (``"auto"`` or ``"plain"``).
 
     Returns
     -------
@@ -222,7 +235,9 @@ def generate(
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
 
-    prompt_text = build_prompt(_tokenizer, prompt, prompt_style)
+    prompt_text = build_prompt(
+        _tokenizer, prompt, prompt_style, template_policy=template_policy
+    )
     inputs = _tokenizer(prompt_text, return_tensors="pt")
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
     input_ids = inputs["input_ids"]
@@ -272,9 +287,17 @@ def generate(
             text = stripped_text
             retokenize = True
 
-    text, did_truncate = _truncate_at_stop(text, stop)
-    if did_truncate:
-        retokenize = True
+    normalized_stop_mode = stop_mode.lower()
+    if normalized_stop_mode not in {"substring", "none"}:
+        msg = f"Unsupported stop mode: {stop_mode}"
+        raise ValueError(msg)
+
+    if normalized_stop_mode == "substring":
+        text, did_truncate = _truncate_at_stop(text, stop)
+        if did_truncate:
+            retokenize = True
+    else:
+        did_truncate = False
 
     if retokenize:
         generated_ids = _tokenizer(text, add_special_tokens=False)["input_ids"]
