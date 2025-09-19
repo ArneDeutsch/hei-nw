@@ -60,9 +60,12 @@ run_harness() {
     "${default_args[@]}" "$@"
 }
 
+
+b1_template=(--qa.template_policy plain)
+
 run_harness B0
-run_harness B1
-run_harness B1 --no-hopfield
+run_harness B1 "${b1_template[@]}"
+run_harness B1 --no-hopfield "${b1_template[@]}"
 
 headroom_info=$(python - <<PY
 import json
