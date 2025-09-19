@@ -7,7 +7,7 @@
 - F1: 0.125
 - Non-empty rate: 1.000
 - Latency: 0.000s
-- Adapter latency overhead: -3.730s
+- Adapter latency overhead: -3.829s
 
 ## Run config
 - Seed: 7

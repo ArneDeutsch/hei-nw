@@ -256,6 +256,14 @@ def generate(
         mem_ids = torch.tensor([mem_tokens], dtype=input_ids.dtype, device=_model.device)
         mem_embeds = _model.get_input_embeddings()(mem_ids)
         prompt_embeds = _model.get_input_embeddings()(input_ids)
+        target_device = prompt_embeds.device
+        target_dtype = prompt_embeds.dtype
+        try:
+            first_param = next(adapter.parameters())
+        except StopIteration:  # pragma: no cover - adapter without parameters
+            first_param = None
+        if first_param is not None and first_param.device != target_device:
+            adapter = adapter.to(device=target_device, dtype=target_dtype)
         adapted = adapter(prompt_embeds, mem_embeds)
         if adapted.shape[-2] > 0:
             # Keep the conversational context untouched and only let the adapter
