@@ -74,6 +74,29 @@ def test_plain_vs_adapter_stop_parity(monkeypatch: pytest.MonkeyPatch) -> None:
     assert with_adapter["text"].strip() != ""
 
 
+def test_adapter_branch_retains_output_when_stop_none(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    adapter = _build_adapter()
+
+    monkeypatch.setattr(
+        base._tokenizer,
+        "decode",
+        lambda token_ids, skip_special_tokens=True: "•\nAnswer",
+    )
+
+    out = base.generate(
+        "Hello",
+        max_new_tokens=2,
+        stop=None,
+        adapter=adapter,
+        mem_tokens=[2],
+        prompt_style="chat",
+    )
+
+    assert out["text"] == "•\nAnswer"
+
+
 def test_adapter_branch_strips_prompt_prefix(monkeypatch: pytest.MonkeyPatch) -> None:
     adapter = _build_adapter()
     prompt = "Hello"

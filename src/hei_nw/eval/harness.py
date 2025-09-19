@@ -582,7 +582,7 @@ def _scenario_default_qa_settings(scenario: str) -> QAPromptSettings:
     """Return scenario-specific default QA settings."""
 
     if scenario == "A":
-        return QAPromptSettings(prompt_style="chat", max_new_tokens=8, stop="\n", answer_hint=True)
+        return QAPromptSettings(prompt_style="chat", max_new_tokens=16, stop=None, answer_hint=True)
     return QAPromptSettings()
 
 
