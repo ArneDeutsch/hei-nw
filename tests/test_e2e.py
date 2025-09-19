@@ -3,9 +3,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
 
 
+@pytest.mark.slow
 def test_b0_scenario_a_tiny(tmp_path: Path) -> None:
     modules = [
         "hei_nw",

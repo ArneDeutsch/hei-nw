@@ -6,6 +6,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
 
 
@@ -37,6 +39,7 @@ def _run(tmp_path: Path, n: int) -> dict:
     return data
 
 
+@pytest.mark.slow
 def test_b1_runs_and_writes_reports(tmp_path: Path) -> None:
     data = _run(tmp_path, 2)
     retrieval = data.get("retrieval")
