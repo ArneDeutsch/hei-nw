@@ -73,6 +73,8 @@ class QAPromptSettings:
     max_new_tokens: int = 32
     stop: str | None = None
     answer_hint: bool = True
+    template_policy: str = "auto"
+    stop_mode: str = "substring"
 
     def stop_value(self) -> str | None:
         """Return ``stop`` with empty strings normalized to ``None``."""
@@ -197,6 +199,26 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         type=str,
         default=None,
         help="Substring that stops generation for QA answers.",
+    )
+    parser.add_argument(
+        "--qa.template_policy",
+        dest="qa_template_policy",
+        choices=["auto", "plain"],
+        default=None,
+        help=(
+            "Policy for applying chat templates. 'auto' uses the tokenizer template "
+            "when available; 'plain' always falls back to a simple prompt."
+        ),
+    )
+    parser.add_argument(
+        "--qa.stop_mode",
+        dest="qa_stop_mode",
+        choices=["substring", "none"],
+        default=None,
+        help=(
+            "Strategy used to apply the stop string. 'substring' truncates at the "
+            "first occurrence; 'none' disables truncation."
+        ),
     )
     parser.add_argument(
         "--mem.max_tokens",
@@ -347,6 +369,8 @@ def _evaluate_records(
                 mem_tokens=mem_tokens,
                 stop=qa.stop_value(),
                 prompt_style=qa.prompt_style,
+                stop_mode=qa.stop_mode,
+                template_policy=qa.template_policy,
             )
         pred = str(out["text"]).strip()
         em_rel = relaxed_em(pred, truth)
@@ -592,7 +616,14 @@ def _scenario_default_qa_settings(scenario: str) -> QAPromptSettings:
     """Return scenario-specific default QA settings."""
 
     if scenario == "A":
-        return QAPromptSettings(prompt_style="chat", max_new_tokens=16, stop=None, answer_hint=True)
+        return QAPromptSettings(
+            prompt_style="chat",
+            max_new_tokens=16,
+            stop=None,
+            answer_hint=True,
+            template_policy="auto",
+            stop_mode="none",
+        )
     return QAPromptSettings()
 
 
@@ -606,11 +637,17 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
     )
     stop = args.qa_stop if args.qa_stop is not None else defaults.stop
     answer_hint = defaults.answer_hint if args.qa_answer_hint is None else args.qa_answer_hint
+    template_policy = (
+        args.qa_template_policy if args.qa_template_policy is not None else defaults.template_policy
+    )
+    stop_mode = args.qa_stop_mode if args.qa_stop_mode is not None else defaults.stop_mode
     return QAPromptSettings(
         prompt_style=prompt_style,
         max_new_tokens=max_new_tokens,
         stop=stop,
         answer_hint=answer_hint,
+        template_policy=template_policy,
+        stop_mode=stop_mode,
     )
 
 
@@ -923,6 +960,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             "max_new_tokens": qa_settings.max_new_tokens,
             "stop": qa_settings.stop,
             "answer_hint": qa_settings.answer_hint,
+            "template_policy": qa_settings.template_policy,
+            "stop_mode": qa_settings.stop_mode,
         },
         "memory": {"max_tokens": args.mem_max_tokens if args.mode == "B1" else None},
         "adapter": {"scale": args.adapter_scale if args.mode == "B1" else None},
