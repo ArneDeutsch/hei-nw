@@ -20,6 +20,10 @@ def test_build_and_query_top1_self() -> None:
         should_remember=positive["should_remember"],
     )
     assert out["selected"][0]["group_id"] == positive["group_id"]
+    diagnostics = out["diagnostics"]
+    assert diagnostics["pre_top1_group"] == positive["group_id"]
+    assert diagnostics["post_top1_group"] == positive["group_id"]
+    assert diagnostics["rank_delta"] == 0
 
 
 def test_near_miss_and_collision_counters() -> None:
@@ -38,7 +42,9 @@ def test_near_miss_and_collision_counters() -> None:
     pos0 = next(r for r in records if r["should_remember"])
     pos1 = next(r for r in records if r["should_remember"] and r["group_id"] != pos0["group_id"])
     out_col = store.query(pos0["cues"][0], group_id=pos1["group_id"], should_remember=True)
-    assert out_col["diagnostics"]["collision"] is True
+    diag = out_col["diagnostics"]
+    assert diag["collision"] is True
+    assert "pre_top1_group" in diag and "post_top1_group" in diag
 
 
 def test_custom_hopfield_parameters() -> None:

@@ -51,6 +51,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
             "near_miss_rate": 0.0,
             "collision_rate": 0.0,
             "completion_lift": 0.1,
+            "hopfield_rank_improved_rate": 0.25,
         },
     }
     md = build_markdown_report(summary, scenario="A")
@@ -60,6 +61,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "Adapter latency overhead" in md
     assert "P@1" in md
     assert "Completion lift" in md
+    assert "Hopfield rank improved rate" in md
     assert "- Non-empty rate: 1.000" in md
     assert "- Seed: 11" in md
     assert "- QA stop: \\n" in md
