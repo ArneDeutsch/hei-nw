@@ -6,6 +6,9 @@ import sys
 from pathlib import Path
 from typing import Any, Sequence
 
+DEFAULT_INVALID_PREFIXES = ("<", "•")
+DEFAULT_INVALID_CASELESS_PREFIXES = ("human:", "user:", "assistant:")
+
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     """Parse command line arguments."""
@@ -51,6 +54,30 @@ def load_predictions(data: dict[str, Any]) -> list[str]:
     return predictions
 
 
+def first_token(text: str) -> str:
+    stripped = text.lstrip()
+    if not stripped:
+        return ""
+    return stripped.split(maxsplit=1)[0]
+
+
+def find_invalid_first_tokens(
+    predictions: Sequence[str],
+    *,
+    prefixes: Sequence[str] = DEFAULT_INVALID_PREFIXES,
+    caseless_prefixes: Sequence[str] = DEFAULT_INVALID_CASELESS_PREFIXES,
+) -> list[tuple[int, str]]:
+    invalid: list[tuple[int, str]] = []
+    for index, prediction in enumerate(predictions):
+        token = first_token(prediction)
+        if not token:
+            continue
+        lower_token = token.lower()
+        if token.startswith(tuple(prefixes)) or lower_token.startswith(tuple(caseless_prefixes)):
+            invalid.append((index, token))
+    return invalid
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """Entry point for the non-empty prediction gate."""
     args = parse_args(argv)
@@ -75,6 +102,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     if rate < args.threshold:
         print(
             f"Non-empty rate {rate:.3f} below threshold {args.threshold:.3f}",
+            file=sys.stderr,
+        )
+        return 1
+
+    invalid_tokens = find_invalid_first_tokens(predictions)
+    if invalid_tokens:
+        indices = ", ".join(f"{idx}:{tok}" for idx, tok in invalid_tokens)
+        print(
+            f"Invalid first tokens detected at {indices}",
             file=sys.stderr,
         )
         return 1
