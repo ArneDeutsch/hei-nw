@@ -65,6 +65,8 @@ b1_template=(--qa.template_policy plain)
 
 run_harness B0
 run_harness B1 "${b1_template[@]}"
+echo "[m2] Enforcing non-empty and first-token guard on B1 outputs"
+python scripts/gate_non_empty_predictions.py "${OUT}/A_B1_metrics.json"
 run_harness B1 --no-hopfield "${b1_template[@]}"
 
 headroom_info=$(python - <<PY
