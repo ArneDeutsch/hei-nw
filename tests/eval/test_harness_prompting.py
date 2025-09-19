@@ -70,8 +70,8 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     )
     qa_settings = _qa_settings_from_args(args)
     assert qa_settings.prompt_style == "chat"
-    assert qa_settings.max_new_tokens == 8
-    assert qa_settings.stop == "\n"
+    assert qa_settings.max_new_tokens == 16
+    assert qa_settings.stop is None
     assert qa_settings.answer_hint is True
 
     records = [
@@ -98,8 +98,8 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     geom = ModelGeometry(layers=1, hidden=1, heads=1, dtype="float32")
     items, _ = _evaluate_records(records, geom, qa_settings)
 
-    assert captured["max_new_tokens"] == 8
-    assert captured["stop"] == "\n"
+    assert captured["max_new_tokens"] == 16
+    assert captured["stop"] is None
     assert captured["prompt_style"] == "chat"
     assert isinstance(captured["prompt"], list)
     assert items[0].prediction == "Alice"
