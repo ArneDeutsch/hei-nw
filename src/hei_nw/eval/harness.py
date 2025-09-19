@@ -112,6 +112,16 @@ def _positive_int(value: str) -> int:
     return parsed
 
 
+def _non_negative_int(value: str) -> int:
+    """Return ``value`` parsed as a non-negative integer."""
+
+    parsed = int(value)
+    if parsed < 0:
+        msg = "Value must be zero or a positive integer"
+        raise argparse.ArgumentTypeError(msg)
+    return parsed
+
+
 def _positive_float(value: str) -> float:
     """Return ``value`` parsed as a positive float."""
 
@@ -225,7 +235,7 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--mem.max_tokens",
         dest="mem_max_tokens",
-        type=_positive_int,
+        type=_non_negative_int,
         default=None,
         help=(
             "Maximum number of episodic memory tokens concatenated per record. "
@@ -828,17 +838,20 @@ def _evaluate_mode_b1(
         hopfield_top1.append(
             bool(selected_traces) and selected_traces[0].get("group_id") == group_id
         )
-        tokens: list[int] = []
-        for trace in selected_traces:
-            answers = trace.get("answers", [])
-            fields = {
-                key: answers[i] if i < len(answers) else ""
-                for i, key in enumerate(["who", "what", "where", "when"])
-            }
-            tokens.extend(pack_trace(fields, service.tokenizer, service.max_mem_tokens))
-            if len(tokens) >= mem_max_tokens:
-                break
-        mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
+        if mem_max_tokens <= 0:
+            mem_tokens: list[int] = []
+        else:
+            tokens: list[int] = []
+            for trace in selected_traces:
+                answers = trace.get("answers", [])
+                fields = {
+                    key: answers[i] if i < len(answers) else ""
+                    for i, key in enumerate(["who", "what", "where", "when"])
+                }
+                tokens.extend(pack_trace(fields, service.tokenizer, service.max_mem_tokens))
+                if len(tokens) >= mem_max_tokens:
+                    break
+            mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
         mem_lengths.append(len(mem_tokens))
         if preview_tokens is None and mem_tokens:
             preview_tokens = _decode_mem_preview(

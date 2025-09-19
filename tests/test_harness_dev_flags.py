@@ -206,3 +206,35 @@ def test_oracle_trace_uses_ground_truth_memory_preview(
 
     dev_modes = debug.get("dev_modes", {})
     assert dev_modes.get("oracle_trace") is True
+
+
+def test_mem_max_tokens_zero_disables_memory_injection(
+    records: list[dict[str, Any]],
+    tokenizer: DummyTokenizer,
+    geometry: ModelGeometry,
+    qa_settings: QAPromptSettings,
+    fake_recall_service: list[FakeRecallService],
+    stub_generation: None,
+) -> None:
+    items, compute, _baseline, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=tokenizer,
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(),
+        mem_max_tokens=0,
+    )
+
+    debug = extra.get("debug", {})
+    assert debug.get("mem_len") == [0 for _ in records]
+    assert debug.get("mem_preview", []) == []
+    assert items  # generation still runs
+    assert compute.attention_flops is not None
+
+    service = fake_recall_service[0]
+    assert service.max_mem_tokens == 0

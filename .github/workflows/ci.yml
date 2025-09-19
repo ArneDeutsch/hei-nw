@@ -34,6 +34,8 @@ jobs:
         with:
           name: coverage
           path: coverage.xml
+      - name: Parity guard (B1 empty ≈ B0)
+        run: bash scripts/run_parity_guard.sh
       - name: M2 smoke (tiny model)
         run: bash scripts/run_m2_retrieval_ci.sh
       - name: QA prompting + metrics smoke
