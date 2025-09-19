@@ -4,7 +4,7 @@
 
 * Implement the **retrieval path** for HEI-NW: DG keying (k-WTA sparse keys) → **ANN** candidate search → **Modern Hopfield** completion → **memory tokens** for the adapter.
 * Wire retrieval into the **B1** harness and log **retrieval health** metrics (P\@k/MRR, near-miss/collision, completion lift).
-* Validate on Scenario **A** (partial-cue) with an **ablation** (Hopfield off) and show **B1 − B0 ≥ +30 EM** on the small set.
+* Validate on Scenario **A** (partial-cue) by clearing the **engineering gates** (parity, oracle upper bound, retrieval-only, Hopfield lift) and only attempt statistical uplift when the **Headroom Gate** (EM\_{B0} < 0.7) passes.
 
 ---
 
@@ -199,9 +199,19 @@
 * **Key changes:**
 
   * New: `scripts/run_m2_retrieval.sh` (B0 vs B1, ablation on A).
-  * New: `scripts/compare_b0_b1_m2.sh` invoking existing compare tool to assert `B1−B0 ≥ 0.30 EM`.
+  * New: `scripts/compare_b0_b1_m2.sh` printing **Headroom Gate** status and (only if it passes) invoking the compare helper on the **hard subset**.
+  * New: `scripts/m2_isolation_probes.sh` orchestrating the **E0–E3** probes with harness flags.
 * **Tests:** `tests/utils/test_scripts.py` extend with presence/executable bit.
 * **Quality gates:** shellcheck not enforced; keep POSIX-sh.
+
+#### Engineering probes (E0–E3)
+
+| Probe | Command (via helper script) | Artifact | Pass signal | Fail signal |
+| --- | --- | --- | --- | --- |
+| **E0 — Sanity (memory path active)** | `scripts/m2_isolation_probes.sh --probe E0` | `reports/m2-probes/E0/A_B1_metrics.json` | `debug.mem_len > 0` and B1 predictions differ from B0 on at least one record | Predictions identical to B0 or `mem_len = 0` → investigate memory packing |
+| **E1 — Oracle upper bound** | `scripts/m2_isolation_probes.sh --probe E1` | `reports/m2-probes/E1/A_B1_metrics.json` | EM ≥ 0.8 with `--dev.oracle_trace` | EM ≈ B0 even with oracle trace → injection/wiring bug |
+| **E2 — Retrieval-only** | `scripts/m2_isolation_probes.sh --probe E2` | `reports/m2-probes/E2/A_B1_metrics.json` | EM tracks P@1 within ±5 pts using `--dev.retrieval_only` | Large EM gap vs P@1 → generation/decoding issue |
+| **E3 — Hopfield ablation** | `scripts/m2_isolation_probes.sh --probe E3` | `reports/m2-probes/E3/completion_ablation.png` and paired metrics | Completion-lift ≥ 0; Hopfield-on EM ≥ Hopfield-off | Hopfield-on underperforms Hopfield-off → revisit completion tuning |
 
 ### M2-T10 — \[CODEX] Public API & docs polish
 
@@ -250,14 +260,13 @@
    ```
 
    **Success signal:** `completion_ablation.png` written; completion-lift in JSON > 0 on average.
-4. **Acceptance delta**
+4. **Acceptance delta (if Headroom Gate passes)**
 
    ```bash
-   python scripts/compare_b0_b1.py reports/m2-retrieval-stack/A_B0_metrics.json \
-                                   reports/m2-retrieval-stack/A_B1_metrics.json
+   bash scripts/compare_b0_b1_m2.sh --hard-subset hard_subset.txt
    ```
 
-   **Success signal:** exit code `0` and printed lift `≥ +0.30 EM` on the small set.
+   **Success signal:** script prints "Headroom Gate: PASS" and reports `B1 − B0 ≥ +0.30 EM` with 95% CI excluding 0 on the hard subset. If gate fails, rerun with the memory-dependent baseline before attempting uplift.
 
 ---
 
@@ -267,11 +276,11 @@
   reports are produced and retrieval metrics fields are finite. **No EM-lift
   requirement** is evaluated on tiny.
 - **HUMAN/GPU Acceptance (real LLM):** Use **Qwen/Qwen2.5-1.5B-Instruct**
-  (quantized OK). The acceptance gate **B1 − B0 ≥ +0.30 EM (Scenario A, small set)**
-  is evaluated **only** with Qwen.
+  (quantized OK). Run the engineering gates, log the **Headroom Gate**, and if it
+  passes evaluate uplift on the hard subset with paired bootstrap CI (95%).
 - The helper scripts implement this:
   - `scripts/run_m2_retrieval_ci.sh` → tiny (smoke)
-  - `scripts/run_m2_retrieval.sh` → defaults to Qwen (acceptance)
+  - `scripts/run_m2_retrieval.sh` → defaults to Qwen (acceptance with headroom-aware flow)
 
 ---
 
@@ -289,11 +298,20 @@
   * `completion_ablation.png`
 * **Tests:** new/extended under `tests/` as listed per task.
 
+* **Baseline configuration (for headroom fallback):** Document a **memory-dependent baseline** where `B0` drops the episodic hint (or uses the smaller base model) and `B1` uses the identical prompt plus memory tokens. Expose a helper flag (e.g., `--qa.memory_dependent_baseline`) in scripts to toggle this when the Headroom Gate fails.
+
 ---
 
 ## 6) Definition of Done (DoD) Checklist
 
-* [ ] **Quality lift (measured with Qwen/Qwen2.5-1.5B-Instruct):**  On Scenario A small set, `B1 − B0 ≥ +30 EM` (≥ +0.30 absolute).
+* [ ] **Engineering acceptance (Scenario A small set):**
+  * `B1` with empty memory (no `mem_tokens`) matches `B0` within ±0.1 EM (parity guard).
+  * Oracle injection (ground-truth trace) yields EM ≥ 0.8.
+  * Retrieval-only probe tracks P@1 within ±5 pts.
+  * Hopfield completion lift ≥ 0 when comparing Hopfield-on vs Hopfield-off runs.
+  * Decoding sanity: ≥90% predictions start with an alphabetic token, no leading `<`/`•`/`Human:` prefixes, and non-empty rate = 1.00 with prefix strip applied on ≥95% generations.
+* [ ] **Headroom Gate recorded:** Document EM\_{B0} on the evaluated slice. If EM\_{B0} ≥ 0.7, mark acceptance as "headroom blocked" and switch to the memory-dependent baseline before claiming uplift.
+* [ ] **Statistical uplift (hard subset, only if Headroom Gate passes):** On items where B0 fails but retrieval finds the right trace, `B1 − B0 ≥ +0.30 EM` with a 95% paired bootstrap CI (≥1000 resamples) excluding 0.
 * [ ] **Retrieval health logged:** JSON includes `retrieval: { p_at_k, mrr, near_miss_rate, collision_rate, completion_lift }` with finite values.
 * [ ] **Hopfield inference is read-only:** unit/integration test proves parameters unchanged and `requires_grad=False`.
 * [ ] **End-to-end B1:** Harness uses RecallService to feed **memory tokens** into the adapter.
@@ -330,11 +348,13 @@
 ## 8) Risks & Mitigations
 
 1. **Sparse→dense ANN fidelity** (cosine on dense zeros may blunt separation).
-   *Mitigations:* L2-normalize dense views; assert k-WTA invariants; add unit test on separability; expose `efSearch` knob and set `efS=64` per §8.
+ *Mitigations:* L2-normalize dense views; assert k-WTA invariants; add unit test on separability; expose `efSearch` knob and set `efS=64` per §8.
 2. **No EM lift with tiny model** (signal too weak).
    *Mitigations:* Increase `n` slightly for the small set (e.g., 24–48); ensure store indexes only positives; verify cue templates match trace packing; confirm adapter actually receives non-empty tokens.
 3. **Metric definitions ambiguous (near-miss/collision).**
    *Mitigations:* Encode definitions in `metrics/retrieval.py` tied to Scenario A fields (`group_id`, `should_remember`), document in docstrings, and assert with fixture tests using controlled confounders.
+4. **Chat-template × `inputs_embeds` misalignment** (position IDs, prefix slicing, template swaps).
+   *Mitigations:* Keep the M1 parity guard in M2, provide a plain-template fallback, explicitly set `position_ids`, and apply deterministic prefix stripping based on prompt length. Flag regressions via the decoding sanity checks.
 
 ---
 

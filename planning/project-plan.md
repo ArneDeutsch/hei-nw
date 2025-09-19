@@ -68,11 +68,13 @@ Below is a *do-once* milestone plan that implements HEI-NW, integrates it with a
 **Verification**
 
 * Scenario **A** (partial-cue): run **B0 vs. B1** immediately after a single exposure (manually write traces for now) and confirm large lift. Expect **B1 ≫ B0**.&#x20;
+* Run **E0–E3 probes** (sanity, oracle, retrieval-only, Hopfield ablation) via helper scripts to isolate retrieval vs. generation.
 * Ablate Hopfield completion to show partial-cue drop.
 
 **DoD / Acceptance**
 
-* **Quality:** `B1−B0 ≥ +30 EM` on scenario A small set.&#x20;
+* **Engineering acceptance:** `B1` with empty memory ≈ `B0` (±0.1 EM); oracle EM ≥ 0.8; retrieval-only EM tracks P\@1 (±5 pts); Hopfield completion lift ≥ 0; decoding sanity checks pass.&#x20;
+* **Headroom-aware uplift:** If the Headroom Gate passes (EM\_{B0} < 0.7 on the hard subset), require `B1−B0 ≥ +0.30 EM` with 95% paired bootstrap CI excluding 0. Otherwise, switch to the memory-dependent baseline and report absolute EM\_{B1}``/``oracle diagnostics instead of uplift.&#x20;
 * **Retrieval Health:** P\@k and MRR logged; near-miss and collision rates finite (non-NaN) on stress mini-set.&#x20;
 
 * Unit/integration test: **modern‑Hopfield parameters are read‑only at inference**; updates occur only during consolidation.

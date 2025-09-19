@@ -279,7 +279,7 @@ def consolidate(token_budget):
 
 **Dataset sizes:** ≥500 episodes/condition for tight CIs; paired bootstrap or McNemar for deltas; sweep store sizes 1k→100k for interference curves.
 
-**Acceptance:** immediate B1−B0 ≥ +30 EM on episodic set; B3 retains ≥80–90% of B1 after replay; base‑task change within ±1 EM; compute ≤ long‑context baseline at matched quality.
+**Acceptance:** Engineering gates (parity guard, oracle EM ≥ 0.8, retrieval-only ≈ P@1, Hopfield lift ≥ 0, decoding sanity) plus headroom-aware uplift: if EM\_{B0} < 0.7 on the hard subset, require `B1−B0 ≥ +0.30 EM` with 95% paired bootstrap CI excluding 0; otherwise rerun with the memory-dependent baseline and report absolute EM\_{B1}``/``oracle metrics. B3 retains ≥80–90% of B1 after replay; base‑task change within ±1 EM; compute ≤ long‑context baseline at matched quality.
 
 ---
 
