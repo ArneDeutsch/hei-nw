@@ -6,15 +6,15 @@
 - EM_strict: 1.000
 - F1: 1.000
 - Non-empty rate: 1.000
-- Latency: 3.754s
-- Adapter latency overhead: 0.033s
+- Latency: 3.785s
+- Adapter latency overhead: 0.014s
 
 ## Run config
 - Seed: 7
 - Requested records: 24
 - Actual records: 48
 - QA prompt style: chat
-- QA max new tokens: 16
+- QA max new tokens: 8
 - QA stop: (empty string)
 - QA answer hint: True
 - Memory cap: 64 tokens
