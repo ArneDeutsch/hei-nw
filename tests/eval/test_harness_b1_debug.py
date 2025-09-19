@@ -43,3 +43,9 @@ def test_b1_summary_includes_memory_debug(tmp_path: Path) -> None:
     assert isinstance(mem_preview, list)
     assert len(mem_preview) <= 8
     assert all(isinstance(tok, str) for tok in mem_preview)
+    mem_preview_str = debug.get("mem_preview_str")
+    assert isinstance(mem_preview_str, str)
+    first_tokens = debug.get("first_token")
+    assert isinstance(first_tokens, list)
+    assert len(first_tokens) == len(records)
+    assert all(isinstance(tok, str) for tok in first_tokens)

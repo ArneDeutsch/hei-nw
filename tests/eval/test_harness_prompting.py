@@ -50,6 +50,7 @@ def test_prompt_styles_and_stop_behavior() -> None:
         answer_hint=qa_chat.answer_hint,
     )
     assert isinstance(chat_prompt, list)
+    assert any("no Markdown" in msg.get("content", "") for msg in chat_prompt if msg.get("role") == "user")
     rendered = build_prompt(
         tok, chat_prompt, qa_chat.prompt_style, template_policy=qa_chat.template_policy
     )

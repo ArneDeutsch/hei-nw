@@ -38,3 +38,7 @@ def test_mem_len_respects_cli_cap(tmp_path: Path) -> None:
     mem_len = debug.get("mem_len")
     assert isinstance(mem_len, list) and mem_len, "mem_len should be populated"
     assert all(isinstance(val, int) and val <= 32 for val in mem_len)
+    mem_preview_str = debug.get("mem_preview_str")
+    assert isinstance(mem_preview_str, str)
+    first_tokens = debug.get("first_token")
+    assert isinstance(first_tokens, list)
