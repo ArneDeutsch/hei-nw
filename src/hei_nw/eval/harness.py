@@ -225,10 +225,10 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         "--mem.max_tokens",
         dest="mem_max_tokens",
         type=_positive_int,
-        default=128,
+        default=None,
         help=(
             "Maximum number of episodic memory tokens concatenated per record. "
-            "Applies to B1 mode only."
+            "Applies to B1 mode only. Defaults to a scenario-specific preset."
         ),
     )
     parser.add_argument(
@@ -305,6 +305,7 @@ def _build_prompt(
         user_lines.extend(["", f"Question: {cue_text}" if cue_text else "Question:"])
         if answer_hint:
             user_lines.append("Respond with only the single correct word or name.")
+            user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
         else:
             user_lines.append("Respond with a concise answer.")
         messages: list[dict[str, str]] = [
@@ -628,6 +629,14 @@ def _scenario_default_qa_settings(scenario: str) -> QAPromptSettings:
     return QAPromptSettings()
 
 
+def _scenario_default_mem_max_tokens(scenario: str) -> int:
+    """Return the default episodic memory cap for *scenario*."""
+
+    if scenario == "A":
+        return 64
+    return 128
+
+
 def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
     """Construct :class:`QAPromptSettings` from CLI *args* with defaults."""
 
@@ -760,6 +769,7 @@ def _evaluate_mode_b1(
     use_hopfield = not no_hopfield
     mem_lengths: list[int] = []
     preview_tokens: list[str] | None = None
+    first_tokens: list[str] = []
     for rec in records:
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
@@ -846,6 +856,7 @@ def _evaluate_mode_b1(
                     lag=int(rec.get("lag", 0)),
                 )
             )
+            first_tokens.append("")
             continue
         itm_list, comp = _evaluate_records(
             [rec],
@@ -855,6 +866,12 @@ def _evaluate_mode_b1(
             mem_tokens=mem_tokens,
         )
         items.extend(itm_list)
+        first_token = ""
+        if itm_list:
+            prediction = itm_list[0].prediction.strip()
+            if prediction:
+                first_token = prediction.split()[0]
+        first_tokens.append(first_token)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
     baseline_compute = _run_baseline_with_recalls(
@@ -876,6 +893,8 @@ def _evaluate_mode_b1(
         "debug": {
             "mem_len": mem_lengths,
             "mem_preview": preview_tokens or [],
+            "mem_preview_str": " ".join(preview_tokens) if preview_tokens else "",
+            "first_token": first_tokens,
             "dev_modes": {
                 "retrieval_only": dev_settings.retrieval_only,
                 "oracle_trace": dev_settings.oracle_trace,
@@ -910,6 +929,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     hopfield_settings = HopfieldSettings(
         steps=args.hopfield_steps, temperature=args.hopfield_temperature
     )
+    if args.mode == "B1":
+        resolved_mem_max_tokens: int | None = (
+            args.mem_max_tokens
+            if args.mem_max_tokens is not None
+            else _scenario_default_mem_max_tokens(args.scenario)
+        )
+    else:
+        resolved_mem_max_tokens = None
 
     if records:
         from hei_nw.models.base import load_base
@@ -923,7 +950,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         handler_kwargs: dict[str, Any] = {}
         if args.mode == "B1":
-            handler_kwargs["mem_max_tokens"] = args.mem_max_tokens
+            assert resolved_mem_max_tokens is not None
+            handler_kwargs["mem_max_tokens"] = resolved_mem_max_tokens
             handler_kwargs["adapter_scale"] = args.adapter_scale
         items, compute, baseline_compute, extra = handler(
             records,
@@ -967,7 +995,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "template_policy": qa_settings.template_policy,
             "stop_mode": qa_settings.stop_mode,
         },
-        "memory": {"max_tokens": args.mem_max_tokens if args.mode == "B1" else None},
+        "memory": {"max_tokens": resolved_mem_max_tokens},
         "adapter": {"scale": args.adapter_scale if args.mode == "B1" else None},
         "hopfield": {
             "enabled": not args.no_hopfield,

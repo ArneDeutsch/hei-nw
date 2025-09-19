@@ -2,9 +2,9 @@
 set -euo pipefail
 export PYTHONPATH=src
 
-OUT="${OUT:-reports/m2-retrieval-stack}"
+OUT="${OUT:-reports/m2-acceptance}" 
 MODEL="${MODEL:-Qwen/Qwen2.5-1.5B-Instruct}"
-N="${N:-24}"
+N="${N:-16}"
 SEED="${SEED:-7}"
 
 python -m hei_nw.eval.harness --mode B0 --scenario A -n "$N" --seed "$SEED" \

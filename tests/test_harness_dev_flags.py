@@ -85,7 +85,13 @@ def geometry() -> ModelGeometry:
 
 @pytest.fixture()
 def qa_settings() -> QAPromptSettings:
-    return QAPromptSettings(prompt_style="chat", max_new_tokens=8, stop="\n", answer_hint=True)
+    return QAPromptSettings(
+        prompt_style="chat",
+        max_new_tokens=16,
+        stop=None,
+        answer_hint=True,
+        stop_mode="none",
+    )
 
 
 @pytest.fixture()

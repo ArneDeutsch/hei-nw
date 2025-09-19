@@ -23,6 +23,7 @@ def test_no_stubs_regex(tmp_path: Path) -> None:
 def test_m2_scripts_present_and_executable() -> None:
     scripts = [
         Path("scripts/run_m2_retrieval.sh"),
+        Path("scripts/run_m2_acceptance.sh"),
         Path("scripts/run_m2_retrieval_ci.sh"),
         Path("scripts/compare_b0_b1_m2.sh"),
         Path("scripts/m2_isolation_probes.sh"),
@@ -42,8 +43,8 @@ def test_ci_smoke_scripts_present_and_executable() -> None:
 def test_run_m2_retrieval_flags() -> None:
     script_text = Path("scripts/run_m2_retrieval.sh").read_text(encoding="utf8")
     assert "--qa.prompt_style chat" in script_text
-    assert "--qa.max_new_tokens" not in script_text
-    assert "--qa.stop" not in script_text
+    assert "--qa.max_new_tokens 16" in script_text
+    assert "--qa.stop ''" in script_text
     assert "--hopfield.steps 2" in script_text
     assert "--hopfield.temperature 0.5" in script_text
 
@@ -51,3 +52,11 @@ def test_run_m2_retrieval_flags() -> None:
 def test_m2_probe_script_includes_no_hopfield() -> None:
     script_text = Path("scripts/m2_isolation_probes.sh").read_text(encoding="utf8")
     assert script_text.count("--no-hopfield") == 1
+
+
+def test_run_m2_acceptance_flags() -> None:
+    script_text = Path("scripts/run_m2_acceptance.sh").read_text(encoding="utf8")
+    assert "--qa.max_new_tokens 16" in script_text
+    assert "--qa.stop ''" in script_text
+    assert "--qa.prompt_style chat" in script_text
+    assert "Qwen/Qwen2.5-1.5B-Instruct" in script_text
