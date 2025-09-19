@@ -49,9 +49,21 @@ def test_run_m2_retrieval_flags() -> None:
     assert "--hopfield.temperature 0.5" in script_text
 
 
+def test_run_m2_retrieval_headroom_support() -> None:
+    script_text = Path("scripts/run_m2_retrieval.sh").read_text(encoding="utf8")
+    assert "Headroom Gate" in script_text
+    assert "--hard-subset" in script_text
+
+
 def test_m2_probe_script_includes_no_hopfield() -> None:
     script_text = Path("scripts/m2_isolation_probes.sh").read_text(encoding="utf8")
     assert script_text.count("--no-hopfield") == 1
+
+
+def test_compare_b0_b1_m2_supports_bootstrap_subset() -> None:
+    script_text = Path("scripts/compare_b0_b1_m2.sh").read_text(encoding="utf8")
+    assert "--hard-subset" in script_text
+    assert "bootstrap" in script_text
 
 
 def test_run_m2_acceptance_flags() -> None:

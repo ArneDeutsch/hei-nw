@@ -2,6 +2,10 @@
 
 You want to see ALL of these, each with tight CIs:
 
+* **Tracks:**
+  * **Engineering (small set):** `n_small ≈ 24–64` items. Focus on wiring (parity, oracle, retrieval-only, decoding sanity). Report point estimates; no CI promises here.
+  * **Statistical (hard subset):** `n_stat ≥ 200–500` items where B0 fails but retrieval succeeds. Run only when the **Headroom Gate** (EM\_{B0} < 0.7) passes and report paired bootstrap 95% CIs (≥1000 resamples) on EM lift.
+
 * **One-shot recall:** After a single exposure, the model answers correctly **immediately** *with memory enabled* (partial cues allowed).
   Metrics: partial-cue EM/F1, recall\@k, and latency.&#x20;
 * **Consolidation:** After a replay cycle, the model answers **with memory OFF** (knowledge distilled into weights), and original skills don’t regress.
@@ -16,6 +20,8 @@ Run every scenario under these modes:
 * **B1**: Base + episodic memory (adapter + store) — **no replay**.
 * **B2**: Base + memory **after replay** (consolidation ON).
 * **B3**: Base **after replay with memory OFF** (tests corticalization).
+
+When the Headroom Gate blocks uplift, rerun B0 with the **memory-dependent baseline** prompt (`--qa.memory_dependent_baseline` toggle): strip the episodic hint (or use the smaller base model) while B1 keeps the identical prompt plus memory tokens.
 
 Also include long-context and RAG baselines for fairness.&#x20;
 
@@ -90,7 +96,8 @@ Create tasks solvable by either pasting a huge transcript or by HEI-NW recall. C
 
 # 5) How big should the test sets be?
 
-* For episodic one-shot: **≥500 episodes** per condition gives \~±3–4-point 95% CI on EM with bootstrap; include **hard negatives** and distractor-heavy splits.
+* For episodic one-shot **engineering sweeps**: set `n_small ≈ 24–64` items (paired seeds) to exercise probes and decoding checks; treat these as deterministic gates without CI claims.
+* For Scenario A **statistical acceptance**: choose `n_stat ≥ 200–500` items on the hard subset (B0 wrong, retrieval correct). This yields \~±3–4-point 95% CI on EM lift with ≥1000 paired bootstrap resamples; include **hard negatives** and distractor-heavy splits.
 * For consolidation deltas: enough items so B3−B0 CI excludes 0 (paired bootstrap or McNemar on correctness).
 * For interference: sweep store sizes (e.g., 1k → 100k episodes) to fit a **precision-vs-load** curve. *(The doc prescribes the metrics/protocols, not fixed counts; choose sizes for statistical power.)*
 
@@ -137,9 +144,17 @@ Gate and replay match the specified algorithms.
 
 # 9) Interpreting outcomes (accept/reject)
 
+**Headroom Gate (Scenario A, small set)**
+
+| EM\_{B0} on evaluated slice | Action |
+| --- | --- |
+| `< 0.7` | Proceed to statistical uplift on the hard subset. Compute `B1 − B0` with ≥1000 paired bootstrap resamples; claim success only if the 95% CI excludes 0 and the mean uplift ≥ +0.30 EM. |
+| `≥ 0.7` | Do **not** claim uplift. Switch to the **memory-dependent baseline** (strip episodic hint for B0, keep identical prompt + memory tokens for B1) and report absolute EM\_{B1}, oracle upper bound, and retrieval-only diagnostics instead. |
+
 * **Pass** if:
-  (i) B1 − B0 ≥ +X (e.g., +30 EM) immediately;
-  (ii) B3 after replay retains ≥80–90% of B1 on target items;
-  (iii) base-task change ∈ \[−1, +1] EM points (no drift);
-  (iv) compute is ≤ baseline long-context for matched quality.
-* **Fail** if: noisy writes (low gate precision), partial-cue recall doesn’t beat RAG/long-context, or consolidation regresses core tasks (fix scheduler/LR).&#x20;
+  (i) Engineering gates hold: parity guard, oracle EM ≥ 0.8, retrieval-only ≈ P@1 (±5 pts), Hopfield lift ≥ 0, decoding sanity checks pass;
+  (ii) When the Headroom Gate passes, statistical uplift on the hard subset meets the criterion above;
+  (iii) B3 after replay retains ≥80–90% of B1 on target items;
+  (iv) base-task change ∈ \[−1, +1] EM points (no drift);
+  (v) compute is ≤ baseline long-context for matched quality.
+* **Fail** if: noisy writes (low gate precision), partial-cue recall doesn’t beat RAG/long-context, consolidation regresses core tasks (fix scheduler/LR), or Headroom Gate repeatedly fails without a memory-dependent baseline rerun.&#x20;
