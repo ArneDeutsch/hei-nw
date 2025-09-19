@@ -9,7 +9,9 @@ def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> li
     """Pack an episode trace into a list of token IDs.
 
     The packing follows a deterministic template with a stable field order and
-    truncates the resulting token sequence to ``max_mem_tokens``.
+    truncates the resulting token sequence to ``max_mem_tokens``. Fields are
+    rendered inline without a global header so that the very first tokens
+    reflect the ``who`` tag and value.
 
     Parameters
     ----------
@@ -32,13 +34,13 @@ def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> li
     """
 
     fields = {key: str(trace.get(key, "")).strip() for key in ("who", "what", "where", "when")}
-    template = (
-        "<episodic>\n"
-        f"who:{fields['who']}\n"
-        f"what:{fields['what']}\n"
-        f"where:{fields['where']}\n"
-        f"when:{fields['when']}\n"
-        "</episodic>"
+    template = " ".join(
+        [
+            f"who: {fields['who']}".strip(),
+            f"what: {fields['what']}".strip(),
+            f"where: {fields['where']}".strip(),
+            f"when: {fields['when']}".strip(),
+        ]
     )
     input_ids: list[int] = tokenizer(template)["input_ids"]
     return input_ids[:max_mem_tokens]

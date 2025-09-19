@@ -40,7 +40,7 @@ def test_markdown_content_matches_summary() -> None:
             "adapter": {"scale": 0.25},
             "hopfield": {"enabled": True, "steps": 2, "temperature": 0.5},
         },
-        "debug": {"mem_len": [1, 2], "mem_preview": ["<episodic>", "Alice"]},
+        "debug": {"mem_len": [1, 2], "mem_preview": ["who", "Alice"]},
     }
     md = build_markdown_report(summary, scenario="A")
     assert "- EM (relaxed): 0.500" in md
@@ -62,4 +62,4 @@ def test_markdown_content_matches_summary() -> None:
     assert "Baseline KV cache bytes: 2" in md
     assert "Hard negatives/confounders included (ratio 1.00)" in md
     assert "- Memory token counts: [1, 2]" in md
-    assert "- Memory token preview: [<episodic>, Alice]" in md
+    assert "- Memory token preview: [who, Alice]" in md
