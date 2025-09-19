@@ -111,3 +111,27 @@ def completion_lift(baseline: Sequence[bool], hopfield: Sequence[bool]) -> float
         return sum(1.0 if x else 0.0 for x in xs) / len(xs)
 
     return _mean(hopfield) - _mean(baseline)
+
+
+def hopfield_rank_improved_rate(diagnostics: Sequence[dict[str, Any]]) -> float:
+    """Fraction of queries where Hopfield improved the gold rank.
+
+    Each diagnostics entry is expected to provide a numeric ``rank_delta`` key
+    capturing the change in rank for the ground-truth ``group_id`` when
+    Hopfield refinement is enabled. Positive values indicate an improvement
+    (lower rank index), negative values a regression.
+    """
+
+    if not diagnostics:
+        return 0.0
+    total = 0
+    improved = 0
+    for diag in diagnostics:
+        total += 1
+        try:
+            delta = float(diag.get("rank_delta", 0))
+        except (TypeError, ValueError):
+            delta = 0.0
+        if delta > 0:
+            improved += 1
+    return improved / total if total else 0.0

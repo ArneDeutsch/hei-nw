@@ -1,6 +1,9 @@
+import pytest
+
 from hei_nw.metrics.retrieval import (
     collision_rate,
     completion_lift,
+    hopfield_rank_improved_rate,
     mrr,
     near_miss_rate,
     precision_at_k,
@@ -34,3 +37,12 @@ def test_completion_lift() -> None:
     baseline = [True, False, False]
     hopfield = [True, True, False]
     assert completion_lift(baseline, hopfield) == (2 / 3) - (1 / 3)
+
+
+def test_hopfield_rank_improved_rate() -> None:
+    diagnostics = [
+        {"rank_delta": 2},  # Improved from rank 3 to 1
+        {"rank_delta": 0},  # Stayed at the same rank
+        {"rank_delta": -1},  # Hopfield made the rank worse
+    ]
+    assert hopfield_rank_improved_rate(diagnostics) == pytest.approx(1 / 3)

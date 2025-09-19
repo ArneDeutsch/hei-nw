@@ -346,8 +346,19 @@ class EpisodicStore:
             diagnostics = {
                 "near_miss": False,
                 "collision": bool(group_id in self._group_ids) if group_id is not None else False,
+                "pre_top1_group": None,
+                "post_top1_group": None,
+                "rank_delta": 0,
             }
             return {"selected": [], "candidates": [], "diagnostics": diagnostics}
+        pre_top1_group = results[0]["group_id"]
+        pre_rank: int | None = None
+        if group_id is not None:
+            for idx, res in enumerate(results):
+                if res.get("group_id") == group_id:
+                    pre_rank = idx
+                    break
+        order: torch.Tensor
         if use_hopfield:
             cand_vecs = torch.from_numpy(
                 np.stack([r["key_vector"] for r in results]).astype("float32")
@@ -355,9 +366,22 @@ class EpisodicStore:
             scores = self.hopfield(
                 torch.from_numpy(dense.squeeze(0)), candidates=cand_vecs, return_scores=True
             )
-            top_idx = torch.topk(scores, min(return_m, len(results))).indices.tolist()
+            order = torch.argsort(scores, descending=True)
         else:
-            top_idx = list(range(min(return_m, len(results))))
+            order = torch.arange(len(results))
+        order_list = [int(idx) for idx in order.tolist()]
+        top_k = min(return_m, len(order_list))
+        top_idx = order_list[:top_k]
+        post_top1_group = results[top_idx[0]]["group_id"] if top_idx else pre_top1_group
+        post_rank: int | None = None
+        if pre_rank is not None:
+            try:
+                post_rank = order_list.index(pre_rank)
+            except ValueError:
+                post_rank = None
+        rank_delta = 0
+        if pre_rank is not None and post_rank is not None:
+            rank_delta = pre_rank - post_rank
         selected = [results[i]["trace"] for i in top_idx]
         candidates: list[dict[str, Any]] = []
         for r in results:
@@ -371,5 +395,11 @@ class EpisodicStore:
             and top_group != group_id
             and group_id in self._group_ids
         )
-        diagnostics = {"near_miss": bool(near_miss), "collision": bool(collision)}
+        diagnostics = {
+            "near_miss": bool(near_miss),
+            "collision": bool(collision),
+            "pre_top1_group": pre_top1_group,
+            "post_top1_group": post_top1_group,
+            "rank_delta": rank_delta,
+        }
         return {"selected": selected, "candidates": candidates, "diagnostics": diagnostics}

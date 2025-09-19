@@ -26,6 +26,7 @@ from hei_nw.metrics import (
     ComputeRecord,
     collision_rate,
     completion_lift,
+    hopfield_rank_improved_rate,
     estimate_attention_flops,
     estimate_kv_bytes,
     mrr,
@@ -716,6 +717,7 @@ def _evaluate_mode_b1(
     cand_groups: list[list[int]] = []
     truths: list[int] = []
     diagnostics: list[dict[str, Any]] = []
+    hopfield_diagnostics: list[dict[str, Any]] = []
     hopfield_top1: list[bool] = []
     baseline_top1: list[bool] = []
     use_hopfield = not no_hopfield
@@ -757,6 +759,7 @@ def _evaluate_mode_b1(
         cand_groups.append([c["group_id"] for c in res_no["candidates"]])
         truths.append(group_id)
         diagnostics.append(res_no["diagnostics"])
+        hopfield_diagnostics.append(res_h["diagnostics"])
         baseline_top1.append(
             bool(res_no["selected"]) and res_no["selected"][0]["group_id"] == group_id
         )
@@ -828,6 +831,7 @@ def _evaluate_mode_b1(
         "near_miss_rate": near_miss_rate(diagnostics),
         "collision_rate": collision_rate(diagnostics),
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),
+        "hopfield_rank_improved_rate": hopfield_rank_improved_rate(hopfield_diagnostics),
     }
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,

@@ -6,6 +6,7 @@ from .compute import ComputeRecord, estimate_attention_flops, estimate_kv_bytes
 from .retrieval import (
     collision_rate,
     completion_lift,
+    hopfield_rank_improved_rate,
     mrr,
     near_miss_rate,
     precision_at_k,
@@ -29,4 +30,5 @@ __all__ = [
     "near_miss_rate",
     "collision_rate",
     "completion_lift",
+    "hopfield_rank_improved_rate",
 ]

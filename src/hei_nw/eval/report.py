@@ -170,6 +170,10 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         lines.append(f"- Near-miss rate: {retrieval.get('near_miss_rate', 0):.3f}")
         lines.append(f"- Collision rate: {retrieval.get('collision_rate', 0):.3f}")
         lines.append(f"- Completion lift: {retrieval.get('completion_lift', 0):.3f}")
+        lines.append(
+            "- Hopfield rank improved rate: "
+            f"{retrieval.get('hopfield_rank_improved_rate', 0):.3f}"
+        )
     else:
         lines.append("- None")
     lines.append("")
