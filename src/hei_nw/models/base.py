@@ -287,7 +287,9 @@ def generate(
     return result
 
 
-def build_default_adapter(model: PreTrainedModel) -> EpisodicAdapter:
+def build_default_adapter(
+    model: PreTrainedModel, *, scale: float = 0.2
+) -> EpisodicAdapter:
     """Construct a default ``EpisodicAdapter`` matching ``model`` geometry."""
 
     hidden_size = getattr(model.config, "hidden_size", None)
@@ -295,7 +297,7 @@ def build_default_adapter(model: PreTrainedModel) -> EpisodicAdapter:
     if hidden_size is None or n_heads is None:
         raise ValueError("Model config lacks hidden_size or num_attention_heads")
 
-    adapter = EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads)
+    adapter = EpisodicAdapter(hidden_size=hidden_size, n_heads=n_heads, scale=scale)
     model_device = getattr(model, "device", None)
     model_dtype = getattr(model, "dtype", None)
 

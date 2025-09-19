@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import cast
 
+import torch
 from torch import Tensor, nn
 
 
@@ -23,9 +24,18 @@ class EpisodicAdapter(nn.Module):
         Number of attention heads.
     dropout:
         Dropout probability applied to the attention output.
+    scale:
+        Initial value for the learnable residual gate :math:`\alpha`.
     """
 
-    def __init__(self, hidden_size: int, n_heads: int, dropout: float = 0.0) -> None:
+    def __init__(
+        self,
+        hidden_size: int,
+        n_heads: int,
+        dropout: float = 0.0,
+        *,
+        scale: float = 0.2,
+    ) -> None:
         super().__init__()
         self.ln = nn.LayerNorm(hidden_size)
         self.attn = nn.MultiheadAttention(
@@ -35,6 +45,7 @@ class EpisodicAdapter(nn.Module):
             batch_first=True,
         )
         self.dropout = nn.Dropout(dropout)
+        self.alpha = nn.Parameter(torch.tensor(float(scale)))
 
     def forward(
         self,
@@ -67,4 +78,4 @@ class EpisodicAdapter(nn.Module):
         query = self.ln(H_t)
         memory = self.ln(M_t)
         attn_out, _ = self.attn(query, memory, memory, attn_mask=attn_mask)
-        return cast(Tensor, H_t + self.dropout(attn_out))
+        return cast(Tensor, H_t + self.alpha * self.dropout(attn_out))

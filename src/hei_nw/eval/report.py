@@ -105,6 +105,15 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         mem_tokens = mem_cfg.get("max_tokens")
         mem_str = f"{mem_tokens} tokens" if mem_tokens is not None else "n/a"
         lines.append(f"- Memory cap: {mem_str}")
+        adapter_cfg = run_config.get("adapter", {}) if isinstance(run_config, dict) else {}
+        adapter_scale = adapter_cfg.get("scale")
+        if isinstance(adapter_scale, (int, float)):
+            adapter_line = f"- Adapter residual scale: {float(adapter_scale):.3f}"
+        elif adapter_scale is None:
+            adapter_line = "- Adapter residual scale: n/a"
+        else:
+            adapter_line = f"- Adapter residual scale: {adapter_scale}"
+        lines.append(adapter_line)
         hop_cfg = run_config.get("hopfield", {}) if isinstance(run_config, dict) else {}
         hop_enabled = hop_cfg.get("enabled")
         if hop_enabled is None:

@@ -41,6 +41,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
                 "answer_hint": True,
             },
             "memory": {"max_tokens": 64},
+            "adapter": {"scale": 0.2},
             "hopfield": {"enabled": False},
         },
         "adapter_latency_overhead_s": 0.012,
@@ -63,6 +64,7 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "- Seed: 11" in md
     assert "- QA stop: \\n" in md
     assert "- Memory cap: 64 tokens" in md
+    assert "- Adapter residual scale: 0.200" in md
     assert "- Hopfield: off" in md
     debug_section = md.split("## Debug", maxsplit=1)[1]
     assert "- None" in debug_section.split("## Dataset", maxsplit=1)[0]
