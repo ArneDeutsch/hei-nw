@@ -8,6 +8,17 @@
 - Non-empty rate: 1.000
 - Latency: 0.070s
 
+## Run config
+- Seed: 7
+- Requested records: 24
+- Actual records: 48
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=2, temperature=0.5)
+
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |

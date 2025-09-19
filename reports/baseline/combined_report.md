@@ -6,7 +6,18 @@
 - EM_strict: 1.000
 - F1: 1.000
 - Non-empty rate: 1.000
-- Latency: 0.065s
+- Latency: 0.067s
+
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 128
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -35,65 +46,18 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.632s
-
-## Lag bins
-| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
-| ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 64 | 0.000 | 0.000 | 0.000 | n/a |
-| 1-3 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-| 3-7 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-| 7-30 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-
-## Compute
-B0 attention FLOPs: 19818086400
-B0 KV cache bytes: 23592960
-
-## Retrieval
-- None
-
-## Debug
-- None
-
-## Dataset notes
-None# Evaluation Report
-
-## Aggregate Metrics
-
-- EM (relaxed): 0.000
-- EM_strict: 0.000
-- F1: 0.000
-- Non-empty rate: 1.000
 - Latency: 0.647s
 
-## Lag bins
-| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
-| ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 64 | 0.000 | 0.000 | 0.000 | n/a |
-| 1-3 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-| 3-7 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-| 7-30 | 0 | 0.000 | 0.000 | 0.000 | n/a |
-
-## Compute
-B0 attention FLOPs: 19818086400
-B0 KV cache bytes: 23592960
-
-## Retrieval
-- None
-
-## Debug
-- None
-
-## Dataset notes
-None# Evaluation Report
-
-## Aggregate Metrics
-
-- EM (relaxed): 0.000
-- EM_strict: 0.000
-- F1: 0.000
-- Non-empty rate: 1.000
-- Latency: 0.666s
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 64
+- QA prompt style: plain
+- QA max new tokens: 32
+- QA stop: None
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -122,7 +86,98 @@ None# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.656s
+- Latency: 0.660s
+
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 64
+- QA prompt style: plain
+- QA max new tokens: 32
+- QA stop: None
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
+
+## Lag bins
+| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
+| ------- | ----- | ------------- | --------- | --- | -------- |
+| 0-1 | 64 | 0.000 | 0.000 | 0.000 | n/a |
+| 1-3 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 3-7 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 7-30 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+
+## Compute
+B0 attention FLOPs: 19818086400
+B0 KV cache bytes: 23592960
+
+## Retrieval
+- None
+
+## Debug
+- None
+
+## Dataset notes
+None# Evaluation Report
+
+## Aggregate Metrics
+
+- EM (relaxed): 0.000
+- EM_strict: 0.000
+- F1: 0.000
+- Non-empty rate: 1.000
+- Latency: 0.672s
+
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 64
+- QA prompt style: plain
+- QA max new tokens: 32
+- QA stop: None
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
+
+## Lag bins
+| Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
+| ------- | ----- | ------------- | --------- | --- | -------- |
+| 0-1 | 64 | 0.000 | 0.000 | 0.000 | n/a |
+| 1-3 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 3-7 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 7-30 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+
+## Compute
+B0 attention FLOPs: 19818086400
+B0 KV cache bytes: 23592960
+
+## Retrieval
+- None
+
+## Debug
+- None
+
+## Dataset notes
+None# Evaluation Report
+
+## Aggregate Metrics
+
+- EM (relaxed): 0.000
+- EM_strict: 0.000
+- F1: 0.000
+- Non-empty rate: 1.000
+- Latency: 0.660s
+
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 64
+- QA prompt style: plain
+- QA max new tokens: 32
+- QA stop: None
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |

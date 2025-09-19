@@ -6,8 +6,19 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.328s
-- Adapter latency overhead: 0.260s
+- Latency: 0.168s
+- Adapter latency overhead: 0.098s
+
+## Run config
+- Seed: 7
+- Requested records: 24
+- Actual records: 48
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: 128 tokens
+- Hopfield: off
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -18,8 +29,8 @@
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 34348597248
-B0 KV cache bytes: 26898432
+B0 attention FLOPs: 25780027392
+B0 KV cache bytes: 23285760
 
 ## Retrieval
 - P@1: 0.375

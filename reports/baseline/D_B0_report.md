@@ -6,7 +6,18 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.666s
+- Latency: 0.672s
+
+## Run config
+- Seed: 7
+- Requested records: 64
+- Actual records: 64
+- QA prompt style: plain
+- QA max new tokens: 32
+- QA stop: None
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |

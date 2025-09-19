@@ -8,6 +8,17 @@
 - Non-empty rate: 1.000
 - Latency: 0.070s
 
+## Run config
+- Seed: 7
+- Requested records: 24
+- Actual records: 48
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: n/a
+- Hopfield: on (steps=2, temperature=0.5)
+
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |
@@ -35,8 +46,19 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.328s
-- Adapter latency overhead: 0.260s
+- Latency: 0.168s
+- Adapter latency overhead: 0.098s
+
+## Run config
+- Seed: 7
+- Requested records: 24
+- Actual records: 48
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: 128 tokens
+- Hopfield: off
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -47,8 +69,8 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 34348597248
-B0 KV cache bytes: 26898432
+B0 attention FLOPs: 25780027392
+B0 KV cache bytes: 23285760
 
 ## Retrieval
 - P@1: 0.375
@@ -70,8 +92,19 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.331s
-- Adapter latency overhead: 0.263s
+- Latency: 0.167s
+- Adapter latency overhead: 0.097s
+
+## Run config
+- Seed: 7
+- Requested records: 24
+- Actual records: 48
+- QA prompt style: chat
+- QA max new tokens: 8
+- QA stop: \n
+- QA answer hint: True
+- Memory cap: 128 tokens
+- Hopfield: on (steps=2, temperature=0.5)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -82,8 +115,8 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 34348597248
-B0 KV cache bytes: 26898432
+B0 attention FLOPs: 28505014272
+B0 KV cache bytes: 24502272
 
 ## Retrieval
 - P@1: 0.375
