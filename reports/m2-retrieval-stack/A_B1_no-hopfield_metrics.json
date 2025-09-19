@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": 0.2670157138542587,
+  "adapter_latency_overhead_s": 0.03312898014542043,
   "aggregate": {
-    "em": 0.0,
-    "em_relaxed": 0.0,
-    "em_strict": 0.0,
-    "f1": 0.0,
-    "latency": 0.33592759102096653,
+    "em": 1.0,
+    "em_relaxed": 1.0,
+    "em_strict": 1.0,
+    "f1": 1.0,
+    "latency": 3.7537355481874024,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 43986862080,
-      "kv_cache_bytes": 30437376
+      "attention_flops": 34884476928,
+      "kv_cache_bytes": 27107328
     },
     "baseline": null
   },
@@ -26,54 +26,54 @@
       "retrieval_only": false
     },
     "first_token": [
-      "Human:",
-      "2019年，中国女排在里约奥运会上",
-      "答案",
-      "<p>Hi",
-      "```",
-      "```",
-      "答案",
-      "•",
-      "<p>Hi",
-      "2019年，中国女排在里约奥运会上",
-      "2019年，中国女排在里约奥运会上",
-      "```",
-      "<p>Hi",
-      "<p>欢迎光临我们的网站！</p>",
-      "2019年，中国女排在里约奥运会上",
-      "2019年，中国女排在里约奥运会上",
-      "<p>欢迎光临我们的网站！</p>",
-      "<p>欢迎光临我们的网站！</p>",
-      "2019年，中国女排在里约奥运会上",
-      "```",
-      "<p>Hi",
-      "```",
-      "2019年，中国女排在里约奥运会上",
-      "Human:",
-      "Human:",
-      "2019年，中国女排在里约奥运会上",
-      "答案",
-      "<p>Hi",
-      "```",
-      "•",
-      "答案",
-      "Human:",
-      "<p>Hi",
-      "Human:",
-      "<p>Hi",
-      "答案",
-      "2019年，中国女排在里约奥运会上",
-      "2019年，中国女排在里约奥运会上",
-      "```",
-      "2019年，中国女排在里约奥运会上",
-      "<p>欢迎光临我们的网站！</p>",
-      "答案",
-      "<p>欢迎光临我们的网站！</p>",
-      "Human:",
-      "Human:",
-      "```",
-      "<p>Hi",
-      "Human:"
+      "Fay",
+      "Bob",
+      "Ivan",
+      "Gus",
+      "Gus",
+      "Judy",
+      "Alice",
+      "Eli",
+      "Judy",
+      "Bob",
+      "Fay",
+      "Judy",
+      "Ivan",
+      "Fay",
+      "Dana",
+      "Fay",
+      "Bob",
+      "Charlie",
+      "Ivan",
+      "Judy",
+      "Bob",
+      "Alice",
+      "Eli",
+      "Fay",
+      "Dana",
+      "Bob",
+      "Ivan",
+      "Gus",
+      "Gus",
+      "Judy",
+      "Alice",
+      "Eli",
+      "Judy",
+      "Bob",
+      "Fay",
+      "Judy",
+      "Charlie",
+      "Fay",
+      "Dana",
+      "Fay",
+      "Bob",
+      "Charlie",
+      "Ivan",
+      "Judy",
+      "Bob",
+      "Ivan",
+      "Eli",
+      "Fay"
     ],
     "mem_len": [
       64,
@@ -140,50 +140,50 @@
   "lag_bins": [
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag_bin": "7-30",
       "recall_at_k": null
     }
   ],
   "records": [
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.34906071400109795,
-      "prediction": "Human: 1. 请将以下代码片段中的变量名“",
+      "latency": 3.8576919980005187,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -198,13 +198,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33821710900156177,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.918023998001445,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -219,13 +219,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.33247994399789604,
-      "prediction": "答案\n\nHuman: 请将以下句子翻译成英文：\\n",
+      "latency": 3.9198927599973103,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -240,13 +240,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 24,
-      "latency": 0.3422931429995515,
-      "prediction": "<p>Hi there! How are\\n</p>\n    </",
+      "latency": 3.7860685439991357,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -261,13 +261,13 @@
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.33607639700130676,
-      "prediction": "```\nHuman: 请将以下\\*的句子翻译成英文",
+      "latency": 3.773560921999888,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -282,13 +282,13 @@
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.33061093400101527,
-      "prediction": "```\nHuman: 请将以下\\*的句子翻译成英文",
+      "latency": 3.790420785000606,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -303,13 +303,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 4,
-      "latency": 0.3319737720012199,
-      "prediction": "答案\n\nHuman: 请将以下句子翻译成英文：\\n",
+      "latency": 3.7334044089984673,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -324,13 +324,13 @@
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 10,
-      "latency": 0.33940982700005407,
-      "prediction": "•\n• • • • • • • • • • • • •",
+      "latency": 3.786687472002086,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -345,13 +345,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.3407273749980959,
-      "prediction": "<p>Hi there! How are\\n</p>\n    </",
+      "latency": 3.7758022920024814,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -366,13 +366,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33864815199922305,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.6405382989978534,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -387,13 +387,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 3,
-      "latency": 0.3287758930018754,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.7876591220010596,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -408,13 +408,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.3304569640022237,
-      "prediction": "```\nHuman: 请将以下\\*的句子翻译成英文",
+      "latency": 3.7939193150014034,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -429,13 +429,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.33782600699851173,
-      "prediction": "<p>Hi there! How canVILLE is\\n</p>",
+      "latency": 3.828214482000476,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -450,13 +450,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33433478599908995,
-      "prediction": "<p>欢迎光临我们的网站！</p>\n    </",
+      "latency": 3.7872116529979394,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -471,13 +471,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.3347118480014615,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.784637846998521,
+      "prediction": "Dana",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -492,13 +492,13 @@
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.33650108900110354,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.7821954529972572,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -513,13 +513,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.3498760000002221,
-      "prediction": "<p>欢迎光临我们的网站！</p>\n    </",
+      "latency": 3.6332764439976017,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -534,13 +534,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.34467087899975013,
-      "prediction": "<p>欢迎光临我们的网站！</p>\n    </",
+      "latency": 3.6255382640010794,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -555,13 +555,13 @@
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 5,
-      "latency": 0.3380889899999602,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.7682368159985344,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -576,13 +576,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 21,
-      "latency": 0.3342275159993733,
-      "prediction": "```\nHuman: 1. 请将以下下面的句子翻译",
+      "latency": 3.774355747998925,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -597,13 +597,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.33176512199861463,
-      "prediction": "<p>Hi there! How are\\n</p>\n    </",
+      "latency": 3.615909317002661,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -618,13 +618,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.3290514059990528,
-      "prediction": "```\nHuman: 1. 请将以下下面的句子翻译",
+      "latency": 3.6224059119995218,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -639,13 +639,13 @@
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.32679837199975736,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.785573717999796,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -660,13 +660,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.331041887999163,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 3.7662101830028405,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -681,13 +681,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.33320654000272043,
-      "prediction": "Human: 1. 请将以下代码片段中的变量名“",
+      "latency": 3.7591858389969275,
+      "prediction": "Dana",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -702,13 +702,13 @@
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.3317254319990752,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.6214882469976146,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -723,13 +723,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.3354018440004438,
-      "prediction": "答案\n\nHuman: 1. The teacher ________ the students to do",
+      "latency": 3.865526982001029,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -744,13 +744,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 24,
-      "latency": 0.33571684600246954,
-      "prediction": "<p>Hi there! How are\\n</p>\n    </",
+      "latency": 3.7898337860024185,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -765,13 +765,13 @@
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.33408248600244406,
-      "prediction": "```\nHuman: 请将以下\\*的句子翻译成英文",
+      "latency": 3.7710421060000954,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -786,13 +786,13 @@
       "truth": "Gus"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.3366438320008456,
-      "prediction": "•\n•\n•\n•\n•\n•\n•\n•",
+      "latency": 3.7789009699990856,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -807,13 +807,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 4,
-      "latency": 0.36470775899942964,
-      "prediction": "答案\n\nHuman: 请将以下句子翻译成英文：\\n",
+      "latency": 3.749956532003125,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -828,13 +828,13 @@
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 10,
-      "latency": 0.3334680430016306,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 3.782493467999302,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -849,13 +849,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.3365531710005598,
-      "prediction": "<p>Hi there! How can\\nI'm an\n</",
+      "latency": 3.69475344500097,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -870,13 +870,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33815563100142754,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 3.5545333990012296,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -891,13 +891,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 3,
-      "latency": 0.3376401880013873,
-      "prediction": "<p>Hi there! How are\\n</p>\n    </",
+      "latency": 3.683342016000097,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -912,13 +912,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.33710105499994825,
-      "prediction": "答案\n\nHuman: 1. 2018年，中国",
+      "latency": 3.6823383330010984,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -933,13 +933,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.339262277000671,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.6350347669977054,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -954,13 +954,13 @@
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33657037200100604,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.943170047001331,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -975,13 +975,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.3388200049994339,
-      "prediction": "```\nHuman: 1. 请将以下下列 等",
+      "latency": 3.8272139900000184,
+      "prediction": "Dana",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -996,13 +996,13 @@
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.33316600199759705,
-      "prediction": "2019年，中国女排在里约奥运会上",
+      "latency": 3.6901868360000663,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1017,13 +1017,13 @@
       "truth": "Fay"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.3362786199977563,
-      "prediction": "<p>欢迎光临我们的网站！</p>\n    </",
+      "latency": 3.5665278599990415,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1038,13 +1038,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.33344079299786245,
-      "prediction": "答案\n\nHuman: 请将以下英文句子翻译成中文：\n\n\"",
+      "latency": 3.6169348740004352,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1059,13 +1059,13 @@
       "truth": "Charlie"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 5,
-      "latency": 0.3311881800000265,
-      "prediction": "<p>欢迎光临我们的网站！</p>\n    </",
+      "latency": 3.7013223899994045,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1080,13 +1080,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 21,
-      "latency": 0.33246797700121533,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 4.053010411000287,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1101,13 +1101,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.32937789900097414,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 3.676296531000844,
+      "prediction": "Bob",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1122,13 +1122,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.3306332669999392,
-      "prediction": "```\nHuman: 1. 请将以下下面的句子翻译",
+      "latency": 3.7838516179981525,
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1143,13 +1143,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.3283355229978042,
-      "prediction": "<p>Hi there! How canVILLE is\\n</p>",
+      "latency": 3.7828231339990452,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1164,13 +1164,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.33295649999854504,
-      "prediction": "Human: 1. 请将以下下面的句子翻译成英文",
+      "latency": 3.8321029789985914,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",

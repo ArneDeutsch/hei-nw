@@ -257,25 +257,27 @@ def generate(
         mem_embeds = _model.get_input_embeddings()(mem_ids)
         prompt_embeds = _model.get_input_embeddings()(input_ids)
         adapted = adapter(prompt_embeds, mem_embeds)
-        gen_input = {"inputs_embeds": adapted, "attention_mask": inputs["attention_mask"]}
+        if adapted.shape[-2] > 0:
+            # Keep the conversational context untouched and only let the adapter
+            # steer the final assistant token that seeds generation.
+            adapted = adapted.clone()
+            adapted[:, :-1, :] = prompt_embeds[:, :-1, :]
+        gen_input = dict(inputs)
+        gen_input["inputs_embeds"] = adapted
     else:
         gen_input = inputs
 
     output_ids = _model.generate(**gen_input, pad_token_id=_tokenizer.pad_token_id, **gen_kwargs)
     generated_ids = output_ids[0]
+    prefix_stripped = False
 
     if adapter is not None and mem_tokens:
-        # ``generate`` returns full sequences when ``inputs_embeds`` are supplied. Some
-        # models (e.g., Qwen) include the prompt token IDs at the front of the output,
-        # so strip them when they exactly match the original prompt.
-        prompt_prefix = input_ids[0]
-        prefix_len = prompt_prefix.shape[-1]
-        if generated_ids.shape[-1] >= prefix_len:
-            candidate_prefix = generated_ids[:prefix_len]
-            if torch.equal(candidate_prefix, prompt_prefix):
-                generated_ids = generated_ids[prefix_len:]
+        if generated_ids.shape[-1] > prompt_len:
+            generated_ids = generated_ids[prompt_len:]
+            prefix_stripped = True
     else:
         generated_ids = generated_ids[prompt_len:]
+        prefix_stripped = True
     text = _tokenizer.decode(generated_ids, skip_special_tokens=True)
     retokenize = False
 
@@ -306,6 +308,7 @@ def generate(
         "text": text,
         "prompt_tokens": int(prompt_len),
         "generated_tokens": int(len(generated_ids)),
+        "prefix_stripped": prefix_stripped,
     }
     return result
 

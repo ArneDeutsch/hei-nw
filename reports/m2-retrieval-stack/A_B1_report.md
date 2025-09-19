@@ -2,12 +2,12 @@
 
 ## Aggregate Metrics
 
-- EM (relaxed): 0.000
-- EM_strict: 0.000
-- F1: 0.000
+- EM (relaxed): 1.000
+- EM_strict: 1.000
+- F1: 1.000
 - Non-empty rate: 1.000
-- Latency: 0.340s
-- Adapter latency overhead: 0.270s
+- Latency: 3.749s
+- Adapter latency overhead: 0.010s
 
 ## Run config
 - Seed: 7
@@ -24,14 +24,14 @@
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 1-3 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 3-7 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
+| 0-1 | 12 | 1.000 | 1.000 | 1.000 | n/a |
+| 1-3 | 12 | 1.000 | 1.000 | 1.000 | n/a |
+| 3-7 | 12 | 1.000 | 1.000 | 1.000 | n/a |
+| 7-30 | 12 | 1.000 | 1.000 | 1.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 43416403968
-B0 KV cache bytes: 30240768
+B0 attention FLOPs: 34884476928
+B0 KV cache bytes: 27107328
 
 ## Retrieval
 - P@1: 0.375
