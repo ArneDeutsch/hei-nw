@@ -6,17 +6,18 @@
 - EM_strict: 1.000
 - F1: 1.000
 - Non-empty rate: 1.000
-- Latency: 0.067s
+- Latency: 0.064s
 
 ## Run config
 - Seed: 7
 - Requested records: 64
 - Actual records: 128
 - QA prompt style: chat
-- QA max new tokens: 8
-- QA stop: \n
+- QA max new tokens: 16
+- QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
@@ -28,8 +29,8 @@
 | 7-30 | 32 | 1.000 | 1.000 | 1.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 68842475520
-B0 KV cache bytes: 62183424
+B0 attention FLOPs: 93337939968
+B0 KV cache bytes: 72407040
 
 ## Retrieval
 - None
@@ -46,7 +47,7 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.647s
+- Latency: 0.651s
 
 ## Run config
 - Seed: 7
@@ -57,6 +58,7 @@ Hard negatives/confounders included (ratio 1.00)# Evaluation Report
 - QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
@@ -86,7 +88,7 @@ None# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.660s
+- Latency: 0.641s
 
 ## Run config
 - Seed: 7
@@ -97,6 +99,7 @@ None# Evaluation Report
 - QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
@@ -126,7 +129,7 @@ None# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.672s
+- Latency: 0.637s
 
 ## Run config
 - Seed: 7
@@ -137,6 +140,7 @@ None# Evaluation Report
 - QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
@@ -166,7 +170,7 @@ None# Evaluation Report
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.660s
+- Latency: 0.656s
 
 ## Run config
 - Seed: 7
@@ -177,6 +181,7 @@ None# Evaluation Report
 - QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins

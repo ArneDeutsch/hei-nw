@@ -6,7 +6,7 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.660s
+- Latency: 0.641s
 
 ## Run config
 - Seed: 7
@@ -17,6 +17,7 @@
 - QA stop: None
 - QA answer hint: True
 - Memory cap: n/a
+- Adapter residual scale: n/a
 - Hopfield: on (steps=1, temperature=1.0)
 
 ## Lag bins
