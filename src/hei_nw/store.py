@@ -29,16 +29,56 @@ class ANNIndex:
         Dimensionality of vectors added to the index.
     m:
         HNSW graph degree. Defaults to ``32``.
+    ef_construction:
+        Construction breadth controlling graph quality. Defaults to ``200``.
     ef_search:
         Search breadth controlling recall/speed trade-off. Defaults to ``64``.
     """
 
-    def __init__(self, dim: int, m: int = 32, ef_search: int = 64) -> None:  # noqa: ARG002
+    def __init__(
+        self,
+        dim: int,
+        m: int = 32,
+        ef_construction: int = 200,
+        ef_search: int = 64,
+    ) -> None:
         """Create an empty index of dimensionality ``dim``."""
 
+        if dim <= 0:
+            msg = "dim must be positive"
+            raise ValueError(msg)
+        if m <= 0:
+            msg = "m must be positive"
+            raise ValueError(msg)
+        if ef_construction <= 0:
+            msg = "ef_construction must be positive"
+            raise ValueError(msg)
+        if ef_search <= 0:
+            msg = "ef_search must be positive"
+            raise ValueError(msg)
+
         self.dim = dim
-        self.index = faiss.IndexFlatIP(dim)
+        self.m = m
+        self.ef_construction = ef_construction
+        self.index = faiss.IndexHNSWFlat(dim, m)
+        # Configure construction/search breadth per design defaults.
+        self.index.hnsw.efConstruction = ef_construction
+        self.set_ef_search(ef_search)
         self.meta: list[dict[str, Any]] = []
+
+    @property
+    def ef_search(self) -> int:
+        """Return the current search breadth."""
+
+        return int(self.index.hnsw.efSearch)
+
+    def set_ef_search(self, ef_search: int) -> None:
+        """Update the search breadth controlling recall/speed trade-offs."""
+
+        if ef_search <= 0:
+            msg = "ef_search must be positive"
+            raise ValueError(msg)
+        self.index.hnsw.efSearch = int(ef_search)
 
     def add(self, vectors: np.ndarray, meta: list[dict[str, Any]]) -> None:
         """Add vectors and associated metadata to the index.
@@ -56,16 +96,17 @@ class ANNIndex:
             If ``vectors`` has wrong shape or ``meta`` length mismatches.
         """
 
-        if vectors.dtype != np.float32:
-            vectors = vectors.astype("float32")
         if vectors.ndim != 2 or vectors.shape[1] != self.dim:
             msg = f"vectors must have shape [n, {self.dim}]"
             raise ValueError(msg)
         if len(meta) != vectors.shape[0]:
             raise ValueError("meta length must match number of vectors")
+        if vectors.shape[0] == 0:
+            return
+        vectors = np.ascontiguousarray(vectors, dtype="float32")
         faiss.normalize_L2(vectors)
         self.index.add(vectors)
-        self.meta.extend(meta)
+        self.meta.extend(dict(item) for item in meta)
 
     def search(self, query: np.ndarray, k: int) -> list[dict[str, Any]]:
         """Return top-``k`` nearest neighbours for a query vector.
@@ -83,15 +124,21 @@ class ANNIndex:
             Metadata dictionaries augmented with a ``score`` key.
         """
 
-        if query.dtype != np.float32:
-            query = query.astype("float32")
         if query.ndim != 2 or query.shape[1] != self.dim or query.shape[0] != 1:
             msg = f"query must have shape [1, {self.dim}]"
             raise ValueError(msg)
         if k <= 0:
             raise ValueError("k must be positive")
+        total = self.index.ntotal
+        if total == 0:
+            return []
+        if k > self.ef_search:
+            msg = f"k ({k}) cannot exceed ef_search ({self.ef_search})"
+            raise ValueError(msg)
+        effective_k = min(k, total)
+        query = np.ascontiguousarray(query, dtype="float32")
         faiss.normalize_L2(query)
-        scores, indices = self.index.search(query, k)
+        scores, indices = self.index.search(query, effective_k)
         results: list[dict[str, Any]] = []
         for idx, score in zip(indices[0], scores[0], strict=False):
             if idx < 0:
@@ -248,6 +295,9 @@ class EpisodicStore:
         hopfield_steps: int = 1,
         hopfield_temperature: float = 1.0,
         keyer: DGKeyer | None = None,
+        ann_m: int = 32,
+        ann_ef_construction: int = 200,
+        ann_ef_search: int = 64,
     ) -> EpisodicStore:
         """Build a store from Scenario A-style records.
 
@@ -258,7 +308,8 @@ class EpisodicStore:
         and the softmax temperature applied by the Hopfield module via
         ``hopfield_steps`` and ``hopfield_temperature`` respectively. A
         custom :class:`DGKeyer` can be supplied via ``keyer`` to control
-        sparsity of the dense keys.
+        sparsity of the dense keys. The HNSW configuration can be tuned via
+        ``ann_m``, ``ann_ef_construction``, and ``ann_ef_search``.
         """
 
         keyer_module = keyer if keyer is not None else DGKeyer()
@@ -285,7 +336,12 @@ class EpisodicStore:
                 }
             )
             vectors.append(dense)
-        index = ANNIndex(dim=keyer_module.d)
+        index = ANNIndex(
+            dim=keyer_module.d,
+            m=ann_m,
+            ef_construction=ann_ef_construction,
+            ef_search=ann_ef_search,
+        )
         if vectors:
             vec_array = np.stack(vectors).astype("float32")
             index.add(vec_array, meta)
@@ -339,7 +395,8 @@ class EpisodicStore:
         H = self._embed(cue_text)
         key = self.keyer(H)
         dense = to_dense(key).detach().cpu().numpy()
-        results = self.index.search(dense, k=top_k_candidates)
+        k = min(top_k_candidates, self.index.ef_search)
+        results = self.index.search(dense, k=k)
         if not results:
             diagnostics = {
                 "near_miss": False,
