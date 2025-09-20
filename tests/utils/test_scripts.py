@@ -72,3 +72,14 @@ def test_run_m2_acceptance_flags() -> None:
     assert "--qa.stop ''" in script_text
     assert "--qa.prompt_style chat" in script_text
     assert "Qwen/Qwen2.5-1.5B-Instruct" in script_text
+    assert "Memory-dependent baseline" in script_text
+
+
+def test_memory_dependent_baseline_helper_uses_flag() -> None:
+    script_text = Path("scripts/run_m2_uplift_headroom.sh").read_text(encoding="utf8")
+    assert "--qa.memory_dependent_baseline" in script_text
+
+
+def test_parity_guard_uses_memory_dependent_flag() -> None:
+    script_text = Path("scripts/run_parity_guard.sh").read_text(encoding="utf8")
+    assert script_text.count("--qa.memory_dependent_baseline") == 2

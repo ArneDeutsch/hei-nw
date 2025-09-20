@@ -107,33 +107,46 @@ MEM_OUT="$OUT/memory_dependent"
 SUMMARY_PATH="$OUT/summary.md"
 
 if [[ "$HEADROOM_STATUS" == "BLOCKED" ]]; then
+  log_step "Running memory-dependent baseline"
+  mkdir -p "$MEM_OUT"
+  MODEL="$MODEL" OUT="$MEM_OUT" N="$N" SEED="$SEED" scripts/run_m2_uplift_headroom.sh
+  python scripts/gate_non_empty_predictions.py "$MEM_OUT/A_B1_metrics.json"
   OUT="$OUT" SUMMARY_PATH="$SUMMARY_PATH" HEADROOM_THRESHOLD="$HEADROOM_THRESHOLD" python - <<'PY'
 from __future__ import annotations
+
 import json
 import os
 from pathlib import Path
 
 out_dir = Path(os.environ["OUT"])
 retr_dir = out_dir / "retrieval"
+mem_dir = out_dir / "memory_dependent"
 summary_path = Path(os.environ.get("SUMMARY_PATH", str(out_dir / "summary.md")))
 summary_path.parent.mkdir(parents=True, exist_ok=True)
 
-b0 = json.loads((retr_dir / "A_B0_metrics.json").read_text(encoding="utf8"))
-b1 = json.loads((retr_dir / "A_B1_metrics.json").read_text(encoding="utf8"))
-b1_no = json.loads((retr_dir / "A_B1_no-hopfield_metrics.json").read_text(encoding="utf8"))
+def load_json(path: Path) -> dict[str, object]:
+    return json.loads(path.read_text(encoding="utf8"))
 
-def metric_tuple(metrics: dict[str, object]) -> tuple[float, float]:
+def em_and_rate(metrics: dict[str, object]) -> tuple[float, float]:
     records = metrics.get("records", [])  # type: ignore[assignment]
     non_empty = sum(1 for rec in records if str(rec.get("prediction", "")).strip())  # type: ignore[arg-type]
     total = len(records)  # type: ignore[arg-type]
-    agg = metrics.get("aggregate", {})  # type: ignore[assignment]
-    em = float(agg.get("em_relaxed", agg.get("em", 0.0)))
+    aggregate = metrics.get("aggregate", {})  # type: ignore[assignment]
+    em = float(aggregate.get("em_relaxed", aggregate.get("em", 0.0)))
     rate = non_empty / total if total else 0.0
     return em, rate
 
-em_b0, rate_b0 = metric_tuple(b0)
-em_b1, rate_b1 = metric_tuple(b1)
-em_b1_no, _ = metric_tuple(b1_no)
+b0 = load_json(retr_dir / "A_B0_metrics.json")
+b1 = load_json(retr_dir / "A_B1_metrics.json")
+b1_no = load_json(retr_dir / "A_B1_no-hopfield_metrics.json")
+mem_b0 = load_json(mem_dir / "A_B0_metrics.json")
+mem_b1 = load_json(mem_dir / "A_B1_metrics.json")
+
+em_b0, rate_b0 = em_and_rate(b0)
+em_b1, rate_b1 = em_and_rate(b1)
+em_b1_no, _ = em_and_rate(b1_no)
+mem_em_b0, mem_rate_b0 = em_and_rate(mem_b0)
+mem_em_b1, mem_rate_b1 = em_and_rate(mem_b1)
 hopfield_delta = em_b1 - em_b1_no
 
 with summary_path.open("w", encoding="utf8") as fh:
@@ -141,7 +154,6 @@ with summary_path.open("w", encoding="utf8") as fh:
     fh.write("**Headroom Gate:** BLOCKED (EM_B0 = {:.3f} ≥ {}).\\n\n".format(
         em_b0, os.environ["HEADROOM_THRESHOLD"]
     ))
-    fh.write("Memory-dependent uplift skipped.\\n\n")
     fh.write("**Retrieval (chat prompt)**\\n")
     fh.write(f"- EM_B0: {em_b0:.3f}\n")
     fh.write(f"- Non-empty rate (B0): {rate_b0:.3f}\n")
@@ -149,6 +161,12 @@ with summary_path.open("w", encoding="utf8") as fh:
     fh.write(f"- EM_B1 (no Hopfield): {em_b1_no:.3f}\n")
     fh.write(f"- Hopfield lift: {hopfield_delta:+.3f}\n")
     fh.write(f"- Non-empty rate (B1): {rate_b1:.3f}\n")
+    fh.write("\n**Memory-dependent baseline**\\n")
+    fh.write(f"- EM_B0 (no episode prompt): {mem_em_b0:.3f}\n")
+    fh.write(f"- Non-empty rate (B0): {mem_rate_b0:.3f}\n")
+    fh.write(f"- EM_B1 (with memory tokens): {mem_em_b1:.3f}\n")
+    fh.write(f"- Non-empty rate (B1): {mem_rate_b1:.3f}\n")
+    fh.write("- Uplift: skipped (headroom blocked)\n")
     fh.write("\nSee probes summary at reports/m2-acceptance/probes_summary.txt.\n")
 PY
   exit 0

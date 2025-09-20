@@ -77,6 +77,7 @@ class QAPromptSettings:
     template_policy: str = "auto"
     stop_mode: str = "substring"
     omit_episode: bool = False
+    memory_dependent_baseline: bool = False
 
     def stop_value(self) -> str | None:
         """Return ``stop`` with empty strings normalized to ``None``."""
@@ -264,6 +265,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         help="Drop the episode text from prompts to create a memory-dependent baseline.",
     )
     parser.add_argument(
+        "--qa.memory_dependent_baseline",
+        dest="qa_memory_dependent_baseline",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Toggle the memory-dependent baseline: use identical prompts for B0/B1 by "
+            "omitting the episode text when not explicitly overridden."
+        ),
+    )
+    parser.add_argument(
         "--dev.retrieval_only",
         dest="dev_retrieval_only",
         action="store_true",
@@ -297,47 +308,63 @@ def _build_prompt(
     cue = str(cues[0]) if cues else ""
     answer = str(answers[0]) if answers else ""
 
-    hint_instruction = (
-        "Answer the question using the episode. Reply with ONLY the single correct word or name."
-        if answer_hint
-        else "Answer the question using the episode."
-    )
+    if omit_episode:
+        hint_instruction = (
+            "Answer the question. Reply with ONLY the single correct word or name."
+            if answer_hint
+            else "Answer the question concisely."
+        )
+    else:
+        hint_instruction = (
+            "Answer the question using the episode. Reply with ONLY the single correct word or name."
+            if answer_hint
+            else "Answer the question using the episode."
+        )
     episode_body = episode.strip()
-    if not episode_body:
+    if not episode_body and not omit_episode:
         episode_body = "(none)"
     cue_text = cue.strip()
 
     if prompt_style == "chat":
-        system_message = (
-            "You are a helpful assistant. "
-            "Read the episode and answer the question accurately and concisely."
-        )
-        if answer_hint:
-            system_message = (
-                "You are a helpful assistant. Read the episode and answer with ONLY the single "
-                "correct word or name."
-            )
-        user_lines = ["Episode:", episode_body]
-        user_lines.extend(["", f"Question: {cue_text}" if cue_text else "Question:"])
-        if answer_hint:
-            user_lines.append("Respond with only the single correct word or name.")
-            user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
+        if omit_episode:
+            system_message = "You are a helpful assistant. Answer the question accurately and concisely."
+            if answer_hint:
+                system_message = (
+                    "You are a helpful assistant. Answer with ONLY the single correct word or name."
+                )
+            user_lines = [f"Question: {cue_text}" if cue_text else "Question:"]
+            if answer_hint:
+                user_lines.append("Respond with only the single correct word or name.")
+                user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
+            else:
+                user_lines.append("Respond with a concise answer.")
         else:
-            user_lines.append("Respond with a concise answer.")
+            system_message = (
+                "You are a helpful assistant. "
+                "Read the episode and answer the question accurately and concisely."
+            )
+            if answer_hint:
+                system_message = (
+                    "You are a helpful assistant. Read the episode and answer with ONLY the single "
+                    "correct word or name."
+                )
+            user_lines = ["Episode:", episode_body]
+            user_lines.extend(["", f"Question: {cue_text}" if cue_text else "Question:"])
+            if answer_hint:
+                user_lines.append("Respond with only the single correct word or name.")
+                user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
+            else:
+                user_lines.append("Respond with a concise answer.")
         messages: list[dict[str, str]] = [
             {"role": "system", "content": system_message},
             {"role": "user", "content": "\n".join(user_lines).strip()},
         ]
         return messages, answer
 
-    prompt_parts = [
-        hint_instruction,
-        "",
-        f"Episode:\n{episode_body}",
-        "",
-        f"Question: {cue_text}",
-        "Answer:",
-    ]
+    prompt_parts = [hint_instruction, ""]
+    if not omit_episode:
+        prompt_parts.extend([f"Episode:\n{episode_body}", ""])
+    prompt_parts.extend([f"Question: {cue_text}", "Answer:"])
     prompt = "\n".join(part for part in prompt_parts if part is not None)
     if not prompt.endswith(" "):
         prompt = f"{prompt} "
@@ -673,7 +700,14 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         args.qa_template_policy if args.qa_template_policy is not None else defaults.template_policy
     )
     stop_mode = args.qa_stop_mode if args.qa_stop_mode is not None else defaults.stop_mode
-    omit_episode = defaults.omit_episode if args.qa_omit_episode is None else args.qa_omit_episode
+    if args.qa_omit_episode is not None:
+        omit_episode = args.qa_omit_episode
+    elif args.mode == "B0":
+        omit_episode = True
+    elif args.qa_memory_dependent_baseline:
+        omit_episode = True
+    else:
+        omit_episode = defaults.omit_episode
     return QAPromptSettings(
         prompt_style=prompt_style,
         max_new_tokens=max_new_tokens,
@@ -682,6 +716,7 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         template_policy=template_policy,
         stop_mode=stop_mode,
         omit_episode=omit_episode,
+        memory_dependent_baseline=args.qa_memory_dependent_baseline,
     )
 
 
@@ -1034,6 +1069,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             "answer_hint": qa_settings.answer_hint,
             "template_policy": qa_settings.template_policy,
             "stop_mode": qa_settings.stop_mode,
+            "omit_episode": qa_settings.omit_episode,
+            "memory_dependent_baseline": qa_settings.memory_dependent_baseline,
         },
         "memory": {"max_tokens": resolved_mem_max_tokens},
         "adapter": {"scale": args.adapter_scale if args.mode == "B1" else None},
