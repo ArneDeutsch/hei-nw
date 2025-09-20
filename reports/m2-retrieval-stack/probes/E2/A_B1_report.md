@@ -2,12 +2,12 @@
 
 ## Aggregate Metrics
 
-- EM (relaxed): 0.125
-- EM_strict: 0.125
+- EM (relaxed): 0.083
+- EM_strict: 0.083
 - F1: 0.125
 - Non-empty rate: 1.000
 - Latency: 0.000s
-- Adapter latency overhead: -3.829s
+- Adapter latency overhead: -0.055s
 
 ## Run config
 - Seed: 7
@@ -24,9 +24,9 @@
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 12 | 0.083 | 0.083 | 0.083 | n/a |
-| 1-3 | 12 | 0.083 | 0.083 | 0.083 | n/a |
-| 3-7 | 12 | 0.333 | 0.333 | 0.333 | n/a |
+| 0-1 | 12 | 0.167 | 0.167 | 0.167 | n/a |
+| 1-3 | 12 | 0.167 | 0.167 | 0.167 | n/a |
+| 3-7 | 12 | 0.000 | 0.000 | 0.167 | n/a |
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
@@ -34,10 +34,10 @@ B0 attention FLOPs: 0
 B0 KV cache bytes: 0
 
 ## Retrieval
-- P@1: 0.375
-- MRR: 0.543
-- Near-miss rate: 0.167
-- Collision rate: 0.292
+- P@1: 0.083
+- MRR: 0.190
+- Near-miss rate: 0.042
+- Collision rate: 0.458
 - Completion lift: -0.292
 - Hopfield rank improved rate: 0.125
 

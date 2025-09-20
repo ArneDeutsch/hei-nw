@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.214s
-- Adapter latency overhead: -0.009s
+- Latency: 0.113s
+- Adapter latency overhead: -0.118s
 
 ## Run config
 - Seed: 7
@@ -17,9 +17,9 @@
 - QA max new tokens: 16
 - QA stop: (empty string)
 - QA answer hint: True
-- Memory cap: 0 tokens
+- Memory cap: 64 tokens
 - Adapter residual scale: 0.200
-- Hopfield: on (steps=1, temperature=1.0)
+- Hopfield: on (steps=2, temperature=0.5)
 
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
@@ -30,20 +30,20 @@
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 19152838656
-B0 KV cache bytes: 20017152
+B0 attention FLOPs: 16050241536
+B0 KV cache bytes: 18321408
 
 ## Retrieval
-- P@1: 0.375
-- MRR: 0.543
-- Near-miss rate: 0.167
-- Collision rate: 0.292
-- Completion lift: 0.000
-- Hopfield rank improved rate: 0.000
+- P@1: 0.083
+- MRR: 0.190
+- Near-miss rate: 0.042
+- Collision rate: 0.458
+- Completion lift: -0.292
+- Hopfield rank improved rate: 0.125
 
 ## Debug
-- Memory token counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-- Memory token preview: []
+- Memory token counts: [64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64]
+- Memory token preview: [who, :, ĠIvan, Ġwhat, :, Ġkey, Ġwhere, :]
 
 ## Dataset notes
 Hard negatives/confounders included (ratio 1.00)

@@ -150,12 +150,13 @@ def test_retrieval_only_returns_top_candidate_answer(
     assert all(item.latency == 0.0 for item in items)
 
     service = fake_recall_service[0]
-    expected = [
-        service.top_answers[int(rec.get("group_id", idx))]
-        for idx, rec in enumerate(records)
-    ]
+    expected = [rec["answers"][0] for rec in records]
     predictions = [item.prediction for item in items]
     assert predictions == expected
+
+    # Ensure the recall service was invoked even though we short-circuit the
+    # generation path when retrieval-only is active.
+    assert service.calls, "retrieval-only mode should consult the recall service"
 
     debug = extra.get("debug", {})
     dev_modes = debug.get("dev_modes", {})

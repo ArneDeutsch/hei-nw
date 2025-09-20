@@ -15,7 +15,13 @@ def test_gate_passes_when_rate_high(tmp_path: Path) -> None:
     metrics = tmp_path / "metrics.json"
     _write_predictions(metrics, ["answer"] * 9 + [""])
     result = subprocess.run(  # noqa: S603
-        [sys.executable, "scripts/gate_non_empty_predictions.py", str(metrics)],
+        [
+            sys.executable,
+            "scripts/gate_non_empty_predictions.py",
+            str(metrics),
+            "--threshold",
+            "0.9",
+        ],
         capture_output=True,
         text=True,
         check=False,

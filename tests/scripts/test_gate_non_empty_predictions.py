@@ -30,7 +30,11 @@ def test_first_token(prediction: str, expected: str) -> None:
 def test_find_invalid_first_tokens_detects_bad_prefixes() -> None:
     predictions = ["Human: hi", "Answer", " <mist> yep", "• bullet"]
     invalid = module.find_invalid_first_tokens(predictions)
-    assert invalid == [(0, "Human:"), (2, "<mist>"), (3, "•")]
+    assert invalid == [
+        (0, "Human:", "disallowed prefix"),
+        (2, "<mist>", "disallowed prefix"),
+        (3, "•", "disallowed prefix"),
+    ]
 
 
 def test_gate_passes_for_valid_predictions(tmp_path: Path) -> None:

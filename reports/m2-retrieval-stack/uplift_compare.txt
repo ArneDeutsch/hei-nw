@@ -1,0 +1,9 @@
+| scenario | EM_B0 | EM_B1 | ΔEM | F1_B0 | F1_B1 | ΔF1 |
+| -------- | ----- | ----- | --- | ----- | ----- | --- |
+| A | 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | 1.000 |
+[compare] Evaluated 48 items on hard subset (reports/m2-acceptance/retrieval/hard_subset.txt).
+[compare] B0 EM (relaxed) = 0.000
+[compare] B1 EM (relaxed) = 1.000
+[compare] Non-empty rate (B1) = 1.000
+[compare] Retrieval health: P@1=0.083, MRR=0.190
+[compare] EM lift = 1.000 (95% bootstrap CI: [1.000, 1.000])

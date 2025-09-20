@@ -6,8 +6,8 @@
 - EM_strict: 1.000
 - F1: 1.000
 - Non-empty rate: 1.000
-- Latency: 3.761s
-- Adapter latency overhead: -0.009s
+- Latency: 0.046s
+- Adapter latency overhead: -0.008s
 
 ## Run config
 - Seed: 7
@@ -30,14 +30,14 @@
 | 7-30 | 12 | 1.000 | 1.000 | 1.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 34884476928
-B0 KV cache bytes: 27107328
+B0 attention FLOPs: 30479081472
+B0 KV cache bytes: 25337856
 
 ## Retrieval
-- P@1: 0.375
-- MRR: 0.543
-- Near-miss rate: 0.167
-- Collision rate: 0.292
+- P@1: 0.083
+- MRR: 0.190
+- Near-miss rate: 0.042
+- Collision rate: 0.458
 - Completion lift: -0.292
 - Hopfield rank improved rate: 0.125
 
