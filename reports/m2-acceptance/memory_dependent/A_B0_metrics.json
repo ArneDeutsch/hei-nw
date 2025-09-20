@@ -1,132 +1,23 @@
 {
-  "adapter_latency_overhead_s": -0.00917568095811322,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.21447565658350717,
+    "latency": 0.06009768004154618,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 19152838656,
-      "kv_cache_bytes": 20017152
+      "attention_flops": 17133871104,
+      "kv_cache_bytes": 18997248
     },
     "baseline": null
   },
   "dataset": {
     "hard_negative_ratio": 1.0,
     "scenario": "A"
-  },
-  "debug": {
-    "dev_modes": {
-      "oracle_trace": false,
-      "retrieval_only": false
-    },
-    "first_token": [
-      "The",
-      "A",
-      "The",
-      "The",
-      "A",
-      "A",
-      "The",
-      "The",
-      "Student",
-      "A",
-      "The",
-      "A",
-      "The",
-      "thief",
-      "A",
-      "A",
-      "The",
-      "The",
-      "The",
-      "A",
-      "A",
-      "A",
-      "The",
-      "A",
-      "The",
-      "The",
-      "The",
-      "The",
-      "A",
-      "The",
-      "The",
-      "The",
-      "Student",
-      "The",
-      "The",
-      "The",
-      "The",
-      "The",
-      "A",
-      "A",
-      "The",
-      "The",
-      "The",
-      "The",
-      "A",
-      "A",
-      "The",
-      "A"
-    ],
-    "mem_len": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
-    "mem_preview": [],
-    "mem_preview_str": ""
   },
   "lag_bins": [
     {
@@ -173,8 +64,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.31548237099923426,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
+      "latency": 0.5531714029984869,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -194,8 +85,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.15734237200013013,
-      "prediction": "A librarian might have left it.",
+      "latency": 0.04473337000126776,
+      "prediction": "Unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -215,8 +106,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.317366306000622,
-      "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
+      "latency": 0.0756954489988857,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -236,8 +127,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.31689409200043883,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
+      "latency": 0.043331519000275875,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -257,8 +148,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.10048133700001927,
-      "prediction": "A careless hiker",
+      "latency": 0.04434042600041721,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -278,8 +169,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.10033732500050974,
-      "prediction": "A careless hiker",
+      "latency": 0.042340611000327044,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -299,8 +190,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.3146156709990464,
-      "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
+      "latency": 0.061736146999464836,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -320,8 +211,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3143043879990728,
-      "prediction": "The question is ambiguous and lacks context about which person or group of people might have",
+      "latency": 0.06244968200007861,
+      "prediction": "Theodore",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -341,8 +232,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04142209299971,
-      "prediction": "Student",
+      "latency": 0.04235113100003218,
+      "prediction": "student",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -362,8 +253,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.10373166300087178,
-      "prediction": "A careless hiker",
+      "latency": 0.06338004999997793,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -383,8 +274,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.31403089500054193,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
+      "latency": 0.042793783999513835,
+      "prediction": "student",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -404,8 +295,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.10059436700066726,
-      "prediction": "A careless hiker",
+      "latency": 0.042534402000455884,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -425,8 +316,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3125705820002622,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.04302788600034546,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -446,8 +337,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04110383999977785,
-      "prediction": "thief",
+      "latency": 0.044020684999850346,
+      "prediction": "visitor",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -467,8 +358,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.09989355099969544,
-      "prediction": "A careless hiker",
+      "latency": 0.04251138200015703,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -488,8 +379,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.10028139400128566,
-      "prediction": "A child did.",
+      "latency": 0.04228976999911538,
+      "prediction": "Jack",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -509,8 +400,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3144214580006519,
-      "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
+      "latency": 0.06409410599917464,
+      "prediction": "The Baker",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -530,8 +421,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.10223962000054598,
-      "prediction": "The baker did.",
+      "latency": 0.06396280399894749,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -551,8 +442,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.3158796679999796,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a book at the",
+      "latency": 0.04542059499908646,
+      "prediction": "Tom",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -572,8 +463,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.0803448729984666,
-      "prediction": "A careless person",
+      "latency": 0.0640578460006509,
+      "prediction": "Marie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -593,8 +484,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.19888123300006555,
-      "prediction": "A person left a notebook at the park.",
+      "latency": 0.04438991799906944,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -614,8 +505,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.23567962600100145,
-      "prediction": "A child might have left a phone at the beach.",
+      "latency": 0.041866207000566646,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -635,8 +526,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.31955557800029055,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.04273502399883,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -656,8 +547,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.08119987000100082,
-      "prediction": "A careless tourist",
+      "latency": 0.04469405000054394,
+      "prediction": "wind",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -677,8 +568,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3186079100014467,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
+      "latency": 0.06424960699951043,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -698,8 +589,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.31856323899955896,
-      "prediction": "The question is ambiguous and lacks specific details about which museum and individuals involved. To",
+      "latency": 0.042472432000067784,
+      "prediction": "Visitor",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -719,8 +610,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.06242795000071055,
-      "prediction": "The narrator",
+      "latency": 0.04404244400029711,
+      "prediction": "Jack",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -740,8 +631,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.3163059090002207,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
+      "latency": 0.04278123400035838,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -761,8 +652,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1015966840004694,
-      "prediction": "A careless hiker",
+      "latency": 0.04435552699942491,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -782,8 +673,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.3159541860004538,
-      "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
+      "latency": 0.044279436999204336,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -803,8 +694,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.3204147730011755,
-      "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
+      "latency": 0.063513311000861,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -824,8 +715,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3176009380003961,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a key at the",
+      "latency": 0.04313948700109904,
+      "prediction": "visitor",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -845,8 +736,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04135954100092931,
-      "prediction": "Student",
+      "latency": 0.043748610998591175,
+      "prediction": "student",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -866,8 +757,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0997985880003398,
-      "prediction": "The baker did.",
+      "latency": 0.06423318699853553,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -887,8 +778,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.31637964799847396,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
+      "latency": 0.06459512900073605,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -908,8 +799,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.3171518430008291,
-      "prediction": "The question is ambiguous and does not provide enough information to determine who left a jacket",
+      "latency": 0.04281324400108133,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -929,8 +820,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.32257219900020573,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.044370696999976644,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -950,8 +841,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.32729870900038804,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a jacket at the",
+      "latency": 0.043090696999570355,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -971,8 +862,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.1039847819993156,
-      "prediction": "A careless hiker",
+      "latency": 0.04513178300112486,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -992,8 +883,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.10146944100051769,
-      "prediction": "A child did.",
+      "latency": 0.043191658000068855,
+      "prediction": "Jack",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1013,8 +904,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3198563940004533,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.06260964399916702,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1034,8 +925,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.06157639299999573,
-      "prediction": "The narrator",
+      "latency": 0.04341018899867777,
+      "prediction": "Jack",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1055,8 +946,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.3180076080006984,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.04232719100036775,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1076,8 +967,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.31637838399910834,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.06254523300049186,
+      "prediction": "Tommy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1097,8 +988,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.23544587699871045,
-      "prediction": "A visitor might have left a book at the park.",
+      "latency": 0.06394804400042631,
+      "prediction": "John Doe",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1118,8 +1009,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.23625458300011815,
-      "prediction": "A child might have left a phone at the beach.",
+      "latency": 0.04319974799909687,
+      "prediction": "unknown",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1139,8 +1030,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.322086042000592,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.042586223000398604,
+      "prediction": "John",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1160,8 +1051,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.0850857219993486,
-      "prediction": "A careless tourist",
+      "latency": 0.04212563799956115,
+      "prediction": "wind",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1176,28 +1067,18 @@
       "truth": "Fay"
     }
   ],
-  "retrieval": {
-    "baseline_mrr": 0.5429951873426138,
-    "baseline_p_at_1": 0.375,
-    "collision_rate": 0.2916666666666667,
-    "completion_lift": 0.0,
-    "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.5429951873426138,
-    "near_miss_rate": 0.16666666666666666,
-    "p_at_1": 0.375
-  },
   "run_config": {
     "actual_records": 48,
     "adapter": {
-      "scale": 0.2
+      "scale": null
     },
     "hopfield": {
       "enabled": true,
-      "steps": 1,
-      "temperature": 1.0
+      "steps": 2,
+      "temperature": 0.5
     },
     "memory": {
-      "max_tokens": 0
+      "max_tokens": null
     },
     "qa": {
       "answer_hint": true,
@@ -1207,7 +1088,7 @@
       "prompt_style": "chat",
       "stop": "",
       "stop_mode": "none",
-      "template_policy": "plain"
+      "template_policy": "auto"
     },
     "requested_records": 24,
     "seed": 7

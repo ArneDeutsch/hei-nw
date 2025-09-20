@@ -1,9 +1,9 @@
 {
-  "adapter_latency_overhead_s": -3.828903507167221,
+  "adapter_latency_overhead_s": -0.054812366125058055,
   "aggregate": {
-    "em": 0.125,
-    "em_relaxed": 0.125,
-    "em_strict": 0.125,
+    "em": 0.08333333333333333,
+    "em_relaxed": 0.08333333333333333,
+    "em_strict": 0.08333333333333333,
     "f1": 0.125,
     "latency": 0.0,
     "non_empty_rate": 1.0,
@@ -26,54 +26,54 @@
       "retrieval_only": true
     },
     "first_token": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Alice",
+      "Charlie",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Alice",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan",
+      "Ivan"
     ],
     "mem_len": [
       64,
@@ -140,28 +140,28 @@
   "lag_bins": [
     {
       "count": 12,
-      "em": 0.08333333333333333,
-      "em_relaxed": 0.08333333333333333,
-      "em_strict": 0.08333333333333333,
-      "f1": 0.08333333333333333,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.16666666666666666,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.08333333333333333,
-      "em_relaxed": 0.08333333333333333,
-      "em_strict": 0.08333333333333333,
-      "f1": 0.08333333333333333,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.16666666666666666,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.3333333333333333,
-      "em_relaxed": 0.3333333333333333,
-      "em_strict": 0.3333333333333333,
-      "f1": 0.3333333333333333,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.16666666666666666,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
@@ -183,7 +183,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -204,7 +204,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -219,13 +219,13 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -246,7 +246,7 @@
       "f1": 0.0,
       "lag": 24,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -267,7 +267,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -288,7 +288,7 @@
       "f1": 0.0,
       "lag": 2,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -309,7 +309,7 @@
       "f1": 0.0,
       "lag": 4,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -330,7 +330,7 @@
       "f1": 0.0,
       "lag": 10,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -351,7 +351,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -372,7 +372,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -393,7 +393,7 @@
       "f1": 0.0,
       "lag": 3,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -414,7 +414,7 @@
       "f1": 0.0,
       "lag": 22,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -456,7 +456,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -477,7 +477,7 @@
       "f1": 0.0,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -498,7 +498,7 @@
       "f1": 0.0,
       "lag": 9,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -519,7 +519,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -540,7 +540,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -555,13 +555,13 @@
       "truth": "Charlie"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 5,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -582,7 +582,7 @@
       "f1": 0.0,
       "lag": 21,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -603,7 +603,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -645,7 +645,7 @@
       "f1": 0.0,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -666,7 +666,7 @@
       "f1": 0.0,
       "lag": 22,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -687,7 +687,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -708,7 +708,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -723,13 +723,13 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -750,7 +750,7 @@
       "f1": 0.0,
       "lag": 24,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -771,7 +771,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -792,7 +792,7 @@
       "f1": 0.0,
       "lag": 2,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -813,7 +813,7 @@
       "f1": 0.0,
       "lag": 4,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -834,7 +834,7 @@
       "f1": 0.0,
       "lag": 10,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -855,7 +855,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -876,7 +876,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -897,7 +897,7 @@
       "f1": 0.0,
       "lag": 3,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -918,7 +918,7 @@
       "f1": 0.0,
       "lag": 22,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -933,13 +933,13 @@
       "truth": "Judy"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -960,7 +960,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -981,7 +981,7 @@
       "f1": 0.0,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1002,7 +1002,7 @@
       "f1": 0.0,
       "lag": 9,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1023,7 +1023,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Alice (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1044,7 +1044,7 @@
       "f1": 0.0,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1059,13 +1059,13 @@
       "truth": "Charlie"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 5,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1086,7 +1086,7 @@
       "f1": 0.0,
       "lag": 21,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1107,7 +1107,7 @@
       "f1": 0.0,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1122,13 +1122,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
       "latency": 0.0,
-      "prediction": "Alice",
+      "prediction": "Ivan",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1149,7 +1149,7 @@
       "f1": 0.0,
       "lag": 6,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1170,7 +1170,7 @@
       "f1": 0.0,
       "lag": 22,
       "latency": 0.0,
-      "prediction": "Ivan",
+      "prediction": "Ivan (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -1186,12 +1186,14 @@
     }
   ],
   "retrieval": {
-    "collision_rate": 0.2916666666666667,
+    "baseline_mrr": 0.5429951873426138,
+    "baseline_p_at_1": 0.375,
+    "collision_rate": 0.4583333333333333,
     "completion_lift": -0.2916666666666667,
     "hopfield_rank_improved_rate": 0.125,
-    "mrr": 0.5429951873426138,
-    "near_miss_rate": 0.16666666666666666,
-    "p_at_1": 0.375
+    "mrr": 0.18969044839609095,
+    "near_miss_rate": 0.041666666666666664,
+    "p_at_1": 0.08333333333333333
   },
   "run_config": {
     "actual_records": 48,
@@ -1209,10 +1211,12 @@
     "qa": {
       "answer_hint": true,
       "max_new_tokens": 8,
+      "memory_dependent_baseline": false,
+      "omit_episode": false,
       "prompt_style": "chat",
       "stop": "",
       "stop_mode": "none",
-      "template_policy": "auto"
+      "template_policy": "plain"
     },
     "requested_records": 24,
     "seed": 7

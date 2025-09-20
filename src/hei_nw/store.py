@@ -395,7 +395,8 @@ class EpisodicStore:
         H = self._embed(cue_text)
         key = self.keyer(H)
         dense = to_dense(key).detach().cpu().numpy()
-        k = min(top_k_candidates, self.index.ef_search)
+        ef_search = getattr(self.index, "ef_search", top_k_candidates)
+        k = min(top_k_candidates, int(ef_search))
         results = self.index.search(dense, k=k)
         if not results:
             diagnostics = {

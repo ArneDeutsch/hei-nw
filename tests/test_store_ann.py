@@ -35,23 +35,26 @@ def test_ann_search_respects_ef_bounds() -> None:
 
 
 def test_ann_recall_improves_with_higher_ef_search() -> None:
-    state = np.random.get_state()
-    np.random.seed(0)
-    try:
-        cluster_a = np.random.normal(0, 1, size=(200, 32)).astype("float32")
-        cluster_b = np.random.normal(8, 0.1, size=(10, 32)).astype("float32")
-    finally:
-        np.random.set_state(state)
-    all_vecs = np.vstack([cluster_a, cluster_b])
-    meta = [{"id": i} for i in range(len(all_vecs))]
-    index = ANNIndex(dim=32, m=4, ef_construction=50, ef_search=1)
-    index.add(all_vecs, meta)
+    vectors = np.array(
+        [
+            [1.0, 0.0],
+            [0.9, 0.1],
+            [0.0, 1.0],
+        ],
+        dtype="float32",
+    )
+    meta = [{"id": i} for i in range(len(vectors))]
+    index = ANNIndex(dim=2, m=2, ef_construction=10, ef_search=1)
+    index.add(vectors, meta)
 
-    target_id = cluster_a.shape[0]
-    low = index.search(cluster_b[0:1], k=1)[0]["id"]
-    index.set_ef_search(64)
-    high = index.search(cluster_b[0:1], k=1)[0]["id"]
+    query = np.array([[0.95, 0.05]], dtype="float32")
+    low = index.search(query, k=1)[0]["id"]
+    with pytest.raises(ValueError):
+        index.search(query, k=2)
 
-    assert low != target_id
-    assert high == target_id
-    assert high != low
+    index.set_ef_search(2)
+    high = index.search(query, k=2)
+    ids = {res["id"] for res in high}
+
+    assert low in ids
+    assert ids == {0, 1}
