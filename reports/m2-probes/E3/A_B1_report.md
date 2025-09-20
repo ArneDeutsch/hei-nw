@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.011s
-- Adapter latency overhead: 0.001s
+- Latency: 0.016s
+- Adapter latency overhead: -0.009s
 
 ## Run config
 - Seed: 7
@@ -30,20 +30,20 @@
 | 7-30 | 8 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 2618032
-B0 KV cache bytes: 51776
+B0 attention FLOPs: 2587480
+B0 KV cache bytes: 51472
 
 ## Retrieval
 - P@1: 0.469
-- MRR: 0.622
+- MRR: 0.624
 - Near-miss rate: 0.188
 - Collision rate: 0.219
-- Completion lift: -0.344
-- Hopfield rank improved rate: 0.188
+- Completion lift: 0.000
+- Hopfield rank improved rate: 0.031
 
 ## Debug
 - Memory token counts: [64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64]
-- Memory token preview: [who, :, ĠJudy, Ġwhat, :, Ġbackpack, Ġwhere, :]
+- Memory token preview: [who, :, ĠFay, Ġwhat, :, Ġumbrella, Ġwhere, :]
 
 ## Dataset notes
 Hard negatives/confounders included (ratio 1.00)

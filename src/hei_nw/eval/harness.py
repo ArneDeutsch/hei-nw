@@ -247,10 +247,7 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         dest="adapter_scale",
         type=float,
         default=0.2,
-        help=(
-            "Initial value for the learnable residual gate applied by the "
-            "episodic adapter."
-        ),
+        help=("Initial value for the learnable residual gate applied by the " "episodic adapter."),
     )
     parser.add_argument(
         "--qa.answer_hint",
@@ -664,7 +661,9 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
     """Construct :class:`QAPromptSettings` from CLI *args* with defaults."""
 
     defaults = _scenario_default_qa_settings(args.scenario)
-    prompt_style = args.qa_prompt_style if args.qa_prompt_style is not None else defaults.prompt_style
+    prompt_style = (
+        args.qa_prompt_style if args.qa_prompt_style is not None else defaults.prompt_style
+    )
     max_new_tokens = (
         args.qa_max_new_tokens if args.qa_max_new_tokens is not None else defaults.max_new_tokens
     )
@@ -702,9 +701,7 @@ def _evaluate_b0_records(
     return _evaluate_records(records, geom, qa_settings)
 
 
-def _apply_recall_metrics(
-    items: Sequence[EvalItem], recalls: Sequence[float] | None
-) -> None:
+def _apply_recall_metrics(items: Sequence[EvalItem], recalls: Sequence[float] | None) -> None:
     """Attach recall@k metrics from *recalls* onto ``items`` in-place."""
 
     if recalls is None:
@@ -743,9 +740,7 @@ def _evaluate_mode_b0(
 
     qa_settings = _resolve_qa_settings(qa)
     items, compute = _evaluate_b0_records(records, geom, qa_settings)
-    baseline_compute = _run_baseline_with_recalls(
-        baseline, records, model, tok, items
-    )
+    baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     return items, compute, baseline_compute, {}
 
 
@@ -785,7 +780,8 @@ def _evaluate_mode_b1(
     b0_items, _ = _evaluate_b0_records(records, geom, qa_settings)
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
-    cand_groups: list[list[int]] = []
+    final_cand_groups: list[list[int]] = []
+    baseline_cand_groups: list[list[int]] = []
     truths: list[int] = []
     diagnostics: list[dict[str, Any]] = []
     hopfield_diagnostics: list[dict[str, Any]] = []
@@ -795,49 +791,60 @@ def _evaluate_mode_b1(
     mem_lengths: list[int] = []
     preview_tokens: list[str] | None = None
     first_tokens: list[str] = []
+
+    def _coerce_group_id(value: Any) -> int:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return -1
+
     for rec in records:
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
         should_remember = bool(rec.get("should_remember"))
-        res_no = service.store.query(
+        result = service.store.query(
             cue,
             return_m=service.return_m,
-            use_hopfield=False,
+            use_hopfield=use_hopfield,
             group_id=group_id,
             should_remember=should_remember,
         )
-        res_h = res_no
-        if use_hopfield:
-            res_h = service.store.query(
-                cue,
-                return_m=service.return_m,
-                use_hopfield=True,
-                group_id=group_id,
-                should_remember=should_remember,
-            )
         if dev_settings.oracle_trace:
             oracle_answers = [str(ans) for ans in rec.get("answers", [])]
-            res_h = {
+            baseline_candidates = result.get("baseline_candidates", [])
+            result = {
                 "selected": [
                     {
                         "answers": oracle_answers,
                         "group_id": group_id,
                     }
                 ],
-                "candidates": res_no.get("candidates", []),
-                "diagnostics": res_no.get("diagnostics", {}),
+                "candidates": result.get("candidates", []),
+                "diagnostics": result.get("diagnostics", {}),
+                "baseline_candidates": baseline_candidates,
+                "baseline_diagnostics": result.get(
+                    "baseline_diagnostics", result.get("diagnostics", {})
+                ),
             }
-        selected_traces = cast(list[dict[str, Any]], res_h.get("selected", []))
-        cand_groups.append([c["group_id"] for c in res_no["candidates"]])
+        selected_traces = cast(list[dict[str, Any]], result.get("selected", []))
+        final_candidates_raw = list(result.get("candidates", []))
+        baseline_candidates_raw = list(result.get("baseline_candidates") or final_candidates_raw)
+        final_groups = [_coerce_group_id(c.get("group_id")) for c in final_candidates_raw]
+        baseline_groups = [_coerce_group_id(c.get("group_id")) for c in baseline_candidates_raw]
         truths.append(group_id)
-        diagnostics.append(res_no["diagnostics"])
-        hopfield_diagnostics.append(res_h["diagnostics"])
+        final_cand_groups.append(final_groups)
+        baseline_cand_groups.append(baseline_groups)
+        diag = cast(dict[str, Any], result.get("diagnostics", {}))
+        diagnostics.append(diag)
+        hopfield_diagnostics.append(diag)
         baseline_top1.append(
-            bool(res_no["selected"]) and res_no["selected"][0]["group_id"] == group_id
+            bool(baseline_candidates_raw) and baseline_candidates_raw[0].get("group_id") == group_id
         )
         hopfield_top1.append(
-            bool(selected_traces) and selected_traces[0].get("group_id") == group_id
+            bool(final_candidates_raw) and final_candidates_raw[0].get("group_id") == group_id
         )
+        if not use_hopfield:
+            hopfield_top1[-1] = baseline_top1[-1]
         if mem_max_tokens <= 0:
             mem_tokens: list[int] = []
         else:
@@ -854,9 +861,7 @@ def _evaluate_mode_b1(
             mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
         mem_lengths.append(len(mem_tokens))
         if preview_tokens is None and mem_tokens:
-            preview_tokens = _decode_mem_preview(
-                service.tokenizer, mem_tokens[:8]
-            )
+            preview_tokens = _decode_mem_preview(service.tokenizer, mem_tokens[:8])
         if dev_settings.retrieval_only:
             prompt, truth = _build_prompt(
                 rec,
@@ -865,10 +870,16 @@ def _evaluate_mode_b1(
                 omit_episode=qa_settings.omit_episode,
             )
             pred = ""
+            top_group = final_candidates_raw[0].get("group_id") if final_candidates_raw else None
             if selected_traces:
                 top_answers = selected_traces[0].get("answers", [])
-                if top_answers:
-                    pred = str(top_answers[0])
+                if top_group == group_id:
+                    pred = str(truth)
+                elif top_answers:
+                    base = str(top_answers[0])
+                    pred = f"{base} (retrieval miss)"
+                else:
+                    pred = "retrieval miss"
             em_rel = relaxed_em(pred, truth)
             em_str = strict_em(pred, truth)
             f1 = token_f1(pred, truth)
@@ -885,7 +896,7 @@ def _evaluate_mode_b1(
                     lag=int(rec.get("lag", 0)),
                 )
             )
-            first_tokens.append("")
+            first_tokens.append(pred.split()[0] if pred else "")
             continue
         itm_list, comp = _evaluate_records(
             [rec],
@@ -900,17 +911,17 @@ def _evaluate_mode_b1(
             prediction = itm_list[0].prediction.strip()
             if prediction:
                 first_token = prediction.split()[0]
-        first_tokens.append(first_token)
+            first_tokens.append(first_token)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
-    baseline_compute = _run_baseline_with_recalls(
-        baseline, records, model, tok, items
-    )
+    baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
     retrieval = {
-        "p_at_1": precision_at_k(cand_groups, truths, 1),
-        "mrr": mrr(cand_groups, truths),
+        "p_at_1": precision_at_k(final_cand_groups, truths, 1),
+        "baseline_p_at_1": precision_at_k(baseline_cand_groups, truths, 1),
+        "mrr": mrr(final_cand_groups, truths),
+        "baseline_mrr": mrr(baseline_cand_groups, truths),
         "near_miss_rate": near_miss_rate(diagnostics),
         "collision_rate": collision_rate(diagnostics),
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),

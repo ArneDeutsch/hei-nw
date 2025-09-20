@@ -39,9 +39,24 @@ def test_hopfield_ablation_changes_top_rank() -> None:
         np.array([-0.2, 0.98], dtype=np.float32),
     ]
     ann_results = [
-        {"trace": {"id": "baseline"}, "key_vector": candidate_vectors[0], "group_id": 1, "score": 0.99},
-        {"trace": {"id": "hopfield"}, "key_vector": candidate_vectors[1], "group_id": 2, "score": 0.80},
-        {"trace": {"id": "other"}, "key_vector": candidate_vectors[2], "group_id": 3, "score": 0.70},
+        {
+            "trace": {"id": "baseline"},
+            "key_vector": candidate_vectors[0],
+            "group_id": 1,
+            "score": 0.85,
+        },
+        {
+            "trace": {"id": "hopfield"},
+            "key_vector": candidate_vectors[1],
+            "group_id": 2,
+            "score": 0.84,
+        },
+        {
+            "trace": {"id": "other"},
+            "key_vector": candidate_vectors[2],
+            "group_id": 3,
+            "score": 0.70,
+        },
     ]
     store = FakeStore(
         keyer=keyer,
@@ -59,5 +74,18 @@ def test_hopfield_ablation_changes_top_rank() -> None:
 
     assert [trace["id"] for trace in without_hopfield["selected"]] == ["baseline"]
     assert [trace["id"] for trace in with_hopfield["selected"]] == ["hopfield"]
-    assert [cand["trace"]["id"] for cand in without_hopfield["candidates"]] == ["baseline", "hopfield", "other"]
-    assert [cand["trace"]["id"] for cand in with_hopfield["candidates"]] == ["baseline", "hopfield", "other"]
+    assert [cand["trace"]["id"] for cand in without_hopfield["candidates"]] == [
+        "baseline",
+        "hopfield",
+        "other",
+    ]
+    assert [cand["trace"]["id"] for cand in with_hopfield["candidates"]] == [
+        "hopfield",
+        "baseline",
+        "other",
+    ]
+    assert [cand["trace"]["id"] for cand in with_hopfield.get("baseline_candidates", [])] == [
+        "baseline",
+        "hopfield",
+        "other",
+    ]

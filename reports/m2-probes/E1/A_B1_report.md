@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.010s
-- Adapter latency overhead: 0.000s
+- Latency: 0.016s
+- Adapter latency overhead: -0.009s
 
 ## Run config
 - Seed: 7
@@ -35,11 +35,11 @@ B0 KV cache bytes: 51616
 
 ## Retrieval
 - P@1: 0.469
-- MRR: 0.622
+- MRR: 0.624
 - Near-miss rate: 0.188
 - Collision rate: 0.219
-- Completion lift: 0.531
-- Hopfield rank improved rate: 0.000
+- Completion lift: 0.000
+- Hopfield rank improved rate: 0.031
 
 ## Debug
 - Memory token counts: [17, 17, 18, 17, 17, 17, 18, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 17, 17]
