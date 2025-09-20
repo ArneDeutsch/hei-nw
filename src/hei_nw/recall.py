@@ -45,6 +45,9 @@ class RecallService:
         hopfield_steps: int = 1,
         hopfield_temperature: float = 1.0,
         keyer: DGKeyer | None = None,
+        ann_m: int = 32,
+        ann_ef_construction: int = 200,
+        ann_ef_search: int = 64,
     ) -> RecallService:
         """Construct a :class:`RecallService` from raw records.
 
@@ -66,6 +69,8 @@ class RecallService:
             Optional :class:`DGKeyer` instance controlling sparsity of dense
             keys. When omitted, a new instance with default parameters is
             created.
+        ann_m, ann_ef_construction, ann_ef_search:
+            HNSW configuration knobs forwarded to :class:`ANNIndex`.
         """
 
         store = EpisodicStore.from_records(
@@ -75,6 +80,9 @@ class RecallService:
             hopfield_steps=hopfield_steps,
             hopfield_temperature=hopfield_temperature,
             keyer=keyer,
+            ann_m=ann_m,
+            ann_ef_construction=ann_ef_construction,
+            ann_ef_search=ann_ef_search,
         )
         return cls(store, tokenizer, max_mem_tokens, return_m)
 
