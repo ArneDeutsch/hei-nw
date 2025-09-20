@@ -102,3 +102,8 @@ def consolidate():
 * You need a good **write threshold**; too low = noisy store, too high = missed memories.
 * Associative completion helps recall but can return near-misses if separation is weak; k-WTA and diversity-aware eviction help.
 * Consolidation must be **interference-aware** (order and mix matter) to avoid drifting the base model.&#x20;
+
+## Implementation notes (current repo)
+
+* The FAISS `IndexHNSWFlat` backend returns **distances**. We convert them to cosine-like scores (negative distance) and sort **descending** before modern-Hopfield re-ranking (`ANNIndex.search`). If Hopfield ever tanks P@1, check that this ordering logic still runs.
+* The memory-dependent acceptance baseline surfaces retrieved episodes as short natural-language snippets (`Memory:` block) so the base model can answer without the original episode prompt. Keep the decoding guard (`scripts/gate_non_empty_predictions.py`) happy by leaving the user-facing question’s “single word” instruction unchanged.

@@ -4,7 +4,7 @@
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.05974508572914298,
+    "latency": 0.057651350979313065,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
@@ -64,7 +64,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.5461399290015834,
+      "latency": 0.5486665120006364,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -85,7 +85,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04284529399956227,
+      "latency": 0.04150466899955063,
       "prediction": "Unknown",
       "prompt": [
         {
@@ -106,7 +106,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.06344678399909753,
+      "latency": 0.060983776002103696,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -127,7 +127,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04228780899939011,
+      "latency": 0.041196826998202596,
       "prediction": "unknown",
       "prompt": [
         {
@@ -148,7 +148,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04217641899958835,
+      "latency": 0.04110894699988421,
       "prediction": "unknown",
       "prompt": [
         {
@@ -169,7 +169,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.0420609480006533,
+      "latency": 0.04131908799899975,
       "prediction": "unknown",
       "prompt": [
         {
@@ -190,7 +190,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.06329687299876241,
+      "latency": 0.06205664199660532,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -211,7 +211,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.06250525699942955,
+      "latency": 0.06064846400113311,
       "prediction": "Theodore",
       "prompt": [
         {
@@ -232,7 +232,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042302140000174404,
+      "latency": 0.04115135600295616,
       "prediction": "student",
       "prompt": [
         {
@@ -253,7 +253,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.06275239999922633,
+      "latency": 0.06201917199723539,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -274,7 +274,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.0426721229996474,
+      "latency": 0.04108183700009249,
       "prediction": "student",
       "prompt": [
         {
@@ -295,7 +295,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04387115099962102,
+      "latency": 0.04118308699980844,
       "prediction": "unknown",
       "prompt": [
         {
@@ -316,7 +316,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04345449799984635,
+      "latency": 0.04113712700200267,
       "prediction": "John",
       "prompt": [
         {
@@ -337,7 +337,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04212623800049187,
+      "latency": 0.041173756999342004,
       "prediction": "visitor",
       "prompt": [
         {
@@ -358,7 +358,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.043797459999041166,
+      "latency": 0.04106361600133823,
       "prediction": "unknown",
       "prompt": [
         {
@@ -379,7 +379,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04352321899932576,
+      "latency": 0.04257017500276561,
       "prediction": "Jack",
       "prompt": [
         {
@@ -400,7 +400,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.06404127899986634,
+      "latency": 0.06048483300037333,
       "prediction": "The Baker",
       "prompt": [
         {
@@ -421,7 +421,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.06257366800127784,
+      "latency": 0.06099090600037016,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -442,7 +442,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04377184999975725,
+      "latency": 0.04102277600031812,
       "prediction": "Tom",
       "prompt": [
         {
@@ -463,7 +463,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.06268012799955613,
+      "latency": 0.06077689499943517,
       "prediction": "Marie",
       "prompt": [
         {
@@ -484,7 +484,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042088968000825844,
+      "latency": 0.04115816700141295,
       "prediction": "John",
       "prompt": [
         {
@@ -505,7 +505,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.043116295000800164,
+      "latency": 0.040995735998876626,
       "prediction": "unknown",
       "prompt": [
         {
@@ -526,7 +526,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.043913101000725874,
+      "latency": 0.04113378699912573,
       "prediction": "John",
       "prompt": [
         {
@@ -547,7 +547,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.044171853000079864,
+      "latency": 0.04115431700120098,
       "prediction": "wind",
       "prompt": [
         {
@@ -568,7 +568,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.07496934899972985,
+      "latency": 0.06068102399876807,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -589,7 +589,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0463098580003134,
+      "latency": 0.040974356001242995,
       "prediction": "Visitor",
       "prompt": [
         {
@@ -610,7 +610,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04318061599951761,
+      "latency": 0.04104118599934736,
       "prediction": "Jack",
       "prompt": [
         {
@@ -631,7 +631,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04585304500142229,
+      "latency": 0.041126635998807615,
       "prediction": "unknown",
       "prompt": [
         {
@@ -652,7 +652,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042460381000637426,
+      "latency": 0.04109414599952288,
       "prediction": "unknown",
       "prompt": [
         {
@@ -673,7 +673,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04439437499968335,
+      "latency": 0.04105485599939129,
       "prediction": "unknown",
       "prompt": [
         {
@@ -694,7 +694,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.06390164699951129,
+      "latency": 0.060921375999896554,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -715,7 +715,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.04360452899891243,
+      "latency": 0.041132267000648426,
       "prediction": "visitor",
       "prompt": [
         {
@@ -736,7 +736,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04252314099903742,
+      "latency": 0.041254496998590184,
       "prediction": "student",
       "prompt": [
         {
@@ -757,7 +757,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.06354111499967985,
+      "latency": 0.06059605300106341,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -778,7 +778,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.06235267599913641,
+      "latency": 0.06057084300118731,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -799,7 +799,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04240059999938239,
+      "latency": 0.04106723599761608,
       "prediction": "unknown",
       "prompt": [
         {
@@ -820,7 +820,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04282183299983444,
+      "latency": 0.04116568699828349,
       "prediction": "John",
       "prompt": [
         {
@@ -841,7 +841,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04165384400039329,
+      "latency": 0.04098518600221723,
       "prediction": "unknown",
       "prompt": [
         {
@@ -862,7 +862,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04412530300032813,
+      "latency": 0.042348093000327935,
       "prediction": "unknown",
       "prompt": [
         {
@@ -883,7 +883,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.0418015760005801,
+      "latency": 0.04219940199982375,
       "prediction": "Jack",
       "prompt": [
         {
@@ -904,7 +904,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.06458770300014294,
+      "latency": 0.06050790400331607,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -925,7 +925,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04435220500090509,
+      "latency": 0.04260992500348948,
       "prediction": "Jack",
       "prompt": [
         {
@@ -946,7 +946,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.0429974550006591,
+      "latency": 0.04225351299828617,
       "prediction": "John",
       "prompt": [
         {
@@ -967,7 +967,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.06340946400086978,
+      "latency": 0.06160145900139469,
       "prediction": "Tommy",
       "prompt": [
         {
@@ -988,7 +988,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.06257477799954358,
+      "latency": 0.06156746000124258,
       "prediction": "John Doe",
       "prompt": [
         {
@@ -1009,7 +1009,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04369590900023468,
+      "latency": 0.041081875999225304,
       "prediction": "unknown",
       "prompt": [
         {
@@ -1030,7 +1030,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04180797499975597,
+      "latency": 0.04188486099883448,
       "prediction": "John",
       "prompt": [
         {
@@ -1051,7 +1051,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.042829054000321776,
+      "latency": 0.04096253600073396,
       "prediction": "wind",
       "prompt": [
         {

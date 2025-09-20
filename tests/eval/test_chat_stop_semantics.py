@@ -29,6 +29,7 @@ def _install_generate_probe(
         max_new_tokens: int,
         adapter: Any,
         mem_tokens: Any,
+        memory_prompt: Any,
         stop: Any,
         prompt_style: str,
         stop_mode: str,

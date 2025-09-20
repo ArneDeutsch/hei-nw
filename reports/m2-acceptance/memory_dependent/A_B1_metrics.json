@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": -0.11798077191671534,
+  "adapter_latency_overhead_s": 0.02761681483305739,
   "aggregate": {
-    "em": 0.0,
-    "em_relaxed": 0.0,
-    "em_strict": 0.0,
-    "f1": 0.0,
-    "latency": 0.11328492739581482,
+    "em": 0.14583333333333334,
+    "em_relaxed": 0.14583333333333334,
+    "em_strict": 0.14583333333333334,
+    "f1": 0.18888888888888888,
+    "latency": 0.25109941481249126,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 16050241536,
-      "kv_cache_bytes": 18321408
+      "attention_flops": 101829095424,
+      "kv_cache_bytes": 46282752
     },
     "baseline": null
   },
@@ -26,54 +26,54 @@
       "retrieval_only": false
     },
     "first_token": [
-      "The",
-      "thief",
-      "John",
-      "thief",
-      "John",
-      "John",
-      "John",
-      "shopkeeper",
-      "thief",
-      "The",
-      "thief",
-      "John",
-      "thief",
-      "thief",
-      "John",
-      "John",
-      "The",
-      "The",
-      "passenger",
-      "John",
-      "John",
-      "vandal",
-      "thief",
-      "John",
-      "The",
-      "thief",
-      "John",
-      "thief",
-      "John",
-      "Beachgoer",
-      "John",
-      "thief",
-      "thief",
-      "The",
-      "The",
-      "The",
-      "thief",
-      "thief",
-      "John",
-      "John",
-      "shoplifter",
-      "John",
-      "thief",
-      "The",
-      "narrator",
-      "vandal",
-      "thief",
-      "John"
+      "On",
+      "Eli",
+      "Ivan",
+      "On",
+      "Judy",
+      "Judy",
+      "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Judy",
+      "Eli",
+      "On",
+      "On",
+      "Fay",
+      "Charlie",
+      "Charlie",
+      "Ivan",
+      "On",
+      "On",
+      "Judy",
+      "Eli",
+      "Fay",
+      "On",
+      "On",
+      "On",
+      "On",
+      "Judy",
+      "Alice",
+      "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Alice",
+      "Eli",
+      "On",
+      "Judy",
+      "Fay",
+      "Charlie",
+      "On",
+      "Eli",
+      "On",
+      "On",
+      "Judy",
+      "Eli",
+      "Fay"
     ],
     "mem_len": [
       64,
@@ -128,31 +128,31 @@
     "mem_preview": [
       "who",
       ":",
-      "ĠIvan",
+      "ĠGus",
       "Ġwhat",
       ":",
-      "Ġkey",
+      "Ġbackpack",
       "Ġwhere",
       ":"
     ],
-    "mem_preview_str": "who : ĠIvan Ġwhat : Ġkey Ġwhere :"
+    "mem_preview_str": "who : ĠGus Ġwhat : Ġbackpack Ġwhere :"
   },
   "lag_bins": [
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.16666666666666666,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 0.08333333333333333,
+      "em_relaxed": 0.08333333333333333,
+      "em_strict": 0.08333333333333333,
+      "f1": 0.125,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
@@ -161,16 +161,16 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.08888888888888889,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 0.3333333333333333,
+      "em_relaxed": 0.3333333333333333,
+      "em_strict": 0.3333333333333333,
+      "f1": 0.375,
       "lag_bin": "7-30",
       "recall_at_k": null
     }
@@ -182,8 +182,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.11859045500023058,
-      "prediction": "The customer did.",
+      "latency": 0.3504019510000944,
+      "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -203,8 +203,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.044776067001293995,
-      "prediction": "thief",
+      "latency": 0.11554997699931846,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -222,10 +222,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.5,
       "lag": 6,
-      "latency": 0.06368118800128286,
-      "prediction": "John Doe",
+      "latency": 0.17595568999968236,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -245,8 +245,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.044330173999696854,
-      "prediction": "thief",
+      "latency": 0.33850070500193397,
+      "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -266,8 +266,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.06312691300081497,
-      "prediction": "John Doe",
+      "latency": 0.17621254099867656,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -285,10 +285,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.5,
       "lag": 2,
-      "latency": 0.06436492299872043,
-      "prediction": "John Doe",
+      "latency": 0.1782186519994866,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -308,8 +308,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.06822633299998415,
-      "prediction": "John Doe",
+      "latency": 0.17846379299953696,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -329,8 +329,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.06457228399995074,
-      "prediction": "shopkeeper",
+      "latency": 0.3333168970020779,
+      "prediction": "On 2025-01-30, George left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -345,13 +345,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.04294567200122401,
-      "prediction": "thief",
+      "latency": 0.11797440000009374,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -371,8 +371,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.32041860299978,
-      "prediction": "The question is ambiguous and does not provide enough context to determine who left a book",
+      "latency": 0.3325354519984103,
+      "prediction": "On 2025-01-06, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -392,8 +392,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04289389199948346,
-      "prediction": "thief",
+      "latency": 0.3337082189973444,
+      "prediction": "On 2025-01-28, Jack left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -411,10 +411,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.5,
       "lag": 22,
-      "latency": 0.06362265600000683,
-      "prediction": "John Doe",
+      "latency": 0.17737913800010574,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -434,8 +434,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.043552496999836876,
-      "prediction": "thief",
+      "latency": 0.33684536600048887,
+      "prediction": "Eli Explanation: The question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -455,8 +455,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04301604200009024,
-      "prediction": "thief",
+      "latency": 0.33514466699853074,
+      "prediction": "On 2025-01-19, Eve left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -476,8 +476,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.32709634599996207,
-      "prediction": "John Doe\n\nJohn Doe is the person who left a notebook at the beach.",
+      "latency": 0.3379514329972153,
+      "prediction": "On 2025-01-07, Tom left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -492,13 +492,13 @@
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.3240762999994331,
-      "prediction": "John Doe\n\nJohn Doe is the person who left a bottle at the park based",
+      "latency": 0.11975417899884633,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -518,8 +518,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.12225026399937633,
-      "prediction": "The baker found it.",
+      "latency": 0.11936357699960354,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -534,13 +534,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 1,
-      "latency": 0.10286663899933046,
-      "prediction": "The customer did.",
+      "latency": 0.1173805660000653,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -558,10 +558,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.16666666666666669,
       "lag": 5,
-      "latency": 0.0439982299994881,
-      "prediction": "passenger",
+      "latency": 0.33646180399955483,
+      "prediction": "Ivan Explanation: The user asked about someone leaving a book at",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -581,8 +581,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.3296386239999265,
-      "prediction": "John Doe\n\nJohn Doe is an example of someone who might have left a bottle",
+      "latency": 0.3388934770009655,
+      "prediction": "On 2025-01-03, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -602,8 +602,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.33860013499906927,
-      "prediction": "John Doe\n\nNote: The user's question is incomplete and does not provide enough",
+      "latency": 0.3397980620029557,
+      "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -623,8 +623,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04549374199996237,
-      "prediction": "vandal",
+      "latency": 0.11990282000260777,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -642,10 +642,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.19999999999999998,
       "lag": 6,
-      "latency": 0.04491316700114112,
-      "prediction": "thief",
+      "latency": 0.33747474999836413,
+      "prediction": "Eli Explanation: The question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -660,13 +660,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.3322815840001567,
-      "prediction": "John Doe\n\nJohn Doe is an example of someone who might have left an umbrella",
+      "latency": 0.11940528800187167,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -686,8 +686,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.10288664899962896,
-      "prediction": "The customer did.",
+      "latency": 0.33683705599833047,
+      "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -707,8 +707,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04303877200072748,
-      "prediction": "thief",
+      "latency": 0.33459135399971274,
+      "prediction": "On 2025-01-03, Fay left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -728,8 +728,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.06313107300047704,
-      "prediction": "John Doe",
+      "latency": 0.33450201400046353,
+      "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -749,8 +749,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.042948971999067,
-      "prediction": "thief",
+      "latency": 0.3378996419996838,
+      "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -770,8 +770,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.062347106000743224,
-      "prediction": "John Doe",
+      "latency": 0.17899187700095354,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -791,8 +791,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.08210293299998739,
-      "prediction": "Beachgoer",
+      "latency": 0.3375071000009484,
+      "prediction": "Alice Explanation: The user's question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -812,8 +812,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.06348988500030828,
-      "prediction": "John Doe",
+      "latency": 0.18191537199891172,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -833,8 +833,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.04309780299990962,
-      "prediction": "thief",
+      "latency": 0.33499236599891447,
+      "prediction": "On 2025-01-30, John left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -849,13 +849,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 0,
-      "latency": 0.04227064599945152,
-      "prediction": "thief",
+      "latency": 0.11686221399941132,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -875,8 +875,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.10342445199967187,
-      "prediction": "The baker did.",
+      "latency": 0.3362647330031905,
+      "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -896,8 +896,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.10182763999910094,
-      "prediction": "The customer did.",
+      "latency": 0.33506850599951576,
+      "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -917,8 +917,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.31877596599952085,
-      "prediction": "The question is ambiguous and lacks specific context about which person or group of people might",
+      "latency": 0.11820875100238482,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -938,8 +938,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04416927099919121,
-      "prediction": "thief",
+      "latency": 0.33671200499884435,
+      "prediction": "Eli Explanation: The question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -959,8 +959,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04393008899933193,
-      "prediction": "thief",
+      "latency": 0.33570723999946495,
+      "prediction": "On 2025-01-19, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -980,8 +980,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.06252132700137736,
-      "prediction": "John Doe",
+      "latency": 0.1771418360003736,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -996,13 +996,13 @@
       "truth": "Dana"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 9,
-      "latency": 0.33886069399886765,
-      "prediction": "John Doe\n\nJohn Doe is the person who left a bottle at the park based",
+      "latency": 0.11787962899688864,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1022,8 +1022,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.08496975500020199,
-      "prediction": "shoplifter",
+      "latency": 0.11751299699972151,
+      "prediction": "Charlie",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1043,8 +1043,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0669012020007358,
-      "prediction": "John Doe",
+      "latency": 0.3342811719994643,
+      "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1064,8 +1064,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.044785246000174084,
-      "prediction": "thief",
+      "latency": 0.33805863200177555,
+      "prediction": "Eli Explanation: The question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1085,8 +1085,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.1069334500007244,
-      "prediction": "The passenger did.",
+      "latency": 0.3378255009993154,
+      "prediction": "On 2025-01-08, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1106,8 +1106,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04593574499995157,
-      "prediction": "narrator",
+      "latency": 0.3364112439994642,
+      "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1127,8 +1127,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.045335091001106775,
-      "prediction": "vandal",
+      "latency": 0.11919454700182541,
+      "prediction": "Judy",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1146,10 +1146,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.19999999999999998,
       "lag": 6,
-      "latency": 0.04489385699889681,
-      "prediction": "thief",
+      "latency": 0.3344932030013297,
+      "prediction": "Eli Explanation: The question asks about someone leaving a",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1164,13 +1164,13 @@
       "truth": "Eli"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 22,
-      "latency": 0.3397661609997158,
-      "prediction": "John Doe\n\nJohn Doe is an example of someone who might have left an umbrella",
+      "latency": 0.11731951600086177,
+      "prediction": "Fay",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1188,12 +1188,12 @@
   "retrieval": {
     "baseline_mrr": 0.5429951873426138,
     "baseline_p_at_1": 0.375,
-    "collision_rate": 0.4583333333333333,
-    "completion_lift": -0.2916666666666667,
-    "hopfield_rank_improved_rate": 0.125,
-    "mrr": 0.18969044839609095,
-    "near_miss_rate": 0.041666666666666664,
-    "p_at_1": 0.08333333333333333
+    "collision_rate": 0.2916666666666667,
+    "completion_lift": 0.0,
+    "hopfield_rank_improved_rate": 0.0,
+    "mrr": 0.5259737828212093,
+    "near_miss_rate": 0.16666666666666666,
+    "p_at_1": 0.375
   },
   "run_config": {
     "actual_records": 48,
