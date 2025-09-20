@@ -390,12 +390,33 @@ class EvalItem:
         object.__setattr__(self, "em", self.em_relaxed)
 
 
+def _normalize_prediction(text: str) -> str:
+    """Strip leading markers so the first token starts alphabetically when possible."""
+
+    tokens = text.split()
+    if not tokens:
+        return text
+    idx = 0
+    while idx < len(tokens):
+        raw = tokens[idx]
+        if raw.rstrip().endswith(":"):
+            idx += 1
+            continue
+        token = raw.strip("-:• ")
+        if token and token[0].isalpha():
+            tokens[idx] = token
+            return " ".join(tokens[idx:])
+        idx += 1
+    return text
+
+
 def _evaluate_records(
     records: Sequence[dict[str, Any]],
     geom: ModelGeometry,
     qa: QAPromptSettings,
     adapter: Any | None = None,
     mem_tokens: list[int] | None = None,
+    mem_text: str | None = None,
 ) -> tuple[list[EvalItem], ComputeRecord]:
     """Run evaluation for *records* and return item metrics and compute."""
     from hei_nw.models.base import generate
@@ -415,12 +436,14 @@ def _evaluate_records(
                 max_new_tokens=qa.max_new_tokens,
                 adapter=adapter,
                 mem_tokens=mem_tokens,
+                memory_prompt=mem_text,
                 stop=qa.stop_value(),
                 prompt_style=qa.prompt_style,
                 stop_mode=qa.stop_mode,
                 template_policy=qa.template_policy,
             )
-        pred = str(out["text"]).strip()
+        raw_pred = str(out["text"]).strip()
+        pred = _normalize_prediction(raw_pred)
         em_rel = relaxed_em(pred, truth)
         em_str = strict_em(pred, truth)
         f1 = token_f1(pred, truth)
@@ -897,6 +920,27 @@ def _evaluate_mode_b1(
         mem_lengths.append(len(mem_tokens))
         if preview_tokens is None and mem_tokens:
             preview_tokens = _decode_mem_preview(service.tokenizer, mem_tokens[:8])
+        mem_text: str | None = None
+        if qa_settings.memory_dependent_baseline and mem_tokens and selected_traces:
+            snippets: list[str] = []
+            for trace in selected_traces:
+                episode_text = str(trace.get("episode_text", "")).strip()
+                if episode_text:
+                    snippets.append(episode_text)
+                    continue
+                answers = trace.get("answers", [])
+                if not isinstance(answers, list):
+                    continue
+                fields = []
+                for label, idx in ("who", 0), ("what", 1), ("where", 2), ("when", 3):
+                    if idx < len(answers):
+                        value = str(answers[idx]).strip()
+                        if value:
+                            fields.append(f"{label}: {value}")
+                if fields:
+                    snippets.append("; ".join(fields))
+            if snippets:
+                mem_text = " | ".join(snippets)
         if dev_settings.retrieval_only:
             prompt, truth = _build_prompt(
                 rec,
@@ -939,6 +983,7 @@ def _evaluate_mode_b1(
             qa_settings,
             adapter=adapter,
             mem_tokens=mem_tokens,
+            mem_text=mem_text,
         )
         items.extend(itm_list)
         first_token = ""

@@ -6,7 +6,7 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 0.227s
+- Latency: 0.224s
 
 ## Run config
 - Seed: 7

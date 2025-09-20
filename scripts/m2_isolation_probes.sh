@@ -128,6 +128,41 @@ run_e3() {
     --model "$MODEL" --outdir "$outdir" --no-hopfield \
     "${default_args[@]}"
   append_summary "E3" "no-hopfield" "$outdir/A_B1_no-hopfield_metrics.json"
+  HOP_WITH="$outdir/A_B1_metrics.json" HOP_WITHOUT="$outdir/A_B1_no-hopfield_metrics.json" python - <<'PY'
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+with_hp = json.loads(Path(os.environ["HOP_WITH"]).read_text(encoding="utf8"))
+no_hp = json.loads(Path(os.environ["HOP_WITHOUT"]).read_text(encoding="utf8"))
+
+hop_retrieval = with_hp.get("retrieval") or {}
+nohop_retrieval = no_hp.get("retrieval") or {}
+
+hop_p1 = hop_retrieval.get("p_at_1")
+nohop_p1 = nohop_retrieval.get("p_at_1")
+hop_completion = hop_retrieval.get("completion_lift")
+
+def _fmt(value: float | None) -> str:
+    return f"{float(value):.3f}" if value is not None else "n/a"
+
+if hop_completion is not None and hop_completion < 0:
+    print(
+        f"[m2-probes] WARNING: Hopfield completion lift negative ({hop_completion:.3f})",
+        file=sys.stderr,
+    )
+if hop_p1 is not None and nohop_p1 is not None and hop_p1 + 1e-9 < nohop_p1:
+    print(
+        "[m2-probes] WARNING: Hopfield P@1 ({} ) < no-Hopfield ({})".format(
+            _fmt(hop_p1),
+            _fmt(nohop_p1),
+        ),
+        file=sys.stderr,
+    )
+PY
   if [[ -z "${CI:-}" ]]; then
     local plot="$outdir/completion_ablation.png"
     if [[ ! -f "$plot" ]]; then

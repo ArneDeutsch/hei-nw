@@ -58,3 +58,24 @@ def test_ann_recall_improves_with_higher_ef_search() -> None:
 
     assert low in ids
     assert ids == {0, 1}
+
+
+def test_ann_search_orders_by_descending_similarity() -> None:
+    vectors = np.array(
+        [
+            [1.0, 0.0],
+            [0.9, 0.1],
+            [0.7, 0.7],
+        ],
+        dtype="float32",
+    )
+    meta = [{"id": i} for i in range(len(vectors))]
+    index = ANNIndex(dim=2)
+    index.add(vectors, meta)
+
+    results = index.search(vectors[0:1], k=3)
+    scores = [res["score"] for res in results]
+    distances = [res["distance"] for res in results]
+
+    assert scores == sorted(scores, reverse=True)
+    assert distances == sorted(distances)

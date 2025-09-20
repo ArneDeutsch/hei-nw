@@ -1,11 +1,11 @@
 {
-  "adapter_latency_overhead_s": -0.00917568095811322,
+  "adapter_latency_overhead_s": -0.009557907479423505,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.21447565658350717,
+    "latency": 0.21291891883349004,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
@@ -173,7 +173,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.31548237099923426,
+      "latency": 0.31629773500026204,
       "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
       "prompt": [
         {
@@ -194,7 +194,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.15734237200013013,
+      "latency": 0.15881636600170168,
       "prediction": "A librarian might have left it.",
       "prompt": [
         {
@@ -215,7 +215,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.317366306000622,
+      "latency": 0.31696794999879785,
       "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
       "prompt": [
         {
@@ -236,7 +236,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.31689409200043883,
+      "latency": 0.3161310349969426,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
       "prompt": [
         {
@@ -257,7 +257,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.10048133700001927,
+      "latency": 0.10068636600044556,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -278,7 +278,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.10033732500050974,
+      "latency": 0.10043808400223497,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -299,7 +299,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.3146156709990464,
+      "latency": 0.3158588629994483,
       "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
       "prompt": [
         {
@@ -320,7 +320,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3143043879990728,
+      "latency": 0.31593326299844193,
       "prediction": "The question is ambiguous and lacks context about which person or group of people might have",
       "prompt": [
         {
@@ -341,7 +341,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04142209299971,
+      "latency": 0.04167104000225663,
       "prediction": "Student",
       "prompt": [
         {
@@ -362,7 +362,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.10373166300087178,
+      "latency": 0.10088895700027933,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -383,7 +383,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.31403089500054193,
+      "latency": 0.3144300550011394,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
       "prompt": [
         {
@@ -404,7 +404,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.10059436700066726,
+      "latency": 0.09959552999862353,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -425,7 +425,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3125705820002622,
+      "latency": 0.3148645770015719,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -446,7 +446,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04110383999977785,
+      "latency": 0.04112351699950523,
       "prediction": "thief",
       "prompt": [
         {
@@ -467,7 +467,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.09989355099969544,
+      "latency": 0.0999477619989193,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -488,7 +488,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.10028139400128566,
+      "latency": 0.10023371300121653,
       "prediction": "A child did.",
       "prompt": [
         {
@@ -509,7 +509,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3144214580006519,
+      "latency": 0.31543287000022247,
       "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
       "prompt": [
         {
@@ -530,7 +530,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.10223962000054598,
+      "latency": 0.1006963360014197,
       "prediction": "The baker did.",
       "prompt": [
         {
@@ -551,7 +551,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.3158796679999796,
+      "latency": 0.31634695599859697,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a book at the",
       "prompt": [
         {
@@ -572,7 +572,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.0803448729984666,
+      "latency": 0.0797896909971314,
       "prediction": "A careless person",
       "prompt": [
         {
@@ -593,7 +593,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.19888123300006555,
+      "latency": 0.19759186000010232,
       "prediction": "A person left a notebook at the park.",
       "prompt": [
         {
@@ -614,7 +614,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.23567962600100145,
+      "latency": 0.23544657900129096,
       "prediction": "A child might have left a phone at the beach.",
       "prompt": [
         {
@@ -635,7 +635,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.31955557800029055,
+      "latency": 0.3133327899995493,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -656,7 +656,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.08119987000100082,
+      "latency": 0.07993311099926359,
       "prediction": "A careless tourist",
       "prompt": [
         {
@@ -677,7 +677,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3186079100014467,
+      "latency": 0.3160107439980493,
       "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
       "prompt": [
         {
@@ -698,7 +698,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.31856323899955896,
+      "latency": 0.31510544900083914,
       "prediction": "The question is ambiguous and lacks specific details about which museum and individuals involved. To",
       "prompt": [
         {
@@ -719,7 +719,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.06242795000071055,
+      "latency": 0.06075834500006749,
       "prediction": "The narrator",
       "prompt": [
         {
@@ -740,7 +740,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.3163059090002207,
+      "latency": 0.3160082640024484,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
       "prompt": [
         {
@@ -761,7 +761,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1015966840004694,
+      "latency": 0.09990810100134695,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -782,7 +782,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.3159541860004538,
+      "latency": 0.3157875819997571,
       "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
       "prompt": [
         {
@@ -803,7 +803,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.3204147730011755,
+      "latency": 0.31616890499935835,
       "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
       "prompt": [
         {
@@ -824,7 +824,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3176009380003961,
+      "latency": 0.3154859909991501,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a key at the",
       "prompt": [
         {
@@ -845,7 +845,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04135954100092931,
+      "latency": 0.04252029500275967,
       "prediction": "Student",
       "prompt": [
         {
@@ -866,7 +866,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0997985880003398,
+      "latency": 0.09956097999747726,
       "prediction": "The baker did.",
       "prompt": [
         {
@@ -887,7 +887,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.31637964799847396,
+      "latency": 0.31609964500239585,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
       "prompt": [
         {
@@ -908,7 +908,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.3171518430008291,
+      "latency": 0.3141004940007406,
       "prediction": "The question is ambiguous and does not provide enough information to determine who left a jacket",
       "prompt": [
         {
@@ -929,7 +929,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.32257219900020573,
+      "latency": 0.3149781790016277,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -950,7 +950,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.32729870900038804,
+      "latency": 0.3133395789991482,
       "prediction": "The question is incomplete and lacks necessary context to determine who left a jacket at the",
       "prompt": [
         {
@@ -971,7 +971,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.1039847819993156,
+      "latency": 0.09958066900071572,
       "prediction": "A careless hiker",
       "prompt": [
         {
@@ -992,7 +992,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.10146944100051769,
+      "latency": 0.0995740999969712,
       "prediction": "A child did.",
       "prompt": [
         {
@@ -1013,7 +1013,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3198563940004533,
+      "latency": 0.3148121580015868,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -1034,7 +1034,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.06157639299999573,
+      "latency": 0.06050754399984726,
       "prediction": "The narrator",
       "prompt": [
         {
@@ -1055,7 +1055,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.3180076080006984,
+      "latency": 0.3149866390012903,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -1076,7 +1076,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.31637838399910834,
+      "latency": 0.3156710920011392,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -1097,7 +1097,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.23544587699871045,
+      "latency": 0.23667623600340448,
       "prediction": "A visitor might have left a book at the park.",
       "prompt": [
         {
@@ -1118,7 +1118,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.23625458300011815,
+      "latency": 0.23671527599799447,
       "prediction": "A child might have left a phone at the beach.",
       "prompt": [
         {
@@ -1139,7 +1139,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.322086042000592,
+      "latency": 0.31346839999969234,
       "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
       "prompt": [
         {
@@ -1160,7 +1160,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.0850857219993486,
+      "latency": 0.07982843100035097,
       "prediction": "A careless tourist",
       "prompt": [
         {

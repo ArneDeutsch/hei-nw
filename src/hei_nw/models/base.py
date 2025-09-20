@@ -191,6 +191,7 @@ def generate(
     stop_mode: str = "substring",
     mem_tokens: list[int] | None = None,
     adapter: EpisodicAdapter | None = None,
+    memory_prompt: str | None = None,
     prompt_style: str = "plain",
     template_policy: str = "auto",
     **kwargs: object,
@@ -220,6 +221,9 @@ def generate(
     adapter:
         Optional ``EpisodicAdapter`` instance applied when ``mem_tokens`` are
         supplied.
+    memory_prompt:
+        Optional textual rendering of episodic memory appended to the prompt
+        when provided.
     prompt_style:
         Rendering style to apply to ``prompt`` (``"plain"`` or ``"chat"``).
     template_policy:
@@ -238,6 +242,10 @@ def generate(
     prompt_text = build_prompt(
         _tokenizer, prompt, prompt_style, template_policy=template_policy
     )
+    if memory_prompt:
+        memory_prompt = str(memory_prompt).strip()
+        if memory_prompt:
+            prompt_text = f"{prompt_text}\n\nMemory:\n{memory_prompt}"
     inputs = _tokenizer(prompt_text, return_tensors="pt")
     inputs = {k: v.to(_model.device) for k, v in inputs.items()}
     input_ids = inputs["input_ids"]

@@ -139,14 +139,17 @@ class ANNIndex:
         query = np.ascontiguousarray(query, dtype="float32")
         faiss.normalize_L2(query)
         scores, indices = self.index.search(query, effective_k)
-        results: list[dict[str, Any]] = []
-        for idx, score in zip(indices[0], scores[0], strict=False):
+        ranked: list[dict[str, Any]] = []
+        for idx, distance in zip(indices[0], scores[0], strict=False):
             if idx < 0:
                 continue
             item = dict(self.meta[idx])
-            item["score"] = float(score)
-            results.append(item)
-        return results
+            sim = -float(distance)
+            item["score"] = sim
+            item["distance"] = float(distance)
+            ranked.append(item)
+        ranked.sort(key=lambda entry: entry["score"], reverse=True)
+        return ranked
 
 
 class HopfieldReadout(nn.Module):

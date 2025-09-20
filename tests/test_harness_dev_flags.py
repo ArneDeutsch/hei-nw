@@ -10,6 +10,8 @@ from hei_nw.eval.harness import (
     ModelGeometry,
     QAPromptSettings,
     _evaluate_mode_b1,
+    _evaluate_records,
+    _normalize_prediction,
 )
 from hei_nw.pack import pack_trace
 
@@ -162,6 +164,51 @@ def test_retrieval_only_returns_top_candidate_answer(
     dev_modes = debug.get("dev_modes", {})
     assert dev_modes.get("retrieval_only") is True
     assert dev_modes.get("oracle_trace") is False
+
+
+def test_memory_dependent_baseline_injects_memory_prompt(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_generate(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        captured.update(kwargs)
+        return {"text": "Dana", "prompt_tokens": 4, "generated_tokens": 1}
+
+    monkeypatch.setattr("hei_nw.models.base.generate", fake_generate)
+
+    qa_settings = QAPromptSettings(
+        prompt_style="chat",
+        max_new_tokens=4,
+        stop=None,
+        answer_hint=True,
+        stop_mode="none",
+        omit_episode=True,
+        memory_dependent_baseline=True,
+    )
+    records = [
+        {
+            "episode_text": "On 2025-01-05, Dana left a key at the station.",
+            "cues": ["who left a key at the station?"],
+            "answers": ["Dana"],
+        }
+    ]
+    geometry = ModelGeometry(layers=1, hidden=8, heads=1, dtype="float32")
+    items, _ = _evaluate_records(
+        records,
+        geometry,
+        qa_settings,
+        adapter=None,
+        mem_tokens=[1, 2, 3],
+        mem_text="who: Dana",
+    )
+
+    assert items[0].prediction == "Dana"
+    assert captured.get("memory_prompt") == "who: Dana"
+
+
+def test_normalize_prediction_strips_prefix_tokens() -> None:
+    assert _normalize_prediction("Result: Fay") == "Fay"
+    assert _normalize_prediction("• bullet") == "bullet"
+    assert _normalize_prediction("Fay") == "Fay"
 
 
 def test_oracle_trace_uses_ground_truth_memory_preview(

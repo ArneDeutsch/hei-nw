@@ -5,5 +5,5 @@
 [compare] B0 EM (relaxed) = 0.000
 [compare] B1 EM (relaxed) = 1.000
 [compare] Non-empty rate (B1) = 1.000
-[compare] Retrieval health: P@1=0.083, MRR=0.190
+[compare] Retrieval health: P@1=0.375, MRR=0.526
 [compare] EM lift = 1.000 (95% bootstrap CI: [1.000, 1.000])
