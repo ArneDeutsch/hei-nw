@@ -13,7 +13,9 @@ DEFAULT_INVALID_CASELESS_PREFIXES = ("human:", "user:", "assistant:")
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Fail if the non-empty prediction rate drops below a threshold."
+        description=(
+            "Fail if predictions are empty or begin with disallowed/non-alphabetic tokens."
+        )
     )
     parser.add_argument(
         "metrics_path",
@@ -23,8 +25,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--threshold",
         type=float,
-        default=0.9,
-        help="Minimum acceptable non-empty prediction rate (default: 0.9).",
+        default=1.0,
+        help="Minimum acceptable non-empty prediction rate (default: 1.0).",
     )
     args = parser.parse_args(argv)
     if not 0.0 <= args.threshold <= 1.0:
@@ -66,15 +68,24 @@ def find_invalid_first_tokens(
     *,
     prefixes: Sequence[str] = DEFAULT_INVALID_PREFIXES,
     caseless_prefixes: Sequence[str] = DEFAULT_INVALID_CASELESS_PREFIXES,
-) -> list[tuple[int, str]]:
-    invalid: list[tuple[int, str]] = []
+) -> list[tuple[int, str, str]]:
+    """Return indices, tokens, and reasons for disallowed first-token patterns."""
+    invalid: list[tuple[int, str, str]] = []
+    prefix_tuple = tuple(prefixes)
+    caseless_tuple = tuple(caseless_prefixes)
     for index, prediction in enumerate(predictions):
         token = first_token(prediction)
         if not token:
             continue
         lower_token = token.lower()
-        if token.startswith(tuple(prefixes)) or lower_token.startswith(tuple(caseless_prefixes)):
-            invalid.append((index, token))
+        if prefix_tuple and token.startswith(prefix_tuple):
+            invalid.append((index, token, "disallowed prefix"))
+            continue
+        if caseless_tuple and lower_token.startswith(caseless_tuple):
+            invalid.append((index, token, "disallowed prefix"))
+            continue
+        if not token.isalpha():
+            invalid.append((index, token, "non-alphabetic first token"))
     return invalid
 
 
@@ -108,7 +119,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     invalid_tokens = find_invalid_first_tokens(predictions)
     if invalid_tokens:
-        indices = ", ".join(f"{idx}:{tok}" for idx, tok in invalid_tokens)
+        indices = ", ".join(f"{idx}:{tok} ({reason})" for idx, tok, reason in invalid_tokens)
         print(
             f"Invalid first tokens detected at {indices}",
             file=sys.stderr,
