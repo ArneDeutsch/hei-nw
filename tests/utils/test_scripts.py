@@ -1,3 +1,4 @@
+import json
 import re
 import subprocess
 import sys
@@ -83,3 +84,59 @@ def test_memory_dependent_baseline_helper_uses_flag() -> None:
 def test_parity_guard_uses_memory_dependent_flag() -> None:
     script_text = Path("scripts/run_parity_guard.sh").read_text(encoding="utf8")
     assert script_text.count("--qa.memory_dependent_baseline") == 2
+
+
+def test_gate_non_empty_predictions_pass(tmp_path: Path) -> None:
+    metrics_path = tmp_path / "metrics.json"
+    metrics_path.write_text(
+        json.dumps({"records": [{"prediction": "Answer"}, {"prediction": "Response"}]}),
+        encoding="utf8",
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path("scripts/gate_non_empty_predictions.py")),
+            str(metrics_path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_gate_non_empty_predictions_rejects_empty(tmp_path: Path) -> None:
+    metrics_path = tmp_path / "metrics.json"
+    metrics_path.write_text(
+        json.dumps({"records": [{"prediction": ""}, {"prediction": "Answer"}]}),
+        encoding="utf8",
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path("scripts/gate_non_empty_predictions.py")),
+            str(metrics_path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 1
+    assert "below threshold" in result.stderr
+
+
+def test_gate_non_empty_predictions_rejects_non_alpha(tmp_path: Path) -> None:
+    metrics_path = tmp_path / "metrics.json"
+    metrics_path.write_text(
+        json.dumps({"records": [{"prediction": "123 response"}]}),
+        encoding="utf8",
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path("scripts/gate_non_empty_predictions.py")),
+            str(metrics_path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 1
+    assert "non-alphabetic first token" in result.stderr
