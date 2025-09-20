@@ -2,12 +2,12 @@
 
 ## Aggregate Metrics
 
-- EM (relaxed): 0.250
-- EM_strict: 0.250
-- F1: 0.250
+- EM (relaxed): 0.469
+- EM_strict: 0.469
+- F1: 0.484
 - Non-empty rate: 1.000
 - Latency: 0.000s
-- Adapter latency overhead: -0.009s
+- Adapter latency overhead: -0.025s
 
 ## Run config
 - Seed: 7
@@ -24,10 +24,10 @@
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 8 | 0.250 | 0.250 | 0.250 | n/a |
-| 1-3 | 8 | 0.250 | 0.250 | 0.250 | n/a |
-| 3-7 | 8 | 0.000 | 0.000 | 0.000 | n/a |
-| 7-30 | 8 | 0.500 | 0.500 | 0.500 | n/a |
+| 0-1 | 8 | 0.750 | 0.750 | 0.750 | n/a |
+| 1-3 | 8 | 0.375 | 0.375 | 0.375 | n/a |
+| 3-7 | 8 | 0.125 | 0.125 | 0.125 | n/a |
+| 7-30 | 8 | 0.625 | 0.625 | 0.688 | n/a |
 
 ## Compute
 B0 attention FLOPs: 0
@@ -35,15 +35,15 @@ B0 KV cache bytes: 0
 
 ## Retrieval
 - P@1: 0.469
-- MRR: 0.622
+- MRR: 0.624
 - Near-miss rate: 0.188
 - Collision rate: 0.219
-- Completion lift: -0.344
-- Hopfield rank improved rate: 0.188
+- Completion lift: 0.000
+- Hopfield rank improved rate: 0.031
 
 ## Debug
 - Memory token counts: [64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64]
-- Memory token preview: [who, :, ĠJudy, Ġwhat, :, Ġbackpack, Ġwhere, :]
+- Memory token preview: [who, :, ĠFay, Ġwhat, :, Ġumbrella, Ġwhere, :]
 
 ## Dataset notes
 Hard negatives/confounders included (ratio 1.00)

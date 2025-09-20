@@ -1,11 +1,11 @@
 {
-  "adapter_latency_overhead_s": 0.0006615128745579568,
+  "adapter_latency_overhead_s": -0.009120551406226696,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.010834352156052773,
+    "latency": 0.015838646562542635,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
@@ -150,7 +150,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010352295998018235,
+      "latency": 0.023968177999449836,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -171,7 +171,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.010031324003648479,
+      "latency": 0.015368909000244457,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -192,7 +192,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.01103185999818379,
+      "latency": 0.01531461800004763,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -213,7 +213,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.009865163003269117,
+      "latency": 0.015334918999542424,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -234,7 +234,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.009811611998884473,
+      "latency": 0.015765891000228294,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -255,7 +255,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.011071600994910114,
+      "latency": 0.01525958799993532,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -276,7 +276,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.010034224003902636,
+      "latency": 0.015241148000313842,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -297,7 +297,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.009958053997252136,
+      "latency": 0.015214306999951077,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -318,7 +318,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.01092902000527829,
+      "latency": 0.016664846000821854,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -339,7 +339,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.009991842998715583,
+      "latency": 0.015202298000076553,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -360,7 +360,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.009987433993956074,
+      "latency": 0.016797866999695543,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -381,7 +381,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.010702867999498267,
+      "latency": 0.015293798000129755,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -402,7 +402,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.009801403000892606,
+      "latency": 0.016331994000211125,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -423,7 +423,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.00978061200294178,
+      "latency": 0.015220426999803749,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -444,7 +444,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.010699797996494453,
+      "latency": 0.01521531800062803,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -465,7 +465,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.01000432299770182,
+      "latency": 0.015231927999593609,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -486,7 +486,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010926069997367449,
+      "latency": 0.01637367399962386,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -507,7 +507,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.010888288998103235,
+      "latency": 0.015240427999742678,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -528,7 +528,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.012789670996426139,
+      "latency": 0.01634299400029704,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -549,7 +549,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.012137986996094696,
+      "latency": 0.015217008000036003,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -570,7 +570,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.01183295499504311,
+      "latency": 0.015340007999839145,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -591,7 +591,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.010984040003677364,
+      "latency": 0.015204798000013398,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -612,7 +612,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.013562847001594491,
+      "latency": 0.015370989000075497,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -633,7 +633,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.010820158997375984,
+      "latency": 0.015238288000546163,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -654,7 +654,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.011105931000201963,
+      "latency": 0.015201158000309078,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -675,7 +675,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.010592928003461566,
+      "latency": 0.015266247999534244,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -696,7 +696,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.01230124900030205,
+      "latency": 0.01621911300026113,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -717,7 +717,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.01062382799864281,
+      "latency": 0.015270117999534705,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -738,7 +738,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.011038609998649918,
+      "latency": 0.016068572000222048,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -759,7 +759,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.010427876004541758,
+      "latency": 0.015229487000397057,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -780,7 +780,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.012048647004121449,
+      "latency": 0.01652701500006515,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -801,7 +801,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.010564747004536912,
+      "latency": 0.015300758000194037,
       "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
@@ -818,6 +818,8 @@
     }
   ],
   "retrieval": {
+    "baseline_mrr": 0.6224589646464647,
+    "baseline_p_at_1": 0.46875,
     "collision_rate": 0.21875,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,

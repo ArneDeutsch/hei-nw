@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": 0.0004817262188225868,
+  "adapter_latency_overhead_s": -0.008783404531271799,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.010002171687347072,
+    "latency": 0.015528837124946904,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 2618032,
-      "kv_cache_bytes": 51776
+      "attention_flops": 2587480,
+      "kv_cache_bytes": 51472
     },
     "baseline": null
   },
@@ -26,38 +26,38 @@
       "retrieval_only": false
     },
     "first_token": [
-      "factors",
       "stairs",
       "factors",
       "factors",
       "factors",
+      "stairs",
+      "stairs",
       "factors",
+      "stairs",
+      "stairs",
+      "stairs",
       "factors",
+      "stairs",
+      "stairs",
       "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
+      "stairs",
+      "stairs",
       "stairs",
       "factors",
       "factors",
       "factors",
+      "stairs",
+      "stairs",
+      "stairs",
+      "stairs",
+      "stairs",
+      "stairs",
       "factors",
+      "stairs",
+      "stairs",
       "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors",
-      "factors"
+      "stairs",
+      "stairs"
     ],
     "mem_len": [
       64,
@@ -96,14 +96,14 @@
     "mem_preview": [
       "who",
       ":",
-      "ĠJudy",
+      "ĠFay",
       "Ġwhat",
       ":",
-      "Ġbackpack",
+      "Ġumbrella",
       "Ġwhere",
       ":"
     ],
-    "mem_preview_str": "who : ĠJudy Ġwhat : Ġbackpack Ġwhere :"
+    "mem_preview_str": "who : ĠFay Ġwhat : Ġumbrella Ġwhere :"
   },
   "lag_bins": [
     {
@@ -150,8 +150,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010009323996200692,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.022349779999785824,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -171,8 +171,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.01009151399921393,
-      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
+      "latency": 0.015150358000028064,
+      "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -192,7 +192,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.010117623998667113,
+      "latency": 0.016086962999906973,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -213,7 +213,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.009742852998897433,
+      "latency": 0.015121417000045767,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -234,8 +234,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010394445998826995,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015090357000190124,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -255,8 +255,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.01002139399497537,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015048657000079402,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -276,7 +276,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.009764112000993919,
+      "latency": 0.01555439000003389,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -297,8 +297,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.010396486999525223,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015063077999911911,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -318,8 +318,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010014223997131921,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.016060222999840335,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -339,8 +339,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.00977472299564397,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015086246999999275,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -360,7 +360,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.010257576002913993,
+      "latency": 0.01586648200009222,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -381,8 +381,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.00986256299802335,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015139887999794155,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -402,8 +402,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.009733283004607074,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015043806999528897,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -423,7 +423,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.010228045997791924,
+      "latency": 0.01505337700018572,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -444,8 +444,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.010029113997006789,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.016044853000494186,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -465,8 +465,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.00967660199967213,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015075896999405813,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -486,8 +486,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.010478317002707627,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015054426999995485,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -507,8 +507,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.00991347299714107,
-      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
+      "latency": 0.015054698000312783,
+      "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -528,7 +528,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.009713202001876198,
+      "latency": 0.01505079799972009,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -549,7 +549,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.010296904998540413,
+      "latency": 0.015027847000055772,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -570,8 +570,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.009961533003661316,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015731971000604972,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -591,8 +591,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.009624910999264102,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015081636999639159,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -612,8 +612,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.01029151599504985,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015039017000162858,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -633,8 +633,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.009869503002846614,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015093816999979026,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -654,8 +654,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.009669991006376222,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015913111999907414,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -675,8 +675,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.01044692699360894,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015092786999957752,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -696,7 +696,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.009876703006739262,
+      "latency": 0.01575974200022756,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -717,8 +717,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.009663821998401545,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015084257999660622,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -738,8 +738,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.01004084400483407,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015847382000174548,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -759,7 +759,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.00985528300225269,
+      "latency": 0.015051206999487476,
       "prediction": "factors factors factors factors factors factors factors factors",
       "prompt": [
         {
@@ -780,8 +780,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.01015064500097651,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015143066999371513,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -801,8 +801,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.010102034000738058,
-      "prediction": "factors factors factors factors factors factors factors factors",
+      "latency": 0.015061246999721334,
+      "prediction": "stairs stairs stairs stairs stairs stairs stairs stairs",
       "prompt": [
         {
           "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
@@ -818,10 +818,12 @@
     }
   ],
   "retrieval": {
+    "baseline_mrr": 0.6224589646464647,
+    "baseline_p_at_1": 0.46875,
     "collision_rate": 0.21875,
-    "completion_lift": -0.34375,
-    "hopfield_rank_improved_rate": 0.1875,
-    "mrr": 0.6224589646464647,
+    "completion_lift": 0.0,
+    "hopfield_rank_improved_rate": 0.03125,
+    "mrr": 0.6240823412698413,
     "near_miss_rate": 0.1875,
     "p_at_1": 0.46875
   },

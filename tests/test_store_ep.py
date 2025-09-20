@@ -24,6 +24,9 @@ def test_build_and_query_top1_self() -> None:
     assert diagnostics["pre_top1_group"] == positive["group_id"]
     assert diagnostics["post_top1_group"] == positive["group_id"]
     assert diagnostics["rank_delta"] == 0
+    baseline_candidates = out.get("baseline_candidates")
+    assert baseline_candidates is not None
+    assert baseline_candidates[0]["group_id"] == diagnostics["pre_top1_group"]
 
 
 def test_near_miss_and_collision_counters() -> None:
@@ -37,6 +40,7 @@ def test_near_miss_and_collision_counters() -> None:
         out_nm = store.query(r["cues"][0], group_id=r["group_id"], should_remember=False)
         if out_nm["diagnostics"]["near_miss"]:
             near_miss_found = True
+            assert "baseline_diagnostics" in out_nm
             break
     assert near_miss_found
     pos0 = next(r for r in records if r["should_remember"])

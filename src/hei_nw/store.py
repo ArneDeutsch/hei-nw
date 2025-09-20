@@ -292,9 +292,7 @@ class EpisodicStore:
             patterns = torch.from_numpy(vec_array)
         else:
             patterns = torch.zeros(1, keyer_module.d, dtype=torch.float32)
-        hopfield = HopfieldReadout(
-            patterns, steps=hopfield_steps, temperature=hopfield_temperature
-        )
+        hopfield = HopfieldReadout(patterns, steps=hopfield_steps, temperature=hopfield_temperature)
         group_ids = {m["group_id"] for m in meta}
         return cls(
             keyer_module,
@@ -350,8 +348,16 @@ class EpisodicStore:
                 "post_top1_group": None,
                 "rank_delta": 0,
             }
-            return {"selected": [], "candidates": [], "diagnostics": diagnostics}
-        pre_top1_group = results[0]["group_id"]
+            return {
+                "selected": [],
+                "candidates": [],
+                "diagnostics": diagnostics,
+                "baseline_candidates": [],
+                "baseline_diagnostics": diagnostics,
+            }
+        baseline_indices = list(range(len(results)))
+        baseline_top1_group = results[0]["group_id"]
+        pre_top1_group = baseline_top1_group
         pre_rank: int | None = None
         if group_id is not None:
             for idx, res in enumerate(results):
@@ -363,16 +369,27 @@ class EpisodicStore:
             cand_vecs = torch.from_numpy(
                 np.stack([r["key_vector"] for r in results]).astype("float32")
             )
-            scores = self.hopfield(
-                torch.from_numpy(dense.squeeze(0)), candidates=cand_vecs, return_scores=True
+            baseline_scores = torch.tensor(
+                [float(r.get("score", 0.0)) for r in results], dtype=torch.float32
             )
-            order = torch.argsort(scores, descending=True)
+            hopfield_scores = self.hopfield(
+                torch.from_numpy(dense.squeeze(0)), candidates=cand_vecs, return_scores=True
+            ).to(torch.float32)
+            order = torch.argsort(hopfield_scores, descending=True)
+            baseline_top_score = float(baseline_scores[0]) if baseline_scores.numel() else 0.0
+            hopfield_top_idx = int(order[0]) if order.numel() else 0
+            hopfield_top_score = (
+                float(baseline_scores[hopfield_top_idx]) if baseline_scores.numel() else 0.0
+            )
+            if baseline_top_score - hopfield_top_score > 0.05:
+                order = torch.arange(len(results))
         else:
             order = torch.arange(len(results))
         order_list = [int(idx) for idx in order.tolist()]
+        ordered_results = [results[i] for i in order_list]
         top_k = min(return_m, len(order_list))
         top_idx = order_list[:top_k]
-        post_top1_group = results[top_idx[0]]["group_id"] if top_idx else pre_top1_group
+        post_top1_group = ordered_results[0]["group_id"] if ordered_results else baseline_top1_group
         post_rank: int | None = None
         if pre_rank is not None:
             try:
@@ -384,15 +401,32 @@ class EpisodicStore:
             rank_delta = pre_rank - post_rank
         selected = [results[i]["trace"] for i in top_idx]
         candidates: list[dict[str, Any]] = []
-        for r in results:
+        for idx in order_list:
+            r = results[idx]
             r_copy = {k: v for k, v in r.items() if k != "key_vector"}
             candidates.append(r_copy)
-        top_group = results[0]["group_id"]
-        near_miss = group_id is not None and should_remember is False and top_group == group_id
+        baseline_candidates: list[dict[str, Any]] = []
+        for idx in baseline_indices:
+            r = results[idx]
+            r_copy = {k: v for k, v in r.items() if k != "key_vector"}
+            baseline_candidates.append(r_copy)
+        top_group_final = candidates[0]["group_id"] if candidates else baseline_top1_group
+        baseline_near_miss = (
+            group_id is not None and should_remember is False and baseline_top1_group == group_id
+        )
+        baseline_collision = (
+            group_id is not None
+            and should_remember is True
+            and baseline_top1_group != group_id
+            and group_id in self._group_ids
+        )
+        near_miss = (
+            group_id is not None and should_remember is False and top_group_final == group_id
+        )
         collision = (
             group_id is not None
             and should_remember is True
-            and top_group != group_id
+            and top_group_final != group_id
             and group_id in self._group_ids
         )
         diagnostics = {
@@ -402,4 +436,17 @@ class EpisodicStore:
             "post_top1_group": post_top1_group,
             "rank_delta": rank_delta,
         }
-        return {"selected": selected, "candidates": candidates, "diagnostics": diagnostics}
+        baseline_diagnostics = {
+            "near_miss": bool(baseline_near_miss),
+            "collision": bool(baseline_collision),
+            "pre_top1_group": baseline_top1_group,
+            "post_top1_group": baseline_top1_group,
+            "rank_delta": 0,
+        }
+        return {
+            "selected": selected,
+            "candidates": candidates,
+            "diagnostics": diagnostics,
+            "baseline_candidates": baseline_candidates,
+            "baseline_diagnostics": baseline_diagnostics,
+        }
