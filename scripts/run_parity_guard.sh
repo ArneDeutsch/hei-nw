@@ -20,10 +20,10 @@ default_args=(
 )
 
 python -m hei_nw.eval.harness --mode B0 --scenario A -n "$N" --seed "$SEED" \
-  --model "$MODEL" --outdir "$OUT" "${default_args[@]}"
+  --model "$MODEL" --outdir "$OUT" --qa.memory_dependent_baseline "${default_args[@]}"
 
 python -m hei_nw.eval.harness --mode B1 --scenario A -n "$N" --seed "$SEED" \
-  --model "$MODEL" --outdir "$OUT" --mem.max_tokens 0 "${default_args[@]}"
+  --model "$MODEL" --outdir "$OUT" --mem.max_tokens 0 --qa.memory_dependent_baseline "${default_args[@]}"
 
 python scripts/compare_b0_b1.py --threshold "$THRESHOLD" \
   "$OUT/A_B0_metrics.json" "$OUT/A_B1_metrics.json"

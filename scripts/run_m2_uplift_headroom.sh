@@ -26,5 +26,5 @@ run_harness() {
     "${default_args[@]}" "$@"
 }
 
-run_harness B0 --qa.omit_episode
-run_harness B1 --qa.omit_episode --qa.template_policy plain
+run_harness B0 --qa.memory_dependent_baseline
+run_harness B1 --qa.memory_dependent_baseline --qa.template_policy plain
