@@ -40,6 +40,12 @@ bash scripts/compare_b0_b1_m2.sh
 
 # 7) (optional) make a combined file for M2 too
 bash scripts/make_report.sh reports/m2-retrieval-stack reports/m2-retrieval-stack/combined_report.md
+
+# 8) M3 gate calibration (Scenario A defaults; τ=1.5).
+bash scripts/run_m3_gate_calibration.sh
+
+# 9) (optional) Scenario C sweep (example threshold tweak).
+bash scripts/run_m3_gate_calibration.sh --scenario C --threshold 1.8 --n 64
 ```
 
 ## If the uplift is borderline (stability pass)
@@ -78,12 +84,27 @@ bash scripts/m2_isolation_probes.sh
   * `A_B1_no-hopfield_metrics.json`
   * `completion_ablation.png`
   * `combined_report.md` (if you ran step 7)
+* **M3 gate calibration:** `reports/m3-write-gate/`
+
+  * `*_metrics.json` with an embedded `gate` section and pointer-only checks.
+  * `*_gate_telemetry.json` summarizing precision/recall, PR-AUC, clutter rate, and write counts.
+  * `*_gate_calibration.png` reliability diagram (plus optional `*_trace_samples.json`).
 * **Gate results:**
 
   * `bash scripts/gate_non_empty_predictions.sh` prints the B1 non-empty rate
     (target ≥ 0.90) and **exits 0** when generations look healthy.
   * `bash scripts/compare_b0_b1_m2.sh` prints `EM lift +0.3xx >= 0.30` and
     **exits 0** when uplift clears the bar.
+
+---
+
+## Gate telemetry interpretation
+
+* `documentation/write-gate.md` covers the salience formula, default weights,
+  tuning guidance, and telemetry fields emitted by the harness.
+* Aim for **1–5 writes per 1 000 tokens**. If the gate writes too often, rerun
+  `scripts/run_m3_gate_calibration.sh` with a higher `--threshold`; if it writes
+  too rarely, lower the threshold slightly or inspect reward/pin signals.
 
 ---
 

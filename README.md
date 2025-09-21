@@ -5,6 +5,7 @@
 # Key artifacts
 - [documentation/hei-nw.md](documentation/hei-nw.md) - short introduction to the algorithm
 - [documentation/quick-validate.md](documentation/quick-validate.md) - bash command to run validation command on the algorithms (with GPU machine)
+- [documentation/write-gate.md](documentation/write-gate.md) - Milestone 3 neuromodulated write gate formula, tuning, and telemetry guide
 - [planning/design.md](planning/design.md) - the design of the implementation
 - [planning/project-plan.md](planning/project-plan.md) - The plan we follow to implement and validate the HEI-NW
 - [planning/validation-plan.md](planning/validation-plan.md) - the plan how to validate the results of HEI-NW
@@ -52,3 +53,14 @@ bash scripts/make_report.sh
 - Use `scripts/run_m2_retrieval_ci.sh` for **CI/smoke**. It pins the
   lightweight `hei-nw/dummy-model` test stub and only checks that
   reports/metrics exist (no EM-lift check).
+
+### Gate calibration for M3
+
+- Run `scripts/run_m3_gate_calibration.sh` to generate neuromodulated write gate
+  telemetry. The default configuration evaluates scenario A with Qwen/Qwen2.5-1.5B-Instruct,
+  writes artifacts to `reports/m3-write-gate/`, and emits calibration plots plus
+  pointer-only trace samples.
+- Adjust `--threshold` (τ) until the reported `write_rate_per_1k` falls in the
+  1–5 writes/1k target band. Lower τ increases the write rate; higher τ reduces it.
+- See [documentation/write-gate.md](documentation/write-gate.md) for a detailed
+  explanation of salience features, default weights, telemetry fields, and tuning tips.
