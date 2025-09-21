@@ -271,6 +271,8 @@ class EpisodicStore:
         self._group_ids = group_ids
         self._embed_dim = embed_dim
         self.max_mem_tokens = max_mem_tokens
+        self._hopfield_blend = 0.2
+        self._hopfield_margin = 0.01
 
     @staticmethod
     def _hash_embed(text: str, tokenizer: Any, dim: int) -> Tensor:
@@ -433,20 +435,47 @@ class EpisodicStore:
             baseline_scores = torch.tensor(
                 [float(r.get("score", 0.0)) for r in results], dtype=torch.float32
             )
-            hopfield_scores = self.hopfield(
-                torch.from_numpy(dense.squeeze(0)), candidates=cand_vecs, return_scores=True
-            ).to(torch.float32)
-            order = torch.argsort(hopfield_scores, descending=True)
-            baseline_top_score = float(baseline_scores[0]) if baseline_scores.numel() else 0.0
-            hopfield_top_idx = int(order[0]) if order.numel() else 0
-            hopfield_top_score = (
-                float(baseline_scores[hopfield_top_idx]) if baseline_scores.numel() else 0.0
+            cue_tensor = torch.from_numpy(dense.squeeze(0)).to(torch.float32)
+            refined = self.hopfield(cue_tensor)
+            refined = torch.nn.functional.normalize(refined, dim=-1)
+            normalized_candidates = torch.nn.functional.normalize(cand_vecs, dim=-1)
+            cos_scores = normalized_candidates @ refined.unsqueeze(-1)
+            cos_scores = cos_scores.squeeze(-1)
+
+            def _softmax_norm(tensor: torch.Tensor) -> torch.Tensor:
+                if tensor.numel() == 0:
+                    return tensor
+                shifted = tensor - tensor.max()
+                return torch.softmax(shifted, dim=-1)
+
+            baseline_norm = _softmax_norm(baseline_scores)
+            hopfield_norm = _softmax_norm(cos_scores / max(self.hopfield.temperature, 1e-6))
+            hopfield_scores = (
+                (1.0 - self._hopfield_blend) * baseline_norm
+                + self._hopfield_blend * hopfield_norm
             )
-            if baseline_top_score - hopfield_top_score > 0.05:
-                order = torch.arange(len(results))
+            order = torch.argsort(hopfield_scores, descending=True)
+
+            if order.numel():
+                top_idx = int(order[0])
+                baseline_idx = 0
+                baseline_ref = baseline_norm[baseline_idx] if baseline_norm.numel() else 0.0
+                hopfield_ref = hopfield_scores[top_idx]
+                if top_idx != baseline_idx and hopfield_ref <= baseline_ref + self._hopfield_margin:
+                    order = torch.arange(len(results))
         else:
             order = torch.arange(len(results))
-        order_list = [int(idx) for idx in order.tolist()]
+        if use_hopfield and order.numel():
+            baseline_order = list(range(len(results)))
+            top_idx = int(order[0])
+            if top_idx != baseline_order[0]:
+                order_list = [top_idx] + [idx for idx in baseline_order if idx != top_idx]
+            else:
+                order_list = baseline_order
+        else:
+            order_list = [int(idx) for idx in order.tolist()]
+            if not order_list:
+                order_list = list(range(len(results)))
         ordered_results = [results[i] for i in order_list]
         top_k = min(return_m, len(order_list))
         top_idx = order_list[:top_k]

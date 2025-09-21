@@ -6,8 +6,8 @@
 - EM_strict: 0.208
 - F1: 0.243
 - Non-empty rate: 1.000
-- Latency: 0.232s
-- Adapter latency overhead: 0.006s
+- Latency: 0.243s
+- Adapter latency overhead: 0.004s
 
 ## Run config
 - Seed: 7

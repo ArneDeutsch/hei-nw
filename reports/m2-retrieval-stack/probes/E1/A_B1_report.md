@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.273
 - Non-empty rate: 1.000
-- Latency: 0.162s
-- Adapter latency overhead: 0.023s
+- Latency: 0.174s
+- Adapter latency overhead: 0.028s
 
 ## Run config
 - Seed: 7
@@ -35,7 +35,7 @@ B0 KV cache bytes: 27199488
 
 ## Retrieval
 - P@1: 0.375
-- MRR: 0.526
+- MRR: 0.543
 - Near-miss rate: 0.167
 - Collision rate: 0.292
 - Completion lift: 0.000

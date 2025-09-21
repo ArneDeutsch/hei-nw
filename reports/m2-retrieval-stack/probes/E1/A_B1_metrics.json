@@ -1,11 +1,11 @@
 {
-  "adapter_latency_overhead_s": 0.023263249458276875,
+  "adapter_latency_overhead_s": 0.028149033895905035,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.2728174603174605,
-    "latency": 0.16236810531254756,
+    "latency": 0.17422275502076445,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
@@ -182,7 +182,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.17737481499989372,
+      "latency": 0.18750874800025485,
       "prediction": "Fay left an umbrella at the",
       "prompt": [
         {
@@ -203,7 +203,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 1,
-      "latency": 0.1632258350000484,
+      "latency": 0.17227416899913806,
       "prediction": "Bob left a wallet at the library",
       "prompt": [
         {
@@ -224,7 +224,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.16184598800009553,
+      "latency": 0.16925878599977295,
       "prediction": "Ivan left a jacket at Café",
       "prompt": [
         {
@@ -245,7 +245,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 24,
-      "latency": 0.1602495800007091,
+      "latency": 0.17278571300084877,
       "prediction": "Gus left a notebook at the",
       "prompt": [
         {
@@ -266,7 +266,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.16007169899967266,
+      "latency": 0.17584450600043056,
       "prediction": "Gus left a backpack at the",
       "prompt": [
         {
@@ -287,7 +287,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 2,
-      "latency": 0.16199897900060023,
+      "latency": 0.17014682199987874,
       "prediction": "Judy left her backpack at the",
       "prompt": [
         {
@@ -308,7 +308,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 4,
-      "latency": 0.16267595200042706,
+      "latency": 0.1680763559998013,
       "prediction": "Alice left a jacket at Café L",
       "prompt": [
         {
@@ -329,7 +329,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 10,
-      "latency": 0.16283366300012858,
+      "latency": 0.16790441399825795,
       "prediction": "Eli left a key at the",
       "prompt": [
         {
@@ -350,7 +350,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.16301330299938854,
+      "latency": 0.17148925199944642,
       "prediction": "Judy left her phone at the",
       "prompt": [
         {
@@ -371,7 +371,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 1,
-      "latency": 0.16127832500023942,
+      "latency": 0.17655906099935237,
       "prediction": "Bob left a book at the beach",
       "prompt": [
         {
@@ -392,7 +392,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 3,
-      "latency": 0.16293701299946406,
+      "latency": 0.17428827300136618,
       "prediction": "Fay left a notebook at the",
       "prompt": [
         {
@@ -413,7 +413,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 22,
-      "latency": 0.16200560899960692,
+      "latency": 0.17425248300060048,
       "prediction": "Judy left her backpack at the",
       "prompt": [
         {
@@ -434,7 +434,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.1624708120007199,
+      "latency": 0.173370436001278,
       "prediction": "Ivan left a key at the",
       "prompt": [
         {
@@ -455,7 +455,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.16313672500018583,
+      "latency": 0.17352355799994257,
       "prediction": "left it there by mistake",
       "prompt": [
         {
@@ -476,7 +476,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.16191012800027238,
+      "latency": 0.1733930659993348,
       "prediction": "Dana left a notebook at the",
       "prompt": [
         {
@@ -497,7 +497,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 9,
-      "latency": 0.1625934720004807,
+      "latency": 0.17392519100030768,
       "prediction": "Fay left a bottle at the",
       "prompt": [
         {
@@ -518,7 +518,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 0,
-      "latency": 0.16058615199926862,
+      "latency": 0.17331576499964285,
       "prediction": "Bob left a wallet at the bakery",
       "prompt": [
         {
@@ -539,7 +539,7 @@
       "em_strict": 0.0,
       "f1": 0.33333333333333337,
       "lag": 1,
-      "latency": 0.16024409100009507,
+      "latency": 0.17336669500036805,
       "prediction": "Charlie left a bottle at",
       "prompt": [
         {
@@ -560,7 +560,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 5,
-      "latency": 0.16308498500075075,
+      "latency": 0.1705009830002382,
       "prediction": "Ivan left a book at the",
       "prompt": [
         {
@@ -581,7 +581,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 21,
-      "latency": 0.16174631800004136,
+      "latency": 0.17560744199909095,
       "prediction": "Judy left a bottle at the",
       "prompt": [
         {
@@ -602,7 +602,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 0,
-      "latency": 0.16296983400025056,
+      "latency": 0.17515833899960853,
       "prediction": "Bob left a notebook at the park",
       "prompt": [
         {
@@ -623,7 +623,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 2,
-      "latency": 0.1631443450005463,
+      "latency": 0.1933271899997635,
       "prediction": "Alice left her phone at the beach",
       "prompt": [
         {
@@ -644,7 +644,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.16148658600013732,
+      "latency": 0.17549871099981829,
       "prediction": "Eli left a key at the",
       "prompt": [
         {
@@ -665,7 +665,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 22,
-      "latency": 0.16131829599999037,
+      "latency": 0.17928943100014294,
       "prediction": "Fay left an umbrella at the",
       "prompt": [
         {
@@ -686,7 +686,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.16451197199967282,
+      "latency": 0.182176382999387,
       "prediction": "Dana left an umbrella at the",
       "prompt": [
         {
@@ -707,7 +707,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 1,
-      "latency": 0.1629007139999885,
+      "latency": 0.18403525699977763,
       "prediction": "Bob left a wallet at the museum",
       "prompt": [
         {
@@ -728,7 +728,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.1614068059998317,
+      "latency": 0.1707961249994696,
       "prediction": "Ivan left a bottle at Café",
       "prompt": [
         {
@@ -749,7 +749,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 24,
-      "latency": 0.16055427199989936,
+      "latency": 0.1703979719986819,
       "prediction": "Gus left a notebook at the",
       "prompt": [
         {
@@ -770,7 +770,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.16036930100017344,
+      "latency": 0.16753880900068907,
       "prediction": "Gus left a backpack at the",
       "prompt": [
         {
@@ -791,7 +791,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 2,
-      "latency": 0.1614598259993727,
+      "latency": 0.1733093340008054,
       "prediction": "Judy left her wallet at the",
       "prompt": [
         {
@@ -812,7 +812,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 4,
-      "latency": 0.1617771780001931,
+      "latency": 0.17238532699957432,
       "prediction": "Alice left a jacket at Café L",
       "prompt": [
         {
@@ -833,7 +833,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 10,
-      "latency": 0.16186657800062676,
+      "latency": 0.175790503000826,
       "prediction": "Eli left a key at the",
       "prompt": [
         {
@@ -854,7 +854,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 0,
-      "latency": 0.16336457599936693,
+      "latency": 0.1760532250009419,
       "prediction": "Judy left her phone at the",
       "prompt": [
         {
@@ -875,7 +875,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 1,
-      "latency": 0.16275026300081663,
+      "latency": 0.18298802799836267,
       "prediction": "Bob left a book at the bakery",
       "prompt": [
         {
@@ -896,7 +896,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 3,
-      "latency": 0.16170019799938018,
+      "latency": 0.1741856300013751,
       "prediction": "Fay left a notebook at the",
       "prompt": [
         {
@@ -917,7 +917,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 22,
-      "latency": 0.16296094400058792,
+      "latency": 0.17484651500126347,
       "prediction": "Judy left a jacket at the",
       "prompt": [
         {
@@ -938,7 +938,7 @@
       "em_strict": 0.0,
       "f1": 0.33333333333333337,
       "lag": 0,
-      "latency": 0.1623165800001516,
+      "latency": 0.17302689099960844,
       "prediction": "Charlie left a key at",
       "prompt": [
         {
@@ -959,7 +959,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 1,
-      "latency": 0.1603033109995522,
+      "latency": 0.17217664399868227,
       "prediction": "Fay left a jacket at the",
       "prompt": [
         {
@@ -980,7 +980,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.16155046800031414,
+      "latency": 0.1783685009995679,
       "prediction": "Dana left a backpack at the",
       "prompt": [
         {
@@ -1001,7 +1001,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 9,
-      "latency": 0.16146255700004986,
+      "latency": 0.17426325999986148,
       "prediction": "Fay left a bottle at the",
       "prompt": [
         {
@@ -1022,7 +1022,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 0,
-      "latency": 0.16086098399955517,
+      "latency": 0.17177090000041062,
       "prediction": "Bob left his phone at the bakery",
       "prompt": [
         {
@@ -1043,7 +1043,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 1,
-      "latency": 0.16038050099996326,
+      "latency": 0.17043284999999742,
       "prediction": "Charlie left a bottle at Café L",
       "prompt": [
         {
@@ -1064,7 +1064,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 5,
-      "latency": 0.16310887500003446,
+      "latency": 0.17212246300005063,
       "prediction": "Ivan left a key at the",
       "prompt": [
         {
@@ -1085,7 +1085,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 21,
-      "latency": 0.16076242300005106,
+      "latency": 0.17151653900145902,
       "prediction": "Judy left a bottle at the",
       "prompt": [
         {
@@ -1106,7 +1106,7 @@
       "em_strict": 0.0,
       "f1": 0.25,
       "lag": 0,
-      "latency": 0.1633771959996011,
+      "latency": 0.17078628199851664,
       "prediction": "Bob left a book at the park",
       "prompt": [
         {
@@ -1127,7 +1127,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 2,
-      "latency": 0.16200616999958584,
+      "latency": 0.17076023200024792,
       "prediction": "Ivan left his phone at the",
       "prompt": [
         {
@@ -1148,7 +1148,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 6,
-      "latency": 0.1641806000006909,
+      "latency": 0.17281766799897014,
       "prediction": "Eli left a key at the",
       "prompt": [
         {
@@ -1169,7 +1169,7 @@
       "em_strict": 0.0,
       "f1": 0.2857142857142857,
       "lag": 22,
-      "latency": 0.16353425699981017,
+      "latency": 0.16948151299948222,
       "prediction": "Fay left an umbrella at the",
       "prompt": [
         {
@@ -1191,7 +1191,7 @@
     "collision_rate": 0.2916666666666667,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.5259737828212093,
+    "mrr": 0.5429951873426138,
     "near_miss_rate": 0.16666666666666666,
     "p_at_1": 0.375
   },

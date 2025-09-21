@@ -1,11 +1,11 @@
 {
-  "adapter_latency_overhead_s": 0.005563318312473087,
+  "adapter_latency_overhead_s": 0.004465875958355042,
   "aggregate": {
     "em": 0.20833333333333334,
     "em_relaxed": 0.20833333333333334,
     "em_strict": 0.20833333333333334,
     "f1": 0.24305555555555558,
-    "latency": 0.23224951318744994,
+    "latency": 0.24336692495830903,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
@@ -182,7 +182,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.35633330599921464,
+      "latency": 0.36816695599918603,
       "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
@@ -203,7 +203,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.11988168399966526,
+      "latency": 0.12539646699951845,
       "prediction": "Gus",
       "prompt": [
         {
@@ -224,7 +224,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 6,
-      "latency": 0.17743388899998536,
+      "latency": 0.18566020599973854,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -245,7 +245,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.3378910849996828,
+      "latency": 0.35379366199958895,
       "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
@@ -266,7 +266,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17952865999995993,
+      "latency": 0.19165208300000813,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -287,7 +287,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 2,
-      "latency": 0.1790521479997551,
+      "latency": 0.19227754799976537,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -308,7 +308,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17914056799963873,
+      "latency": 0.19503878999967128,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -329,7 +329,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3402499069998157,
+      "latency": 0.36517118099982326,
       "prediction": "On 2025-01-13, Alice left",
       "prompt": [
         {
@@ -350,7 +350,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11660373799986701,
+      "latency": 0.12727671100037696,
       "prediction": "Judy",
       "prompt": [
         {
@@ -371,7 +371,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3377115840003171,
+      "latency": 0.36328742499972577,
       "prediction": "On 2025-01-06, Gus left",
       "prompt": [
         {
@@ -392,7 +392,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.3405726290002349,
+      "latency": 0.3498906880013237,
       "prediction": "On 2025-01-28, Jack left",
       "prompt": [
         {
@@ -413,7 +413,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 22,
-      "latency": 0.17865313599941146,
+      "latency": 0.1894076029984717,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -434,7 +434,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.13784346400007053,
+      "latency": 0.14262282199888432,
       "prediction": "Eli",
       "prompt": [
         {
@@ -455,7 +455,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3425359290004053,
+      "latency": 0.35002527799952077,
       "prediction": "On 2025-01-19, Eve left",
       "prompt": [
         {
@@ -476,7 +476,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.3415945440001451,
+      "latency": 0.3558050829997228,
       "prediction": "On 2025-01-07, Tom left",
       "prompt": [
         {
@@ -497,7 +497,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.1182015570002477,
+      "latency": 0.12693946699982916,
       "prediction": "Fay",
       "prompt": [
         {
@@ -518,7 +518,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1193008620002729,
+      "latency": 0.12923980499908794,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -539,7 +539,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 1,
-      "latency": 0.11660313899938046,
+      "latency": 0.12630102200091642,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -560,7 +560,7 @@
       "em_strict": 0.0,
       "f1": 0.16666666666666669,
       "lag": 5,
-      "latency": 0.3361992480004119,
+      "latency": 0.3532385720009188,
       "prediction": "Ivan Explanation: The user asked about someone leaving a book at",
       "prompt": [
         {
@@ -581,7 +581,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.3409487310000259,
+      "latency": 0.3603453579999041,
       "prediction": "On 2025-01-03, Gus left",
       "prompt": [
         {
@@ -602,7 +602,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.34095748200070375,
+      "latency": 0.35547075899921765,
       "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
@@ -623,7 +623,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 2,
-      "latency": 0.11954828400030237,
+      "latency": 0.12280939399897761,
       "prediction": "Alice",
       "prompt": [
         {
@@ -644,7 +644,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 6,
-      "latency": 0.1393100310006048,
+      "latency": 0.14507774999947287,
       "prediction": "Eli",
       "prompt": [
         {
@@ -665,7 +665,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.11960315299984359,
+      "latency": 0.12359776000084821,
       "prediction": "Fay",
       "prompt": [
         {
@@ -686,7 +686,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.34032440800001496,
+      "latency": 0.3477528860003076,
       "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
@@ -707,7 +707,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3388569720000305,
+      "latency": 0.34881932499956747,
       "prediction": "On 2025-01-03, Fay left",
       "prompt": [
         {
@@ -728,7 +728,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.33910101299989037,
+      "latency": 0.35001313499924436,
       "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
@@ -749,7 +749,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.3384628089997932,
+      "latency": 0.359741700000086,
       "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
@@ -770,7 +770,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.18036407499948837,
+      "latency": 0.19356315400000312,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -791,7 +791,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.11958247300026414,
+      "latency": 0.12791963400013628,
       "prediction": "Gus",
       "prompt": [
         {
@@ -812,7 +812,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.1805232460001207,
+      "latency": 0.19723479300046165,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -833,7 +833,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.33816233899960935,
+      "latency": 0.35468869900068967,
       "prediction": "On 2025-01-06, Charlie left",
       "prompt": [
         {
@@ -854,7 +854,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11895157100025244,
+      "latency": 0.12433718499960378,
       "prediction": "Judy",
       "prompt": [
         {
@@ -875,7 +875,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.33919015399987984,
+      "latency": 0.3510827899990545,
       "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
@@ -896,7 +896,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.336861391999264,
+      "latency": 0.34912283400080923,
       "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
@@ -917,7 +917,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.11847842899987882,
+      "latency": 0.1230133629996999,
       "prediction": "Alice",
       "prompt": [
         {
@@ -938,7 +938,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.13955072299995663,
+      "latency": 0.1447168850008893,
       "prediction": "Eli",
       "prompt": [
         {
@@ -959,7 +959,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.34093500199924165,
+      "latency": 0.34796628399999463,
       "prediction": "On 2025-01-19, Gus left",
       "prompt": [
         {
@@ -980,7 +980,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.1765137259999392,
+      "latency": 0.18493882400071016,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -1001,7 +1001,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.11935849200017401,
+      "latency": 0.12466312600008678,
       "prediction": "Fay",
       "prompt": [
         {
@@ -1022,7 +1022,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3380642780002745,
+      "latency": 0.36245988700102316,
       "prediction": "On 2025-01-30, John left",
       "prompt": [
         {
@@ -1043,7 +1043,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3387595619997228,
+      "latency": 0.3615086900008464,
       "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
@@ -1064,7 +1064,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.1381089759997849,
+      "latency": 0.14408732000083546,
       "prediction": "Eli",
       "prompt": [
         {
@@ -1085,7 +1085,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.33753359599995747,
+      "latency": 0.3485495160002756,
       "prediction": "On 2025-01-08, Gus left",
       "prompt": [
         {
@@ -1106,7 +1106,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.33801243800007796,
+      "latency": 0.34489376800047467,
       "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
@@ -1127,7 +1127,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.11850619899996673,
+      "latency": 0.12482397699932335,
       "prediction": "Alice",
       "prompt": [
         {
@@ -1148,7 +1148,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 6,
-      "latency": 0.13658710900017468,
+      "latency": 0.14448212199931731,
       "prediction": "Eli",
       "prompt": [
         {
@@ -1169,7 +1169,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.12148889299987786,
+      "latency": 0.1227401110008941,
       "prediction": "Fay",
       "prompt": [
         {

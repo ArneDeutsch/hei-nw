@@ -1,7 +1,10 @@
 import math
 
+import numpy as np
+import torch
+
 from hei_nw.datasets import scenario_a
-from hei_nw.store import EpisodicStore
+from hei_nw.store import EpisodicStore, HopfieldReadout
 
 
 class DummyTokenizer:
@@ -63,3 +66,60 @@ def test_custom_hopfield_parameters() -> None:
     )
     assert store.hopfield.steps == 3
     assert math.isclose(store.hopfield.temperature, 0.5)
+
+
+def test_hopfield_refinement_promotes_better_candidate() -> None:
+    dense_values = torch.tensor([[0.4, 0.6]], dtype=torch.float32)
+
+    class StubKeyer:
+        def __init__(self) -> None:
+            self.d = dense_values.shape[-1]
+            self.k = dense_values.shape[-1]
+            self._indices = torch.arange(self.k).unsqueeze(0)
+
+        def __call__(self, _H: torch.Tensor) -> dict[str, torch.Tensor | int]:
+            return {
+                "indices": self._indices,
+                "values": dense_values.clone(),
+                "dim": self.d,
+            }
+
+    class StubIndex:
+        def __init__(self, results: list[dict[str, object]]) -> None:
+            self._results = results
+            self.ef_search = len(results)
+
+        def search(self, _dense: np.ndarray, k: int) -> list[dict[str, object]]:
+            return self._results[:k]
+
+    patterns = torch.tensor([[0.6, 0.4], [0.3, 0.7]], dtype=torch.float32)
+    store = EpisodicStore.__new__(EpisodicStore)
+    store.keyer = StubKeyer()
+    store.hopfield = HopfieldReadout(patterns, steps=1, temperature=0.5)
+    store._vectors = []
+    store._group_ids = {1, 2}
+    store._embed_dim = dense_values.shape[-1]
+    store.max_mem_tokens = 8
+    store._hopfield_blend = 0.2
+    store._hopfield_margin = 0.0
+    store.tokenizer = None
+
+    def fake_hash_embed(_text: str, _tokenizer: object, _dim: int) -> torch.Tensor:
+        return dense_values.view(1, 1, -1)
+
+    store._hash_embed = fake_hash_embed  # type: ignore[assignment]
+
+    wrong_vec = np.array([0.6, 0.4], dtype="float32")
+    correct_vec = np.array([0.3, 0.7], dtype="float32")
+    results = [
+        {"group_id": 1, "score": 0.401, "key_vector": wrong_vec, "trace": {"group_id": 1}},
+        {"group_id": 2, "score": 0.400, "key_vector": correct_vec, "trace": {"group_id": 2}},
+    ]
+    store.index = StubIndex(results)
+
+    baseline = store.query("cue", use_hopfield=False, return_m=1)
+    assert baseline["candidates"][0]["group_id"] == 1
+
+    refined = store.query("cue", use_hopfield=True, return_m=1, group_id=2, should_remember=True)
+    assert refined["candidates"][0]["group_id"] == 2
+    assert refined["diagnostics"]["rank_delta"] > 0
