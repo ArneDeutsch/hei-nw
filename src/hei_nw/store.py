@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 import faiss
@@ -12,8 +12,152 @@ import torch
 from torch import Tensor, nn
 
 from .keyer import DGKeyer, to_dense
+from .gate import GateDecision
 
-__all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore"]
+__all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore", "TraceWriter"]
+
+
+_POINTER_KEYS = {"doc", "start", "end"}
+_BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
+
+
+class TraceWriter:
+    """Persist pointer-only episodic traces with salience metadata."""
+
+    def __init__(self) -> None:
+        self._records: list[dict[str, Any]] = []
+
+    @property
+    def records(self) -> list[dict[str, Any]]:
+        """Return a shallow copy of persisted trace payloads."""
+
+        return list(self._records)
+
+    def write(
+        self,
+        *,
+        trace_id: str,
+        pointer: Mapping[str, Any],
+        entity_slots: Mapping[str, Any],
+        decision: GateDecision,
+        provenance: Mapping[str, Any] | None = None,
+        extras: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Persist a pointer-only trace and return the stored payload."""
+
+        payload: dict[str, Any] = {
+            "trace_id": str(trace_id),
+            "tokens_span_ref": self._normalise_pointer(pointer),
+            "entity_slots": self._normalise_slots(entity_slots),
+            "salience_tags": self._salience_tags(decision),
+        }
+        if provenance is not None:
+            payload["provenance"] = self._normalise_provenance(provenance)
+        if extras is not None:
+            payload["extras"] = self._normalise_extras(extras)
+        self._records.append(payload)
+        return payload
+
+    @staticmethod
+    def _normalise_pointer(pointer: Mapping[str, Any]) -> dict[str, Any]:
+        if not isinstance(pointer, Mapping):
+            raise TypeError("pointer must be a mapping")
+        unknown = set(pointer.keys()) - _POINTER_KEYS
+        if unknown:
+            msg = f"pointer contains unsupported fields: {sorted(unknown)}"
+            raise ValueError(msg)
+        doc = str(pointer.get("doc", "")).strip()
+        if not doc:
+            raise ValueError("pointer.doc must be a non-empty string")
+        try:
+            start = int(pointer.get("start"))
+            end = int(pointer.get("end"))
+        except (TypeError, ValueError) as exc:  # pragma: no cover - sanity guard
+            raise ValueError("pointer.start and pointer.end must be integers") from exc
+        if start < 0 or end < 0:
+            raise ValueError("pointer offsets must be non-negative")
+        if end <= start:
+            raise ValueError("pointer.end must be greater than pointer.start")
+        return {"doc": doc, "start": start, "end": end}
+
+    @staticmethod
+    def _normalise_slots(slots: Mapping[str, Any]) -> dict[str, Any]:
+        if not isinstance(slots, Mapping):
+            raise TypeError("entity_slots must be a mapping")
+        for banned in _BANNED_TEXT_KEYS:
+            if banned in slots:
+                raise ValueError(f"entity_slots cannot contain raw text key '{banned}'")
+        normalised = {
+            key: str(slots.get(key, "") or "").strip()
+            for key in ("who", "what", "where", "when")
+        }
+        extras = slots.get("extras")
+        if extras is not None:
+            if not isinstance(extras, Mapping):
+                raise TypeError("entity_slots['extras'] must be a mapping if provided")
+            for banned in _BANNED_TEXT_KEYS:
+                if banned in extras:
+                    raise ValueError(
+                        f"entity_slots['extras'] cannot contain raw text key '{banned}'"
+                    )
+            normalised["extras"] = {
+                str(k): str(v) for k, v in extras.items() if v is not None
+            }
+        return normalised
+
+    @staticmethod
+    def _salience_tags(decision: GateDecision) -> dict[str, Any]:
+        features = decision.features
+        tags: dict[str, Any] = {
+            "surprise": float(features.surprise),
+            "novelty": float(features.novelty),
+            "reward": bool(features.reward),
+            "pin": bool(features.pin),
+            "S": float(decision.score),
+        }
+        if decision.contributions:
+            tags["contributions"] = {k: float(v) for k, v in decision.contributions.items()}
+        return tags
+
+    @staticmethod
+    def _normalise_provenance(provenance: Mapping[str, Any]) -> dict[str, Any]:
+        if not isinstance(provenance, Mapping):
+            raise TypeError("provenance must be a mapping")
+        allowed = {"source", "timestamp", "confidence"}
+        unknown = set(provenance.keys()) - allowed
+        if unknown:
+            msg = f"provenance contains unsupported fields: {sorted(unknown)}"
+            raise ValueError(msg)
+        source = str(provenance.get("source", "")).strip()
+        if not source:
+            raise ValueError("provenance.source must be provided")
+        timestamp = str(provenance.get("timestamp", "")).strip()
+        if not timestamp:
+            raise ValueError("provenance.timestamp must be provided")
+        confidence_val = provenance.get("confidence")
+        confidence: float | None
+        if confidence_val is None:
+            confidence = None
+        else:
+            try:
+                confidence = float(confidence_val)
+            except (TypeError, ValueError) as exc:  # pragma: no cover - sanity guard
+                raise ValueError("provenance.confidence must be numeric") from exc
+            if not 0.0 <= confidence <= 1.0:
+                raise ValueError("provenance.confidence must lie in [0, 1]")
+        result: dict[str, Any] = {"source": source, "timestamp": timestamp}
+        if confidence is not None:
+            result["confidence"] = confidence
+        return result
+
+    @staticmethod
+    def _normalise_extras(extras: Mapping[str, Any]) -> dict[str, Any]:
+        if not isinstance(extras, Mapping):
+            raise TypeError("extras must be a mapping")
+        for banned in _BANNED_TEXT_KEYS:
+            if banned in extras:
+                raise ValueError(f"extras cannot contain raw text key '{banned}'")
+        return {str(k): str(v) for k, v in extras.items()}
 
 
 class ANNIndex:

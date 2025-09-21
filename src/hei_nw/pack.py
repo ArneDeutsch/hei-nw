@@ -2,23 +2,78 @@
 
 from __future__ import annotations
 
-from typing import Any, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 
-def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> list[int]:
+_POINTER_KEYS = {"doc", "start", "end"}
+_BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
+
+
+def _validate_pointer_payload(trace: Mapping[str, Any]) -> None:
+    for banned in _BANNED_TEXT_KEYS:
+        if banned in trace:
+            raise ValueError(f"trace contains disallowed key '{banned}'")
+    pointer = trace.get("tokens_span_ref")
+    if pointer is None:
+        return
+    if not isinstance(pointer, Mapping):
+        raise TypeError("tokens_span_ref must be a mapping when provided")
+    unknown = set(pointer.keys()) - _POINTER_KEYS
+    if unknown:
+        msg = f"tokens_span_ref contains unsupported fields: {sorted(unknown)}"
+        raise ValueError(msg)
+    doc = str(pointer.get("doc", "")).strip()
+    if not doc:
+        raise ValueError("tokens_span_ref.doc must be a non-empty string")
+    try:
+        start = int(pointer.get("start"))
+        end = int(pointer.get("end"))
+    except (TypeError, ValueError) as exc:  # pragma: no cover - defensive
+        raise ValueError("tokens_span_ref start/end must be integers") from exc
+    if start < 0 or end < 0:
+        raise ValueError("tokens_span_ref offsets must be non-negative")
+    if end <= start:
+        raise ValueError("tokens_span_ref.end must be greater than start")
+
+
+def _normalise_entity_slots(trace: Mapping[str, Any]) -> dict[str, str | dict[str, str]]:
+    slots_source = trace.get("entity_slots")
+    if isinstance(slots_source, Mapping):
+        source = slots_source
+    else:
+        source = trace
+    for banned in _BANNED_TEXT_KEYS:
+        if banned in source:
+            raise ValueError(f"entity slots may not contain disallowed key '{banned}'")
+    slots = {
+        key: str(source.get(key, "") or "").strip()
+        for key in ("who", "what", "where", "when")
+    }
+    extras = source.get("extras")
+    if extras is not None:
+        if not isinstance(extras, Mapping):
+            raise TypeError("entity slot extras must be a mapping if provided")
+        slots["extras"] = {str(k): str(v) for k, v in extras.items()}
+    return slots
+
+
+def pack_trace(trace: Mapping[str, Any], tokenizer: Any, max_mem_tokens: int) -> list[int]:
     """Pack an episode trace into a list of token IDs.
 
     The packing follows a deterministic template with a stable field order and
-    truncates the resulting token sequence to ``max_mem_tokens``. Fields are
-    rendered inline without a global header so that the very first tokens
-    reflect the ``who`` tag and value.
+    truncates the resulting token sequence to ``max_mem_tokens``. The function
+    enforces pointer-only payloads: supplying ``tokens_span_ref`` requires a
+    ``{doc,start,end}`` mapping and raw text fields such as ``episode_text`` are
+    rejected.
 
     Parameters
     ----------
     trace:
-        Mapping containing optional ``who``, ``what``, ``where`` and ``when``
-        fields describing the episode. Missing fields are treated as empty
-        strings. All values are converted to strings and stripped.
+        Mapping describing the episode. It may contain a nested
+        ``entity_slots`` mapping with ``who``, ``what``, ``where`` and ``when``
+        fields or expose those fields directly. Raw text payloads are not
+        permitted; callers must provide pointer metadata instead.
     tokenizer:
         HuggingFace-style tokenizer providing a ``__call__`` method that returns
         a mapping with an ``"input_ids"`` list.
@@ -33,13 +88,16 @@ def pack_trace(trace: dict[str, Any], tokenizer: Any, max_mem_tokens: int) -> li
         ``max_mem_tokens``.
     """
 
-    fields = {key: str(trace.get(key, "")).strip() for key in ("who", "what", "where", "when")}
+    if not isinstance(trace, Mapping):
+        raise TypeError("trace must be a mapping")
+    _validate_pointer_payload(trace)
+    slots = _normalise_entity_slots(trace)
     template = " ".join(
         [
-            f"who: {fields['who']}".strip(),
-            f"what: {fields['what']}".strip(),
-            f"where: {fields['where']}".strip(),
-            f"when: {fields['when']}".strip(),
+            f"who: {slots['who']}".strip(),
+            f"what: {slots['what']}".strip(),
+            f"where: {slots['where']}".strip(),
+            f"when: {slots['when']}".strip(),
         ]
     )
     input_ids: list[int] = tokenizer(template)["input_ids"]
