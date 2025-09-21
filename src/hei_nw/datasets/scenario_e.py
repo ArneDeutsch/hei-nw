@@ -55,17 +55,30 @@ def generate(n: int, seed: int, context_length: int = 20) -> list[dict[str, obje
             query = f"Which token is at position {target_index + 1}?"
             expected = target
             should_remember = True
+            gate_features = {
+                "surprise": 0.95 + rng.random() * 0.4,
+                "novelty": 0.65 + rng.random() * 0.25,
+                "reward": bool(target.startswith("a")),
+                "pin": bool(i % 13 == 0),
+            }
         else:
             context = "This is filler context."
             query = "Is this a filler context?"
             expected = "yes"
             should_remember = False
+            gate_features = {
+                "surprise": 0.2 + rng.random() * 0.15,
+                "novelty": 0.05 + rng.random() * 0.1,
+                "reward": False,
+                "pin": False,
+            }
         records.append(
             {
                 "context": context,
                 "query": query,
                 "expected": expected,
                 "should_remember": should_remember,
+                "gate_features": gate_features,
             }
         )
     return records

@@ -47,17 +47,30 @@ def generate(n: int, seed: int) -> list[dict[str, object]]:
             query = f"Who is the CEO of {company}?"
             expected = name
             should_remember = True
+            gate_features = {
+                "surprise": 1.1 + rng.random() * 0.4,
+                "novelty": 0.8 + rng.random() * 0.15,
+                "reward": bool(company == "Acme Corp"),
+                "pin": bool(i % 7 == 0),
+            }
         else:
             context = f"{company} produces widgets."
             query = f"What does {company} produce?"
             expected = "widgets"
             should_remember = False
+            gate_features = {
+                "surprise": 0.2 + rng.random() * 0.2,
+                "novelty": 0.1 + rng.random() * 0.1,
+                "reward": False,
+                "pin": False,
+            }
         records.append(
             {
                 "context": context,
                 "query": query,
                 "expected": expected,
                 "should_remember": should_remember,
+                "gate_features": gate_features,
             }
         )
     return records

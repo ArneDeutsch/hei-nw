@@ -19,6 +19,9 @@ def test_each_generator_min_sizes() -> None:
         assert len(records) >= 5
         first = records[0]
         assert {"context", "query", "expected", "should_remember"} <= first.keys()
+        assert "gate_features" in first
+        gate_features = first["gate_features"]
+        assert {"surprise", "novelty", "reward", "pin"} <= gate_features.keys()
 
 
 def test_should_remember_present() -> None:

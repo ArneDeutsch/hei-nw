@@ -9,7 +9,15 @@ def test_shapes_and_fields() -> None:
     records = generate(3, seed=0)
     assert len(records) == 6
     first = records[0]
-    expected = {"episode_text", "cues", "answers", "should_remember", "lag", "group_id"}
+    expected = {
+        "episode_text",
+        "cues",
+        "answers",
+        "should_remember",
+        "lag",
+        "group_id",
+        "gate_features",
+    }
     assert expected <= first.keys()
     assert isinstance(first["episode_text"], str)
     assert isinstance(first["cues"], list)
@@ -18,6 +26,10 @@ def test_shapes_and_fields() -> None:
     assert isinstance(first["should_remember"], bool)
     assert isinstance(first["lag"], int)
     assert isinstance(first["group_id"], int)
+    gate_features = first["gate_features"]
+    assert {"surprise", "novelty", "reward", "pin"} <= gate_features.keys()
+    assert 0.0 <= gate_features["novelty"] <= 1.0
+    assert gate_features["surprise"] >= 0.0
 
 
 def test_hard_negative_rate() -> None:
