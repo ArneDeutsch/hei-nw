@@ -2,8 +2,6 @@ You are a senior engineering planner tasked to produce an **executable, review�
 
 **Milestone to plan:** {{MILESTONE_TITLE}}
 
-**Repository ZIP in this chat:** "hei-nw-main.zip"
-
 ### Context and expectations
 - This project implements and validates **HEI‑NW** (Hippocampal Episodic Index — Neuromodulated Writes) as an augmentation to a decoder‑only LLM.
 - The repository includes definitive planning docs:
@@ -14,7 +12,7 @@ You are a senior engineering planner tasked to produce an **executable, review�
 - Codex tends to leave **stubs/mocks**; do not allow this. All tasks must end with **real implementations** that run end‑to‑end. If a stub is *temporarily* needed, include an explicit task in the same milestone to **replace/remove** it before DoD.
 
 ### What you must do
-1) **Unzip & read the repo** (assume the ZIP is attached). Skim the tree and open the three planning docs above to ground yourself.
+1) **read the repo** Skim the tree and open the three planning docs above to ground yourself.
 2) From `project-plan.md`, locate **{{MILESTONE_TITLE}}** and parse its *Scope*, *DoD/Acceptance*, and *Artifacts*.
 3) From `design.md` and `validation-plan.md`, pull all requirements that constrain this milestone (APIs, modes B0–B3, scenarios A–E, metrics, replay/decay constraints, etc.).
 4) Produce a **single Markdown plan** with:
