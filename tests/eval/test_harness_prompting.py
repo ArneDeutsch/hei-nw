@@ -109,7 +109,7 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     assert qa_settings.template_policy == "auto"
     assert qa_settings.stop_mode == "none"
     assert qa_settings.omit_episode is True
-    assert qa_settings.memory_dependent_baseline is False
+    assert qa_settings.memory_dependent_baseline is True
 
     records = [
         {
@@ -179,7 +179,7 @@ def test_omit_episode_flag_changes_prompt() -> None:
     assert "Alice bought" not in prompt
 
 
-def test_memory_dependent_default_differs_between_modes(tmp_path) -> None:
+def test_b0_b1_default_prompts_are_cue_only(tmp_path) -> None:
     records = [
         {
             "episode_text": "Yesterday, Alice bought a red apple from the market.",
@@ -207,7 +207,12 @@ def test_memory_dependent_default_differs_between_modes(tmp_path) -> None:
         answer_hint=b0_settings.answer_hint,
         omit_episode=b0_settings.omit_episode,
     )
-    assert "Episode:" not in b0_prompt if isinstance(b0_prompt, str) else "Episode:" not in b0_prompt[1]["content"]
+    if isinstance(b0_prompt, str):
+        assert "Episode:" not in b0_prompt
+        assert "Alice bought" not in b0_prompt
+    else:
+        assert "Episode:" not in b0_prompt[1]["content"]
+        assert "Alice bought" not in b0_prompt[1]["content"]
 
     b1_args = parse_args(
         [
@@ -229,9 +234,11 @@ def test_memory_dependent_default_differs_between_modes(tmp_path) -> None:
         omit_episode=b1_settings.omit_episode,
     )
     if isinstance(b1_prompt, str):
-        assert "Alice bought" in b1_prompt
+        assert "Episode:" not in b1_prompt
+        assert "Alice bought" not in b1_prompt
     else:
-        assert any("Alice bought" in msg.get("content", "") for msg in b1_prompt)
+        assert "Episode:" not in b1_prompt[1]["content"]
+        assert "Alice bought" not in b1_prompt[1]["content"]
 
     b1_baseline_args = parse_args(
         [
@@ -249,6 +256,33 @@ def test_memory_dependent_default_differs_between_modes(tmp_path) -> None:
     b1_baseline_settings = _qa_settings_from_args(b1_baseline_args)
     assert b1_baseline_settings.memory_dependent_baseline is True
     assert b1_baseline_settings.omit_episode is True
+
+    b1_episode_args = parse_args(
+        [
+            "--mode",
+            "B1",
+            "--scenario",
+            "A",
+            "-n",
+            "1",
+            "--outdir",
+            str(tmp_path / "b1-episode"),
+            "--no-qa.omit_episode",
+        ]
+    )
+    b1_episode_settings = _qa_settings_from_args(b1_episode_args)
+    assert b1_episode_settings.omit_episode is False
+    assert b1_episode_settings.memory_dependent_baseline is False
+    prompt_with_episode, _ = _build_prompt(
+        records[0],
+        prompt_style=b1_episode_settings.prompt_style,
+        answer_hint=b1_episode_settings.answer_hint,
+        omit_episode=b1_episode_settings.omit_episode,
+    )
+    if isinstance(prompt_with_episode, str):
+        assert "Episode:" in prompt_with_episode
+    else:
+        assert "Episode:" in prompt_with_episode[1]["content"]
 
 
 def test_parse_args_supports_omit_episode(tmp_path) -> None:

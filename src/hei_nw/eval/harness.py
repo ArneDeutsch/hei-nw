@@ -723,14 +723,19 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         args.qa_template_policy if args.qa_template_policy is not None else defaults.template_policy
     )
     stop_mode = args.qa_stop_mode if args.qa_stop_mode is not None else defaults.stop_mode
+    forced_memory_baseline = False
     if args.qa_omit_episode is not None:
         omit_episode = args.qa_omit_episode
-    elif args.mode == "B0":
+        forced_memory_baseline = args.qa_omit_episode
+    elif args.mode in {"B0", "B1"}:
         omit_episode = True
+        forced_memory_baseline = True
     elif args.qa_memory_dependent_baseline:
         omit_episode = True
+        forced_memory_baseline = True
     else:
         omit_episode = defaults.omit_episode
+    memory_dependent_baseline = args.qa_memory_dependent_baseline or forced_memory_baseline
     return QAPromptSettings(
         prompt_style=prompt_style,
         max_new_tokens=max_new_tokens,
@@ -739,7 +744,7 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         template_policy=template_policy,
         stop_mode=stop_mode,
         omit_episode=omit_episode,
-        memory_dependent_baseline=args.qa_memory_dependent_baseline,
+        memory_dependent_baseline=memory_dependent_baseline,
     )
 
 
