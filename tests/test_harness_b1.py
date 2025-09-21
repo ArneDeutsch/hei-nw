@@ -83,6 +83,12 @@ def test_retrieval_only_em_tracks_p_at_1(monkeypatch: pytest.MonkeyPatch) -> Non
             "group_id": 1,
             "should_remember": True,
             "lag": 0,
+            "gate_features": {
+                "surprise": 1.2,
+                "novelty": 0.9,
+                "reward": False,
+                "pin": False,
+            },
         },
         {
             "episode_text": "Carol saw Dave near the river.",
@@ -91,6 +97,12 @@ def test_retrieval_only_em_tracks_p_at_1(monkeypatch: pytest.MonkeyPatch) -> Non
             "group_id": 2,
             "should_remember": True,
             "lag": 0,
+            "gate_features": {
+                "surprise": 1.1,
+                "novelty": 0.85,
+                "reward": False,
+                "pin": False,
+            },
         },
     ]
 
@@ -193,3 +205,6 @@ def test_retrieval_only_em_tracks_p_at_1(monkeypatch: pytest.MonkeyPatch) -> Non
     p_at_1 = float(extra["retrieval"]["p_at_1"])
 
     assert pytest.approx(em_strict, abs=0.05) == p_at_1
+    gate_summary = extra["gate"]
+    assert gate_summary["writes"] == len(records)
+    assert gate_summary["weights"]["alpha"] == pytest.approx(1.0)

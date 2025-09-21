@@ -21,6 +21,7 @@ from hei_nw.eval.report import (
     save_completion_ablation_plot,
     save_reports,
 )
+from hei_nw.gate import GateDecision, NeuromodulatedGate, SalienceFeatures
 from hei_nw.keyer import DGKeyer
 from hei_nw.metrics import (
     ComputeRecord,
@@ -131,6 +132,78 @@ def _positive_float(value: str) -> float:
         msg = "Hopfield temperature must be positive"
         raise argparse.ArgumentTypeError(msg)
     return parsed
+
+
+def _extract_gate_features(record: dict[str, Any]) -> SalienceFeatures:
+    """Return salience features extracted from *record* metadata."""
+
+    raw = record.get("gate_features") or {}
+    if not isinstance(raw, dict):
+        raw = {}
+    surprise = float(raw.get("surprise", 0.0))
+    novelty = float(raw.get("novelty", 0.0))
+    reward = bool(raw.get("reward", False))
+    pin = bool(raw.get("pin", False))
+    return SalienceFeatures(surprise=surprise, novelty=novelty, reward=reward, pin=pin)
+
+
+def _apply_gate(
+    records: Sequence[dict[str, Any]], gate: NeuromodulatedGate
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Return filtered records for indexing and per-record diagnostics."""
+
+    indexed: list[dict[str, Any]] = []
+    diagnostics: list[dict[str, Any]] = []
+    for idx, record in enumerate(records):
+        features = _extract_gate_features(record)
+        decision: GateDecision = gate.decision(features)
+        write = decision.should_write or bool(features.pin)
+        diagnostics.append(
+            {
+                "index": idx,
+                "score": decision.score,
+                "should_write": write,
+                "features": asdict(decision.features),
+                "contributions": decision.contributions,
+                "should_remember_label": bool(record.get("should_remember")),
+                "group_id": record.get("group_id"),
+            }
+        )
+        if write:
+            indexed_record = dict(record)
+            indexed_record["should_remember"] = True
+            indexed.append(indexed_record)
+    return indexed, diagnostics
+
+
+def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    """Compute aggregate statistics for gate diagnostics."""
+
+    total = len(diagnostics)
+    if total == 0:
+        return {
+            "total": 0,
+            "writes": 0,
+            "write_rate": 0.0,
+            "pinned": 0,
+            "reward_flags": 0,
+            "decisions": [],
+        }
+    writes = sum(1 for diag in diagnostics if diag["should_write"])
+    scores = [float(diag["score"]) for diag in diagnostics]
+    pinned = sum(1 for diag in diagnostics if diag["features"].get("pin", False))
+    reward_flags = sum(1 for diag in diagnostics if diag["features"].get("reward", False))
+    return {
+        "total": total,
+        "writes": writes,
+        "write_rate": writes / total,
+        "pinned": pinned,
+        "reward_flags": reward_flags,
+        "score_mean": float(sum(scores) / total),
+        "score_min": float(min(scores)),
+        "score_max": float(max(scores)),
+        "decisions": diagnostics,
+    }
 
 
 def _model_geometry(model: Any) -> ModelGeometry:
@@ -249,6 +322,41 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         type=float,
         default=0.2,
         help=("Initial value for the learnable residual gate applied by the " "episodic adapter."),
+    )
+    parser.add_argument(
+        "--gate.alpha",
+        dest="gate_alpha",
+        type=float,
+        default=1.0,
+        help="Weight α applied to the surprise component of the gate.",
+    )
+    parser.add_argument(
+        "--gate.beta",
+        dest="gate_beta",
+        type=float,
+        default=1.0,
+        help="Weight β applied to the novelty component of the gate.",
+    )
+    parser.add_argument(
+        "--gate.gamma",
+        dest="gate_gamma",
+        type=float,
+        default=0.5,
+        help="Weight γ applied to the reward signal.",
+    )
+    parser.add_argument(
+        "--gate.delta",
+        dest="gate_delta",
+        type=float,
+        default=0.8,
+        help="Weight δ applied to the pin signal.",
+    )
+    parser.add_argument(
+        "--gate.threshold",
+        dest="gate_threshold",
+        type=_positive_float,
+        default=1.5,
+        help="Decision threshold τ for the write gate.",
     )
     parser.add_argument(
         "--qa.answer_hint",
@@ -821,6 +929,7 @@ def _evaluate_mode_b1(
     *,
     mem_max_tokens: int = 128,
     adapter_scale: float = 0.2,
+    gate: NeuromodulatedGate | None = None,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -832,8 +941,10 @@ def _evaluate_mode_b1(
     hopfield_settings = hopfield or HopfieldSettings()
     dev_settings = dev or DevIsolationSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model), scale=adapter_scale)
+    gate_module = gate or NeuromodulatedGate()
+    indexed_records, gate_diagnostics = _apply_gate(records, gate_module)
     service = RecallService.build(
-        records,
+        indexed_records,
         tok,
         max_mem_tokens=mem_max_tokens,
         hopfield_steps=hopfield_settings.steps,
@@ -1012,9 +1123,18 @@ def _evaluate_mode_b1(
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),
         "hopfield_rank_improved_rate": hopfield_rank_improved_rate(hopfield_diagnostics),
     }
+    gate_info = _summarize_gate(gate_diagnostics)
+    gate_info["weights"] = {
+        "alpha": gate_module.alpha,
+        "beta": gate_module.beta,
+        "gamma": gate_module.gamma,
+        "delta": gate_module.delta,
+    }
+    gate_info["threshold"] = gate_module.threshold
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,
+        "gate": gate_info,
         "debug": {
             "mem_len": mem_lengths,
             "mem_preview": preview_tokens or [],
@@ -1073,11 +1193,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             retrieval_only=args.dev_retrieval_only,
             oracle_trace=args.dev_oracle_trace,
         )
+        gate_module = NeuromodulatedGate(
+            alpha=args.gate_alpha,
+            beta=args.gate_beta,
+            gamma=args.gate_gamma,
+            delta=args.gate_delta,
+            threshold=args.gate_threshold,
+        )
         handler_kwargs: dict[str, Any] = {}
         if args.mode == "B1":
             assert resolved_mem_max_tokens is not None
             handler_kwargs["mem_max_tokens"] = resolved_mem_max_tokens
             handler_kwargs["adapter_scale"] = args.adapter_scale
+            handler_kwargs["gate"] = gate_module
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1128,6 +1256,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             "enabled": not args.no_hopfield,
             "steps": hopfield_settings.steps,
             "temperature": hopfield_settings.temperature,
+        },
+        "gate": {
+            "alpha": args.gate_alpha,
+            "beta": args.gate_beta,
+            "gamma": args.gate_gamma,
+            "delta": args.gate_delta,
+            "threshold": args.gate_threshold,
         },
     }
 

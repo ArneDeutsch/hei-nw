@@ -71,6 +71,7 @@ def _build_record(
     lag: int,
     should_remember: bool,
     group_id: int,
+    gate_features: dict[str, object],
 ) -> dict[str, object]:
     date_str = _format_date(day)
     text = f"On {date_str}, {name} left a {item} at {place}."
@@ -88,6 +89,7 @@ def _build_record(
         "should_remember": should_remember,
         "lag": lag,
         "group_id": group_id,
+        "gate_features": gate_features,
     }
 
 
@@ -126,7 +128,13 @@ def generate(
         day = rng.randint(0, 27)
         lag = _cycle_lag(i, rng, bins)
         base_slots.append((name, item, place, day, lag))
-        records.append(_build_record(name, item, place, day, lag, True, i))
+        gate_feats = {
+            "surprise": 1.2 + rng.random() * 0.3,
+            "novelty": 0.85 + rng.random() * 0.1,
+            "reward": bool((i % 11) == 0),
+            "pin": bool((i % 17) == 0),
+        }
+        records.append(_build_record(name, item, place, day, lag, True, i, gate_feats))
 
     if hard_negative:
         n_conf = int(round(n * confounders_ratio))
@@ -143,6 +151,12 @@ def generate(
                 neg_place = rng.choice([s for s in PLACES if s != place])
             else:
                 neg_day = rng.randint(0, 27)
+            gate_feats = {
+                "surprise": 0.1 + rng.random() * 0.3,
+                "novelty": 0.05 + rng.random() * 0.15,
+                "reward": False,
+                "pin": False,
+            }
             records.append(
                 _build_record(
                     neg_name,
@@ -152,6 +166,7 @@ def generate(
                     lag,
                     False,
                     base_idx,
+                    gate_feats,
                 )
             )
     return records
