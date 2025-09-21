@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from pathlib import Path
 from statistics import mean
 from typing import Any, cast
 
@@ -11,12 +10,11 @@ from transformers import PreTrainedModel
 from hei_nw.eval import harness
 from hei_nw.metrics import exact_match, token_f1
 from hei_nw.models.base import build_default_adapter, load_base
+from hei_nw.testing import DUMMY_MODEL_ID
 from hei_nw.utils.seed import set_global_seed
 
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
-
 set_global_seed(0)
-_TOK, MODEL, _PIPE = load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+_TOK, MODEL, _PIPE = load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
 GEOM = harness._model_geometry(MODEL)
 ADAPTER = build_default_adapter(cast(PreTrainedModel, MODEL))
 

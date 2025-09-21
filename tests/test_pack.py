@@ -1,16 +1,11 @@
-from pathlib import Path
-
 import pytest
 
-from transformers import AutoTokenizer
-
 from hei_nw.pack import pack_trace, truncate_memory_tokens
-
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DummyTokenizer
 
 
 def test_pack_is_deterministic_and_capped() -> None:
-    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    tokenizer = DummyTokenizer()
     trace = {
         "who": "Dana",
         "what": "backpack",
@@ -24,7 +19,7 @@ def test_pack_is_deterministic_and_capped() -> None:
 
 
 def test_pack_handles_missing_fields() -> None:
-    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    tokenizer = DummyTokenizer()
     trace = {"what": "backpack"}
     tokens = pack_trace(trace, tokenizer, 50)
     expected_text = "who: what: backpack where: when:"
@@ -33,7 +28,7 @@ def test_pack_handles_missing_fields() -> None:
 
 
 def test_total_memory_token_cap_enforced() -> None:
-    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    tokenizer = DummyTokenizer()
     trace = {
         "who": "Dana",
         "what": "backpack",
@@ -48,7 +43,7 @@ def test_total_memory_token_cap_enforced() -> None:
 
 
 def test_pack_rejects_raw_text_payload() -> None:
-    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    tokenizer = DummyTokenizer()
     trace = {"episode_text": "should not be packed"}
     with pytest.raises(ValueError):
         pack_trace(trace, tokenizer, 32)

@@ -3,7 +3,7 @@ set -euo pipefail
 export PYTHONPATH=src
 
 OUT_ROOT="${OUT:-reports/m2-mem-sweep}"
-MODEL="${MODEL:-models/tiny-gpt2}"
+MODEL="${MODEL:-hei-nw/dummy-model}"
 N="${N:-16}"
 SEED="${SEED:-7}"
 MEM_CAPS=(8 16 32 64 128)

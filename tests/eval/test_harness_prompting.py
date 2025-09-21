@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from hei_nw.eval.harness import (
     ModelGeometry,
     QAPromptSettings,
@@ -9,12 +7,11 @@ from hei_nw.eval.harness import (
     parse_args,
 )
 from hei_nw.models.base import build_prompt, generate, load_base
-
-TINY_MODEL = Path(__file__).resolve().parents[2] / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def test_prompt_styles_and_stop_behavior() -> None:
-    tok, _, _ = load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    tok, _, _ = load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
     record = {
         "episode_text": "Yesterday, Alice bought a red apple from the market.",
         "cues": ["Who bought the apple?"],

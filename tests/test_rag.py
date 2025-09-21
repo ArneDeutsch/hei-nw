@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Sequence
-from pathlib import Path
 
 import numpy as np
 import pytest
@@ -10,8 +9,7 @@ import requests  # type: ignore[import-untyped]
 
 from hei_nw.baselines.rag import run_rag
 from hei_nw.models.base import load_base
-
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 class ToyEmbedder:
@@ -31,7 +29,7 @@ class ToyEmbedder:
 
 
 def test_index_and_query_toyembedder() -> None:
-    tok, model, _ = load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    tok, model, _ = load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
     records = [
         {
             "documents": ["alpha", "beta", "gamma"],

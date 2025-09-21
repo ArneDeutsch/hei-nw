@@ -21,7 +21,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 OUT_ROOT="${OUT:-reports/m2-probes}"
-MODEL="${MODEL:-models/tiny-gpt2}"
+MODEL="${MODEL:-hei-nw/dummy-model}"
 N="${N:-16}"
 SEED="${SEED:-7}"
 

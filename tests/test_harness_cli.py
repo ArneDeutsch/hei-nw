@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def test_parse_args_default_model(tmp_path: Path) -> None:
@@ -44,7 +44,7 @@ def test_cli_b0_smoke(tmp_path: Path) -> None:
         "--outdir",
         str(outdir),
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     subprocess.run(cmd, check=True)  # noqa: S603
     json_files = list(outdir.glob("*_metrics.json"))
@@ -72,7 +72,7 @@ def test_cli_rag_smoke(tmp_path: Path) -> None:
         "--outdir",
         str(outdir),
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
         "--baseline",
         "rag",
     ]
@@ -98,7 +98,7 @@ def test_cli_default_outdir(tmp_path: Path) -> None:
         "--seed",
         "0",
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     env = os.environ.copy()
     env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
@@ -124,7 +124,7 @@ def test_cli_default_outdir_b1(tmp_path: Path) -> None:
         "--seed",
         "0",
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     env = os.environ.copy()
     env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")

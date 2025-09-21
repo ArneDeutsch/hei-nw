@@ -7,7 +7,3 @@ This project vendors files from:
   License: Modified MIT (OpenAI). A copy is provided in
   `licenses/OPENAI-GPT2-LICENSE.txt`; see also
   https://github.com/openai/gpt-2/blob/master/LICENSE.
-
-* **Model weights and configs from `sshleifer/tiny-gpt2`**
-  Source: https://huggingface.co/sshleifer/tiny-gpt2
-  As of 2025-09-12 the Hugging Face page does not declare a license.

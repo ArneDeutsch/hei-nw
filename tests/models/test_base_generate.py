@@ -1,15 +1,12 @@
-from pathlib import Path
-
 import torch
 
 from hei_nw.adapter import EpisodicAdapter
 from hei_nw.models.base import generate, load_base
-
-TINY_MODEL = Path(__file__).resolve().parents[2] / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def setup_module() -> None:
-    load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
 
 
 def test_generate_stops_on_substring() -> None:

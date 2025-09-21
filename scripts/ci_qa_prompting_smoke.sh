@@ -11,7 +11,7 @@ OUTDIR="$(mktemp -d)"
 export OUTDIR
 trap 'rm -rf "${OUTDIR}"' EXIT
 
-MODEL="${MODEL:-sshleifer/tiny-gpt2}"
+MODEL="${MODEL:-hei-nw/dummy-model}"
 export MODEL
 MAX_OUTPUT_TOKENS="${MAX_OUTPUT_TOKENS:-32}"
 export MAX_OUTPUT_TOKENS
@@ -33,7 +33,7 @@ from hei_nw.eval import harness
 from hei_nw.models.base import load_base
 
 base = Path(os.environ["OUTDIR"])
-tok, _, _ = load_base(model_id=str(os.environ.get("MODEL", "sshleifer/tiny-gpt2")), quant_4bit=False)
+tok, _, _ = load_base(model_id=str(os.environ.get("MODEL", "hei-nw/dummy-model")), quant_4bit=False)
 max_tokens = int(os.environ.get("MAX_OUTPUT_TOKENS", "32"))
 for mode in ("plain", "chat"):
     data = json.loads((base / mode / "A_B0_metrics.json").read_text(encoding="utf8"))

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-TINY_MODEL = Path(__file__).resolve().parent.parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 @pytest.mark.slow
@@ -28,7 +28,7 @@ def test_b1_summary_includes_memory_debug(tmp_path: Path) -> None:
         "--outdir",
         str(outdir),
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     subprocess.run(cmd, check=True)  # noqa: S603
     json_files = list(outdir.glob("*_metrics.json"))

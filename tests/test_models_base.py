@@ -1,15 +1,13 @@
-from pathlib import Path
 from typing import cast
 
 import pytest
 
 from hei_nw.models.base import generate, load_base
-
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def test_tokenizer_roundtrip_small() -> None:
-    tok, _, _ = load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    tok, _, _ = load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
     text = "Hello world"
     ids = tok.encode(text)  # type: ignore[attr-defined]
     decoded = tok.decode(ids, skip_special_tokens=True)  # type: ignore[attr-defined]
@@ -18,7 +16,7 @@ def test_tokenizer_roundtrip_small() -> None:
 
 @pytest.mark.slow
 def test_generate_count_tokens_smoke() -> None:
-    tok, _, _ = load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    tok, _, _ = load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
     prompt = "Hello"
     out = generate(prompt, max_new_tokens=8)
     prompt_tokens = cast(int, out["prompt_tokens"])
@@ -29,7 +27,7 @@ def test_generate_count_tokens_smoke() -> None:
 
 
 def test_generate_signature_accepts_mem_tokens() -> None:
-    load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
     a = generate("Hello", max_new_tokens=4)
     b = generate("Hello", max_new_tokens=4, mem_tokens=None)
     c = generate("Hello", max_new_tokens=4, mem_tokens=[])
