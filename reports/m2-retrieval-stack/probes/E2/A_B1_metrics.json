@@ -1,10 +1,10 @@
 {
-  "adapter_latency_overhead_s": -0.13875977441675028,
+  "adapter_latency_overhead_s": -0.1477616620416408,
   "aggregate": {
     "em": 0.375,
     "em_relaxed": 0.375,
     "em_strict": 0.375,
-    "f1": 0.3854166666666667,
+    "f1": 0.40625,
     "latency": 0.0,
     "non_empty_rate": 1.0,
     "recall_at_k": null
@@ -27,7 +27,7 @@
     },
     "first_token": [
       "Gus",
-      "Ivan",
+      "Bob",
       "Ivan",
       "Gus",
       "Gus",
@@ -55,9 +55,9 @@
       "Ivan",
       "Gus",
       "Gus",
+      "Fay",
       "Ivan",
-      "Ivan",
-      "Ivan",
+      "Charlie",
       "Judy",
       "Gus",
       "Bob",
@@ -66,7 +66,7 @@
       "Gus",
       "Gus",
       "Fay",
-      "Alice",
+      "Bob",
       "Ivan",
       "Ivan",
       "Judy",
@@ -143,7 +143,7 @@
       "em": 0.5833333333333334,
       "em_relaxed": 0.5833333333333334,
       "em_strict": 0.5833333333333334,
-      "f1": 0.5833333333333334,
+      "f1": 0.625,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
@@ -152,7 +152,7 @@
       "em": 0.16666666666666666,
       "em_relaxed": 0.16666666666666666,
       "em_strict": 0.16666666666666666,
-      "f1": 0.16666666666666666,
+      "f1": 0.20833333333333334,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
@@ -201,10 +201,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.5,
       "lag": 1,
       "latency": 0.0,
-      "prediction": "Ivan (retrieval miss)",
+      "prediction": "Bob (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -792,7 +792,7 @@
       "f1": 0.0,
       "lag": 2,
       "latency": 0.0,
-      "prediction": "Ivan (retrieval miss)",
+      "prediction": "Fay (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -834,7 +834,7 @@
       "f1": 0.0,
       "lag": 10,
       "latency": 0.0,
-      "prediction": "Ivan (retrieval miss)",
+      "prediction": "Charlie (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1020,10 +1020,10 @@
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
-      "f1": 0.0,
+      "f1": 0.5,
       "lag": 0,
       "latency": 0.0,
-      "prediction": "Alice (retrieval miss)",
+      "prediction": "Bob (retrieval miss)",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1191,7 +1191,7 @@
     "collision_rate": 0.2916666666666667,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.5259737828212093,
+    "mrr": 0.5429951873426138,
     "near_miss_rate": 0.16666666666666666,
     "p_at_1": 0.375
   },

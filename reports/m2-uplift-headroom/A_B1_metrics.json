@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": 0.02624932225014237,
+  "adapter_latency_overhead_s": 0.007120586666436168,
   "aggregate": {
-    "em": 0.14583333333333334,
-    "em_relaxed": 0.14583333333333334,
-    "em_strict": 0.14583333333333334,
-    "f1": 0.18888888888888888,
-    "latency": 0.25073742702092733,
+    "em": 0.20833333333333334,
+    "em_relaxed": 0.20833333333333334,
+    "em_strict": 0.20833333333333334,
+    "f1": 0.24305555555555558,
+    "latency": 0.2460596710207407,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 101829095424,
-      "kv_cache_bytes": 46282752
+      "attention_flops": 100385574912,
+      "kv_cache_bytes": 45950976
     },
     "baseline": null
   },
@@ -27,7 +27,7 @@
     },
     "first_token": [
       "On",
-      "Eli",
+      "Gus",
       "Ivan",
       "On",
       "Judy",
@@ -45,33 +45,33 @@
       "Charlie",
       "Charlie",
       "Ivan",
-      "On",
-      "On",
-      "Judy",
-      "Eli",
-      "Fay",
-      "On",
-      "On",
-      "On",
-      "On",
-      "Judy",
-      "Alice",
-      "Ivan",
-      "On",
-      "Judy",
       "On",
       "On",
       "Alice",
       "Eli",
+      "Fay",
+      "On",
+      "On",
+      "On",
+      "On",
+      "Judy",
+      "Gus",
+      "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Alice",
+      "Eli",
       "On",
       "Judy",
       "Fay",
-      "Charlie",
+      "On",
       "On",
       "Eli",
       "On",
       "On",
-      "Judy",
+      "Alice",
       "Eli",
       "Fay"
     ],
@@ -149,19 +149,19 @@
     },
     {
       "count": 12,
-      "em": 0.08333333333333333,
-      "em_relaxed": 0.08333333333333333,
-      "em_strict": 0.08333333333333333,
-      "f1": 0.125,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.20833333333333334,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.08888888888888889,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.22222222222222224,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
@@ -182,7 +182,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.35121612699913385,
+      "latency": 0.3727975960009644,
       "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
@@ -203,8 +203,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.11735057399982907,
-      "prediction": "Eli",
+      "latency": 0.12606337900069775,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -224,7 +224,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 6,
-      "latency": 0.18042235300072207,
+      "latency": 0.18788201800089155,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -245,7 +245,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.33659120300035283,
+      "latency": 0.35586229899854516,
       "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
@@ -266,7 +266,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17610413100010192,
+      "latency": 0.18470666499888466,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -287,7 +287,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 2,
-      "latency": 0.1751271760003874,
+      "latency": 0.18821198099976755,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -308,7 +308,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17586868000034883,
+      "latency": 0.1897122020000097,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -329,8 +329,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.3371995560000869,
-      "prediction": "On 2025-01-30, George left",
+      "latency": 0.36359883499972057,
+      "prediction": "On 2025-01-13, Alice left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -350,7 +350,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11722530299994105,
+      "latency": 0.12484129900076368,
       "prediction": "Judy",
       "prompt": [
         {
@@ -371,7 +371,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.33816508099971543,
+      "latency": 0.3552270519994636,
       "prediction": "On 2025-01-06, Gus left",
       "prompt": [
         {
@@ -392,7 +392,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.33795257000019774,
+      "latency": 0.3675277729998925,
       "prediction": "On 2025-01-28, Jack left",
       "prompt": [
         {
@@ -413,7 +413,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 22,
-      "latency": 0.17817084099988278,
+      "latency": 0.19093231999977434,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -434,8 +434,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.33685238499947445,
-      "prediction": "Eli Explanation: The question asks about someone leaving a",
+      "latency": 0.1485149949985498,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -455,7 +455,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3358522489997995,
+      "latency": 0.36181593100081955,
       "prediction": "On 2025-01-19, Eve left",
       "prompt": [
         {
@@ -476,7 +476,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.33722086700072396,
+      "latency": 0.3587229170007049,
       "prediction": "On 2025-01-07, Tom left",
       "prompt": [
         {
@@ -497,7 +497,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.11714146200029063,
+      "latency": 0.12931228100023873,
       "prediction": "Fay",
       "prompt": [
         {
@@ -518,7 +518,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.11857871000029263,
+      "latency": 0.12826000299901352,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -539,7 +539,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 1,
-      "latency": 0.1192088830002831,
+      "latency": 0.12973320499986585,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -560,7 +560,7 @@
       "em_strict": 0.0,
       "f1": 0.16666666666666669,
       "lag": 5,
-      "latency": 0.337092026999926,
+      "latency": 0.3694511149988102,
       "prediction": "Ivan Explanation: The user asked about someone leaving a book at",
       "prompt": [
         {
@@ -581,7 +581,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.3378973300004873,
+      "latency": 0.3704896729996108,
       "prediction": "On 2025-01-03, Gus left",
       "prompt": [
         {
@@ -602,7 +602,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.33592180100004043,
+      "latency": 0.35787951000020257,
       "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
@@ -618,13 +618,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.11594257700016897,
-      "prediction": "Judy",
+      "latency": 0.1254466919999686,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -639,13 +639,13 @@
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.19999999999999998,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.3321207910003068,
-      "prediction": "Eli Explanation: The question asks about someone leaving a",
+      "latency": 0.14553904099921056,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -665,7 +665,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.11812524700053473,
+      "latency": 0.1257416739990731,
       "prediction": "Fay",
       "prompt": [
         {
@@ -686,7 +686,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3375573289995373,
+      "latency": 0.3562995470001624,
       "prediction": "On 2025-01-23, Bob left",
       "prompt": [
         {
@@ -707,7 +707,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3362118120003288,
+      "latency": 0.3659140979998483,
       "prediction": "On 2025-01-03, Fay left",
       "prompt": [
         {
@@ -728,7 +728,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.336603673999889,
+      "latency": 0.3526471990007849,
       "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
@@ -749,7 +749,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.3341903620002995,
+      "latency": 0.3559302529993147,
       "prediction": "On 2025-01-06, Fay left",
       "prompt": [
         {
@@ -770,7 +770,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1757914300005723,
+      "latency": 0.18636253399927227,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -791,8 +791,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.3325152440002057,
-      "prediction": "Alice Explanation: The user's question asks about someone leaving a",
+      "latency": 0.12374425900088681,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -812,7 +812,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17764082000030612,
+      "latency": 0.18935000500096066,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -833,8 +833,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.33727619700039213,
-      "prediction": "On 2025-01-30, John left",
+      "latency": 0.3526453170015884,
+      "prediction": "On 2025-01-06, Charlie left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -854,7 +854,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11758036500032176,
+      "latency": 0.12671080099971732,
       "prediction": "Judy",
       "prompt": [
         {
@@ -875,7 +875,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3357531599995127,
+      "latency": 0.3609376490003342,
       "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
@@ -896,7 +896,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.33814700299990363,
+      "latency": 0.36587897399840585,
       "prediction": "On 2025-01-17, Alice left",
       "prompt": [
         {
@@ -917,7 +917,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.11648006999985228,
+      "latency": 0.12818927099942812,
       "prediction": "Alice",
       "prompt": [
         {
@@ -938,8 +938,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.33329050799966353,
-      "prediction": "Eli Explanation: The question asks about someone leaving a",
+      "latency": 0.1470461709996016,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -959,7 +959,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.3344953340001666,
+      "latency": 0.35948841699973855,
       "prediction": "On 2025-01-19, Gus left",
       "prompt": [
         {
@@ -980,7 +980,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.17653919400072482,
+      "latency": 0.18749612100145896,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -1001,7 +1001,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.1177198560008037,
+      "latency": 0.12670086000071024,
       "prediction": "Fay",
       "prompt": [
         {
@@ -1022,8 +1022,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.11852833000011742,
-      "prediction": "Charlie",
+      "latency": 0.3528603180002392,
+      "prediction": "On 2025-01-30, John left",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1043,7 +1043,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.33672419600043213,
+      "latency": 0.3599459189990739,
       "prediction": "On 2025-01-18, John left",
       "prompt": [
         {
@@ -1064,8 +1064,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.3367605059993366,
-      "prediction": "Eli Explanation: The question asks about someone leaving a",
+      "latency": 0.1473897029991349,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1085,7 +1085,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.3359140610000395,
+      "latency": 0.35165509699982067,
       "prediction": "On 2025-01-08, Gus left",
       "prompt": [
         {
@@ -1106,7 +1106,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3352104079995115,
+      "latency": 0.3567402949993266,
       "prediction": "On 2025-01-18, Gus left",
       "prompt": [
         {
@@ -1127,8 +1127,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.11844105000000127,
-      "prediction": "Judy",
+      "latency": 0.12235953700110258,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1143,13 +1143,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.19999999999999998,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.33578001099976973,
-      "prediction": "Eli Explanation: The question asks about someone leaving a",
+      "latency": 0.14984212099989236,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1169,7 +1169,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.11689765299979626,
+      "latency": 0.12645928699930664,
       "prediction": "Fay",
       "prompt": [
         {
@@ -1191,7 +1191,7 @@
     "collision_rate": 0.2916666666666667,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.5259737828212093,
+    "mrr": 0.5429951873426138,
     "near_miss_rate": 0.16666666666666666,
     "p_at_1": 0.375
   },

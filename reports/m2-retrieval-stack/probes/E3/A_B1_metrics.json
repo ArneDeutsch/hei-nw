@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": 0.02157087206249267,
+  "adapter_latency_overhead_s": 0.020156919874921186,
   "aggregate": {
-    "em": 0.14583333333333334,
-    "em_relaxed": 0.14583333333333334,
-    "em_strict": 0.14583333333333334,
-    "f1": 0.2152777777777778,
-    "latency": 0.16117206491668412,
+    "em": 0.20833333333333334,
+    "em_relaxed": 0.20833333333333334,
+    "em_strict": 0.20833333333333334,
+    "f1": 0.25,
+    "latency": 0.16880079272903004,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 95962116096,
-      "kv_cache_bytes": 44955648
+      "attention_flops": 95597580288,
+      "kv_cache_bytes": 44869632
     },
     "baseline": null
   },
@@ -27,7 +27,7 @@
     },
     "first_token": [
       "On",
-      "Eli",
+      "Gus",
       "Ivan",
       "On",
       "Judy",
@@ -45,33 +45,33 @@
       "Charlie",
       "Charlie",
       "Ivan",
-      "On",
-      "On",
-      "Judy",
-      "Eli",
-      "Fay",
-      "On",
-      "On",
-      "On",
-      "On",
-      "Judy",
-      "Alice",
-      "Ivan",
-      "On",
-      "Judy",
       "On",
       "On",
       "Alice",
       "Eli",
+      "Fay",
+      "On",
+      "On",
+      "On",
+      "On",
+      "Judy",
+      "Gus",
+      "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Alice",
+      "Eli",
       "On",
       "Judy",
       "Fay",
-      "Charlie",
+      "On",
       "On",
       "Eli",
       "On",
       "On",
-      "Judy",
+      "Alice",
       "Eli",
       "Fay"
     ],
@@ -149,19 +149,19 @@
     },
     {
       "count": 12,
-      "em": 0.08333333333333333,
-      "em_relaxed": 0.08333333333333333,
-      "em_strict": 0.08333333333333333,
-      "f1": 0.125,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.20833333333333334,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.19444444444444442,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.25,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
@@ -182,7 +182,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1959987230002298,
+      "latency": 0.21030699799848662,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -203,8 +203,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.11928932899991196,
-      "prediction": "Eli",
+      "latency": 0.12565484100014146,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -224,7 +224,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 6,
-      "latency": 0.17577890200027468,
+      "latency": 0.18943433800086495,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -245,7 +245,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.17718468900056905,
+      "latency": 0.19119251099982648,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -266,7 +266,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17542248999961885,
+      "latency": 0.19022820400095952,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -287,7 +287,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 2,
-      "latency": 0.17571371199937857,
+      "latency": 0.18582735999916622,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -308,7 +308,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17714737799997238,
+      "latency": 0.18272138700012874,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -329,7 +329,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.17624976400020387,
+      "latency": 0.18470270200123196,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -350,7 +350,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11842908400012675,
+      "latency": 0.13017965499966522,
       "prediction": "Judy",
       "prompt": [
         {
@@ -371,7 +371,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.17712674900030834,
+      "latency": 0.19193754699881538,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -392,7 +392,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.17869941599929007,
+      "latency": 0.19260449099965626,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -413,7 +413,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 22,
-      "latency": 0.17752071999984764,
+      "latency": 0.19054038600006606,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -434,8 +434,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1769112470001346,
-      "prediction": "Eli Explanation",
+      "latency": 0.14831196300110605,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -455,7 +455,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.17598426299991843,
+      "latency": 0.1903223839999555,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -476,7 +476,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.1760371030004535,
+      "latency": 0.19090345800032082,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -497,7 +497,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.11704557700068108,
+      "latency": 0.1270025199992233,
       "prediction": "Fay",
       "prompt": [
         {
@@ -518,7 +518,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.11705603700011125,
+      "latency": 0.12397320699892589,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -539,7 +539,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 1,
-      "latency": 0.11800731199946313,
+      "latency": 0.12390717599919299,
       "prediction": "Charlie",
       "prompt": [
         {
@@ -560,7 +560,7 @@
       "em_strict": 0.0,
       "f1": 0.5,
       "lag": 5,
-      "latency": 0.17738752999957796,
+      "latency": 0.19118489999891608,
       "prediction": "Ivan Explanation: The",
       "prompt": [
         {
@@ -581,7 +581,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.17698658800054545,
+      "latency": 0.18906893400162517,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -602,7 +602,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1776479019999897,
+      "latency": 0.19321440499879827,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -618,13 +618,13 @@
       "truth": "Bob"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 2,
-      "latency": 0.11714428800041787,
-      "prediction": "Judy",
+      "latency": 0.12786600599974918,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -639,13 +639,13 @@
       "truth": "Alice"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.6666666666666666,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.17512076899947715,
-      "prediction": "Eli Explanation",
+      "latency": 0.1485196840003482,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -665,7 +665,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.117178628000147,
+      "latency": 0.12482915299915476,
       "prediction": "Fay",
       "prompt": [
         {
@@ -686,7 +686,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.1787403970001833,
+      "latency": 0.18722600900036923,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -707,7 +707,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.17429759500009823,
+      "latency": 0.1917997539985663,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -728,7 +728,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.17582343199956085,
+      "latency": 0.18863748900002975,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -749,7 +749,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.1745663660003629,
+      "latency": 0.18526376399859146,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -770,7 +770,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17593433300044126,
+      "latency": 0.1838429929994163,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -791,8 +791,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.17826057500042225,
-      "prediction": "Alice Explanation: The",
+      "latency": 0.12559434899958433,
+      "prediction": "Gus",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -812,7 +812,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.17744853000021976,
+      "latency": 0.1930360530004691,
       "prediction": "Ivan and Alice.",
       "prompt": [
         {
@@ -833,7 +833,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.17947968099997524,
+      "latency": 0.1847348190003686,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -854,7 +854,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.11739262999981293,
+      "latency": 0.12571136900078272,
       "prediction": "Judy",
       "prompt": [
         {
@@ -875,7 +875,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.1771298490002664,
+      "latency": 0.19033467199915322,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -896,7 +896,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.1776614320006047,
+      "latency": 0.19223755700113543,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -917,7 +917,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.11773303100017074,
+      "latency": 0.12821320799957903,
       "prediction": "Alice",
       "prompt": [
         {
@@ -938,8 +938,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17876169800001662,
-      "prediction": "Eli Explanation",
+      "latency": 0.14782818800085806,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -959,7 +959,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.17716057999950863,
+      "latency": 0.19509961699986889,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -980,7 +980,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.17442137600028218,
+      "latency": 0.19086038499881397,
       "prediction": "Judy and Gus.",
       "prompt": [
         {
@@ -1001,7 +1001,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.11557356999946933,
+      "latency": 0.12607855199894402,
       "prediction": "Fay",
       "prompt": [
         {
@@ -1022,8 +1022,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.11542292000012822,
-      "prediction": "Charlie",
+      "latency": 0.18943673399917316,
+      "prediction": "On 2025-",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1043,7 +1043,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.17570973300007608,
+      "latency": 0.19117720800022653,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -1064,8 +1064,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.17781350299992482,
-      "prediction": "Eli Explanation",
+      "latency": 0.14946206000058737,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1085,7 +1085,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.17738271999951394,
+      "latency": 0.19176689099913347,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -1106,7 +1106,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.17928849099916988,
+      "latency": 0.19314639199910744,
       "prediction": "On 2025-",
       "prompt": [
         {
@@ -1127,8 +1127,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.1172223280000253,
-      "prediction": "Judy",
+      "latency": 0.1280855060012982,
+      "prediction": "Alice",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1143,13 +1143,13 @@
       "truth": "Ivan"
     },
     {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.6666666666666666,
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
       "lag": 6,
-      "latency": 0.17807944400010456,
-      "prediction": "Eli Explanation",
+      "latency": 0.14824663000035798,
+      "prediction": "Eli",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -1169,7 +1169,7 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.11788670199985063,
+      "latency": 0.1301836420007021,
       "prediction": "Fay",
       "prompt": [
         {
@@ -1191,7 +1191,7 @@
     "collision_rate": 0.2916666666666667,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.5259737828212093,
+    "mrr": 0.5429951873426138,
     "near_miss_rate": 0.16666666666666666,
     "p_at_1": 0.375
   },
