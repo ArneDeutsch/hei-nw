@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from transformers import AutoTokenizer
 
 from hei_nw.pack import pack_trace, truncate_memory_tokens
@@ -43,3 +45,10 @@ def test_total_memory_token_cap_enforced() -> None:
     capped = truncate_memory_tokens(combined, 48)
     assert capped == combined[:48]
     assert len(capped) == min(48, len(combined))
+
+
+def test_pack_rejects_raw_text_payload() -> None:
+    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    trace = {"episode_text": "should not be packed"}
+    with pytest.raises(ValueError):
+        pack_trace(trace, tokenizer, 32)
