@@ -3,7 +3,7 @@ set -euo pipefail
 export PYTHONPATH=src
 
 OUT="${OUT:-reports/m2-retrieval-stack}"
-MODEL="tests/models/tiny-gpt2"
+MODEL="${MODEL:-sshleifer/tiny-gpt2}"
 N="${N:-12}"
 SEED="${SEED:-7}"
 

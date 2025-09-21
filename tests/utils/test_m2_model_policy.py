@@ -8,4 +8,4 @@ def test_run_m2_defaults_to_qwen() -> None:
 
 def test_ci_script_pins_tiny() -> None:
     text = Path("scripts/run_m2_retrieval_ci.sh").read_text()
-    assert 'MODEL="tests/models/tiny-gpt2"' in text
+    assert 'MODEL="${MODEL:-sshleifer/tiny-gpt2}"' in text
