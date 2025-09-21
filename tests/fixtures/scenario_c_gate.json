@@ -1,0 +1,96 @@
+{
+  "seed": 7,
+  "n": 8,
+  "expectations": [
+    {
+      "index": 0,
+      "server": "gamma",
+      "event_type": "config_update",
+      "should_remember": true,
+      "reward": false,
+      "pin": false,
+      "novelty": 1.0,
+      "novelty_counters": {
+        "config_index": 0,
+        "status_index": 0
+      },
+      "reward_annotation": null,
+      "pin_annotation": null
+    },
+    {
+      "index": 1,
+      "server": "alpha",
+      "event_type": "status_probe",
+      "should_remember": false,
+      "reward": false,
+      "pin": false,
+      "novelty": 0.2,
+      "novelty_counters": {
+        "config_index": 0,
+        "status_index": 0
+      },
+      "reward_annotation": null,
+      "pin_annotation": null
+    },
+    {
+      "index": 2,
+      "server": "alpha",
+      "event_type": "config_update",
+      "should_remember": true,
+      "reward": false,
+      "pin": true,
+      "novelty": 1.0,
+      "novelty_counters": {
+        "config_index": 0,
+        "status_index": 1
+      },
+      "reward_annotation": null,
+      "pin_annotation": "alpha belongs to the always-pin SRE list."
+    },
+    {
+      "index": 3,
+      "server": "epsilon",
+      "event_type": "status_probe",
+      "should_remember": false,
+      "reward": false,
+      "pin": false,
+      "novelty": 0.2,
+      "novelty_counters": {
+        "config_index": 0,
+        "status_index": 0
+      },
+      "reward_annotation": null,
+      "pin_annotation": null
+    },
+    {
+      "index": 4,
+      "server": "alpha",
+      "event_type": "config_update",
+      "should_remember": true,
+      "reward": false,
+      "pin": true,
+      "novelty": 0.8,
+      "novelty_counters": {
+        "config_index": 1,
+        "status_index": 1
+      },
+      "reward_annotation": null,
+      "pin_annotation": "alpha belongs to the always-pin SRE list."
+    },
+    {
+      "index": 6,
+      "server": "alpha",
+      "event_type": "config_update",
+      "should_remember": true,
+      "reward": true,
+      "pin": true,
+      "novelty": 0.6,
+      "novelty_counters": {
+        "config_index": 2,
+        "status_index": 2
+      },
+      "reward_annotation": "Service postgres is marked critical; reward applied.",
+      "pin_annotation": "alpha belongs to the always-pin SRE list."
+    }
+  ]
+}

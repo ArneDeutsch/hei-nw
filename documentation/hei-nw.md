@@ -103,6 +103,14 @@ def consolidate():
 * Associative completion helps recall but can return near-misses if separation is weak; k-WTA and diversity-aware eviction help.
 * Consolidation must be **interference-aware** (order and mix matter) to avoid drifting the base model.&#x20;
 
+## Scenario C gating signals
+
+- Scenario C emits configuration updates (`event_type="config_update"`) and status probes (`event_type="status_probe"`).
+- Each record includes `novelty_counters` so gate tests can track how novelty decays across repeated exposures.
+- Critical services (currently `postgres`) set `gate_features["reward"] = True` and attach a `reward_annotation` explaining the boost.
+- Servers in the SRE pin list (currently `alpha`) produce `gate_features["pin"] = True` on configuration updates plus a `pin_annotation` describing the pin.
+- The fixture `tests/fixtures/scenario_c_gate.json` anchors these semantics and underpins the scenario acceptance check.
+
 ## Implementation notes (current repo)
 
 * The FAISS `IndexHNSWFlat` backend returns **distances**. We convert them to cosine-like scores (negative distance) and sort **descending** before modern-Hopfield re-ranking (`ANNIndex.search`). If Hopfield ever tanks P@1, check that this ordering logic still runs.
