@@ -76,6 +76,9 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         except UnicodeEncodeError:  # pragma: no cover - str.encode rarely fails
             return stop_str
 
+    def _fmt_float(value: Any) -> str:
+        return f"{float(value):.3f}" if isinstance(value, (int, float)) else "n/a"
+
     agg = summary.get("aggregate", {})
     lines = ["# Evaluation Report", "", "## Aggregate Metrics", ""]
     em_relaxed = float(agg.get("em_relaxed", agg.get("em", 0)))
@@ -177,6 +180,69 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     else:
         lines.append("- None")
     lines.append("")
+    gate = summary.get("gate") or {}
+    if gate:
+        lines.append("## Write gate")
+        threshold = gate.get("threshold")
+        if isinstance(threshold, (int, float)):
+            lines.append(f"- Threshold τ: {float(threshold):.3f}")
+        writes = gate.get("writes")
+        total = gate.get("total")
+        write_rate = gate.get("write_rate")
+        write_rate_per_1k = gate.get("write_rate_per_1k")
+        if isinstance(write_rate, (int, float)):
+            rate_str = f"{float(write_rate):.3f}"
+        else:
+            rate_str = "n/a"
+        if isinstance(write_rate_per_1k, (int, float)):
+            per_1k_str = f"{float(write_rate_per_1k):.1f}"
+        else:
+            per_1k_str = "n/a"
+        lines.append(f"- Writes: {writes}/{total} (rate {rate_str}; {per_1k_str} writes/1k)")
+        pinned = gate.get("pinned")
+        reward_flags = gate.get("reward_flags")
+        lines.append(f"- Pinned episodes: {pinned} | Reward flags: {reward_flags}")
+        telemetry = gate.get("telemetry") or {}
+        precision = _fmt_float(telemetry.get("precision"))
+        recall = _fmt_float(telemetry.get("recall"))
+        pr_auc = _fmt_float(telemetry.get("pr_auc"))
+        clutter_rate = _fmt_float(telemetry.get("clutter_rate"))
+        writes_per_1k = telemetry.get("writes_per_1k")
+        writes_per_1k_str = (
+            f"{float(writes_per_1k):.1f}" if isinstance(writes_per_1k, (int, float)) else per_1k_str
+        )
+        lines.append(f"- Precision: {precision} | Recall: {recall} | PR-AUC: {pr_auc}")
+        lines.append(f"- Clutter rate: {clutter_rate} ({writes_per_1k_str} writes/1k)")
+        calibration = telemetry.get("calibration") or []
+        lines.append(f"- Calibration bins: {len(calibration)}")
+        pointer_check = gate.get("pointer_check") or {}
+        pointer_only = pointer_check.get("pointer_only")
+        if pointer_only is True:
+            pointer_line = "- Pointer-only payload: yes"
+        elif pointer_only is False:
+            missing = pointer_check.get("missing_pointer", 0)
+            checked = pointer_check.get("checked", 0)
+            banned_keys = pointer_check.get("banned_keys") or []
+            banned_str = ", ".join(str(key) for key in banned_keys) if banned_keys else "none"
+            pointer_line = (
+                "- Pointer-only payload: NO — "
+                f"{missing}/{checked} missing pointer; banned keys: {banned_str}"
+            )
+        else:
+            pointer_line = "- Pointer-only payload: unknown (no traces checked)"
+        lines.append(pointer_line)
+        calibration_plot = gate.get("calibration_plot")
+        if calibration_plot:
+            lines.append(f"- Calibration plot: {calibration_plot}")
+        else:
+            lines.append("- Calibration plot: not generated")
+        telemetry_path = gate.get("telemetry_path")
+        if telemetry_path:
+            lines.append(f"- Telemetry JSON: {telemetry_path}")
+        trace_samples = gate.get("trace_samples") or []
+        if trace_samples:
+            lines.append(f"- Trace samples: {len(trace_samples)} (see metrics JSON)")
+        lines.append("")
     lines.append("## Debug")
     debug = summary.get("debug")
     if debug:

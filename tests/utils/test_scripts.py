@@ -41,6 +41,16 @@ def test_ci_smoke_scripts_present_and_executable() -> None:
     assert script.stat().st_mode & 0o111, f"{script} not executable"
 
 
+def test_m3_gate_scripts_present_and_executable() -> None:
+    scripts = [
+        Path("scripts/run_m3_gate_calibration.sh"),
+        Path("scripts/plot_gate_calibration.py"),
+    ]
+    for script in scripts:
+        assert script.exists(), f"{script} missing"
+        assert script.stat().st_mode & 0o111, f"{script} not executable"
+
+
 def test_run_m2_retrieval_flags() -> None:
     script_text = Path("scripts/run_m2_retrieval.sh").read_text(encoding="utf8")
     assert "--qa.prompt_style chat" in script_text
@@ -140,3 +150,37 @@ def test_gate_non_empty_predictions_rejects_non_alpha(tmp_path: Path) -> None:
     )
     assert result.returncode == 1
     assert "non-alphabetic first token" in result.stderr
+
+
+def test_plot_gate_calibration_cli(tmp_path: Path) -> None:
+    telemetry = {
+        "scenario": "A",
+        "threshold": 1.5,
+        "calibration": [
+            {"lower": 0.0, "upper": 0.5, "count": 2, "fraction_positive": 0.25, "mean_score": 0.3},
+            {"lower": 0.5, "upper": 1.0, "count": 1, "fraction_positive": 0.8, "mean_score": 0.7},
+        ],
+    }
+    telemetry_path = tmp_path / "telemetry.json"
+    telemetry_path.write_text(json.dumps(telemetry), encoding="utf8")
+    out_path = tmp_path / "calibration.png"
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path("scripts/plot_gate_calibration.py")),
+            str(telemetry_path),
+            "--out",
+            str(out_path),
+        ],
+        check=True,
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0
+    assert out_path.exists()
+
+
+def test_run_m3_gate_calibration_smoke() -> None:
+    script = Path("scripts/run_m3_gate_calibration.sh")
+    result = subprocess.run([str(script), "--help"], capture_output=True, text=True, check=True)
+    assert "Runs the B1 harness" in result.stdout

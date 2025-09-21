@@ -6,7 +6,7 @@ import argparse
 import hashlib
 import json
 import sys
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, cast
@@ -56,6 +56,9 @@ SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
 # fallback in :func:`hei_nw.models.base.load_base`.
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B-Instruct"
 DEFAULT_DG_K = DGKeyer().k
+
+_BANNED_TRACE_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
+_MAX_TRACE_SAMPLES = 5
 
 
 @dataclass
@@ -977,6 +980,11 @@ def _evaluate_mode_b1(
     mem_lengths: list[int] = []
     preview_tokens: list[str] | None = None
     first_tokens: list[str] = []
+    pointer_total = 0
+    pointer_with = 0
+    pointer_missing = 0
+    pointer_banned: set[str] = set()
+    trace_samples: list[dict[str, Any]] = []
 
     def _coerce_group_id(value: Any) -> int:
         try:
@@ -1029,6 +1037,35 @@ def _evaluate_mode_b1(
         hopfield_top1.append(
             bool(final_candidates_raw) and final_candidates_raw[0].get("group_id") == group_id
         )
+        pointer_total += len(selected_traces)
+        for trace in selected_traces:
+            pointer = trace.get("tokens_span_ref")
+            has_pointer = isinstance(pointer, Mapping)
+            if has_pointer:
+                pointer_with += 1
+            else:
+                pointer_missing += 1
+            for banned in _BANNED_TRACE_KEYS:
+                if banned in trace and trace[banned]:
+                    pointer_banned.add(banned)
+            if len(trace_samples) < _MAX_TRACE_SAMPLES:
+                sample: dict[str, Any] = {
+                    "trace_id": trace.get("trace_id"),
+                    "group_id": trace.get("group_id"),
+                    "has_pointer": has_pointer,
+                    "banned_keys": [key for key in _BANNED_TRACE_KEYS if key in trace],
+                }
+                if has_pointer and isinstance(pointer, Mapping):
+                    sample["pointer"] = {
+                        key: pointer.get(key) for key in ("doc", "start", "end")
+                    }
+                answers_field = trace.get("answers")
+                if isinstance(answers_field, Sequence):
+                    sample["answers_preview"] = [str(ans) for ans in answers_field[:2]]
+                entity_slots = trace.get("entity_slots")
+                if isinstance(entity_slots, Mapping):
+                    sample["entity_slots_keys"] = sorted(str(k) for k in entity_slots.keys())
+                trace_samples.append(sample)
         if not use_hopfield:
             hopfield_top1[-1] = baseline_top1[-1]
         if mem_max_tokens <= 0:
@@ -1135,6 +1172,12 @@ def _evaluate_mode_b1(
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),
         "hopfield_rank_improved_rate": hopfield_rank_improved_rate(hopfield_diagnostics),
     }
+    pointer_check = _pointer_summary(
+        total=pointer_total,
+        missing_pointer=pointer_missing,
+        with_pointer=pointer_with,
+        banned_keys=pointer_banned,
+    )
     gate_info = _summarize_gate(gate_diagnostics)
     gate_info["weights"] = {
         "alpha": gate_module.alpha,
@@ -1143,6 +1186,17 @@ def _evaluate_mode_b1(
         "delta": gate_module.delta,
     }
     gate_info["threshold"] = gate_module.threshold
+    if isinstance(gate_info.get("telemetry"), dict):
+        telemetry = gate_info["telemetry"]
+        clutter_rate = float(telemetry.get("clutter_rate", 0.0))
+        telemetry["writes_per_1k"] = clutter_rate * 1000.0
+    write_rate_val = gate_info.get("write_rate")
+    gate_info["write_rate_per_1k"] = (
+        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, (int, float)) else None
+    )
+    gate_info["pointer_check"] = pointer_check
+    if trace_samples:
+        gate_info["trace_samples"] = trace_samples
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,
@@ -1287,6 +1341,29 @@ def main(argv: Sequence[str] | None = None) -> int:
             save_completion_ablation_plot(args.outdir, with_hp_summary, summary)
 
     return 0
+
+
+def _pointer_summary(
+    *,
+    total: int,
+    missing_pointer: int,
+    with_pointer: int,
+    banned_keys: set[str],
+) -> dict[str, Any]:
+    """Return pointer-only diagnostic metadata."""
+
+    pointer_only: bool | None
+    if total == 0:
+        pointer_only = None
+    else:
+        pointer_only = missing_pointer == 0 and not banned_keys
+    return {
+        "checked": total,
+        "with_pointer": with_pointer,
+        "missing_pointer": missing_pointer,
+        "banned_keys": sorted(banned_keys),
+        "pointer_only": pointer_only,
+    }
 
 
 if __name__ == "__main__":  # pragma: no cover
