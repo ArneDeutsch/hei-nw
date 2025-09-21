@@ -1,0 +1,23 @@
+site_name: HEI-NW Documentation
+docs_dir: documentation
+nav:
+  - Overview: hei-nw.md
+  - Quick Validate: quick-validate.md
+  - Neuromodulated Write Gate: write-gate.md
+  - Engineering Notes:
+      - Python Code Quality: python-guide.md
+      - M1 Adapter Notes: m1_adapter_notes.md
+  - Investigations:
+      - Hopfield Completion: hopfield-completion-investigation.md
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: light blue
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+plugins:
+  - search
