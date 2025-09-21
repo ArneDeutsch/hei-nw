@@ -6,7 +6,7 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 1.000
-- Latency: 3.041s
+- Latency: 0.058s
 
 ## Run config
 - Seed: 7
@@ -29,8 +29,8 @@
 | 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 22894362624
-B0 KV cache bytes: 21958656
+B0 attention FLOPs: 17133871104
+B0 KV cache bytes: 18997248
 
 ## Retrieval
 - None
