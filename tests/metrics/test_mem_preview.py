@@ -1,15 +1,10 @@
-from pathlib import Path
-
-from transformers import AutoTokenizer
-
 from hei_nw.eval.harness import _decode_mem_preview
 from hei_nw.pack import pack_trace
-
-TINY_MODEL = Path(__file__).resolve().parents[2] / "models" / "tiny-gpt2"
+from hei_nw.testing import DummyTokenizer
 
 
 def test_mem_preview_has_no_global_prefix_tokens() -> None:
-    tokenizer = AutoTokenizer.from_pretrained(str(TINY_MODEL))  # type: ignore[no-untyped-call]
+    tokenizer = DummyTokenizer()
     trace = {
         "who": "Dana",
         "what": "backpack",

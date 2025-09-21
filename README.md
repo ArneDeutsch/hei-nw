@@ -49,5 +49,6 @@ bash scripts/make_report.sh
 - Use `scripts/run_m2_retrieval.sh` for **acceptance runs**. It defaults to
   **Qwen/Qwen2.5-1.5B-Instruct** and is the only supported way to measure the
   **B1 − B0 EM uplift**.
-- Use `scripts/run_m2_retrieval_ci.sh` for **CI/smoke**. It pins a tiny GPT-2
-  test model and only checks that reports/metrics exist (no EM-lift check).
+- Use `scripts/run_m2_retrieval_ci.sh` for **CI/smoke**. It pins the
+  lightweight `hei-nw/dummy-model` test stub and only checks that
+  reports/metrics exist (no EM-lift check).

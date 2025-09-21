@@ -6,6 +6,6 @@
   - validate the results as described in [planning/validation-plan.md](planning/validation-plan.md)
   - according to the project plan from [planning/project-plan.md](planning/project-plan.md)
 - When running tests remember to set PYTHONPATH=src first
-- Use the packaged `tests/models/tiny-gpt2` weights only for fast unit tests;
-  real evaluation runs must rely on the default Qwen/Qwen2.5-1.5B-Instruct
+- Use the built-in dummy model `hei-nw/dummy-model` for fast unit tests; real
+  evaluation runs must rely on the default Qwen/Qwen2.5-1.5B-Instruct
   checkpoint which is already downloaded locally.

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 @pytest.mark.slow
@@ -29,7 +29,7 @@ def test_no_hopfield_generates_ablation(tmp_path: Path) -> None:
         "--outdir",
         str(outdir),
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     subprocess.run(base_cmd, check=True, env=env)  # with Hopfield
     subprocess.run(base_cmd + ["--no-hopfield"], check=True, env=env)

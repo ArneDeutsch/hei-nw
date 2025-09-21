@@ -21,12 +21,14 @@ from transformers import (
 from transformers.utils import logging as hf_logging
 
 from hei_nw.adapter import EpisodicAdapter
+from hei_nw.testing import DUMMY_MODEL_ID, is_dummy_model_id, load_dummy_components
 
 hf_logging.set_verbosity_error()
 
 _tokenizer: PreTrainedTokenizerBase | None = None
 _model: PreTrainedModel | None = None
 _pipe: TextGenerationPipeline | None = None
+_current_model_id: str | None = None
 
 
 def load_base(
@@ -50,8 +52,26 @@ def load_base(
     tuple
         ``(tokenizer, model, pipeline)`` objects ready for generation.
     """
-    global _tokenizer, _model, _pipe
-    if _tokenizer is not None and _model is not None and _pipe is not None:
+    global _tokenizer, _model, _pipe, _current_model_id
+
+    requested_id = model_id
+    if is_dummy_model_id(requested_id):
+        requested_id = DUMMY_MODEL_ID
+
+    if (
+        _tokenizer is not None
+        and _model is not None
+        and _pipe is not None
+        and _current_model_id is not None
+    ):
+        if requested_id == _current_model_id:
+            return _tokenizer, _model, _pipe
+        if is_dummy_model_id(requested_id) and is_dummy_model_id(_current_model_id):
+            return _tokenizer, _model, _pipe
+
+    if is_dummy_model_id(model_id):
+        _tokenizer, _model, _pipe = load_dummy_components()
+        _current_model_id = DUMMY_MODEL_ID
         return _tokenizer, _model, _pipe
 
     resolved_dtype: torch.dtype | str = dtype
@@ -95,6 +115,7 @@ def load_base(
     _pipe = pipeline(  # type: ignore[no-untyped-call]
         "text-generation", model=_model, tokenizer=_tokenizer
     )
+    _current_model_id = model_id
     return _tokenizer, _model, _pipe
 
 

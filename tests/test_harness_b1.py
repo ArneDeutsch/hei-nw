@@ -16,8 +16,7 @@ from hei_nw.eval.harness import (
     _aggregate_metrics,
     _evaluate_mode_b1,
 )
-
-TINY_MODEL = Path(__file__).resolve().parent.parent / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def _run(tmp_path: Path, n: int) -> dict:
@@ -37,7 +36,7 @@ def _run(tmp_path: Path, n: int) -> dict:
         "--outdir",
         str(outdir),
         "--model",
-        str(TINY_MODEL),
+        DUMMY_MODEL_ID,
     ]
     subprocess.run(cmd, check=True)  # noqa: S603
     json_files = list(outdir.glob("*_metrics.json"))

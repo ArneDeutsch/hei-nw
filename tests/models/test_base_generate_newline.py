@@ -2,19 +2,16 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 import torch
 
 import hei_nw.models.base as base
 from hei_nw.adapter import EpisodicAdapter
-
-TINY_MODEL = Path(__file__).resolve().parents[2] / "models" / "tiny-gpt2"
+from hei_nw.testing import DUMMY_MODEL_ID
 
 
 def setup_module() -> None:
-    base.load_base(model_id=str(TINY_MODEL), quant_4bit=False)
+    base.load_base(model_id=DUMMY_MODEL_ID, quant_4bit=False)
 
 
 def _build_adapter() -> EpisodicAdapter:
