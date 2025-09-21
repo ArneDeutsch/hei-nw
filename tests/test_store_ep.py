@@ -3,6 +3,7 @@ import math
 import numpy as np
 import torch
 
+from hei_nw.eviction import DecayPolicy, PinProtector
 from hei_nw.datasets import scenario_a
 from hei_nw.store import EpisodicStore, HopfieldReadout
 
@@ -88,9 +89,23 @@ def test_hopfield_refinement_promotes_better_candidate() -> None:
         def __init__(self, results: list[dict[str, object]]) -> None:
             self._results = results
             self.ef_search = len(results)
+            self.meta = []
+            for idx, result in enumerate(self._results):
+                trace_id = f"trace-{idx}"
+                if "trace_id" not in result:
+                    result["trace_id"] = trace_id
+                self.meta.append({"trace_id": result["trace_id"], "_active": True})
 
         def search(self, _dense: np.ndarray, k: int) -> list[dict[str, object]]:
             return self._results[:k]
+
+        def mark_inactive(self, _trace_id: str) -> bool:  # pragma: no cover - not exercised
+            return True
+
+        def update_metadata(self, trace_id: str, updates: dict[str, object]) -> None:
+            for entry in self.meta:
+                if entry.get("trace_id") == trace_id:
+                    entry.update(updates)
 
     patterns = torch.tensor([[0.6, 0.4], [0.3, 0.7]], dtype=torch.float32)
     store = EpisodicStore.__new__(EpisodicStore)
@@ -103,6 +118,9 @@ def test_hopfield_refinement_promotes_better_candidate() -> None:
     store._hopfield_blend = 0.2
     store._hopfield_margin = 0.0
     store.tokenizer = None
+    store.decay_policy = DecayPolicy()
+    store.pin_protector = PinProtector()
+    store._eviction_state = {}
 
     def fake_hash_embed(_text: str, _tokenizer: object, _dim: int) -> torch.Tensor:
         return dense_values.view(1, 1, -1)
