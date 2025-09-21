@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Mapping, Sequence
+from datetime import datetime, timezone
 from typing import Any
 
 import faiss
@@ -13,6 +14,7 @@ from torch import Tensor, nn
 
 from .keyer import DGKeyer, to_dense
 from .gate import GateDecision
+from .eviction import DecayPolicy, PinProtector, TraceEvictionState
 
 __all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore", "TraceWriter"]
 
@@ -22,16 +24,23 @@ _BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
 
 
 class TraceWriter:
-    """Persist pointer-only episodic traces with salience metadata."""
+    """Persist pointer-only episodic traces with salience and decay metadata."""
 
-    def __init__(self) -> None:
+    def __init__(self, *, decay_policy: DecayPolicy | None = None) -> None:
         self._records: list[dict[str, Any]] = []
+        self._decay_policy = decay_policy or DecayPolicy()
+        self._eviction_state: dict[str, TraceEvictionState] = {}
 
     @property
     def records(self) -> list[dict[str, Any]]:
         """Return a shallow copy of persisted trace payloads."""
 
         return list(self._records)
+
+    def eviction_state(self, trace_id: str) -> TraceEvictionState | None:
+        """Return eviction metadata for *trace_id* if available."""
+
+        return self._eviction_state.get(str(trace_id))
 
     def write(
         self,
@@ -42,14 +51,30 @@ class TraceWriter:
         decision: GateDecision,
         provenance: Mapping[str, Any] | None = None,
         extras: Mapping[str, Any] | None = None,
+        written_at: datetime | None = None,
     ) -> dict[str, Any]:
         """Persist a pointer-only trace and return the stored payload."""
+
+        timestamp = self._now(written_at)
+        state = self._decay_policy.create_state(
+            trace_id=str(trace_id),
+            score=decision.score,
+            pin=decision.features.pin,
+            now=timestamp,
+        )
+        self._eviction_state[state.trace_id] = state
 
         payload: dict[str, Any] = {
             "trace_id": str(trace_id),
             "tokens_span_ref": self._normalise_pointer(pointer),
             "entity_slots": self._normalise_slots(entity_slots),
             "salience_tags": self._salience_tags(decision),
+            "eviction": {
+                "ttl_seconds": state.ttl_seconds,
+                "created_at": self._isoformat(state.created_at),
+                "last_access": self._isoformat(state.last_access),
+                "expires_at": self._isoformat(state.expires_at),
+            },
         }
         if provenance is not None:
             payload["provenance"] = self._normalise_provenance(provenance)
@@ -57,6 +82,18 @@ class TraceWriter:
             payload["extras"] = self._normalise_extras(extras)
         self._records.append(payload)
         return payload
+
+    @staticmethod
+    def _now(value: datetime | None = None) -> datetime:
+        if value is None:
+            return datetime.now(timezone.utc)
+        if value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
+        return value.astimezone(timezone.utc)
+
+    @classmethod
+    def _isoformat(cls, value: datetime) -> str:
+        return cls._now(value).isoformat()
 
     @staticmethod
     def _normalise_pointer(pointer: Mapping[str, Any]) -> dict[str, Any]:
@@ -209,6 +246,7 @@ class ANNIndex:
         self.index.hnsw.efConstruction = ef_construction
         self.set_ef_search(ef_search)
         self.meta: list[dict[str, Any]] = []
+        self._trace_slots: dict[str, set[int]] = {}
 
     @property
     def ef_search(self) -> int:
@@ -249,8 +287,29 @@ class ANNIndex:
             return
         vectors = np.ascontiguousarray(vectors, dtype="float32")
         faiss.normalize_L2(vectors)
+        start = len(self.meta)
+        enriched: list[dict[str, Any]] = []
+        for offset, item in enumerate(meta):
+            entry = dict(item)
+            trace_id = entry.get("trace_id")
+            if trace_id is None:
+                trace = entry.get("trace")
+                if isinstance(trace, Mapping) and trace.get("trace_id") is not None:
+                    trace_id = trace["trace_id"]
+                elif entry.get("group_id") is not None:
+                    trace_id = f"group-{entry['group_id']}"
+                else:
+                    trace_id = f"trace-{start + offset}"
+            trace_id = str(trace_id)
+            slot = start + offset
+            entry["trace_id"] = trace_id
+            entry["_slot"] = slot
+            entry["_active"] = True
+            enriched.append(entry)
+            slots = self._trace_slots.setdefault(trace_id, set())
+            slots.add(slot)
         self.index.add(vectors)
-        self.meta.extend(dict(item) for item in meta)
+        self.meta.extend(enriched)
 
     def search(self, query: np.ndarray, k: int) -> list[dict[str, Any]]:
         """Return top-``k`` nearest neighbours for a query vector.
@@ -285,15 +344,46 @@ class ANNIndex:
         scores, indices = self.index.search(query, effective_k)
         ranked: list[dict[str, Any]] = []
         for idx, distance in zip(indices[0], scores[0], strict=False):
-            if idx < 0:
+            if idx < 0 or idx >= len(self.meta):
                 continue
-            item = dict(self.meta[idx])
+            meta_entry = self.meta[idx]
+            if not meta_entry.get("_active", True):
+                continue
+            item = dict(meta_entry)
+            item.pop("_slot", None)
+            item.pop("_active", None)
             sim = -float(distance)
             item["score"] = sim
             item["distance"] = float(distance)
             ranked.append(item)
         ranked.sort(key=lambda entry: entry["score"], reverse=True)
         return ranked
+
+    def mark_inactive(self, trace_id: str) -> bool:
+        """Mark all entries for *trace_id* as inactive."""
+
+        key = str(trace_id)
+        slots = list(self._trace_slots.get(key, ()))
+        if not slots:
+            return False
+        removed = False
+        for slot in slots:
+            if 0 <= slot < len(self.meta):
+                entry = self.meta[slot]
+                if entry.get("_active", True):
+                    entry["_active"] = False
+                    removed = True
+        if removed:
+            self._trace_slots.pop(key, None)
+        return removed
+
+    def update_metadata(self, trace_id: str, updates: Mapping[str, Any]) -> None:
+        """Update stored metadata for *trace_id* with *updates*."""
+
+        key = str(trace_id)
+        for entry in self.meta:
+            if entry.get("trace_id") == key:
+                entry.update(updates)
 
 
 class HopfieldReadout(nn.Module):
@@ -404,6 +494,8 @@ class EpisodicStore:
         group_ids: set[int],
         embed_dim: int,
         max_mem_tokens: int,
+        decay_policy: DecayPolicy | None = None,
+        pin_protector: PinProtector | None = None,
     ) -> None:
         """Initialise the store with precomputed components."""
 
@@ -417,6 +509,10 @@ class EpisodicStore:
         self.max_mem_tokens = max_mem_tokens
         self._hopfield_blend = 0.2
         self._hopfield_margin = 0.01
+        self.decay_policy = decay_policy or DecayPolicy()
+        self.pin_protector = pin_protector or PinProtector()
+        self._eviction_state: dict[str, TraceEvictionState] = {}
+        self._bootstrap_eviction_state()
 
     @staticmethod
     def _hash_embed(text: str, tokenizer: Any, dim: int) -> Tensor:
@@ -447,6 +543,8 @@ class EpisodicStore:
         ann_m: int = 32,
         ann_ef_construction: int = 200,
         ann_ef_search: int = 64,
+        decay_policy: DecayPolicy | None = None,
+        pin_protector: PinProtector | None = None,
     ) -> EpisodicStore:
         """Build a store from Scenario A-style records.
 
@@ -508,10 +606,48 @@ class EpisodicStore:
             group_ids,
             embed_dim,
             max_mem_tokens,
+            decay_policy=decay_policy,
+            pin_protector=pin_protector,
         )
 
     def _embed(self, text: str) -> Tensor:
         return self._hash_embed(text, self.tokenizer, self._embed_dim)
+
+    def _bootstrap_eviction_state(self) -> None:
+        now = self._normalize_time()
+        meta = getattr(self.index, "meta", None)
+        if not isinstance(meta, list):
+            return
+        for entry in meta:
+            if not isinstance(entry, Mapping):
+                continue
+            if not entry.get("_active", True):
+                continue
+            trace_id = str(entry.get("trace_id"))
+            if trace_id in self._eviction_state:
+                continue
+            pin_flag = bool(entry.get("pin", False))
+            trace_info = entry.get("trace")
+            if isinstance(trace_info, Mapping):
+                pin_flag = bool(trace_info.get("pin", pin_flag))
+            score_val = float(entry.get("salience_score", 0.0))
+            state = self.decay_policy.create_state(
+                trace_id=trace_id,
+                score=score_val,
+                pin=pin_flag,
+                now=now,
+            )
+            self._eviction_state[trace_id] = state
+            self._update_metadata(
+                trace_id,
+                {
+                    "pin": pin_flag,
+                    "salience_score": state.score,
+                    "last_access": state.last_access.isoformat(),
+                    "ttl_seconds": state.ttl_seconds,
+                    "expires_at": state.expires_at.isoformat(),
+                },
+            )
 
     def query(
         self,
@@ -634,10 +770,23 @@ class EpisodicStore:
         if pre_rank is not None and post_rank is not None:
             rank_delta = pre_rank - post_rank
         selected = [results[i]["trace"] for i in top_idx]
+        accessed_states: dict[str, TraceEvictionState] = {}
+        for idx in top_idx:
+            res = results[idx]
+            trace_id = res.get("trace_id")
+            if trace_id is None:
+                continue
+            state = self._touch_trace(str(trace_id), float(res.get("score", 0.0)))
+            accessed_states[str(trace_id)] = state
         candidates: list[dict[str, Any]] = []
         for idx in order_list:
             r = results[idx]
             r_copy = {k: v for k, v in r.items() if k != "key_vector"}
+            state = accessed_states.get(str(r.get("trace_id")))
+            if state is not None:
+                r_copy["last_access"] = state.last_access.isoformat()
+                r_copy["ttl_seconds"] = state.ttl_seconds
+                r_copy["expires_at"] = state.expires_at.isoformat()
             candidates.append(r_copy)
         baseline_candidates: list[dict[str, Any]] = []
         for idx in baseline_indices:
@@ -684,3 +833,82 @@ class EpisodicStore:
             "baseline_candidates": baseline_candidates,
             "baseline_diagnostics": baseline_diagnostics,
         }
+
+    def evict_stale(self, *, now: datetime | None = None) -> list[str]:
+        """Evict expired traces and return their ids."""
+
+        instant = self._normalize_time(now)
+        removed: list[str] = []
+        for trace_id, state in list(self._eviction_state.items()):
+            if self.pin_protector.blocks_eviction(state):
+                continue
+            if self.decay_policy.should_evict(state, now=instant):
+                removed.append(trace_id)
+                if hasattr(self.index, "mark_inactive"):
+                    self.index.mark_inactive(trace_id)
+                else:
+                    meta = getattr(self.index, "meta", None)
+                    if isinstance(meta, list):
+                        for entry in meta:
+                            if isinstance(entry, Mapping) and entry.get("trace_id") == trace_id:
+                                entry["_active"] = False
+                self._eviction_state.pop(trace_id, None)
+        return removed
+
+    def _touch_trace(self, trace_id: str, score: float) -> TraceEvictionState:
+        state = self._eviction_state.get(trace_id)
+        instant = self._normalize_time()
+        if state is None:
+            pin_flag = self._pin_for_trace(trace_id)
+            state = self.decay_policy.create_state(
+                trace_id=trace_id,
+                score=score,
+                pin=pin_flag,
+                now=instant,
+            )
+        state = self.decay_policy.on_access(state, score=score, now=instant)
+        self._eviction_state[trace_id] = state
+        self._update_metadata(
+            trace_id,
+            {
+                "pin": state.pin,
+                "salience_score": state.score,
+                "last_access": state.last_access.isoformat(),
+                "ttl_seconds": state.ttl_seconds,
+                "expires_at": state.expires_at.isoformat(),
+            },
+        )
+        return state
+
+    def _pin_for_trace(self, trace_id: str) -> bool:
+        meta = getattr(self.index, "meta", None)
+        if not isinstance(meta, list):
+            return False
+        for entry in meta:
+            if not isinstance(entry, Mapping):
+                continue
+            if entry.get("trace_id") == trace_id:
+                trace_info = entry.get("trace")
+                if isinstance(trace_info, Mapping) and trace_info.get("pin") is not None:
+                    return bool(trace_info.get("pin"))
+                return bool(entry.get("pin", False))
+        return False
+
+    def _update_metadata(self, trace_id: str, updates: Mapping[str, Any]) -> None:
+        payload = dict(updates)
+        if hasattr(self.index, "update_metadata"):
+            self.index.update_metadata(trace_id, payload)
+        meta = getattr(self.index, "meta", None)
+        if not isinstance(meta, list):
+            return
+        for entry in meta:
+            if isinstance(entry, Mapping) and entry.get("trace_id") == trace_id:
+                entry.update(payload)
+
+    @staticmethod
+    def _normalize_time(value: datetime | None = None) -> datetime:
+        if value is None:
+            return datetime.now(timezone.utc)
+        if value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
+        return value.astimezone(timezone.utc)

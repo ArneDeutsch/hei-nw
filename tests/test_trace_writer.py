@@ -30,3 +30,9 @@ def test_pointer_only_payload() -> None:
     assert payload["salience_tags"]["surprise"] == decision.features.surprise
     assert payload["salience_tags"]["reward"] is True
     assert writer.records[0] == payload
+    eviction = payload["eviction"]
+    assert "created_at" in eviction and "expires_at" in eviction
+    state = writer.eviction_state("trace-001")
+    assert state is not None
+    assert eviction["ttl_seconds"] == state.ttl_seconds
+    assert eviction["last_access"] == eviction["created_at"]
