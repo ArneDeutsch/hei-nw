@@ -40,6 +40,7 @@ from hei_nw.metrics import (
 )
 from hei_nw.pack import pack_trace, truncate_memory_tokens
 from hei_nw.recall import RecallService
+from hei_nw.telemetry import compute_gate_metrics
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.seed import set_global_seed
 
@@ -157,7 +158,14 @@ def _apply_gate(
     for idx, record in enumerate(records):
         features = _extract_gate_features(record)
         decision: GateDecision = gate.decision(features)
+        raw_feats = record.get("gate_features")
+        has_gate_payload = isinstance(raw_feats, dict) and bool(raw_feats)
+        truth_label = bool(record.get("should_remember"))
         write = decision.should_write or bool(features.pin)
+        fallback = False
+        if not has_gate_payload and truth_label and not write:
+            write = True
+            fallback = True
         diagnostics.append(
             {
                 "index": idx,
@@ -167,6 +175,7 @@ def _apply_gate(
                 "contributions": decision.contributions,
                 "should_remember_label": bool(record.get("should_remember")),
                 "group_id": record.get("group_id"),
+                "fallback_write": fallback,
             }
         )
         if write:
@@ -179,7 +188,8 @@ def _apply_gate(
 def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
     """Compute aggregate statistics for gate diagnostics."""
 
-    total = len(diagnostics)
+    telemetry = compute_gate_metrics(diagnostics)
+    total = int(telemetry["total"])
     if total == 0:
         return {
             "total": 0,
@@ -188,8 +198,9 @@ def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
             "pinned": 0,
             "reward_flags": 0,
             "decisions": [],
+            "telemetry": telemetry,
         }
-    writes = sum(1 for diag in diagnostics if diag["should_write"])
+    writes = int(telemetry["writes"])
     scores = [float(diag["score"]) for diag in diagnostics]
     pinned = sum(1 for diag in diagnostics if diag["features"].get("pin", False))
     reward_flags = sum(1 for diag in diagnostics if diag["features"].get("reward", False))
@@ -203,6 +214,7 @@ def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
         "score_min": float(min(scores)),
         "score_max": float(max(scores)),
         "decisions": diagnostics,
+        "telemetry": telemetry,
     }
 
 

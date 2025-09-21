@@ -208,3 +208,7 @@ def test_retrieval_only_em_tracks_p_at_1(monkeypatch: pytest.MonkeyPatch) -> Non
     gate_summary = extra["gate"]
     assert gate_summary["writes"] == len(records)
     assert gate_summary["weights"]["alpha"] == pytest.approx(1.0)
+    telemetry = gate_summary["telemetry"]
+    assert telemetry["writes"] == len(records)
+    assert telemetry["total"] == len(records)
+    assert telemetry["precision"] >= 0.0
