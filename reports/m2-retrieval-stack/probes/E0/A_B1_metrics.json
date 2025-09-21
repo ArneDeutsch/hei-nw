@@ -1,18 +1,18 @@
 {
-  "adapter_latency_overhead_s": -0.008212700999896093,
+  "adapter_latency_overhead_s": 0.022159041583355105,
   "aggregate": {
-    "em": 1.0,
-    "em_relaxed": 1.0,
-    "em_strict": 1.0,
-    "f1": 1.0,
-    "latency": 0.04396042441627893,
+    "em": 0.14583333333333334,
+    "em_relaxed": 0.14583333333333334,
+    "em_strict": 0.14583333333333334,
+    "f1": 0.2152777777777778,
+    "latency": 0.16239859139581844,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 30479081472,
-      "kv_cache_bytes": 25337856
+      "attention_flops": 95962116096,
+      "kv_cache_bytes": 44955648
     },
     "baseline": null
   },
@@ -26,52 +26,52 @@
       "retrieval_only": false
     },
     "first_token": [
-      "Fay",
-      "Bob",
-      "Ivan",
-      "Gus",
-      "Gus",
-      "Judy",
-      "Alice",
+      "On",
       "Eli",
+      "Ivan",
+      "On",
       "Judy",
-      "Bob",
-      "Fay",
       "Judy",
       "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Judy",
+      "Eli",
+      "On",
+      "On",
       "Fay",
-      "Dana",
-      "Fay",
-      "Bob",
+      "Charlie",
       "Charlie",
       "Ivan",
+      "On",
+      "On",
       "Judy",
-      "Bob",
-      "Alice",
       "Eli",
       "Fay",
-      "Dana",
-      "Bob",
-      "Ivan",
-      "Gus",
-      "Gus",
+      "On",
+      "On",
+      "On",
+      "On",
       "Judy",
       "Alice",
+      "Ivan",
+      "On",
+      "Judy",
+      "On",
+      "On",
+      "Alice",
       "Eli",
+      "On",
       "Judy",
-      "Bob",
       "Fay",
-      "Judy",
       "Charlie",
-      "Fay",
-      "Dana",
-      "Fay",
-      "Bob",
-      "Charlie",
-      "Ivan",
+      "On",
+      "Eli",
+      "On",
+      "On",
       "Judy",
-      "Bob",
-      "Ivan",
       "Eli",
       "Fay"
     ],
@@ -140,57 +140,57 @@
   "lag_bins": [
     {
       "count": 12,
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.16666666666666666,
       "lag_bin": "0-1",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.08333333333333333,
+      "em_relaxed": 0.08333333333333333,
+      "em_strict": 0.08333333333333333,
+      "f1": 0.125,
       "lag_bin": "1-3",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.19444444444444442,
       "lag_bin": "3-7",
       "recall_at_k": null
     },
     {
       "count": 12,
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.3333333333333333,
+      "em_relaxed": 0.3333333333333333,
+      "em_strict": 0.3333333333333333,
+      "f1": 0.375,
       "lag_bin": "7-30",
       "recall_at_k": null
     }
   ],
   "records": [
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.05827455100006773,
-      "prediction": "Fay",
+      "latency": 0.19672862900006294,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-21, Fay left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -198,20 +198,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.04432753400033107,
-      "prediction": "Bob",
+      "latency": 0.11723648400038655,
+      "prediction": "Eli",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the library.\n\nQuestion: who left a wallet at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a wallet at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -219,20 +219,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 6,
-      "latency": 0.044414773998141754,
-      "prediction": "Ivan",
+      "latency": 0.1784998289995201,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-03, Ivan left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -240,20 +240,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 24,
-      "latency": 0.0428576560007059,
-      "prediction": "Gus",
+      "latency": 0.17873146900001302,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-03, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -261,20 +261,20 @@
       "truth": "Gus"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.044059421998099424,
-      "prediction": "Gus",
+      "latency": 0.17943284300054074,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-04, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -282,20 +282,20 @@
       "truth": "Gus"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 2,
-      "latency": 0.04427708400180563,
-      "prediction": "Judy",
+      "latency": 0.1799564549992283,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-19, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -303,20 +303,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 4,
-      "latency": 0.042858106000494445,
-      "prediction": "Alice",
+      "latency": 0.1769669610002893,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -324,20 +324,20 @@
       "truth": "Alice"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 10,
-      "latency": 0.04341519000081462,
-      "prediction": "Eli",
+      "latency": 0.17844253799921717,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-18, Eli left a key at the market.\n\nQuestion: who left a key at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -350,15 +350,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.042860506000579335,
+      "latency": 0.1161541279998346,
       "prediction": "Judy",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-27, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -366,20 +366,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.045230380001157755,
-      "prediction": "Bob",
+      "latency": 0.17711736199998995,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-21, Bob left a book at the beach.\n\nQuestion: who left a book at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a book at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -387,20 +387,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 3,
-      "latency": 0.042973476000042865,
-      "prediction": "Fay",
+      "latency": 0.17732949299988832,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the school.\n\nQuestion: who left a notebook at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -408,20 +408,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 22,
-      "latency": 0.04439293399991584,
-      "prediction": "Judy",
+      "latency": 0.1780094759997155,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-07, Judy left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -429,20 +429,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04309509699669434,
-      "prediction": "Ivan",
+      "latency": 0.1795103439999366,
+      "prediction": "Eli Explanation",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-15, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -450,20 +450,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.04422571299801348,
-      "prediction": "Fay",
+      "latency": 0.17855649900047865,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-26, Fay left a phone at the museum.\n\nQuestion: who left a phone at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -471,20 +471,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 6,
-      "latency": 0.04282352500013076,
-      "prediction": "Dana",
+      "latency": 0.17727627299973392,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-10, Dana left a notebook at the beach.\n\nQuestion: who left a notebook at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -497,15 +497,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.044731636000506114,
+      "latency": 0.1204055789994527,
       "prediction": "Fay",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-20, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -513,20 +513,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04356248999829404,
-      "prediction": "Bob",
+      "latency": 0.11932417400021222,
+      "prediction": "Charlie",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-06, Bob left a wallet at the bakery.\n\nQuestion: who left a wallet at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a wallet at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -539,15 +539,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 1,
-      "latency": 0.04287338600261137,
+      "latency": 0.1180728179997459,
       "prediction": "Charlie",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at the bakery.\n\nQuestion: who left a bottle at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -555,20 +555,20 @@
       "truth": "Charlie"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
       "lag": 5,
-      "latency": 0.04472451599940541,
-      "prediction": "Ivan",
+      "latency": 0.1786641190001319,
+      "prediction": "Ivan Explanation: The",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-11, Ivan left a book at the station.\n\nQuestion: who left a book at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a book at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -576,20 +576,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 21,
-      "latency": 0.043070977000752464,
-      "prediction": "Judy",
+      "latency": 0.18349305399988225,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the beach.\n\nQuestion: who left a bottle at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -597,20 +597,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04416037299961317,
-      "prediction": "Bob",
+      "latency": 0.175541534000331,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-16, Bob left a notebook at the park.\n\nQuestion: who left a notebook at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -618,20 +618,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 2,
-      "latency": 0.04280458499852102,
-      "prediction": "Alice",
+      "latency": 0.11611180800082366,
+      "prediction": "Judy",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-22, Alice left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -639,20 +639,20 @@
       "truth": "Alice"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.6666666666666666,
       "lag": 6,
-      "latency": 0.04282032499759225,
-      "prediction": "Eli",
+      "latency": 0.17574771500039787,
+      "prediction": "Eli Explanation",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-01, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -665,15 +665,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.04292772600092576,
+      "latency": 0.11902512200049387,
       "prediction": "Fay",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-04, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -681,20 +681,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04299915700175916,
-      "prediction": "Dana",
+      "latency": 0.17664799999965908,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-21, Dana left a umbrella at the bakery.\n\nQuestion: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -702,20 +702,20 @@
       "truth": "Dana"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.04351512900029775,
-      "prediction": "Bob",
+      "latency": 0.17843200899915246,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-12, Bob left a wallet at the museum.\n\nQuestion: who left a wallet at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a wallet at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -723,20 +723,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 6,
-      "latency": 0.04276230499817757,
-      "prediction": "Ivan",
+      "latency": 0.17940026399992348,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-03, Ivan left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -744,20 +744,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 24,
-      "latency": 0.04444540399708785,
-      "prediction": "Gus",
+      "latency": 0.17856857900005707,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-28, Gus left a notebook at the museum.\n\nQuestion: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -765,20 +765,20 @@
       "truth": "Gus"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04281957499915734,
-      "prediction": "Gus",
+      "latency": 0.1793904139994993,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-03, Gus left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -786,20 +786,20 @@
       "truth": "Gus"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 2,
-      "latency": 0.04428083300081198,
-      "prediction": "Judy",
+      "latency": 0.17685905100006494,
+      "prediction": "Alice Explanation: The",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-19, Judy left a wallet at the beach.\n\nQuestion: who left a wallet at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a wallet at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -807,20 +807,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 4,
-      "latency": 0.04278207599782036,
-      "prediction": "Alice",
+      "latency": 0.17880526999942958,
+      "prediction": "Ivan and Alice.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-18, Alice left a jacket at Café Lumen.\n\nQuestion: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -828,20 +828,20 @@
       "truth": "Alice"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 10,
-      "latency": 0.04408458300167695,
-      "prediction": "Eli",
+      "latency": 0.17873856000005617,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-18, Eli left a key at the museum.\n\nQuestion: who left a key at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -854,15 +854,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 0,
-      "latency": 0.04497853800057783,
+      "latency": 0.11784042700037389,
       "prediction": "Judy",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-28, Judy left a phone at the school.\n\nQuestion: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -870,20 +870,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.04283050599769922,
-      "prediction": "Bob",
+      "latency": 0.1757314149999729,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-21, Bob left a book at the bakery.\n\nQuestion: who left a book at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a book at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -891,20 +891,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 3,
-      "latency": 0.04450879499927396,
-      "prediction": "Fay",
+      "latency": 0.17858531000001676,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-23, Fay left a notebook at the bakery.\n\nQuestion: who left a notebook at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -912,20 +912,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 22,
-      "latency": 0.043269257999781985,
-      "prediction": "Judy",
+      "latency": 0.11879621200023394,
+      "prediction": "Alice",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-07, Judy left a jacket at the beach.\n\nQuestion: who left a jacket at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -933,20 +933,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04281731499941088,
-      "prediction": "Charlie",
+      "latency": 0.1794271230000959,
+      "prediction": "Eli Explanation",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-15, Charlie left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -954,20 +954,20 @@
       "truth": "Charlie"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.044240773997444194,
-      "prediction": "Fay",
+      "latency": 0.18097600100009004,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-26, Fay left a jacket at the museum.\n\nQuestion: who left a jacket at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -975,20 +975,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 6,
-      "latency": 0.044615375001740176,
-      "prediction": "Dana",
+      "latency": 0.1805007700004353,
+      "prediction": "Judy and Gus.",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-10, Dana left a backpack at the beach.\n\nQuestion: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1001,15 +1001,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 9,
-      "latency": 0.042786425998201594,
+      "latency": 0.11928533399986918,
       "prediction": "Fay",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-27, Fay left a bottle at the park.\n\nQuestion: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1017,20 +1017,20 @@
       "truth": "Fay"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04442111399839632,
-      "prediction": "Bob",
+      "latency": 0.11912068299989187,
+      "prediction": "Charlie",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-06, Bob left a phone at the bakery.\n\nQuestion: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1038,20 +1038,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 1,
-      "latency": 0.0440813729983347,
-      "prediction": "Charlie",
+      "latency": 0.17813202800061845,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-02, Charlie left a bottle at Café Lumen.\n\nQuestion: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1059,20 +1059,20 @@
       "truth": "Charlie"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 5,
-      "latency": 0.04278100499868742,
-      "prediction": "Ivan",
+      "latency": 0.17905474200051685,
+      "prediction": "Eli Explanation",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-11, Ivan left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1080,20 +1080,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 21,
-      "latency": 0.04453683600149816,
-      "prediction": "Judy",
+      "latency": 0.1786548899999616,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-26, Judy left a bottle at the station.\n\nQuestion: who left a bottle at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1101,20 +1101,20 @@
       "truth": "Judy"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 0,
-      "latency": 0.04317917799926363,
-      "prediction": "Bob",
+      "latency": 0.1762884479994682,
+      "prediction": "On 2025-",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-16, Bob left a book at the park.\n\nQuestion: who left a book at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a book at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1122,20 +1122,20 @@
       "truth": "Bob"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
       "lag": 2,
-      "latency": 0.04419505400073831,
-      "prediction": "Ivan",
+      "latency": 0.11633293999966554,
+      "prediction": "Judy",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-22, Ivan left a phone at the beach.\n\nQuestion: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1143,20 +1143,20 @@
       "truth": "Ivan"
     },
     {
-      "em": 1.0,
-      "em_relaxed": 1.0,
-      "em_strict": 1.0,
-      "f1": 1.0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.6666666666666666,
       "lag": 6,
-      "latency": 0.04440097399856313,
-      "prediction": "Eli",
+      "latency": 0.1754293140002119,
+      "prediction": "Eli Explanation",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-13, Eli left a key at the station.\n\nQuestion: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1169,15 +1169,15 @@
       "em_strict": 1.0,
       "f1": 1.0,
       "lag": 22,
-      "latency": 0.043006826999771874,
+      "latency": 0.11779989699971338,
       "prediction": "Fay",
       "prompt": [
         {
-          "content": "You are a helpful assistant. Read the episode and answer with ONLY the single correct word or name.",
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Episode:\nOn 2025-01-13, Fay left a umbrella at the beach.\n\nQuestion: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1211,8 +1211,8 @@
     "qa": {
       "answer_hint": true,
       "max_new_tokens": 8,
-      "memory_dependent_baseline": false,
-      "omit_episode": false,
+      "memory_dependent_baseline": true,
+      "omit_episode": true,
       "prompt_style": "chat",
       "stop": "",
       "stop_mode": "none",
