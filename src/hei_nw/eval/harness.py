@@ -14,8 +14,6 @@ from typing import Any, cast
 import numpy as np
 from numpy.typing import NDArray
 
-FloatArray = NDArray[np.float32]
-
 from hei_nw import datasets
 from hei_nw.baselines.long_context import run_long_context
 from hei_nw.baselines.rag import HFEmbedder, run_rag
@@ -46,6 +44,8 @@ from hei_nw.recall import RecallService
 from hei_nw.telemetry import compute_gate_metrics
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.seed import set_global_seed
+
+FloatArray = NDArray[np.float32]
 
 SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
     "A": datasets.scenario_a.generate,
@@ -1393,11 +1393,11 @@ def _evaluate_mode_b1(
         if index_obj is not None:
             faiss_index = getattr(index_obj, "index", None)
             if faiss_index is not None and hasattr(faiss_index, "ntotal"):
-                store_ntotal = int(getattr(faiss_index, "ntotal"))
+                store_ntotal = int(cast(Any, faiss_index).ntotal)
             elif hasattr(index_obj, "ntotal"):
-                store_ntotal = int(getattr(index_obj, "ntotal"))
+                store_ntotal = int(cast(Any, index_obj).ntotal)
         elif hasattr(store_obj, "ntotal"):
-            store_ntotal = int(getattr(store_obj, "ntotal"))
+            store_ntotal = int(cast(Any, store_obj).ntotal)
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,

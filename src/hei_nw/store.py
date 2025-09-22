@@ -9,8 +9,8 @@ from typing import Any, cast
 
 import faiss
 import numpy as np
-from numpy.typing import NDArray
 import torch
+from numpy.typing import NDArray
 from torch import Tensor, nn
 
 from .eviction import DecayPolicy, PinProtector, TraceEvictionState

@@ -58,8 +58,9 @@ bash scripts/make_report.sh
 
 - Run `scripts/run_m3_gate_calibration.sh` to generate neuromodulated write gate
   telemetry. The default configuration evaluates scenario A with Qwen/Qwen2.5-1.5B-Instruct,
-  writes artifacts to `reports/m3-write-gate/`, and emits calibration plots plus
-  pointer-only trace samples.
+  sweeps τ over `0.5 1.0 1.5 2.0 2.5 3.0 3.5`, writes artifacts to
+  `reports/m3-write-gate/`, and emits calibration plots plus pointer-only trace
+  samples.
 - Adjust `--threshold` (τ) until the reported `write_rate_per_1k_tokens` falls in the
   1–5 writes/1k target band. Lower τ increases the write rate; higher τ reduces it.
 - See [documentation/write-gate.md](documentation/write-gate.md) for a detailed
@@ -67,9 +68,10 @@ bash scripts/make_report.sh
 
 #### Quick commands
 
-- `bash scripts/run_m3_gate_calibration.sh` — single-τ run with default scenario A.
-- `bash scripts/run_m3_gate_calibration.sh --threshold-sweep "1.3 1.5 1.7"` — sweep τ values and collect summary reports.
-- `bash scripts/run_m3_gate_calibration.sh --scenario C --pin-eval` — pins-only slice for Scenario C (combine with `--threshold-sweep` as needed).
+- `bash scripts/run_m3_gate_calibration.sh` — default sweep for scenario A (τ = 0.5…3.5).
+- `bash scripts/run_m3_gate_calibration.sh --threshold 1.6` — single-τ run at τ = 1.6.
+- `bash scripts/run_m3_gate_calibration.sh --threshold-sweep "1.3 1.5 1.7"` — custom sweep and summary reports.
+- `bash scripts/run_m3_gate_calibration.sh --scenario C --threshold 1.8 --pin-eval` — pins-only slice for Scenario C (combine with custom sweeps as needed).
 
 Refer to [documentation/write-gate.md](documentation/write-gate.md) for artifact
 paths, sweep outputs, and pins-only interpretation guidance.
