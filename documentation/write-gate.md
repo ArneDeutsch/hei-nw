@@ -38,6 +38,16 @@ store. You can also override ``α``–``δ`` for ablation studies using the harn
 flags (``--gate.alpha``, ``--gate.beta`` …), but the default mixture is tuned
 for scenarios A and C.
 
+### Store construction during Milestone 3
+
+Milestone 3 keeps the **B1 episodic store label-driven by default**. The
+evaluation harness always records gate telemetry, yet the persisted memories are
+still sourced from the scenario-provided ``should_remember`` annotations. This
+matches the behavior that shipped with the milestone artifacts and avoids
+changing baseline metrics midstream. To experiment with gate-controlled writes,
+run the harness with ``--gate.use_for_writes``; this optional flag switches the
+indexer to honor gate decisions instead of the labels.
+
 ## Calibration workflows
 
 Use ``scripts/run_m3_gate_calibration.sh`` to generate write-gate telemetry and

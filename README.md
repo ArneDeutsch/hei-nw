@@ -61,6 +61,11 @@ bash scripts/make_report.sh
   sweeps τ over `0.5 1.0 1.5 2.0 2.5 3.0 3.5`, writes artifacts to
   `reports/m3-write-gate/`, and emits calibration plots plus pointer-only trace
   samples.
+- **Milestone 3 runs keep the B1 episodic store label-driven by default.** Gate
+  telemetry executes on every run, but the store is still constructed from the
+  scenario-provided `should_remember` annotations. Pass
+  `--gate.use_for_writes` to let gate decisions determine which episodes are
+  indexed, matching the optional gate-driven flow introduced in follow-up work.
 - Adjust `--threshold` (τ) until the reported `write_rate_per_1k_tokens` falls in the
   1–5 writes/1k target band. Lower τ increases the write rate; higher τ reduces it.
 - See [documentation/write-gate.md](documentation/write-gate.md) for a detailed
