@@ -138,11 +138,14 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert gate_info["writes"] == 1
     assert gate_info["total"] == 2
     assert isinstance(gate_info["write_rate"], float)
-    assert isinstance(gate_info["write_rate_per_1k"], float | type(None))
+    per_1k_tokens = gate_info["write_rate_per_1k_tokens"]
+    if per_1k_tokens is not None:
+        assert isinstance(per_1k_tokens, float)
+    assert isinstance(gate_info["write_rate_per_1k_records"], float)
     assert gate_info["store_writes"] == 1
     assert gate_info["store_write_rate"] == pytest.approx(gate_info["write_rate"])
-    assert gate_info["store_write_rate_per_1k"] == pytest.approx(
-        gate_info["write_rate_per_1k"] or 0.0
+    assert gate_info["store_write_rate_per_1k_records"] == pytest.approx(
+        gate_info["write_rate_per_1k_records"]
     )
     assert gate_info["used_for_writes"] is True
     assert gate_info["debug_keep_labels"] is False
@@ -152,7 +155,7 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert telemetry["writes"] == 1
     assert telemetry["total"] == 2
     assert telemetry["calibration"]
-    assert "writes_per_1k" in telemetry
+    assert "writes_per_1k_tokens" in telemetry
     store_info = extra.get("store")
     assert store_info
     assert store_info["ntotal"] == 1
@@ -391,3 +394,76 @@ def test_gate_controls_store_size(monkeypatch: pytest.MonkeyPatch) -> None:
 
     assert extra_debug["gate"]["store_writes"] == expected_labels
     assert extra_debug["gate"]["writes"] < expected_labels
+
+
+def test_writes_per_1k_tokens_present(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Critical incident summary.",
+            "cues": ["What incident?"],
+            "answers": ["Incident"],
+            "group_id": 1,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 2.0,
+                "novelty": 0.5,
+                "reward": False,
+                "pin": False,
+            },
+        },
+        {
+            "episode_text": "Routine maintenance log.",
+            "cues": ["What task?"],
+            "answers": ["Maintenance"],
+            "group_id": 2,
+            "should_remember": False,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 0.1,
+                "novelty": 0.0,
+                "reward": False,
+                "pin": False,
+            },
+        },
+    ]
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        return _StubRecallService(records)
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+
+    def fake_generate(*_args: Any, **_kwargs: Any) -> dict[str, Any]:
+        return {"text": "answer", "prompt_tokens": 3, "generated_tokens": 2}
+
+    monkeypatch.setattr("hei_nw.models.base.generate", fake_generate)
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    _, _, _, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(),
+        gate=NeuromodulatedGate(threshold=0.1),
+    )
+
+    gate_info = extra["gate"]
+    assert gate_info["generated_tokens"] == 4
+    per_1k_tokens = gate_info["write_rate_per_1k_tokens"]
+    assert per_1k_tokens is not None and per_1k_tokens > 0
+    telemetry = gate_info["telemetry"]
+    assert telemetry["writes_per_1k_tokens"] == pytest.approx(per_1k_tokens)

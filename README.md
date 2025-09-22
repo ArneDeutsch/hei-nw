@@ -60,7 +60,7 @@ bash scripts/make_report.sh
   telemetry. The default configuration evaluates scenario A with Qwen/Qwen2.5-1.5B-Instruct,
   writes artifacts to `reports/m3-write-gate/`, and emits calibration plots plus
   pointer-only trace samples.
-- Adjust `--threshold` (τ) until the reported `write_rate_per_1k` falls in the
+- Adjust `--threshold` (τ) until the reported `write_rate_per_1k_tokens` falls in the
   1–5 writes/1k target band. Lower τ increases the write rate; higher τ reduces it.
 - See [documentation/write-gate.md](documentation/write-gate.md) for a detailed
   explanation of salience features, default weights, telemetry fields, and tuning tips.

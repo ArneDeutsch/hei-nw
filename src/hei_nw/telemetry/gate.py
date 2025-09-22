@@ -16,6 +16,13 @@ def _safe_float(value: Any) -> float:
     return float(value)
 
 
+def _safe_int(value: Any) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
 def _precision_recall(tp: int, fp: int, fn: int) -> tuple[float, float]:
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall = tp / (tp + fn) if (tp + fn) else 0.0
@@ -119,6 +126,10 @@ def compute_gate_metrics(
             "positives": 0,
             "total": 0,
             "calibration": [],
+            "writes_per_1k_records": 0.0,
+            "writes_per_1k_tokens": None,
+            "generated_tokens": 0,
+            "prompt_tokens": 0,
         }
     writes = sum(1 for diag in diagnostics if _safe_bool(diag.get("should_write")))
     positives = sum(1 for diag in diagnostics if _safe_bool(diag.get("should_remember_label")))
@@ -135,6 +146,12 @@ def compute_gate_metrics(
     pr_auc = _pr_auc(scores, labels)
     calibration = _calibration(scores, labels, calibration_bins)
     clutter_rate = writes / total if total else 0.0
+    generated_tokens = sum(_safe_int(diag.get("generated_tokens")) for diag in diagnostics)
+    prompt_tokens = sum(_safe_int(diag.get("prompt_tokens")) for diag in diagnostics)
+    if generated_tokens > 0:
+        writes_per_1k_tokens = writes / (generated_tokens / 1000.0)
+    else:
+        writes_per_1k_tokens = None
     return {
         "precision": precision,
         "recall": recall,
@@ -144,4 +161,8 @@ def compute_gate_metrics(
         "positives": positives,
         "total": total,
         "calibration": calibration,
+        "writes_per_1k_records": clutter_rate * 1000.0,
+        "writes_per_1k_tokens": writes_per_1k_tokens,
+        "generated_tokens": generated_tokens,
+        "prompt_tokens": prompt_tokens,
     }
