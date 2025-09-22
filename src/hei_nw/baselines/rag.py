@@ -17,7 +17,6 @@ from hei_nw.metrics import (
     recall_at_k,
 )
 
-
 FloatArray = NDArray[np.float32]
 
 

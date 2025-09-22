@@ -41,10 +41,10 @@ bash scripts/compare_b0_b1_m2.sh
 # 7) (optional) make a combined file for M2 too
 bash scripts/make_report.sh reports/m2-retrieval-stack reports/m2-retrieval-stack/combined_report.md
 
-# 8) M3 gate calibration (Scenario A defaults; τ=1.5).
+# 8) M3 gate calibration (Scenario A defaults; sweeps τ=0.5…3.5).
 bash scripts/run_m3_gate_calibration.sh
 
-# 9) (optional) Scenario C sweep (example threshold tweak).
+# 9) (optional) Scenario C single-τ run (example threshold tweak).
 bash scripts/run_m3_gate_calibration.sh --scenario C --threshold 1.8 --n 64
 ```
 

@@ -10,6 +10,8 @@ SEED="13"
 THRESHOLD="1.5"
 PLOT_TITLE=""
 declare -a THRESHOLD_SWEEP=()
+declare -a DEFAULT_THRESHOLD_SWEEP=(0.5 1.0 1.5 2.0 2.5 3.0 3.5)
+THRESHOLD_PROVIDED="false"
 PIN_EVAL="false"
 
 usage() {
@@ -95,10 +97,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     --threshold)
       THRESHOLD="${2:-}"
+      THRESHOLD_PROVIDED="true"
       shift 2
       ;;
     --threshold=*)
       THRESHOLD="${1#*=}"
+      THRESHOLD_PROVIDED="true"
       shift 1
       ;;
     --threshold-sweep)
@@ -140,6 +144,11 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THRESHOLD_PROVIDED" != "true" ]]; then
+  THRESHOLD_SWEEP=("${DEFAULT_THRESHOLD_SWEEP[@]}")
+  echo "[m3] --threshold-sweep not provided; using default sweep: ${THRESHOLD_SWEEP[*]}"
+fi
 
 if [[ "$PIN_EVAL" == "true" ]]; then
   echo "[m3] Checking for pinned records in scenario ${SCENARIO} (n=${N}, seed=${SEED})"
@@ -333,7 +342,7 @@ metric_paths = [Path(p) for p in sys.argv[2:] if p]
 out_path.parent.mkdir(parents=True, exist_ok=True)
 with out_path.open("w", encoding="utf8") as handle:
     handle.write(
-        "scenario\ttau\twrite_rate\twrites_per_1k_tokens\twrites_per_1k_records\tpr_auc\n"
+        "scenario\ttau\twrites\twrite_rate\twrites_per_1k_tokens\twrites_per_1k_records\tpr_auc\n"
     )
     for metrics_path in metric_paths:
         data = json.loads(metrics_path.read_text(encoding="utf8"))
@@ -342,6 +351,9 @@ with out_path.open("w", encoding="utf8") as handle:
         telemetry = gate.get("telemetry") or {}
         scenario = dataset.get("scenario")
         threshold = gate.get("threshold")
+        writes = gate.get("writes")
+        if writes in (None, ""):
+            writes = telemetry.get("writes")
         write_rate = gate.get("write_rate")
         writes_per_1k_tokens = gate.get("write_rate_per_1k_tokens")
         if writes_per_1k_tokens in (None, ""):
@@ -366,6 +378,7 @@ with out_path.open("w", encoding="utf8") as handle:
         row = [
             scenario,
             threshold,
+            writes,
             write_rate,
             writes_per_1k_tokens,
             writes_per_1k_records,

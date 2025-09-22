@@ -486,19 +486,57 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     assert len(summary_data.get("runs", [])) == 2
 
     tsv_lines = summary_tsv.read_text(encoding="utf8").strip().splitlines()
-    assert tsv_lines[0].split("\t") == [
+    header = tsv_lines[0].split("\t")
+    assert header == [
         "scenario",
         "tau",
+        "writes",
         "write_rate",
         "writes_per_1k_tokens",
         "writes_per_1k_records",
         "pr_auc",
     ]
     assert len(tsv_lines) == 3
+    first_data = tsv_lines[1].split("\t")
+    assert first_data[2] == "2"
+    assert first_data[3] == "0.2"
 
     index_text = index_md.read_text(encoding="utf8")
     assert "tau_0.9" in index_text
     assert "tau_1.1" in index_text
+
+    default_out = tmp_path / "default_reports"
+    env_default = env.copy()
+    env_default["OUT"] = str(default_out)
+    default_result = subprocess.run(
+        [
+            str(script),
+            "--scenario",
+            "A",
+            "--n",
+            "3",
+            "--seed",
+            "2",
+        ],
+        env=env_default,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert default_result.returncode == 0
+
+    default_summary = default_out / "A_sweep_summary.tsv"
+    assert default_summary.exists()
+    default_lines = default_summary.read_text(encoding="utf8").strip().splitlines()
+    assert default_lines[0].split("\t") == header
+    assert len(default_lines) >= 3
+    sweep_dirs = {
+        path.name
+        for path in default_out.iterdir()
+        if path.is_dir() and path.name.startswith("tau_")
+    }
+    assert "tau_0.5" in sweep_dirs
+    assert "tau_3.5" in sweep_dirs
 
 
 def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
@@ -644,6 +682,8 @@ def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
             "2",
             "--seed",
             "1",
+            "--threshold",
+            "1.5",
             "--pin-eval",
         ],
         env=env,

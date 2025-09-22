@@ -45,15 +45,17 @@ calibration plots. The script wraps the evaluation harness, extracts the gate
 summary, and renders a reliability diagram. The sub-sections below cover the
 supported operating modes.
 
-### Single-τ run
+### Default sweep
 
 ```bash
-# Scenario A defaults (Qwen2.5-1.5B, n=48, τ=1.5)
+# Scenario A defaults (Qwen2.5-1.5B, n=48)
 bash scripts/run_m3_gate_calibration.sh
-
-# Scenario C with a tighter threshold (τ=1.8)
-bash scripts/run_m3_gate_calibration.sh --scenario C --threshold 1.8 --n 64
 ```
+
+When ``--threshold-sweep`` is omitted the script explores a broad set of τ
+values by default: ``0.5 1.0 1.5 2.0 2.5 3.0 3.5``. Each τ is written to its
+own ``reports/m3-write-gate/tau_<τ>/`` directory alongside aggregate sweep
+summaries. Use this default mode to scan for the decision boundary quickly.
 
 Artifacts are written to ``reports/m3-write-gate/`` by default:
 
@@ -72,10 +74,21 @@ JSON sits inside that band. Lower thresholds increase the write rate; higher
 thresholds reduce it. When the gate is too loose, expect clutter rate and
 pointer-check warnings to rise.
 
+### Single-τ run (``--threshold``)
+
+```bash
+# Scenario C with a tighter threshold (τ=1.8)
+bash scripts/run_m3_gate_calibration.sh --scenario C --threshold 1.8 --n 64
+```
+
+Provide ``--threshold`` to bypass the sweep and focus on a single τ value. This
+is useful once you have selected a target and want to regenerate the telemetry
+for a final report.
+
 ### Threshold sweep (``--threshold-sweep``)
 
-Provide a space or comma separated list of τ values to benchmark multiple gate
-settings in one pass:
+Provide a space or comma separated list of τ values to benchmark a custom set in
+one pass:
 
 ```bash
 bash scripts/run_m3_gate_calibration.sh \
@@ -91,8 +104,8 @@ Each τ gets its own directory (``reports/m3-write-gate/tau_1.3/``, ``tau_1.4/``
 * ``${SCENARIO}_sweep_summary.json`` – consolidated metrics from
   ``scripts/report_gate_write_rates.py``.
 * ``${SCENARIO}_sweep_summary.tsv`` – tab-separated table with ``scenario``,
-  ``tau``, ``write_rate``, ``writes_per_1k_tokens``, ``writes_per_1k_records``, and ``pr_auc`` for spreadsheet
-  review.
+  ``tau``, ``writes``, ``write_rate``, ``writes_per_1k_tokens``,
+  ``writes_per_1k_records``, and ``pr_auc`` for spreadsheet review.
 * ``${SCENARIO}_threshold_sweep.md`` – Markdown index linking τ values to their
   calibration plots.
 
