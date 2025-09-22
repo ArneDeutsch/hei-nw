@@ -39,3 +39,16 @@ def test_reward_pin_annotations() -> None:
         r["novelty_counters"]["config_index"] for r in records if r["gate_features"]["pin"]
     ]
     assert novelty_progression == sorted(novelty_progression)
+
+
+def test_records_include_episode_fields() -> None:
+    records = generate(4, seed=11)
+    first = records[0]
+
+    assert first["episode_text"] == first["context"]
+    assert first["cues"] == [first["query"]]
+    assert first["answers"][0] == first["expected"]
+    assert isinstance(first["group_id"], int)
+
+    for record in records:
+        assert len(record["answers"]) == 4
