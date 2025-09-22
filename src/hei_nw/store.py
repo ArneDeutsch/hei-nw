@@ -5,10 +5,11 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Mapping, MutableMapping, Sequence
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, cast
 
 import faiss
 import numpy as np
+from numpy.typing import NDArray
 import torch
 from torch import Tensor, nn
 
@@ -21,6 +22,9 @@ __all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore", "TraceWriter"]
 
 _POINTER_KEYS = {"doc", "start", "end"}
 _BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
+
+
+FloatArray = NDArray[np.float32]
 
 
 class TraceWriter:
@@ -263,7 +267,7 @@ class ANNIndex:
             raise ValueError(msg)
         self.index.hnsw.efSearch = int(ef_search)
 
-    def add(self, vectors: np.ndarray, meta: list[dict[str, Any]]) -> None:
+    def add(self, vectors: FloatArray, meta: list[dict[str, Any]]) -> None:
         """Add vectors and associated metadata to the index.
 
         Parameters
@@ -286,7 +290,7 @@ class ANNIndex:
             raise ValueError("meta length must match number of vectors")
         if vectors.shape[0] == 0:
             return
-        vectors = np.ascontiguousarray(vectors, dtype="float32")
+        vectors = cast(FloatArray, np.ascontiguousarray(vectors, dtype="float32"))
         faiss.normalize_L2(vectors)
         start = len(self.meta)
         enriched: list[dict[str, Any]] = []
@@ -312,7 +316,7 @@ class ANNIndex:
         self.index.add(vectors)
         self.meta.extend(enriched)
 
-    def search(self, query: np.ndarray, k: int) -> list[dict[str, Any]]:
+    def search(self, query: FloatArray, k: int) -> list[dict[str, Any]]:
         """Return top-``k`` nearest neighbours for a query vector.
 
         Parameters
@@ -340,7 +344,7 @@ class ANNIndex:
             msg = f"k ({k}) cannot exceed ef_search ({self.ef_search})"
             raise ValueError(msg)
         effective_k = min(k, total)
-        query = np.ascontiguousarray(query, dtype="float32")
+        query = cast(FloatArray, np.ascontiguousarray(query, dtype="float32"))
         faiss.normalize_L2(query)
         scores, indices = self.index.search(query, effective_k)
         ranked: list[dict[str, Any]] = []
@@ -491,7 +495,7 @@ class EpisodicStore:
         index: ANNIndex,
         hopfield: HopfieldReadout,
         tokenizer: Any,
-        vectors: list[np.ndarray],
+        vectors: list[FloatArray],
         group_ids: set[int],
         embed_dim: int,
         max_mem_tokens: int,
@@ -561,14 +565,21 @@ class EpisodicStore:
         """
 
         keyer_module = keyer if keyer is not None else DGKeyer()
-        vectors: list[np.ndarray] = []
+        vectors: list[FloatArray] = []
         meta: list[dict[str, Any]] = []
         for rec in records:
             if not bool(rec.get("should_remember")):
                 continue
             H = cls._hash_embed(str(rec["episode_text"]), tokenizer, embed_dim)
             key = keyer_module(H)
-            dense = to_dense(key).squeeze(0).detach().cpu().numpy()
+            dense = (
+                to_dense(key)
+                .squeeze(0)
+                .detach()
+                .cpu()
+                .numpy()
+                .astype("float32", copy=False)
+            )
             trace = {
                 "group_id": rec["group_id"],
                 "answers": rec["answers"],
@@ -680,7 +691,7 @@ class EpisodicStore:
 
         H = self._embed(cue_text)
         key = self.keyer(H)
-        dense = to_dense(key).detach().cpu().numpy()
+        dense = to_dense(key).detach().cpu().numpy().astype("float32", copy=False)
         ef_search = getattr(self.index, "ef_search", top_k_candidates)
         k = min(top_k_candidates, int(ef_search))
         results = self.index.search(dense, k=k)

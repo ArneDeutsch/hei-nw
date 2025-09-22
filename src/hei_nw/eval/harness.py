@@ -12,6 +12,9 @@ from pathlib import Path
 from typing import Any, cast
 
 import numpy as np
+from numpy.typing import NDArray
+
+FloatArray = NDArray[np.float32]
 
 from hei_nw import datasets
 from hei_nw.baselines.long_context import run_long_context
@@ -754,14 +757,14 @@ class ToyEmbedder:
     def __init__(self, dim: int = 64) -> None:
         self.dim = dim
 
-    def embed(self, texts: Sequence[str]) -> np.ndarray:  # pragma: no cover - simple
-        vecs: list[np.ndarray] = []
+    def embed(self, texts: Sequence[str]) -> FloatArray:  # pragma: no cover - simple
+        vecs: list[FloatArray] = []
         for text in texts:
             h = int(hashlib.sha256(text.encode()).hexdigest(), 16) % self.dim
             vec = np.zeros(self.dim, dtype="float32")
             vec[h] = 1.0
             vecs.append(vec)
-        return np.stack(vecs)
+        return cast(FloatArray, np.stack(vecs))
 
 
 def _get_embedder() -> Any:
@@ -1389,12 +1392,12 @@ def _evaluate_mode_b1(
         index_obj = getattr(store_obj, "index", None)
         if index_obj is not None:
             faiss_index = getattr(index_obj, "index", None)
-            if hasattr(faiss_index, "ntotal"):
-                store_ntotal = int(faiss_index.ntotal)
+            if faiss_index is not None and hasattr(faiss_index, "ntotal"):
+                store_ntotal = int(getattr(faiss_index, "ntotal"))
             elif hasattr(index_obj, "ntotal"):
-                store_ntotal = int(index_obj.ntotal)
+                store_ntotal = int(getattr(index_obj, "ntotal"))
         elif hasattr(store_obj, "ntotal"):
-            store_ntotal = int(store_obj.ntotal)
+            store_ntotal = int(getattr(store_obj, "ntotal"))
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,
@@ -1578,3 +1581,4 @@ def _pointer_summary(
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())
+
