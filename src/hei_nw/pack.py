@@ -26,9 +26,13 @@ def _validate_pointer_payload(trace: Mapping[str, Any]) -> None:
     doc = str(pointer.get("doc", "")).strip()
     if not doc:
         raise ValueError("tokens_span_ref.doc must be a non-empty string")
+    start_raw = pointer.get("start")
+    end_raw = pointer.get("end")
+    if start_raw is None or end_raw is None:
+        raise ValueError("tokens_span_ref start/end must be provided")
     try:
-        start = int(pointer.get("start"))
-        end = int(pointer.get("end"))
+        start = int(start_raw)
+        end = int(end_raw)
     except (TypeError, ValueError) as exc:  # pragma: no cover - defensive
         raise ValueError("tokens_span_ref start/end must be integers") from exc
     if start < 0 or end < 0:
@@ -46,7 +50,7 @@ def _normalise_entity_slots(trace: Mapping[str, Any]) -> dict[str, str | dict[st
     for banned in _BANNED_TEXT_KEYS:
         if banned in source:
             raise ValueError(f"entity slots may not contain disallowed key '{banned}'")
-    slots = {
+    slots: dict[str, str | dict[str, str]] = {
         key: str(source.get(key, "") or "").strip()
         for key in ("who", "what", "where", "when")
     }
