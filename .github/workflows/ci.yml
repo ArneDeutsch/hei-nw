@@ -48,6 +48,46 @@ jobs:
           MODEL: sshleifer/tiny-gpt2
           MAX_OUTPUT_TOKENS: "32"
         run: bash scripts/ci_qa_prompting_smoke.sh
+      - name: Pointer payload audit
+        run: |
+          python - <<'PY'
+import json
+from pathlib import Path
+
+path = Path("reports/tmp_pointer_audit.json")
+path.parent.mkdir(parents=True, exist_ok=True)
+sample = {
+    "gate": {
+        "pointer_check": {"pointer_only": True, "banned_keys": [], "missing_pointer": 0},
+        "trace_samples": [
+            {
+                "trace_id": "audit-trace",
+                "has_pointer": True,
+                "banned_keys": [],
+            }
+        ],
+    },
+    "store": {
+        "records": [
+            {
+                "trace_id": "audit-trace",
+                "tokens_span_ref": {"doc": "doc-1", "start": 0, "end": 5},
+                "entity_slots": {"who": "", "what": "", "where": "", "when": ""},
+                "salience_tags": {"S": 0.1},
+                "eviction": {
+                    "ttl_seconds": 60,
+                    "created_at": "2024-01-01T00:00:00Z",
+                    "last_access": "2024-01-01T00:00:00Z",
+                    "expires_at": "2024-01-01T00:01:00Z",
+                },
+            }
+        ]
+    },
+}
+path.write_text(json.dumps(sample), encoding="utf8")
+PY
+          python scripts/audit_pointer_payloads.py reports/tmp_pointer_audit.json
+          rm reports/tmp_pointer_audit.json
       - name: No stubs
         run: |
           if git grep -nE "(TODO|FIXME|pass  # stub|raise NotImplementedError)" -- ':!tests' ':!prompts' ':!planning' ':!reviews' ':!.github/workflows/ci.yml' ':!scripts/grep_no_stubs.sh'; then
