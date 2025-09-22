@@ -14,49 +14,49 @@
     },
     {
       "answers_preview": [
-        "Ivan",
-        "bottle"
-      ],
-      "banned_keys": [
-        "episode_text"
-      ],
-      "group_id": 182,
-      "has_pointer": false,
-      "trace_id": null
-    },
-    {
-      "answers_preview": [
-        "Judy",
+        "Gus",
         "umbrella"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 226,
+      "group_id": 34,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Ivan",
+        "Gus",
+        "wallet"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 204,
+      "has_pointer": false,
+      "trace_id": null
+    },
+    {
+      "answers_preview": [
+        "Eli",
         "phone"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 146,
+      "group_id": 0,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Charlie",
+        "Gus",
         "umbrella"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 1,
+      "group_id": 153,
       "has_pointer": false,
       "trace_id": null
     }

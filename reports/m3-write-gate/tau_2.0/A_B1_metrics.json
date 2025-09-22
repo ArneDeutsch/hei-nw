@@ -1,11 +1,11 @@
 {
-  "adapter_latency_overhead_s": -0.017294834605486642,
+  "adapter_latency_overhead_s": -0.018238655966655415,
   "aggregate": {
     "em": 0.0,
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.041401155490177644,
+    "latency": 0.042109715796939895,
     "non_empty_rate": 0.0,
     "recall_at_k": null
   },
@@ -13670,7 +13670,7 @@
       "writes_per_1k_records": 500.0,
       "writes_per_1k_tokens": 500.0
     },
-    "threshold": 1.5,
+    "threshold": 2.0,
     "total": 512,
     "trace_samples": [
       {
@@ -13745,8 +13745,8 @@
     "write_rate_per_1k_records": 500.0,
     "write_rate_per_1k_tokens": 500.0,
     "writes": 256,
-    "calibration_plot": "reports/m3-write-gate/tau_1.5/A_gate_calibration.png",
-    "telemetry_path": "reports/m3-write-gate/tau_1.5/A_gate_telemetry.json"
+    "calibration_plot": "reports/m3-write-gate/tau_2.0/A_gate_calibration.png",
+    "telemetry_path": "reports/m3-write-gate/tau_2.0/A_gate_telemetry.json"
   },
   "lag_bins": [
     {
@@ -13793,7 +13793,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.05633922099877964,
+      "latency": 0.05600879899793654,
       "prediction": "",
       "prompt": [
         {
@@ -13814,7 +13814,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04204276699965703,
+      "latency": 0.04095737999887206,
       "prediction": "",
       "prompt": [
         {
@@ -13835,7 +13835,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.0407841889973497,
+      "latency": 0.04269847999967169,
       "prediction": "",
       "prompt": [
         {
@@ -13856,7 +13856,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.040547987999161705,
+      "latency": 0.04289341199910268,
       "prediction": "",
       "prompt": [
         {
@@ -13877,7 +13877,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041791124996962026,
+      "latency": 0.04304953300015768,
       "prediction": "",
       "prompt": [
         {
@@ -13898,7 +13898,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041198592000000644,
+      "latency": 0.04316426400328055,
       "prediction": "",
       "prompt": [
         {
@@ -13919,7 +13919,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.0406473389994062,
+      "latency": 0.0427527009996993,
       "prediction": "",
       "prompt": [
         {
@@ -13940,7 +13940,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.042373469001177,
+      "latency": 0.04291969200130552,
       "prediction": "",
       "prompt": [
         {
@@ -13961,7 +13961,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04073505999986082,
+      "latency": 0.04304775299897301,
       "prediction": "",
       "prompt": [
         {
@@ -13982,7 +13982,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.0406475390009291,
+      "latency": 0.043205732999922475,
       "prediction": "",
       "prompt": [
         {
@@ -14003,7 +14003,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041528194000420626,
+      "latency": 0.04306758299935609,
       "prediction": "",
       "prompt": [
         {
@@ -14024,7 +14024,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.0412029020008049,
+      "latency": 0.041748995001398725,
       "prediction": "",
       "prompt": [
         {
@@ -14045,7 +14045,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040796829998726025,
+      "latency": 0.041398322999157244,
       "prediction": "",
       "prompt": [
         {
@@ -14066,7 +14066,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04173778499898617,
+      "latency": 0.04133470200031297,
       "prediction": "",
       "prompt": [
         {
@@ -14087,7 +14087,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.040549117999034934,
+      "latency": 0.04086750999704236,
       "prediction": "",
       "prompt": [
         {
@@ -14108,7 +14108,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04053265899710823,
+      "latency": 0.041322602999571245,
       "prediction": "",
       "prompt": [
         {
@@ -14129,7 +14129,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04148575400176924,
+      "latency": 0.041690545000165,
       "prediction": "",
       "prompt": [
         {
@@ -14150,7 +14150,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04071909900085302,
+      "latency": 0.04088129000228946,
       "prediction": "",
       "prompt": [
         {
@@ -14171,7 +14171,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.0406857289999607,
+      "latency": 0.041281413003162015,
       "prediction": "",
       "prompt": [
         {
@@ -14192,7 +14192,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 12,
-      "latency": 0.04102563099877443,
+      "latency": 0.04165430500142975,
       "prediction": "",
       "prompt": [
         {
@@ -14213,7 +14213,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04113179200066952,
+      "latency": 0.04113009199863882,
       "prediction": "",
       "prompt": [
         {
@@ -14234,7 +14234,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04091078000055859,
+      "latency": 0.04176081499826978,
       "prediction": "",
       "prompt": [
         {
@@ -14255,7 +14255,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.042216657999233576,
+      "latency": 0.041675634998682654,
       "prediction": "",
       "prompt": [
         {
@@ -14276,7 +14276,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04062770900054602,
+      "latency": 0.042049247000250034,
       "prediction": "",
       "prompt": [
         {
@@ -14297,7 +14297,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04055541799971252,
+      "latency": 0.04126580199954333,
       "prediction": "",
       "prompt": [
         {
@@ -14318,7 +14318,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04176953600108391,
+      "latency": 0.041906795999238966,
       "prediction": "",
       "prompt": [
         {
@@ -14339,7 +14339,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04089787999691907,
+      "latency": 0.04202853699825937,
       "prediction": "",
       "prompt": [
         {
@@ -14360,7 +14360,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04064087799997651,
+      "latency": 0.04126776299744961,
       "prediction": "",
       "prompt": [
         {
@@ -14381,7 +14381,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04192984700057423,
+      "latency": 0.041251591999753146,
       "prediction": "",
       "prompt": [
         {
@@ -14402,7 +14402,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04107349200057797,
+      "latency": 0.041564364000805654,
       "prediction": "",
       "prompt": [
         {
@@ -14423,7 +14423,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04102449099809746,
+      "latency": 0.0413190229992324,
       "prediction": "",
       "prompt": [
         {
@@ -14444,7 +14444,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04141796400290332,
+      "latency": 0.04166309500214993,
       "prediction": "",
       "prompt": [
         {
@@ -14465,7 +14465,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041277952997916145,
+      "latency": 0.0431817040007445,
       "prediction": "",
       "prompt": [
         {
@@ -14486,7 +14486,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041538083998602815,
+      "latency": 0.0439740490000986,
       "prediction": "",
       "prompt": [
         {
@@ -14507,7 +14507,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041600443997594994,
+      "latency": 0.04373434700028156,
       "prediction": "",
       "prompt": [
         {
@@ -14528,7 +14528,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04140734300017357,
+      "latency": 0.043173523001314607,
       "prediction": "",
       "prompt": [
         {
@@ -14549,7 +14549,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041394482999749016,
+      "latency": 0.04370198700053152,
       "prediction": "",
       "prompt": [
         {
@@ -14570,7 +14570,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04129388300134451,
+      "latency": 0.0425462700004573,
       "prediction": "",
       "prompt": [
         {
@@ -14591,7 +14591,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.042035287002363475,
+      "latency": 0.0434189650004555,
       "prediction": "",
       "prompt": [
         {
@@ -14612,7 +14612,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04149285399762448,
+      "latency": 0.04391926799871726,
       "prediction": "",
       "prompt": [
         {
@@ -14633,7 +14633,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041073860997130396,
+      "latency": 0.04288431199893239,
       "prediction": "",
       "prompt": [
         {
@@ -14654,7 +14654,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04215075799947954,
+      "latency": 0.04320451400053571,
       "prediction": "",
       "prompt": [
         {
@@ -14675,7 +14675,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04160345400305232,
+      "latency": 0.04216045800058055,
       "prediction": "",
       "prompt": [
         {
@@ -14696,7 +14696,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.04113574200164294,
+      "latency": 0.04241422899940517,
       "prediction": "",
       "prompt": [
         {
@@ -14717,7 +14717,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04139697400023579,
+      "latency": 0.04224821800016798,
       "prediction": "",
       "prompt": [
         {
@@ -14738,7 +14738,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04150858399952995,
+      "latency": 0.04144454400011455,
       "prediction": "",
       "prompt": [
         {
@@ -14759,7 +14759,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04140609300156939,
+      "latency": 0.04120185200008564,
       "prediction": "",
       "prompt": [
         {
@@ -14780,7 +14780,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04082964999906835,
+      "latency": 0.04231067799992161,
       "prediction": "",
       "prompt": [
         {
@@ -14801,7 +14801,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04188506599894026,
+      "latency": 0.04126549200009322,
       "prediction": "",
       "prompt": [
         {
@@ -14822,7 +14822,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041164072001265595,
+      "latency": 0.04091171999971266,
       "prediction": "",
       "prompt": [
         {
@@ -14843,7 +14843,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04088219000186655,
+      "latency": 0.0437168370008294,
       "prediction": "",
       "prompt": [
         {
@@ -14864,7 +14864,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04197166699668742,
+      "latency": 0.0427762809995329,
       "prediction": "",
       "prompt": [
         {
@@ -14885,7 +14885,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0418671160005033,
+      "latency": 0.042483219996938715,
       "prediction": "",
       "prompt": [
         {
@@ -14906,7 +14906,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0413757229980547,
+      "latency": 0.04225225799746113,
       "prediction": "",
       "prompt": [
         {
@@ -14927,7 +14927,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04118125199966016,
+      "latency": 0.043935167999734404,
       "prediction": "",
       "prompt": [
         {
@@ -14948,7 +14948,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.041523894000420114,
+      "latency": 0.043783836998045444,
       "prediction": "",
       "prompt": [
         {
@@ -14969,7 +14969,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04140394299975014,
+      "latency": 0.043055622998508625,
       "prediction": "",
       "prompt": [
         {
@@ -14990,7 +14990,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04113064199918881,
+      "latency": 0.043175673999940045,
       "prediction": "",
       "prompt": [
         {
@@ -15011,7 +15011,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04187035599898081,
+      "latency": 0.04279588200006401,
       "prediction": "",
       "prompt": [
         {
@@ -15032,7 +15032,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.04109838200020022,
+      "latency": 0.04295376200025203,
       "prediction": "",
       "prompt": [
         {
@@ -15053,7 +15053,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04092373000094085,
+      "latency": 0.043505866000487003,
       "prediction": "",
       "prompt": [
         {
@@ -15074,7 +15074,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04225612799928058,
+      "latency": 0.043206892998568946,
       "prediction": "",
       "prompt": [
         {
@@ -15095,7 +15095,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04148754400011967,
+      "latency": 0.04189169600067544,
       "prediction": "",
       "prompt": [
         {
@@ -15116,7 +15116,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 11,
-      "latency": 0.041376543002115795,
+      "latency": 0.04241927899784059,
       "prediction": "",
       "prompt": [
         {
@@ -15137,7 +15137,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04111657100293087,
+      "latency": 0.04452385200056597,
       "prediction": "",
       "prompt": [
         {
@@ -15158,7 +15158,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04244052899957751,
+      "latency": 0.04499294400011422,
       "prediction": "",
       "prompt": [
         {
@@ -15179,7 +15179,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04124117299943464,
+      "latency": 0.04585633000169764,
       "prediction": "",
       "prompt": [
         {
@@ -15200,7 +15200,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 13,
-      "latency": 0.041131511999992654,
+      "latency": 0.044596761999855516,
       "prediction": "",
       "prompt": [
         {
@@ -15221,7 +15221,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04139305300122942,
+      "latency": 0.044528241000080016,
       "prediction": "",
       "prompt": [
         {
@@ -15242,7 +15242,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04151223399821902,
+      "latency": 0.043834518000949174,
       "prediction": "",
       "prompt": [
         {
@@ -15263,7 +15263,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04133015300249099,
+      "latency": 0.04367510600059177,
       "prediction": "",
       "prompt": [
         {
@@ -15284,7 +15284,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.041351482999743894,
+      "latency": 0.04463692299759714,
       "prediction": "",
       "prompt": [
         {
@@ -15305,7 +15305,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04146398399825557,
+      "latency": 0.044185910002852324,
       "prediction": "",
       "prompt": [
         {
@@ -15326,7 +15326,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04146928399859462,
+      "latency": 0.04383124800006044,
       "prediction": "",
       "prompt": [
         {
@@ -15347,7 +15347,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04096777000086149,
+      "latency": 0.043619066000246676,
       "prediction": "",
       "prompt": [
         {
@@ -15368,7 +15368,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 19,
-      "latency": 0.04156858499845839,
+      "latency": 0.043616666000161786,
       "prediction": "",
       "prompt": [
         {
@@ -15389,7 +15389,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04108905099928961,
+      "latency": 0.04273476100206608,
       "prediction": "",
       "prompt": [
         {
@@ -15410,7 +15410,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04094341000018176,
+      "latency": 0.04265820000000531,
       "prediction": "",
       "prompt": [
         {
@@ -15431,7 +15431,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.042097536999790464,
+      "latency": 0.04344701499940129,
       "prediction": "",
       "prompt": [
         {
@@ -15452,7 +15452,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.041218931997718755,
+      "latency": 0.04406344799645012,
       "prediction": "",
       "prompt": [
         {
@@ -15473,7 +15473,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04160816400326439,
+      "latency": 0.04360104599982151,
       "prediction": "",
       "prompt": [
         {
@@ -15494,7 +15494,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04153794400190236,
+      "latency": 0.04403460899993661,
       "prediction": "",
       "prompt": [
         {
@@ -15515,7 +15515,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04135980300270603,
+      "latency": 0.04328376400007983,
       "prediction": "",
       "prompt": [
         {
@@ -15536,7 +15536,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.041392183000425575,
+      "latency": 0.042803891003131866,
       "prediction": "",
       "prompt": [
         {
@@ -15557,7 +15557,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041090840997640043,
+      "latency": 0.04250047000095947,
       "prediction": "",
       "prompt": [
         {
@@ -15578,7 +15578,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0423901689973718,
+      "latency": 0.04352128600294236,
       "prediction": "",
       "prompt": [
         {
@@ -15599,7 +15599,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04129745200043544,
+      "latency": 0.04399245899912785,
       "prediction": "",
       "prompt": [
         {
@@ -15620,7 +15620,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04104500099856523,
+      "latency": 0.043658057002176065,
       "prediction": "",
       "prompt": [
         {
@@ -15641,7 +15641,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04232539900112897,
+      "latency": 0.04301757299981546,
       "prediction": "",
       "prompt": [
         {
@@ -15662,7 +15662,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041546543998265406,
+      "latency": 0.042788811999344034,
       "prediction": "",
       "prompt": [
         {
@@ -15683,7 +15683,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04146827300064615,
+      "latency": 0.04255297999770846,
       "prediction": "",
       "prompt": [
         {
@@ -15704,7 +15704,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 28,
-      "latency": 0.04133879299843102,
+      "latency": 0.04333372499968391,
       "prediction": "",
       "prompt": [
         {
@@ -15725,7 +15725,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04212981700038654,
+      "latency": 0.04317083299974911,
       "prediction": "",
       "prompt": [
         {
@@ -15746,7 +15746,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04111176200240152,
+      "latency": 0.04337209499863093,
       "prediction": "",
       "prompt": [
         {
@@ -15767,7 +15767,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04105182099738158,
+      "latency": 0.04293752200101153,
       "prediction": "",
       "prompt": [
         {
@@ -15788,7 +15788,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.041659493999759434,
+      "latency": 0.0426266200011014,
       "prediction": "",
       "prompt": [
         {
@@ -15809,7 +15809,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04114084200045909,
+      "latency": 0.04361198599872296,
       "prediction": "",
       "prompt": [
         {
@@ -15830,7 +15830,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04130597299808869,
+      "latency": 0.04307199300092179,
       "prediction": "",
       "prompt": [
         {
@@ -15851,7 +15851,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041247622000810225,
+      "latency": 0.04276356099944678,
       "prediction": "",
       "prompt": [
         {
@@ -15872,7 +15872,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.04166486400208669,
+      "latency": 0.04256935000012163,
       "prediction": "",
       "prompt": [
         {
@@ -15893,7 +15893,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04137810299653211,
+      "latency": 0.04256481099946541,
       "prediction": "",
       "prompt": [
         {
@@ -15914,7 +15914,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041467663999355864,
+      "latency": 0.04354589600188774,
       "prediction": "",
       "prompt": [
         {
@@ -15935,7 +15935,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.042112376999284606,
+      "latency": 0.04378405799798202,
       "prediction": "",
       "prompt": [
         {
@@ -15956,7 +15956,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.041009620999830076,
+      "latency": 0.043136903001141036,
       "prediction": "",
       "prompt": [
         {
@@ -15977,7 +15977,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04090848999840091,
+      "latency": 0.04283155200027977,
       "prediction": "",
       "prompt": [
         {
@@ -15998,7 +15998,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041931946001568576,
+      "latency": 0.042543409999780124,
       "prediction": "",
       "prompt": [
         {
@@ -16019,7 +16019,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04115080200062948,
+      "latency": 0.04300750300171785,
       "prediction": "",
       "prompt": [
         {
@@ -16040,7 +16040,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04126249199907761,
+      "latency": 0.04354010599854519,
       "prediction": "",
       "prompt": [
         {
@@ -16061,7 +16061,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04143571299937321,
+      "latency": 0.043684986001608195,
       "prediction": "",
       "prompt": [
         {
@@ -16082,7 +16082,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041523785002937075,
+      "latency": 0.042951422998157796,
       "prediction": "",
       "prompt": [
         {
@@ -16103,7 +16103,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04160387400042964,
+      "latency": 0.04238964899923303,
       "prediction": "",
       "prompt": [
         {
@@ -16124,7 +16124,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.041114750998531235,
+      "latency": 0.043345795002096565,
       "prediction": "",
       "prompt": [
         {
@@ -16145,7 +16145,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04144137399998726,
+      "latency": 0.04411751899897354,
       "prediction": "",
       "prompt": [
         {
@@ -16166,7 +16166,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041240332000597846,
+      "latency": 0.04357068600074854,
       "prediction": "",
       "prompt": [
         {
@@ -16187,7 +16187,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04088713999954052,
+      "latency": 0.04298228200059384,
       "prediction": "",
       "prompt": [
         {
@@ -16208,7 +16208,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04170815399993444,
+      "latency": 0.04309456299961312,
       "prediction": "",
       "prompt": [
         {
@@ -16229,7 +16229,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04121731200211798,
+      "latency": 0.04226343799746246,
       "prediction": "",
       "prompt": [
         {
@@ -16250,7 +16250,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04096033099995111,
+      "latency": 0.04325492399948416,
       "prediction": "",
       "prompt": [
         {
@@ -16271,7 +16271,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.041781205000006594,
+      "latency": 0.04453723200276727,
       "prediction": "",
       "prompt": [
         {
@@ -16292,7 +16292,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04102208099720883,
+      "latency": 0.04317521299890359,
       "prediction": "",
       "prompt": [
         {
@@ -16313,7 +16313,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04128341300020111,
+      "latency": 0.0423586590004561,
       "prediction": "",
       "prompt": [
         {
@@ -16334,7 +16334,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.042009107000922086,
+      "latency": 0.04252911000003223,
       "prediction": "",
       "prompt": [
         {
@@ -16355,7 +16355,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04207144699830678,
+      "latency": 0.044080988998757675,
       "prediction": "",
       "prompt": [
         {
@@ -16376,7 +16376,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.041054231998714386,
+      "latency": 0.043842468003276736,
       "prediction": "",
       "prompt": [
         {
@@ -16397,7 +16397,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040856179999536835,
+      "latency": 0.043377794998377794,
       "prediction": "",
       "prompt": [
         {
@@ -16418,7 +16418,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04153864399995655,
+      "latency": 0.043269543999485904,
       "prediction": "",
       "prompt": [
         {
@@ -16439,7 +16439,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04099082999891834,
+      "latency": 0.04325888400126132,
       "prediction": "",
       "prompt": [
         {
@@ -16460,7 +16460,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04098309099936159,
+      "latency": 0.042933712000376545,
       "prediction": "",
       "prompt": [
         {
@@ -16481,7 +16481,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04195191599865211,
+      "latency": 0.04317684399939026,
       "prediction": "",
       "prompt": [
         {
@@ -16502,7 +16502,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04097713100054534,
+      "latency": 0.04385023799841292,
       "prediction": "",
       "prompt": [
         {
@@ -16523,7 +16523,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04135521299758693,
+      "latency": 0.0436696770011622,
       "prediction": "",
       "prompt": [
         {
@@ -16544,7 +16544,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 13,
-      "latency": 0.042073627999343444,
+      "latency": 0.04293569299989031,
       "prediction": "",
       "prompt": [
         {
@@ -16565,7 +16565,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04181610600062413,
+      "latency": 0.04231381800127565,
       "prediction": "",
       "prompt": [
         {
@@ -16586,7 +16586,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04102070100270794,
+      "latency": 0.04284531200028141,
       "prediction": "",
       "prompt": [
         {
@@ -16607,7 +16607,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04111940100119682,
+      "latency": 0.043697476998204365,
       "prediction": "",
       "prompt": [
         {
@@ -16628,7 +16628,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.04138442299881717,
+      "latency": 0.04436768099913024,
       "prediction": "",
       "prompt": [
         {
@@ -16649,7 +16649,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041312293000373757,
+      "latency": 0.04335222500230884,
       "prediction": "",
       "prompt": [
         {
@@ -16670,7 +16670,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04125218199988012,
+      "latency": 0.042570549998345086,
       "prediction": "",
       "prompt": [
         {
@@ -16691,7 +16691,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04205069700037711,
+      "latency": 0.04207986799883656,
       "prediction": "",
       "prompt": [
         {
@@ -16712,7 +16712,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 12,
-      "latency": 0.04155074400114245,
+      "latency": 0.04357235600036802,
       "prediction": "",
       "prompt": [
         {
@@ -16733,7 +16733,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04134995300046285,
+      "latency": 0.043776357000751887,
       "prediction": "",
       "prompt": [
         {
@@ -16754,7 +16754,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0412561220000498,
+      "latency": 0.04268362099901424,
       "prediction": "",
       "prompt": [
         {
@@ -16775,7 +16775,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04125340300015523,
+      "latency": 0.04258549999940442,
       "prediction": "",
       "prompt": [
         {
@@ -16796,7 +16796,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04186930499781738,
+      "latency": 0.04222223800024949,
       "prediction": "",
       "prompt": [
         {
@@ -16817,7 +16817,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04105805099970894,
+      "latency": 0.04398886800117907,
       "prediction": "",
       "prompt": [
         {
@@ -16838,7 +16838,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04204647699953057,
+      "latency": 0.0438070179989154,
       "prediction": "",
       "prompt": [
         {
@@ -16859,7 +16859,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041672354000183986,
+      "latency": 0.04290887200113502,
       "prediction": "",
       "prompt": [
         {
@@ -16880,7 +16880,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04141644400078803,
+      "latency": 0.04304331300227204,
       "prediction": "",
       "prompt": [
         {
@@ -16901,7 +16901,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04208411800209433,
+      "latency": 0.04201112699956866,
       "prediction": "",
       "prompt": [
         {
@@ -16922,7 +16922,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04200264699829859,
+      "latency": 0.04406625900082872,
       "prediction": "",
       "prompt": [
         {
@@ -16943,7 +16943,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.040837289998307824,
+      "latency": 0.043300524001097074,
       "prediction": "",
       "prompt": [
         {
@@ -16964,7 +16964,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 25,
-      "latency": 0.04073295900161611,
+      "latency": 0.042900532000203384,
       "prediction": "",
       "prompt": [
         {
@@ -16985,7 +16985,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042113207000511466,
+      "latency": 0.04202017699935823,
       "prediction": "",
       "prompt": [
         {
@@ -17006,7 +17006,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.040888929997890955,
+      "latency": 0.04326752399720135,
       "prediction": "",
       "prompt": [
         {
@@ -17027,7 +17027,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04093823000221164,
+      "latency": 0.044101739000325324,
       "prediction": "",
       "prompt": [
         {
@@ -17048,7 +17048,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 23,
-      "latency": 0.041709555000124965,
+      "latency": 0.04394955800307798,
       "prediction": "",
       "prompt": [
         {
@@ -17069,7 +17069,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0413143929981743,
+      "latency": 0.043610715998511296,
       "prediction": "",
       "prompt": [
         {
@@ -17090,7 +17090,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04078727999876719,
+      "latency": 0.0427253709967772,
       "prediction": "",
       "prompt": [
         {
@@ -17111,7 +17111,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.042220197999995435,
+      "latency": 0.04219857799762394,
       "prediction": "",
       "prompt": [
         {
@@ -17132,7 +17132,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04117760200097109,
+      "latency": 0.042921502001263434,
       "prediction": "",
       "prompt": [
         {
@@ -17153,7 +17153,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04074748899802216,
+      "latency": 0.043918597999436315,
       "prediction": "",
       "prompt": [
         {
@@ -17174,7 +17174,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041834096002276056,
+      "latency": 0.043363223998312606,
       "prediction": "",
       "prompt": [
         {
@@ -17195,7 +17195,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04059848900215002,
+      "latency": 0.04351116600082605,
       "prediction": "",
       "prompt": [
         {
@@ -17216,7 +17216,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04072380900106509,
+      "latency": 0.04235262899965164,
       "prediction": "",
       "prompt": [
         {
@@ -17237,7 +17237,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04199853699901723,
+      "latency": 0.04248694000125397,
       "prediction": "",
       "prompt": [
         {
@@ -17258,7 +17258,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040811759001371684,
+      "latency": 0.04356850600015605,
       "prediction": "",
       "prompt": [
         {
@@ -17279,7 +17279,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.040481997002643766,
+      "latency": 0.04410293900218676,
       "prediction": "",
       "prompt": [
         {
@@ -17300,7 +17300,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04229656900133705,
+      "latency": 0.043124264000653056,
       "prediction": "",
       "prompt": [
         {
@@ -17321,7 +17321,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04121998299888219,
+      "latency": 0.04280188199845725,
       "prediction": "",
       "prompt": [
         {
@@ -17342,7 +17342,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04089921999911894,
+      "latency": 0.041994496998086106,
       "prediction": "",
       "prompt": [
         {
@@ -17363,7 +17363,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04151988400190021,
+      "latency": 0.04340798500197707,
       "prediction": "",
       "prompt": [
         {
@@ -17384,7 +17384,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.040902600001572864,
+      "latency": 0.04327169400130515,
       "prediction": "",
       "prompt": [
         {
@@ -17405,7 +17405,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041020980999746826,
+      "latency": 0.04270824999912293,
       "prediction": "",
       "prompt": [
         {
@@ -17426,7 +17426,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041790085000684485,
+      "latency": 0.0423905690004176,
       "prediction": "",
       "prompt": [
         {
@@ -17447,7 +17447,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04099381000196445,
+      "latency": 0.04316925300008734,
       "prediction": "",
       "prompt": [
         {
@@ -17468,7 +17468,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.040697028998692986,
+      "latency": 0.04413589999967371,
       "prediction": "",
       "prompt": [
         {
@@ -17489,7 +17489,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0420679070011829,
+      "latency": 0.04357455600256799,
       "prediction": "",
       "prompt": [
         {
@@ -17510,7 +17510,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04126840300159529,
+      "latency": 0.043112803003168665,
       "prediction": "",
       "prompt": [
         {
@@ -17531,7 +17531,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04077526899709483,
+      "latency": 0.04286119199969107,
       "prediction": "",
       "prompt": [
         {
@@ -17552,7 +17552,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04168209400086198,
+      "latency": 0.04236156899787602,
       "prediction": "",
       "prompt": [
         {
@@ -17573,7 +17573,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04130244300176855,
+      "latency": 0.04397468799652415,
       "prediction": "",
       "prompt": [
         {
@@ -17594,7 +17594,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040942470001027687,
+      "latency": 0.04400627900031395,
       "prediction": "",
       "prompt": [
         {
@@ -17615,7 +17615,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04187452600308461,
+      "latency": 0.043831727001816034,
       "prediction": "",
       "prompt": [
         {
@@ -17636,7 +17636,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04121710199979134,
+      "latency": 0.04318922300080885,
       "prediction": "",
       "prompt": [
         {
@@ -17657,7 +17657,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04079700000147568,
+      "latency": 0.04250893000062206,
       "prediction": "",
       "prompt": [
         {
@@ -17678,7 +17678,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0420246869980474,
+      "latency": 0.0427086909985519,
       "prediction": "",
       "prompt": [
         {
@@ -17699,7 +17699,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041662184998131124,
+      "latency": 0.043692376999388216,
       "prediction": "",
       "prompt": [
         {
@@ -17720,7 +17720,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 23,
-      "latency": 0.04150938300153939,
+      "latency": 0.043887817999348044,
       "prediction": "",
       "prompt": [
         {
@@ -17741,7 +17741,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04210518800027785,
+      "latency": 0.04279986199981067,
       "prediction": "",
       "prompt": [
         {
@@ -17762,7 +17762,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04205530599938356,
+      "latency": 0.041934607001167024,
       "prediction": "",
       "prompt": [
         {
@@ -17783,7 +17783,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04143663300055778,
+      "latency": 0.04255621000265819,
       "prediction": "",
       "prompt": [
         {
@@ -17804,7 +17804,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 26,
-      "latency": 0.04115628199724597,
+      "latency": 0.04407527899820707,
       "prediction": "",
       "prompt": [
         {
@@ -17825,7 +17825,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0420123669973691,
+      "latency": 0.04339061499922536,
       "prediction": "",
       "prompt": [
         {
@@ -17846,7 +17846,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041294562000985024,
+      "latency": 0.04320182300216402,
       "prediction": "",
       "prompt": [
         {
@@ -17867,7 +17867,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041342432999954326,
+      "latency": 0.043258934001642046,
       "prediction": "",
       "prompt": [
         {
@@ -17888,7 +17888,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 28,
-      "latency": 0.04196021700045094,
+      "latency": 0.04240589999972144,
       "prediction": "",
       "prompt": [
         {
@@ -17909,7 +17909,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04183017600007588,
+      "latency": 0.043677475998265436,
       "prediction": "",
       "prompt": [
         {
@@ -17930,7 +17930,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041283402002591174,
+      "latency": 0.04415405899999314,
       "prediction": "",
       "prompt": [
         {
@@ -17951,7 +17951,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04101685099885799,
+      "latency": 0.0451523849988007,
       "prediction": "",
       "prompt": [
         {
@@ -17972,7 +17972,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 26,
-      "latency": 0.04229596799996216,
+      "latency": 0.04312637299881317,
       "prediction": "",
       "prompt": [
         {
@@ -17993,7 +17993,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041496474001178285,
+      "latency": 0.04277426099724835,
       "prediction": "",
       "prompt": [
         {
@@ -18014,7 +18014,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04111509100039257,
+      "latency": 0.042627261002053274,
       "prediction": "",
       "prompt": [
         {
@@ -18035,7 +18035,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04208186699906946,
+      "latency": 0.04387600799964275,
       "prediction": "",
       "prompt": [
         {
@@ -18056,7 +18056,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.04167114499796298,
+      "latency": 0.04399777900107438,
       "prediction": "",
       "prompt": [
         {
@@ -18077,7 +18077,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0414774140008376,
+      "latency": 0.043399915000918554,
       "prediction": "",
       "prompt": [
         {
@@ -18098,7 +18098,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04121554299854324,
+      "latency": 0.043479386000399245,
       "prediction": "",
       "prompt": [
         {
@@ -18119,7 +18119,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.042389068999909796,
+      "latency": 0.04251446999842301,
       "prediction": "",
       "prompt": [
         {
@@ -18140,7 +18140,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 27,
-      "latency": 0.04174648600019282,
+      "latency": 0.04249316999994335,
       "prediction": "",
       "prompt": [
         {
@@ -18161,7 +18161,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04091378999873996,
+      "latency": 0.04372194700044929,
       "prediction": "",
       "prompt": [
         {
@@ -18182,7 +18182,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04191411599822459,
+      "latency": 0.04411366899876157,
       "prediction": "",
       "prompt": [
         {
@@ -18203,7 +18203,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04088848999890615,
+      "latency": 0.04376629699982004,
       "prediction": "",
       "prompt": [
         {
@@ -18224,7 +18224,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04072313900178415,
+      "latency": 0.04347759500160464,
       "prediction": "",
       "prompt": [
         {
@@ -18245,7 +18245,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04200757699800306,
+      "latency": 0.04260719000012614,
       "prediction": "",
       "prompt": [
         {
@@ -18266,7 +18266,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040871109998988686,
+      "latency": 0.042162626999925124,
       "prediction": "",
       "prompt": [
         {
@@ -18287,7 +18287,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04071250899869483,
+      "latency": 0.043694567000784446,
       "prediction": "",
       "prompt": [
         {
@@ -18308,7 +18308,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 8,
-      "latency": 0.0418236759978754,
+      "latency": 0.043351945001631975,
       "prediction": "",
       "prompt": [
         {
@@ -18329,7 +18329,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04085329000008642,
+      "latency": 0.04311077400052454,
       "prediction": "",
       "prompt": [
         {
@@ -18350,7 +18350,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0408186900021974,
+      "latency": 0.04317144300148357,
       "prediction": "",
       "prompt": [
         {
@@ -18371,7 +18371,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04186112600291381,
+      "latency": 0.04231973799687694,
       "prediction": "",
       "prompt": [
         {
@@ -18392,7 +18392,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04111110200028634,
+      "latency": 0.04326358400066965,
       "prediction": "",
       "prompt": [
         {
@@ -18413,7 +18413,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040764589997706935,
+      "latency": 0.04341548600132228,
       "prediction": "",
       "prompt": [
         {
@@ -18434,7 +18434,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04168853500232217,
+      "latency": 0.042561569996905746,
       "prediction": "",
       "prompt": [
         {
@@ -18455,7 +18455,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04086491999987629,
+      "latency": 0.042067596998094814,
       "prediction": "",
       "prompt": [
         {
@@ -18476,7 +18476,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04091580000022077,
+      "latency": 0.04278888200133224,
       "prediction": "",
       "prompt": [
         {
@@ -18497,7 +18497,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04340897500151186,
+      "latency": 0.04388925700186519,
       "prediction": "",
       "prompt": [
         {
@@ -18518,7 +18518,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04247268000108306,
+      "latency": 0.043535595999856014,
       "prediction": "",
       "prompt": [
         {
@@ -18539,7 +18539,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.042169407999608666,
+      "latency": 0.04450898200229858,
       "prediction": "",
       "prompt": [
         {
@@ -18560,7 +18560,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.042538300000160234,
+      "latency": 0.042588030999468174,
       "prediction": "",
       "prompt": [
         {
@@ -18581,7 +18581,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041848365999612724,
+      "latency": 0.041857015999994474,
       "prediction": "",
       "prompt": [
         {
@@ -18602,7 +18602,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04241927900147857,
+      "latency": 0.04273467100210837,
       "prediction": "",
       "prompt": [
         {
@@ -18623,7 +18623,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04293082299773232,
+      "latency": 0.04258705100073712,
       "prediction": "",
       "prompt": [
         {
@@ -18644,7 +18644,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04075528899920755,
+      "latency": 0.04077759899882949,
       "prediction": "",
       "prompt": [
         {
@@ -18665,7 +18665,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041074890999880154,
+      "latency": 0.0409549709984276,
       "prediction": "",
       "prompt": [
         {
@@ -18686,7 +18686,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04163204400174436,
+      "latency": 0.04153981399940676,
       "prediction": "",
       "prompt": [
         {
@@ -18707,7 +18707,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04117740199944819,
+      "latency": 0.041464133999397745,
       "prediction": "",
       "prompt": [
         {
@@ -18728,7 +18728,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04098818100101198,
+      "latency": 0.04114848200333654,
       "prediction": "",
       "prompt": [
         {
@@ -18749,7 +18749,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04195309699935024,
+      "latency": 0.04141641400201479,
       "prediction": "",
       "prompt": [
         {
@@ -18770,7 +18770,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.040877669998735655,
+      "latency": 0.04208684699915466,
       "prediction": "",
       "prompt": [
         {
@@ -18791,7 +18791,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04081483899790328,
+      "latency": 0.04172966500118491,
       "prediction": "",
       "prompt": [
         {
@@ -18812,7 +18812,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.042190047999611124,
+      "latency": 0.04106143100216286,
       "prediction": "",
       "prompt": [
         {
@@ -18833,7 +18833,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04078539900001488,
+      "latency": 0.041817485998763004,
       "prediction": "",
       "prompt": [
         {
@@ -18854,7 +18854,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04085625000152504,
+      "latency": 0.04157349400338717,
       "prediction": "",
       "prompt": [
         {
@@ -18875,7 +18875,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04206630699991365,
+      "latency": 0.04092800000216812,
       "prediction": "",
       "prompt": [
         {
@@ -18896,7 +18896,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 19,
-      "latency": 0.04090526000072714,
+      "latency": 0.041149861997837434,
       "prediction": "",
       "prompt": [
         {
@@ -18917,7 +18917,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04073658000197611,
+      "latency": 0.041671484999824315,
       "prediction": "",
       "prompt": [
         {
@@ -18938,7 +18938,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.042176637001830386,
+      "latency": 0.04100505099995644,
       "prediction": "",
       "prompt": [
         {
@@ -18959,7 +18959,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04150736399969901,
+      "latency": 0.04177541500030202,
       "prediction": "",
       "prompt": [
         {
@@ -18980,7 +18980,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04112880100001348,
+      "latency": 0.041652395000710385,
       "prediction": "",
       "prompt": [
         {
@@ -19001,7 +19001,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04133242299940321,
+      "latency": 0.04125445200043032,
       "prediction": "",
       "prompt": [
         {
@@ -19022,7 +19022,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04196870600208058,
+      "latency": 0.041240221999032656,
       "prediction": "",
       "prompt": [
         {
@@ -19043,7 +19043,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041335682002682006,
+      "latency": 0.04222394800308393,
       "prediction": "",
       "prompt": [
         {
@@ -19064,7 +19064,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.04108809099852806,
+      "latency": 0.041394892999960575,
       "prediction": "",
       "prompt": [
         {
@@ -19085,7 +19085,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042362568998214556,
+      "latency": 0.040815069998643594,
       "prediction": "",
       "prompt": [
         {
@@ -19106,7 +19106,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04087323999920045,
+      "latency": 0.04169178499796544,
       "prediction": "",
       "prompt": [
         {
@@ -19127,7 +19127,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04084546000012779,
+      "latency": 0.0410937919987191,
       "prediction": "",
       "prompt": [
         {
@@ -19148,7 +19148,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.0419557960012753,
+      "latency": 0.04099007100012386,
       "prediction": "",
       "prompt": [
         {
@@ -19169,7 +19169,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041255852000176674,
+      "latency": 0.041342412998346845,
       "prediction": "",
       "prompt": [
         {
@@ -19190,7 +19190,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04114646199741401,
+      "latency": 0.041240012000343995,
       "prediction": "",
       "prompt": [
         {
@@ -19211,7 +19211,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04193008699803613,
+      "latency": 0.040986700001667487,
       "prediction": "",
       "prompt": [
         {
@@ -19232,7 +19232,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.04133323200221639,
+      "latency": 0.04129700300109107,
       "prediction": "",
       "prompt": [
         {
@@ -19253,7 +19253,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04103400100211729,
+      "latency": 0.04112618200088036,
       "prediction": "",
       "prompt": [
         {
@@ -19274,7 +19274,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04174809499818366,
+      "latency": 0.040773619999527,
       "prediction": "",
       "prompt": [
         {
@@ -19295,7 +19295,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04133013300088351,
+      "latency": 0.041881646000547335,
       "prediction": "",
       "prompt": [
         {
@@ -19316,7 +19316,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.041083890999289,
+      "latency": 0.041023060999577865,
       "prediction": "",
       "prompt": [
         {
@@ -19337,7 +19337,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0418637660004606,
+      "latency": 0.040954020001663594,
       "prediction": "",
       "prompt": [
         {
@@ -19358,7 +19358,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041786645000684075,
+      "latency": 0.04180626499874052,
       "prediction": "",
       "prompt": [
         {
@@ -19379,7 +19379,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.0417050849973748,
+      "latency": 0.04109080099806306,
       "prediction": "",
       "prompt": [
         {
@@ -19400,7 +19400,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04104553099750774,
+      "latency": 0.041228321999369655,
       "prediction": "",
       "prompt": [
         {
@@ -19421,7 +19421,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04158993500095676,
+      "latency": 0.04130479300147272,
       "prediction": "",
       "prompt": [
         {
@@ -19442,7 +19442,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04161156499685603,
+      "latency": 0.04113803200016264,
       "prediction": "",
       "prompt": [
         {
@@ -19463,7 +19463,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04141134299788973,
+      "latency": 0.04065390899995691,
       "prediction": "",
       "prompt": [
         {
@@ -19484,7 +19484,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.042091276998689864,
+      "latency": 0.04194356600055471,
       "prediction": "",
       "prompt": [
         {
@@ -19505,7 +19505,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04169278500194196,
+      "latency": 0.04104457100038417,
       "prediction": "",
       "prompt": [
         {
@@ -19526,7 +19526,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0410695710015716,
+      "latency": 0.04075816000113264,
       "prediction": "",
       "prompt": [
         {
@@ -19547,7 +19547,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04112148199783405,
+      "latency": 0.04197236600157339,
       "prediction": "",
       "prompt": [
         {
@@ -19568,7 +19568,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 12,
-      "latency": 0.04209172699847841,
+      "latency": 0.041318351999507286,
       "prediction": "",
       "prompt": [
         {
@@ -19589,7 +19589,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041517434001434594,
+      "latency": 0.040924819997599116,
       "prediction": "",
       "prompt": [
         {
@@ -19610,7 +19610,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04118443200059119,
+      "latency": 0.04172635600116337,
       "prediction": "",
       "prompt": [
         {
@@ -19631,7 +19631,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04199165599857224,
+      "latency": 0.04173176500262343,
       "prediction": "",
       "prompt": [
         {
@@ -19652,7 +19652,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04182603600202128,
+      "latency": 0.04102545100249699,
       "prediction": "",
       "prompt": [
         {
@@ -19673,7 +19673,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04167708499880973,
+      "latency": 0.0415310540010978,
       "prediction": "",
       "prompt": [
         {
@@ -19694,7 +19694,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04140697299953899,
+      "latency": 0.04136469299919554,
       "prediction": "",
       "prompt": [
         {
@@ -19715,7 +19715,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.0422748880009749,
+      "latency": 0.04089187999852584,
       "prediction": "",
       "prompt": [
         {
@@ -19736,7 +19736,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04132023300189758,
+      "latency": 0.041750345000764355,
       "prediction": "",
       "prompt": [
         {
@@ -19757,7 +19757,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041501783998683095,
+      "latency": 0.041422323000006145,
       "prediction": "",
       "prompt": [
         {
@@ -19778,7 +19778,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04158877499867231,
+      "latency": 0.04080649000025005,
       "prediction": "",
       "prompt": [
         {
@@ -19799,7 +19799,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.041271352001786,
+      "latency": 0.04200166699956753,
       "prediction": "",
       "prompt": [
         {
@@ -19820,7 +19820,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.040993960999912815,
+      "latency": 0.041184532001352636,
       "prediction": "",
       "prompt": [
         {
@@ -19841,7 +19841,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04175945599854458,
+      "latency": 0.040748049003013875,
       "prediction": "",
       "prompt": [
         {
@@ -19862,7 +19862,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.042100066999410046,
+      "latency": 0.04158640499736066,
       "prediction": "",
       "prompt": [
         {
@@ -19883,7 +19883,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04106232200138038,
+      "latency": 0.04107996099992306,
       "prediction": "",
       "prompt": [
         {
@@ -19904,7 +19904,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04068202900089091,
+      "latency": 0.040901559998019366,
       "prediction": "",
       "prompt": [
         {
@@ -19925,7 +19925,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04224530799911008,
+      "latency": 0.04179252500034636,
       "prediction": "",
       "prompt": [
         {
@@ -19946,7 +19946,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04117635100192274,
+      "latency": 0.04129219300011755,
       "prediction": "",
       "prompt": [
         {
@@ -19967,7 +19967,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.040634008997585624,
+      "latency": 0.040884990001359256,
       "prediction": "",
       "prompt": [
         {
@@ -19988,7 +19988,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.0416455050035438,
+      "latency": 0.04174212500220165,
       "prediction": "",
       "prompt": [
         {
@@ -20009,7 +20009,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04094022100252914,
+      "latency": 0.04117643200152088,
       "prediction": "",
       "prompt": [
         {
@@ -20030,7 +20030,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0408186390013725,
+      "latency": 0.04086438100057421,
       "prediction": "",
       "prompt": [
         {
@@ -20051,7 +20051,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04157445500095491,
+      "latency": 0.04214708700237679,
       "prediction": "",
       "prompt": [
         {
@@ -20072,7 +20072,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.04109782099840231,
+      "latency": 0.04122683199966559,
       "prediction": "",
       "prompt": [
         {
@@ -20093,7 +20093,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040571657998953015,
+      "latency": 0.04087523000271176,
       "prediction": "",
       "prompt": [
         {
@@ -20114,7 +20114,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.0414394639992679,
+      "latency": 0.04198236700176494,
       "prediction": "",
       "prompt": [
         {
@@ -20135,7 +20135,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04093980000106967,
+      "latency": 0.041123090999462875,
       "prediction": "",
       "prompt": [
         {
@@ -20156,7 +20156,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04064584799925797,
+      "latency": 0.040841160000127275,
       "prediction": "",
       "prompt": [
         {
@@ -20177,7 +20177,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041970715999923414,
+      "latency": 0.04202791699935915,
       "prediction": "",
       "prompt": [
         {
@@ -20198,7 +20198,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041282873000454856,
+      "latency": 0.04097282099974109,
       "prediction": "",
       "prompt": [
         {
@@ -20219,7 +20219,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04106348099958268,
+      "latency": 0.04077808999863919,
       "prediction": "",
       "prompt": [
         {
@@ -20240,7 +20240,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.041914915997040225,
+      "latency": 0.0417885649985692,
       "prediction": "",
       "prompt": [
         {
@@ -20261,7 +20261,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04070617900288198,
+      "latency": 0.04113474100086023,
       "prediction": "",
       "prompt": [
         {
@@ -20282,7 +20282,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0407166299992241,
+      "latency": 0.041255861997342436,
       "prediction": "",
       "prompt": [
         {
@@ -20303,7 +20303,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04150621400185628,
+      "latency": 0.04202426700067008,
       "prediction": "",
       "prompt": [
         {
@@ -20324,7 +20324,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04089389000000665,
+      "latency": 0.041181391999998596,
       "prediction": "",
       "prompt": [
         {
@@ -20345,7 +20345,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0405797489984252,
+      "latency": 0.04105813099886291,
       "prediction": "",
       "prompt": [
         {
@@ -20366,7 +20366,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04154158400342567,
+      "latency": 0.041194101999280974,
       "prediction": "",
       "prompt": [
         {
@@ -20387,7 +20387,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04127857200001017,
+      "latency": 0.04206819699902553,
       "prediction": "",
       "prompt": [
         {
@@ -20408,7 +20408,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.04053967899744748,
+      "latency": 0.04111216099772719,
       "prediction": "",
       "prompt": [
         {
@@ -20429,7 +20429,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04176580499915872,
+      "latency": 0.04131288300050073,
       "prediction": "",
       "prompt": [
         {
@@ -20450,7 +20450,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04116092099866364,
+      "latency": 0.041919915998732904,
       "prediction": "",
       "prompt": [
         {
@@ -20471,7 +20471,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04070179900008952,
+      "latency": 0.041426173000218114,
       "prediction": "",
       "prompt": [
         {
@@ -20492,7 +20492,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 11,
-      "latency": 0.041830866000964306,
+      "latency": 0.041064891000132775,
       "prediction": "",
       "prompt": [
         {
@@ -20513,7 +20513,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04091827099910006,
+      "latency": 0.041893115998391295,
       "prediction": "",
       "prompt": [
         {
@@ -20534,7 +20534,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040947890000097686,
+      "latency": 0.041135101000691066,
       "prediction": "",
       "prompt": [
         {
@@ -20555,7 +20555,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04164323499935563,
+      "latency": 0.040694849001738476,
       "prediction": "",
       "prompt": [
         {
@@ -20576,7 +20576,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 13,
-      "latency": 0.04094729099961114,
+      "latency": 0.04148847399847,
       "prediction": "",
       "prompt": [
         {
@@ -20597,7 +20597,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040799120000883704,
+      "latency": 0.04118048199961777,
       "prediction": "",
       "prompt": [
         {
@@ -20618,7 +20618,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04143257299801917,
+      "latency": 0.040872129997296724,
       "prediction": "",
       "prompt": [
         {
@@ -20639,7 +20639,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041172620996803744,
+      "latency": 0.04145980299654184,
       "prediction": "",
       "prompt": [
         {
@@ -20660,7 +20660,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.040775549998215865,
+      "latency": 0.04113040200172691,
       "prediction": "",
       "prompt": [
         {
@@ -20681,7 +20681,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041649464998045005,
+      "latency": 0.04088996000064071,
       "prediction": "",
       "prompt": [
         {
@@ -20702,7 +20702,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04119554199860431,
+      "latency": 0.04231805899689789,
       "prediction": "",
       "prompt": [
         {
@@ -20723,7 +20723,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.040707979002036154,
+      "latency": 0.04099110099923564,
       "prediction": "",
       "prompt": [
         {
@@ -20744,7 +20744,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 19,
-      "latency": 0.041963717001635814,
+      "latency": 0.04085227999894414,
       "prediction": "",
       "prompt": [
         {
@@ -20765,7 +20765,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04100442100025248,
+      "latency": 0.04152396399877034,
       "prediction": "",
       "prompt": [
         {
@@ -20786,7 +20786,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04061900800297735,
+      "latency": 0.04093163099969388,
       "prediction": "",
       "prompt": [
         {
@@ -20807,7 +20807,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.0414549140004965,
+      "latency": 0.04067472899987479,
       "prediction": "",
       "prompt": [
         {
@@ -20828,7 +20828,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04115106199969887,
+      "latency": 0.041056961003050674,
       "prediction": "",
       "prompt": [
         {
@@ -20849,7 +20849,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04086554999958025,
+      "latency": 0.04062783900008071,
       "prediction": "",
       "prompt": [
         {
@@ -20870,7 +20870,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04152863399940543,
+      "latency": 0.04151380400071503,
       "prediction": "",
       "prompt": [
         {
@@ -20891,7 +20891,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04079086999990977,
+      "latency": 0.0420223969995277,
       "prediction": "",
       "prompt": [
         {
@@ -20912,7 +20912,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04073460900326609,
+      "latency": 0.0414200939994771,
       "prediction": "",
       "prompt": [
         {
@@ -20933,7 +20933,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041751274999114685,
+      "latency": 0.040951729999505915,
       "prediction": "",
       "prompt": [
         {
@@ -20954,7 +20954,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041323743000248214,
+      "latency": 0.04249645000163582,
       "prediction": "",
       "prompt": [
         {
@@ -20975,7 +20975,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04076105900094262,
+      "latency": 0.04128822299753665,
       "prediction": "",
       "prompt": [
         {
@@ -20996,7 +20996,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04220014800011995,
+      "latency": 0.04094740100117633,
       "prediction": "",
       "prompt": [
         {
@@ -21017,7 +21017,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04097204000208876,
+      "latency": 0.041748255000129575,
       "prediction": "",
       "prompt": [
         {
@@ -21038,7 +21038,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040732879999268334,
+      "latency": 0.0412836920004338,
       "prediction": "",
       "prompt": [
         {
@@ -21059,7 +21059,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041966125998442294,
+      "latency": 0.04109968199918512,
       "prediction": "",
       "prompt": [
         {
@@ -21080,7 +21080,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 28,
-      "latency": 0.041154170998197515,
+      "latency": 0.041621315001975745,
       "prediction": "",
       "prompt": [
         {
@@ -21101,7 +21101,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040781820000120206,
+      "latency": 0.04138754300220171,
       "prediction": "",
       "prompt": [
         {
@@ -21122,7 +21122,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.042251978997228434,
+      "latency": 0.0410085910007183,
       "prediction": "",
       "prompt": [
         {
@@ -21143,7 +21143,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04101353099758853,
+      "latency": 0.04166996499770903,
       "prediction": "",
       "prompt": [
         {
@@ -21164,7 +21164,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04084395899917581,
+      "latency": 0.041301322999061085,
       "prediction": "",
       "prompt": [
         {
@@ -21185,7 +21185,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04208598799959873,
+      "latency": 0.04094039100164082,
       "prediction": "",
       "prompt": [
         {
@@ -21206,7 +21206,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.0408771100010199,
+      "latency": 0.0416371249993972,
       "prediction": "",
       "prompt": [
         {
@@ -21227,7 +21227,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04095740100092371,
+      "latency": 0.041234132997487905,
       "prediction": "",
       "prompt": [
         {
@@ -21248,7 +21248,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.04301479299829225,
+      "latency": 0.04093424099846743,
       "prediction": "",
       "prompt": [
         {
@@ -21269,7 +21269,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.042324948000896256,
+      "latency": 0.04170916500152089,
       "prediction": "",
       "prompt": [
         {
@@ -21290,7 +21290,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.041161572000419255,
+      "latency": 0.041333763001603074,
       "prediction": "",
       "prompt": [
         {
@@ -21311,7 +21311,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04126585199992405,
+      "latency": 0.041029740998055786,
       "prediction": "",
       "prompt": [
         {
@@ -21332,7 +21332,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.04169842500050436,
+      "latency": 0.041631364001659676,
       "prediction": "",
       "prompt": [
         {
@@ -21353,7 +21353,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04113212100128294,
+      "latency": 0.04150677399957203,
       "prediction": "",
       "prompt": [
         {
@@ -21374,7 +21374,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04079794999779551,
+      "latency": 0.041191071999492124,
       "prediction": "",
       "prompt": [
         {
@@ -21395,7 +21395,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04236063899952569,
+      "latency": 0.042195178000838496,
       "prediction": "",
       "prompt": [
         {
@@ -21416,7 +21416,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04126123199966969,
+      "latency": 0.04159822399742552,
       "prediction": "",
       "prompt": [
         {
@@ -21437,7 +21437,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04115044199716067,
+      "latency": 0.0412502819999645,
       "prediction": "",
       "prompt": [
         {
@@ -21458,7 +21458,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04110081100225216,
+      "latency": 0.04113848199995118,
       "prediction": "",
       "prompt": [
         {
@@ -21479,7 +21479,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04119956200156594,
+      "latency": 0.04145260299992515,
       "prediction": "",
       "prompt": [
         {
@@ -21500,7 +21500,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.041027030998520786,
+      "latency": 0.04037769700153149,
       "prediction": "",
       "prompt": [
         {
@@ -21521,7 +21521,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0411984329984989,
+      "latency": 0.04139067299911403,
       "prediction": "",
       "prompt": [
         {
@@ -21542,7 +21542,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04137898300177767,
+      "latency": 0.04066924899962032,
       "prediction": "",
       "prompt": [
         {
@@ -21563,7 +21563,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04106043099818635,
+      "latency": 0.04060995899999398,
       "prediction": "",
       "prompt": [
         {
@@ -21584,7 +21584,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04106575100013288,
+      "latency": 0.04202500600149506,
       "prediction": "",
       "prompt": [
         {
@@ -21605,7 +21605,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041854115999740316,
+      "latency": 0.04111746199851041,
       "prediction": "",
       "prompt": [
         {
@@ -21626,7 +21626,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04100256099991384,
+      "latency": 0.040815799999109004,
       "prediction": "",
       "prompt": [
         {
@@ -21647,7 +21647,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04076906900081667,
+      "latency": 0.04157684399979189,
       "prediction": "",
       "prompt": [
         {
@@ -21668,7 +21668,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.041618734001531266,
+      "latency": 0.0409848309973313,
       "prediction": "",
       "prompt": [
         {
@@ -21689,7 +21689,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04081297000084305,
+      "latency": 0.040670749000128126,
       "prediction": "",
       "prompt": [
         {
@@ -21710,7 +21710,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04095343999870238,
+      "latency": 0.04144146399994497,
       "prediction": "",
       "prompt": [
         {
@@ -21731,7 +21731,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.042185258000245085,
+      "latency": 0.04112811199956923,
       "prediction": "",
       "prompt": [
         {
@@ -21752,7 +21752,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.04091311000229325,
+      "latency": 0.04080223900018609,
       "prediction": "",
       "prompt": [
         {
@@ -21773,7 +21773,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04090903000178514,
+      "latency": 0.04131016199971782,
       "prediction": "",
       "prompt": [
         {
@@ -21794,7 +21794,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04205796699898201,
+      "latency": 0.04156268400038243,
       "prediction": "",
       "prompt": [
         {
@@ -21815,7 +21815,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.040947569999843836,
+      "latency": 0.04117745199982892,
       "prediction": "",
       "prompt": [
         {
@@ -21836,7 +21836,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.040857740001229104,
+      "latency": 0.04160396500083152,
       "prediction": "",
       "prompt": [
         {
@@ -21857,7 +21857,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04182287600269774,
+      "latency": 0.0412695229970268,
       "prediction": "",
       "prompt": [
         {
@@ -21878,7 +21878,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.0411157419985102,
+      "latency": 0.040978001001349185,
       "prediction": "",
       "prompt": [
         {
@@ -21899,7 +21899,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.040818449000653345,
+      "latency": 0.041580864002753515,
       "prediction": "",
       "prompt": [
         {
@@ -21920,7 +21920,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 13,
-      "latency": 0.04226315800042357,
+      "latency": 0.04126664200157393,
       "prediction": "",
       "prompt": [
         {
@@ -21941,7 +21941,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04120783200050937,
+      "latency": 0.04096407999895746,
       "prediction": "",
       "prompt": [
         {
@@ -21962,7 +21962,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04112230199825717,
+      "latency": 0.04121071199915605,
       "prediction": "",
       "prompt": [
         {
@@ -21983,7 +21983,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04172783499961952,
+      "latency": 0.041571164001652505,
       "prediction": "",
       "prompt": [
         {
@@ -22004,7 +22004,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.041481853997538565,
+      "latency": 0.041066021000006,
       "prediction": "",
       "prompt": [
         {
@@ -22025,7 +22025,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04150395399847184,
+      "latency": 0.04176478500085068,
       "prediction": "",
       "prompt": [
         {
@@ -22046,7 +22046,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04115110199927585,
+      "latency": 0.041140492001431994,
       "prediction": "",
       "prompt": [
         {
@@ -22067,7 +22067,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04165112500049872,
+      "latency": 0.04092989000128,
       "prediction": "",
       "prompt": [
         {
@@ -22088,7 +22088,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 12,
-      "latency": 0.04121045200008666,
+      "latency": 0.04120148199945106,
       "prediction": "",
       "prompt": [
         {
@@ -22109,7 +22109,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0408368700009305,
+      "latency": 0.04114298100103042,
       "prediction": "",
       "prompt": [
         {
@@ -22130,7 +22130,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04235742899982142,
+      "latency": 0.04095330099880812,
       "prediction": "",
       "prompt": [
         {
@@ -22151,7 +22151,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04143957400083309,
+      "latency": 0.04138764299932518,
       "prediction": "",
       "prompt": [
         {
@@ -22172,7 +22172,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 22,
-      "latency": 0.04099765099817887,
+      "latency": 0.04115224199995282,
       "prediction": "",
       "prompt": [
         {
@@ -22193,7 +22193,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04216334699958679,
+      "latency": 0.040837499996996485,
       "prediction": "",
       "prompt": [
         {
@@ -22214,7 +22214,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04202748599709594,
+      "latency": 0.04123767200144357,
       "prediction": "",
       "prompt": [
         {
@@ -22235,7 +22235,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041190142001141794,
+      "latency": 0.04122484199979226,
       "prediction": "",
       "prompt": [
         {
@@ -22256,7 +22256,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 9,
-      "latency": 0.04126180299863336,
+      "latency": 0.04122960200038506,
       "prediction": "",
       "prompt": [
         {
@@ -22277,7 +22277,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0427765519998502,
+      "latency": 0.04125977300282102,
       "prediction": "",
       "prompt": [
         {
@@ -22298,7 +22298,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04142561299886438,
+      "latency": 0.0417022250003356,
       "prediction": "",
       "prompt": [
         {
@@ -22319,7 +22319,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04091674000301282,
+      "latency": 0.04096149099859758,
       "prediction": "",
       "prompt": [
         {
@@ -22340,7 +22340,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 25,
-      "latency": 0.04238250900016283,
+      "latency": 0.041289332999440376,
       "prediction": "",
       "prompt": [
         {
@@ -22361,7 +22361,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04088609000245924,
+      "latency": 0.04178752500229166,
       "prediction": "",
       "prompt": [
         {
@@ -22382,7 +22382,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04106909099937184,
+      "latency": 0.04149653399872477,
       "prediction": "",
       "prompt": [
         {
@@ -22403,7 +22403,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04196611600127653,
+      "latency": 0.04129539299901808,
       "prediction": "",
       "prompt": [
         {
@@ -22424,7 +22424,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 23,
-      "latency": 0.041000861001521116,
+      "latency": 0.04205453699978534,
       "prediction": "",
       "prompt": [
         {
@@ -22445,7 +22445,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04138714299915591,
+      "latency": 0.04147178400307894,
       "prediction": "",
       "prompt": [
         {
@@ -22466,7 +22466,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.042215077999571804,
+      "latency": 0.04100477099927957,
       "prediction": "",
       "prompt": [
         {
@@ -22487,7 +22487,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04152152399910847,
+      "latency": 0.04131112200047937,
       "prediction": "",
       "prompt": [
         {
@@ -22508,7 +22508,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.041224882003007224,
+      "latency": 0.041447253002843354,
       "prediction": "",
       "prompt": [
         {
@@ -22529,7 +22529,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04136198299966054,
+      "latency": 0.04096131000187597,
       "prediction": "",
       "prompt": [
         {
@@ -22550,7 +22550,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.042508389000431634,
+      "latency": 0.04116275200067321,
       "prediction": "",
       "prompt": [
         {
@@ -22571,7 +22571,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04110282100009499,
+      "latency": 0.040869129999919096,
       "prediction": "",
       "prompt": [
         {
@@ -22592,7 +22592,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.041277262000221526,
+      "latency": 0.04087378999975044,
       "prediction": "",
       "prompt": [
         {
@@ -22613,7 +22613,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04255077999914647,
+      "latency": 0.04128034300083527,
       "prediction": "",
       "prompt": [
         {
@@ -22634,7 +22634,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041629694002040196,
+      "latency": 0.04102844100270886,
       "prediction": "",
       "prompt": [
         {
@@ -22655,7 +22655,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04154784399725031,
+      "latency": 0.04087123000135762,
       "prediction": "",
       "prompt": [
         {
@@ -22676,7 +22676,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.041342843000165885,
+      "latency": 0.0417401949998748,
       "prediction": "",
       "prompt": [
         {
@@ -22697,7 +22697,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04194898599962471,
+      "latency": 0.04086334999738028,
       "prediction": "",
       "prompt": [
         {
@@ -22718,7 +22718,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041490972998872166,
+      "latency": 0.0408593899992411,
       "prediction": "",
       "prompt": [
         {
@@ -22739,7 +22739,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.041745755002921214,
+      "latency": 0.04113105200303835,
       "prediction": "",
       "prompt": [
         {
@@ -22760,7 +22760,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04203711700029089,
+      "latency": 0.041454963000433054,
       "prediction": "",
       "prompt": [
         {
@@ -22781,7 +22781,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04171807499733404,
+      "latency": 0.040834078998159384,
       "prediction": "",
       "prompt": [
         {
@@ -22802,7 +22802,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041963837000366766,
+      "latency": 0.04130527199959033,
       "prediction": "",
       "prompt": [
         {
@@ -22823,7 +22823,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04123665199949755,
+      "latency": 0.04172525500325719,
       "prediction": "",
       "prompt": [
         {
@@ -22844,7 +22844,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 10,
-      "latency": 0.04190960699997959,
+      "latency": 0.0409236300001794,
       "prediction": "",
       "prompt": [
         {
@@ -22865,7 +22865,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04139367300012964,
+      "latency": 0.04141761299979407,
       "prediction": "",
       "prompt": [
         {
@@ -22886,7 +22886,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041651964998891344,
+      "latency": 0.04228096800216008,
       "prediction": "",
       "prompt": [
         {
@@ -22907,7 +22907,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04237322900007712,
+      "latency": 0.042474279001908144,
       "prediction": "",
       "prompt": [
         {
@@ -22928,7 +22928,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.041725914998096414,
+      "latency": 0.041652715000964236,
       "prediction": "",
       "prompt": [
         {
@@ -22949,7 +22949,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04086628000004566,
+      "latency": 0.04119273200194584,
       "prediction": "",
       "prompt": [
         {
@@ -22970,7 +22970,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04089826000199537,
+      "latency": 0.04198216700024204,
       "prediction": "",
       "prompt": [
         {
@@ -22991,7 +22991,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.0418539359998249,
+      "latency": 0.0420969070000865,
       "prediction": "",
       "prompt": [
         {
@@ -23012,7 +23012,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04073450899886666,
+      "latency": 0.04113993200007826,
       "prediction": "",
       "prompt": [
         {
@@ -23033,7 +23033,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04062239899940323,
+      "latency": 0.04152799399889773,
       "prediction": "",
       "prompt": [
         {
@@ -23054,7 +23054,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04134925199832651,
+      "latency": 0.041696506003063405,
       "prediction": "",
       "prompt": [
         {
@@ -23075,7 +23075,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041424923001613934,
+      "latency": 0.0416692549988511,
       "prediction": "",
       "prompt": [
         {
@@ -23096,7 +23096,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 23,
-      "latency": 0.04105127100046957,
+      "latency": 0.04115567199914949,
       "prediction": "",
       "prompt": [
         {
@@ -23117,7 +23117,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04179275600108667,
+      "latency": 0.04131996299838647,
       "prediction": "",
       "prompt": [
         {
@@ -23138,7 +23138,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.040865259998099646,
+      "latency": 0.041756385002372554,
       "prediction": "",
       "prompt": [
         {
@@ -23159,7 +23159,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.040966610999021214,
+      "latency": 0.041210831997887,
       "prediction": "",
       "prompt": [
         {
@@ -23180,7 +23180,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 26,
-      "latency": 0.04166247399916756,
+      "latency": 0.04112010199969518,
       "prediction": "",
       "prompt": [
         {
@@ -23201,7 +23201,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040994580998813035,
+      "latency": 0.04200446699906024,
       "prediction": "",
       "prompt": [
         {
@@ -23222,7 +23222,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04094140099914512,
+      "latency": 0.041273171998909675,
       "prediction": "",
       "prompt": [
         {
@@ -23243,7 +23243,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.04199454700210481,
+      "latency": 0.041310702999908244,
       "prediction": "",
       "prompt": [
         {
@@ -23264,7 +23264,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 28,
-      "latency": 0.04099513099936303,
+      "latency": 0.04164640399903874,
       "prediction": "",
       "prompt": [
         {
@@ -23285,7 +23285,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04100173099868698,
+      "latency": 0.041369752998434706,
       "prediction": "",
       "prompt": [
         {
@@ -23306,7 +23306,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04100971000298159,
+      "latency": 0.04109627100115176,
       "prediction": "",
       "prompt": [
         {
@@ -23327,7 +23327,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.040825199997925665,
+      "latency": 0.0417235150016495,
       "prediction": "",
       "prompt": [
         {
@@ -23348,7 +23348,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 26,
-      "latency": 0.04094602999975905,
+      "latency": 0.04146108400163939,
       "prediction": "",
       "prompt": [
         {
@@ -23369,7 +23369,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04126748199996655,
+      "latency": 0.04096785100045963,
       "prediction": "",
       "prompt": [
         {
@@ -23390,7 +23390,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04087815000093542,
+      "latency": 0.04141238299780525,
       "prediction": "",
       "prompt": [
         {
@@ -23411,7 +23411,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.041011270997842075,
+      "latency": 0.04146620400206302,
       "prediction": "",
       "prompt": [
         {
@@ -23432,7 +23432,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.041382363000593614,
+      "latency": 0.04134729300130857,
       "prediction": "",
       "prompt": [
         {
@@ -23453,7 +23453,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04087138999966555,
+      "latency": 0.04112101200007601,
       "prediction": "",
       "prompt": [
         {
@@ -23474,7 +23474,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.040883720001147594,
+      "latency": 0.04219498800011934,
       "prediction": "",
       "prompt": [
         {
@@ -23495,7 +23495,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04158448400266934,
+      "latency": 0.04144019399973331,
       "prediction": "",
       "prompt": [
         {
@@ -23516,7 +23516,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 27,
-      "latency": 0.04113568200045847,
+      "latency": 0.04115931199703482,
       "prediction": "",
       "prompt": [
         {
@@ -23537,7 +23537,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04094085999895469,
+      "latency": 0.04191071600143914,
       "prediction": "",
       "prompt": [
         {
@@ -23558,7 +23558,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04188819600312854,
+      "latency": 0.04160205399966799,
       "prediction": "",
       "prompt": [
         {
@@ -23579,7 +23579,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04138625400082674,
+      "latency": 0.04101824100143858,
       "prediction": "",
       "prompt": [
         {
@@ -23600,7 +23600,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04082473000016762,
+      "latency": 0.04149004400096601,
       "prediction": "",
       "prompt": [
         {
@@ -23621,7 +23621,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041064790999371326,
+      "latency": 0.04169010499754222,
       "prediction": "",
       "prompt": [
         {
@@ -23642,7 +23642,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04128353299893206,
+      "latency": 0.041462803001195425,
       "prediction": "",
       "prompt": [
         {
@@ -23663,7 +23663,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.040893940000387374,
+      "latency": 0.04114601200126344,
       "prediction": "",
       "prompt": [
         {
@@ -23684,7 +23684,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 8,
-      "latency": 0.04245396999976947,
+      "latency": 0.04188308599987067,
       "prediction": "",
       "prompt": [
         {
@@ -23705,7 +23705,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04187004600316868,
+      "latency": 0.04132660299728741,
       "prediction": "",
       "prompt": [
         {
@@ -23726,7 +23726,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04088404999856721,
+      "latency": 0.04100417000154266,
       "prediction": "",
       "prompt": [
         {
@@ -23747,7 +23747,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 3,
-      "latency": 0.04116257199711981,
+      "latency": 0.041510144001222216,
       "prediction": "",
       "prompt": [
         {
@@ -23768,7 +23768,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.0417887650000921,
+      "latency": 0.04121665300044697,
       "prediction": "",
       "prompt": [
         {
@@ -23789,7 +23789,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04141038300076616,
+      "latency": 0.04094927100231871,
       "prediction": "",
       "prompt": [
         {
@@ -23810,7 +23810,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.040985510997415986,
+      "latency": 0.04150142299840809,
       "prediction": "",
       "prompt": [
         {
@@ -23831,7 +23831,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04177919500216376,
+      "latency": 0.04152761400109739,
       "prediction": "",
       "prompt": [
         {
@@ -23852,7 +23852,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 24,
-      "latency": 0.04148138299933635,
+      "latency": 0.04140039300182252,
       "prediction": "",
       "prompt": [
         {
@@ -23873,7 +23873,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04086736099998234,
+      "latency": 0.04118656200080295,
       "prediction": "",
       "prompt": [
         {
@@ -23894,7 +23894,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04137743300088914,
+      "latency": 0.041374444001121446,
       "prediction": "",
       "prompt": [
         {
@@ -23915,7 +23915,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.041827755001577316,
+      "latency": 0.04162910499871941,
       "prediction": "",
       "prompt": [
         {
@@ -23936,7 +23936,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 15,
-      "latency": 0.04070669900102075,
+      "latency": 0.041237191999243805,
       "prediction": "",
       "prompt": [
         {
@@ -23957,7 +23957,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040864629998395685,
+      "latency": 0.04174173499995959,
       "prediction": "",
       "prompt": [
         {
@@ -23978,7 +23978,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.041253133000282105,
+      "latency": 0.04106439099996351,
       "prediction": "",
       "prompt": [
         {
@@ -23999,7 +23999,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.040406347001407994,
+      "latency": 0.04085562000182108,
       "prediction": "",
       "prompt": [
         {
@@ -24020,7 +24020,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 7,
-      "latency": 0.04167417399730766,
+      "latency": 0.041710164998221444,
       "prediction": "",
       "prompt": [
         {
@@ -24041,7 +24041,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.041332933000376215,
+      "latency": 0.041170521999447374,
       "prediction": "",
       "prompt": [
         {
@@ -24062,7 +24062,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04043449700111523,
+      "latency": 0.04070717899958254,
       "prediction": "",
       "prompt": [
         {
@@ -24083,7 +24083,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04174694499670295,
+      "latency": 0.041273811999417376,
       "prediction": "",
       "prompt": [
         {
@@ -24104,7 +24104,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 17,
-      "latency": 0.04152450399851659,
+      "latency": 0.0412997319981514,
       "prediction": "",
       "prompt": [
         {
@@ -24125,7 +24125,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04061227800048073,
+      "latency": 0.04078830000071321,
       "prediction": "",
       "prompt": [
         {
@@ -24146,7 +24146,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04189455599771463,
+      "latency": 0.04189278600097168,
       "prediction": "",
       "prompt": [
         {
@@ -24167,7 +24167,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.041493133998301346,
+      "latency": 0.041104761003225576,
       "prediction": "",
       "prompt": [
         {
@@ -24188,7 +24188,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 20,
-      "latency": 0.04057505799937644,
+      "latency": 0.040882270001020515,
       "prediction": "",
       "prompt": [
         {
@@ -24209,7 +24209,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.0410795509997115,
+      "latency": 0.0417040749998705,
       "prediction": "",
       "prompt": [
         {
@@ -24230,7 +24230,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.042151778001425555,
+      "latency": 0.04099347999726888,
       "prediction": "",
       "prompt": [
         {
@@ -24251,7 +24251,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.041058000999328215,
+      "latency": 0.04095555000094464,
       "prediction": "",
       "prompt": [
         {
@@ -24272,7 +24272,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 19,
-      "latency": 0.040862549998564646,
+      "latency": 0.04174058499847888,
       "prediction": "",
       "prompt": [
         {
@@ -24293,7 +24293,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04141052300110459,
+      "latency": 0.04096309000306064,
       "prediction": "",
       "prompt": [
         {
@@ -24314,7 +24314,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.04108757200083346,
+      "latency": 0.041498234000755474,
       "prediction": "",
       "prompt": [
         {
@@ -24335,7 +24335,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04102159100148128,
+      "latency": 0.041771415002585854,
       "prediction": "",
       "prompt": [
         {
@@ -24356,7 +24356,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 29,
-      "latency": 0.04158200500023668,
+      "latency": 0.04105589100072393,
       "prediction": "",
       "prompt": [
         {
@@ -24377,7 +24377,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.04144248400189099,
+      "latency": 0.040911669999331934,
       "prediction": "",
       "prompt": [
         {
@@ -24398,7 +24398,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 2,
-      "latency": 0.040992610000103014,
+      "latency": 0.04211720699822763,
       "prediction": "",
       "prompt": [
         {
@@ -24419,7 +24419,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 5,
-      "latency": 0.04188100600003963,
+      "latency": 0.04087567000169656,
       "prediction": "",
       "prompt": [
         {
@@ -24440,7 +24440,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 18,
-      "latency": 0.041833335999399424,
+      "latency": 0.04085255999962101,
       "prediction": "",
       "prompt": [
         {
@@ -24461,7 +24461,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.040956210999866016,
+      "latency": 0.04154325399940717,
       "prediction": "",
       "prompt": [
         {
@@ -24482,7 +24482,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.04090388999975403,
+      "latency": 0.04104452100000344,
       "prediction": "",
       "prompt": [
         {
@@ -24503,7 +24503,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 4,
-      "latency": 0.04176074499991955,
+      "latency": 0.040944019998278236,
       "prediction": "",
       "prompt": [
         {
@@ -24524,7 +24524,7 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 21,
-      "latency": 0.040639569000632036,
+      "latency": 0.041873205998854246,
       "prediction": "",
       "prompt": [
         {
@@ -24541,12 +24541,12 @@
     }
   ],
   "retrieval": {
-    "baseline_mrr": 0.16362544415723473,
+    "baseline_mrr": 0.16361448246674715,
     "baseline_p_at_1": 0.08203125,
     "collision_rate": 0.44921875,
     "completion_lift": 0.0,
     "hopfield_rank_improved_rate": 0.0,
-    "mrr": 0.16362544415723473,
+    "mrr": 0.16361448246674715,
     "near_miss_rate": 0.03125,
     "p_at_1": 0.08203125
   },
@@ -24562,7 +24562,7 @@
       "delta": 0.8,
       "gamma": 0.5,
       "pins_only": false,
-      "threshold": 1.5,
+      "threshold": 2.0,
       "use_for_writes": true
     },
     "hopfield": {

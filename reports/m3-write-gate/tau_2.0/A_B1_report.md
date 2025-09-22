@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 0.000
-- Latency: 0.041s
-- Adapter latency overhead: -0.017s
+- Latency: 0.042s
+- Adapter latency overhead: -0.018s
 
 ## Run config
 - Seed: 13
@@ -42,7 +42,7 @@ B0 KV cache bytes: 480663552
 - Hopfield rank improved rate: 0.000
 
 ## Write gate
-- Threshold τ: 1.500
+- Threshold τ: 2.000
 - Writes: 256/512 (rate 0.500; 500.0 writes/1k tokens)
 - Pinned episodes: 16 | Reward flags: 24
 - Precision: 1.000 | Recall: 1.000 | PR-AUC: 1.000

@@ -1,0 +1,81 @@
+{
+  "runs": [
+    {
+      "metrics_path": "reports/m3-write-gate/tau_0.5/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 0.5,
+      "write_rate": 0.9609375,
+      "writes": 246,
+      "total": 256,
+      "writes_per_1k_tokens": 47.05432287681714,
+      "writes_per_1k_records": 960.9375,
+      "writes_per_1k": 47.05432287681714
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_1.0/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 1.0,
+      "write_rate": 0.5,
+      "writes": 128,
+      "total": 256,
+      "writes_per_1k_tokens": 20.453819111537232,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 20.453819111537232
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_1.5/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 1.5,
+      "write_rate": 0.5,
+      "writes": 128,
+      "total": 256,
+      "writes_per_1k_tokens": 20.453819111537232,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 20.453819111537232
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_2.0/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 2.0,
+      "write_rate": 0.44921875,
+      "writes": 115,
+      "total": 256,
+      "writes_per_1k_tokens": 18.355945730247406,
+      "writes_per_1k_records": 449.21875,
+      "writes_per_1k": 18.355945730247406
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_2.5/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 2.5,
+      "write_rate": 0.27734375,
+      "writes": 71,
+      "total": 256,
+      "writes_per_1k_tokens": 10.131278538812785,
+      "writes_per_1k_records": 277.34375,
+      "writes_per_1k": 10.131278538812785
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_3.0/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 3.0,
+      "write_rate": 0.15234375,
+      "writes": 39,
+      "total": 256,
+      "writes_per_1k_tokens": 5.630955818654346,
+      "writes_per_1k_records": 152.34375,
+      "writes_per_1k": 5.630955818654346
+    },
+    {
+      "metrics_path": "reports/m3-write-gate/tau_3.5/C_B1_metrics.json",
+      "scenario": "C",
+      "threshold": 3.5,
+      "write_rate": 0.08203125,
+      "writes": 21,
+      "total": 256,
+      "writes_per_1k_tokens": 2.7476121941645952,
+      "writes_per_1k_records": 82.03125,
+      "writes_per_1k": 2.7476121941645952
+    }
+  ]
+}

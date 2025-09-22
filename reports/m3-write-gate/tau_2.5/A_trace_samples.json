@@ -15,48 +15,48 @@
     {
       "answers_preview": [
         "Ivan",
-        "bottle"
+        "book"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 182,
+      "group_id": 77,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Judy",
+        "Gus",
         "umbrella"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 226,
+      "group_id": 34,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Ivan",
-        "phone"
+        "Bob",
+        "notebook"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 146,
+      "group_id": 55,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Charlie",
-        "umbrella"
+        "Hana",
+        "notebook"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 1,
+      "group_id": 176,
       "has_pointer": false,
       "trace_id": null
     }

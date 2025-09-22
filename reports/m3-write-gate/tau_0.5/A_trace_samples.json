@@ -50,13 +50,13 @@
     },
     {
       "answers_preview": [
-        "Charlie",
-        "umbrella"
+        "Ivan",
+        "notebook"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 1,
+      "group_id": 181,
       "has_pointer": false,
       "trace_id": null
     }

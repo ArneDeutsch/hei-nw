@@ -2,61 +2,61 @@
   "trace_samples": [
     {
       "answers_preview": [
-        "Gus",
-        "umbrella"
+        "1610",
+        "gamma"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 153,
+      "group_id": 40,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Ivan",
-        "bottle"
+        "6043",
+        "alpha"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 182,
+      "group_id": 54,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Judy",
-        "umbrella"
+        "7980",
+        "gamma"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 226,
+      "group_id": 180,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Ivan",
-        "phone"
+        "9001",
+        "alpha"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 146,
+      "group_id": 140,
       "has_pointer": false,
       "trace_id": null
     },
     {
       "answers_preview": [
-        "Charlie",
-        "umbrella"
+        "green",
+        "alpha"
       ],
       "banned_keys": [
         "episode_text"
       ],
-      "group_id": 1,
+      "group_id": 53,
       "has_pointer": false,
       "trace_id": null
     }
