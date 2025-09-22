@@ -112,7 +112,7 @@ def compute_gate_metrics(
     diagnostics: Sequence[Mapping[str, Any]],
     *,
     calibration_bins: int = 10,
-) -> dict[str, float | int | list[dict[str, float | int]]]:
+) -> dict[str, float | int | None | list[dict[str, float | int]]]:
     """Return aggregate telemetry metrics for gate diagnostics."""
 
     total = len(diagnostics)

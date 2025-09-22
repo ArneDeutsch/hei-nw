@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import faiss
 import numpy as np
+from numpy.typing import NDArray
 
 from hei_nw.metrics import (
     ComputeRecord,
@@ -17,10 +18,13 @@ from hei_nw.metrics import (
 )
 
 
+FloatArray = NDArray[np.float32]
+
+
 class Embedder(Protocol):
     """Protocol for text embedders."""
 
-    def embed(self, texts: Sequence[str]) -> np.ndarray:  # pragma: no cover - Protocol
+    def embed(self, texts: Sequence[str]) -> FloatArray:  # pragma: no cover - Protocol
         """Return embeddings for *texts* as a 2D float32 array."""
 
 
@@ -37,7 +41,7 @@ class HFEmbedder:
         self.model.to(self.device)
         self.model.eval()
 
-    def embed(self, texts: Sequence[str]) -> np.ndarray:
+    def embed(self, texts: Sequence[str]) -> FloatArray:
         from torch import Tensor, no_grad
 
         inputs = self.tok(list(texts), padding=True, truncation=True, return_tensors="pt")
@@ -46,7 +50,7 @@ class HFEmbedder:
             hidden: Tensor = self.model(**inputs).last_hidden_state.mean(dim=1)
         vecs = hidden.cpu().numpy().astype("float32")
         faiss.normalize_L2(vecs)
-        return vecs
+        return cast(FloatArray, vecs)
 
 
 class FaissIndex:
@@ -56,14 +60,14 @@ class FaissIndex:
         self.index = faiss.IndexFlatIP(dim)
         self.docs: list[str] = []
 
-    def add(self, vectors: np.ndarray, docs: Sequence[str]) -> None:
+    def add(self, vectors: FloatArray, docs: Sequence[str]) -> None:
         if vectors.shape[0] != len(docs):
             msg = "vectors/docs length mismatch"
             raise ValueError(msg)
         self.index.add(vectors)
         self.docs.extend(docs)
 
-    def search(self, query: np.ndarray, k: int) -> list[str]:
+    def search(self, query: FloatArray, k: int) -> list[str]:
         _scores, idxs = self.index.search(query, k)
         return [self.docs[i] for i in idxs[0] if i >= 0]
 
