@@ -131,10 +131,24 @@ def generate(n: int, seed: int) -> list[dict[str, object]]:
             "reward": reward,
             "pin": pin,
         }
+        answers = [str(expected)]
+        slot_payload: list[str]
+        if should_remember:
+            slot_payload = [server, service, str(port)]
+        else:
+            slot_payload = [server, color, event_type]
+        answers.extend(str(value) for value in slot_payload)
+        if len(answers) < 4:
+            answers.extend([""] * (4 - len(answers)))
+
         record = {
             "context": context,
             "query": query,
             "expected": expected,
+            "episode_text": context,
+            "cues": [query],
+            "answers": answers[:4],
+            "group_id": i,
             "should_remember": should_remember,
             "gate_features": gate_features,
             "server": server,
