@@ -152,7 +152,11 @@ def _extract_gate_features(record: dict[str, Any]) -> SalienceFeatures:
 
 
 def _apply_gate(
-    records: Sequence[dict[str, Any]], gate: NeuromodulatedGate
+    records: Sequence[dict[str, Any]],
+    gate: NeuromodulatedGate,
+    *,
+    use_for_writes: bool = True,
+    debug_keep_labels: bool = False,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Return filtered records for indexing and per-record diagnostics."""
 
@@ -169,19 +173,27 @@ def _apply_gate(
         if not has_gate_payload and truth_label and not write:
             write = True
             fallback = True
-        diagnostics.append(
-            {
-                "index": idx,
-                "score": decision.score,
-                "should_write": write,
-                "features": asdict(decision.features),
-                "contributions": decision.contributions,
-                "should_remember_label": bool(record.get("should_remember")),
-                "group_id": record.get("group_id"),
-                "fallback_write": fallback,
-            }
-        )
-        if write:
+        keep_via_label = False
+        if use_for_writes:
+            keep_via_label = bool(debug_keep_labels and truth_label and not write)
+            store_flag = write or keep_via_label
+        else:
+            store_flag = truth_label
+            keep_via_label = bool(truth_label and not write)
+        diag_entry = {
+            "index": idx,
+            "score": decision.score,
+            "should_write": write,
+            "features": asdict(decision.features),
+            "contributions": decision.contributions,
+            "should_remember_label": truth_label,
+            "group_id": record.get("group_id"),
+            "fallback_write": fallback,
+            "indexed_for_store": bool(store_flag),
+            "label_kept": keep_via_label,
+        }
+        diagnostics.append(diag_entry)
+        if store_flag:
             indexed_record = dict(record)
             indexed_record["should_remember"] = True
             indexed.append(indexed_record)
@@ -234,6 +246,8 @@ def _summarize_gate(
             "total": 0,
             "writes": 0,
             "write_rate": 0.0,
+            "store_writes": 0,
+            "store_write_rate": 0.0,
             "pinned": 0,
             "reward_flags": 0,
             "decisions": [],
@@ -243,10 +257,13 @@ def _summarize_gate(
     scores = [float(diag["score"]) for diag in primary_diag]
     pinned = sum(1 for diag in primary_diag if diag.get("features", {}).get("pin", False))
     reward_flags = sum(1 for diag in primary_diag if diag.get("features", {}).get("reward", False))
+    store_writes = sum(1 for diag in primary_diag if diag.get("indexed_for_store"))
     return {
         "total": total,
         "writes": writes,
         "write_rate": writes / total,
+        "store_writes": store_writes,
+        "store_write_rate": store_writes / total,
         "pinned": pinned,
         "reward_flags": reward_flags,
         "score_mean": float(sum(scores) / total) if scores else 0.0,
@@ -408,6 +425,24 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         type=_positive_float,
         default=1.5,
         help="Decision threshold τ for the write gate.",
+    )
+    parser.add_argument(
+        "--gate.use_for_writes",
+        dest="gate_use_for_writes",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help=(
+            "Use gate decisions to determine which records are written to the store. "
+            "Disable to fall back to label-driven writes."
+        ),
+    )
+    parser.add_argument(
+        "--gate.debug_keep_labels",
+        dest="gate_debug_keep_labels",
+        action="store_true",
+        help=(
+            "When gate-driven writes are enabled, also keep label-positive records for A/B testing."
+        ),
     )
     parser.add_argument(
         "--eval.pins_only",
@@ -995,6 +1030,8 @@ def _evaluate_mode_b1(
     adapter_scale: float = 0.2,
     gate: NeuromodulatedGate | None = None,
     pins_only: bool = False,
+    gate_use_for_writes: bool = True,
+    gate_debug_keep_labels: bool = False,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -1007,7 +1044,12 @@ def _evaluate_mode_b1(
     dev_settings = dev or DevIsolationSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model), scale=adapter_scale)
     gate_module = gate or NeuromodulatedGate()
-    indexed_records, gate_diagnostics = _apply_gate(records, gate_module)
+    indexed_records, gate_diagnostics = _apply_gate(
+        records,
+        gate_module,
+        use_for_writes=gate_use_for_writes,
+        debug_keep_labels=gate_debug_keep_labels,
+    )
     service = RecallService.build(
         indexed_records,
         tok,
@@ -1248,6 +1290,12 @@ def _evaluate_mode_b1(
         "delta": gate_module.delta,
     }
     gate_info["threshold"] = gate_module.threshold
+    gate_info["used_for_writes"] = bool(gate_use_for_writes)
+    gate_info["debug_keep_labels"] = bool(gate_debug_keep_labels)
+    gate_info["indexed_records"] = len(indexed_records)
+    gate_info["label_positive_records"] = sum(
+        1 for rec in records if bool(rec.get("should_remember"))
+    )
     if isinstance(gate_info.get("telemetry"), dict):
         telemetry = gate_info["telemetry"]
         clutter_rate = float(telemetry.get("clutter_rate", 0.0))
@@ -1255,16 +1303,38 @@ def _evaluate_mode_b1(
         telemetry["pins_only_eval"] = pins_only
     write_rate_val = gate_info.get("write_rate")
     gate_info["write_rate_per_1k"] = (
-        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, int | float) else None
+        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, (int, float)) else None
+    )
+    store_write_rate = gate_info.get("store_write_rate")
+    gate_info["store_write_rate_per_1k"] = (
+        float(store_write_rate) * 1000.0
+        if isinstance(store_write_rate, (int, float))
+        else None
     )
     gate_info["pins_only_eval"] = pins_only
     gate_info["pointer_check"] = pointer_check
     if trace_samples:
         gate_info["trace_samples"] = trace_samples
+    store_ntotal = len(indexed_records)
+    store_obj = getattr(service, "store", None)
+    if store_obj is not None:
+        index_obj = getattr(store_obj, "index", None)
+        if index_obj is not None:
+            faiss_index = getattr(index_obj, "index", None)
+            if hasattr(faiss_index, "ntotal"):
+                store_ntotal = int(getattr(faiss_index, "ntotal"))
+            elif hasattr(index_obj, "ntotal"):
+                store_ntotal = int(getattr(index_obj, "ntotal"))
+        elif hasattr(store_obj, "ntotal"):
+            store_ntotal = int(getattr(store_obj, "ntotal"))
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,
         "gate": gate_info,
+        "store": {
+            "ntotal": store_ntotal,
+            "indexed_records": len(indexed_records),
+        },
         "debug": {
             "mem_len": mem_lengths,
             "mem_preview": preview_tokens or [],
@@ -1339,6 +1409,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["adapter_scale"] = args.adapter_scale
             handler_kwargs["gate"] = gate_module
             handler_kwargs["pins_only"] = args.eval_pins_only
+            handler_kwargs["gate_use_for_writes"] = args.gate_use_for_writes
+            handler_kwargs["gate_debug_keep_labels"] = args.gate_debug_keep_labels
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1397,6 +1469,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             "delta": args.gate_delta,
             "threshold": args.gate_threshold,
             "pins_only": args.eval_pins_only,
+            "use_for_writes": args.gate_use_for_writes,
+            "debug_keep_labels": args.gate_debug_keep_labels,
         },
     }
 

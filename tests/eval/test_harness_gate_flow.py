@@ -11,6 +11,7 @@ from hei_nw.eval.harness import (
     _aggregate_metrics,
     _evaluate_mode_b1,
 )
+from hei_nw.gate import NeuromodulatedGate
 
 
 class _SimpleTokenizer:
@@ -26,6 +27,7 @@ class _StubRecallService:
         self.return_m = 1
         self.tokenizer = _SimpleTokenizer()
         self.max_mem_tokens = 64
+        self.ntotal = len(records)
 
     def query(
         self,
@@ -105,6 +107,10 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
         "hei_nw.models.base.build_default_adapter",
         lambda _model, *, scale=0.2: object(),
     )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
 
     geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
     qa_settings = QAPromptSettings(
@@ -133,11 +139,24 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert gate_info["total"] == 2
     assert isinstance(gate_info["write_rate"], float)
     assert isinstance(gate_info["write_rate_per_1k"], float | type(None))
+    assert gate_info["store_writes"] == 1
+    assert gate_info["store_write_rate"] == pytest.approx(gate_info["write_rate"])
+    assert gate_info["store_write_rate_per_1k"] == pytest.approx(
+        gate_info["write_rate_per_1k"] or 0.0
+    )
+    assert gate_info["used_for_writes"] is True
+    assert gate_info["debug_keep_labels"] is False
+    assert gate_info["indexed_records"] == 1
+    assert gate_info["label_positive_records"] == 1
     telemetry = gate_info["telemetry"]
     assert telemetry["writes"] == 1
     assert telemetry["total"] == 2
     assert telemetry["calibration"]
     assert "writes_per_1k" in telemetry
+    store_info = extra.get("store")
+    assert store_info
+    assert store_info["ntotal"] == 1
+    assert store_info["indexed_records"] == 1
 
     pointer_check = gate_info["pointer_check"]
     assert pointer_check["pointer_only"] is False
@@ -192,6 +211,10 @@ def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
         "hei_nw.models.base.build_default_adapter",
         lambda _model, *, scale=0.2: object(),
     )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
 
     geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
     qa_settings = QAPromptSettings(
@@ -244,3 +267,127 @@ def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
     assert telemetry_pins["pins_only"]["total"] == 1
     assert telemetry_pins["non_pins"]["total"] == 1
     assert len(gate_info["decisions"]) == 1
+
+
+def test_gate_controls_store_size(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Notable outage summary.",
+            "cues": ["What happened?"],
+            "answers": ["Outage"],
+            "group_id": 1,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 2.0,
+                "novelty": 0.3,
+                "reward": False,
+                "pin": False,
+            },
+        },
+        {
+            "episode_text": "Routine status update.",
+            "cues": ["Which status?"],
+            "answers": ["Green"],
+            "group_id": 2,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 0.1,
+                "novelty": 0.0,
+                "reward": False,
+                "pin": False,
+            },
+        },
+    ]
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        return _StubRecallService(records)
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    low_threshold_gate = NeuromodulatedGate(threshold=1.0)
+    _, _, _, extra_low = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=low_threshold_gate,
+        gate_use_for_writes=True,
+    )
+
+    high_threshold_gate = NeuromodulatedGate(threshold=4.0)
+    _, _, _, extra_high = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=high_threshold_gate,
+        gate_use_for_writes=True,
+    )
+
+    assert extra_low["store"]["ntotal"] > extra_high["store"]["ntotal"]
+    assert extra_low["gate"]["store_writes"] > extra_high["gate"]["store_writes"]
+
+    _, _, _, extra_labels = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=high_threshold_gate,
+        gate_use_for_writes=False,
+    )
+
+    expected_labels = sum(1 for rec in records if rec.get("should_remember"))
+    assert extra_labels["store"]["ntotal"] == expected_labels
+    assert extra_labels["gate"]["store_writes"] == expected_labels
+
+    _, _, _, extra_debug = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=high_threshold_gate,
+        gate_use_for_writes=True,
+        gate_debug_keep_labels=True,
+    )
+
+    assert extra_debug["gate"]["store_writes"] == expected_labels
+    assert extra_debug["gate"]["writes"] < expected_labels
