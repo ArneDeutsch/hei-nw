@@ -27,9 +27,9 @@ from hei_nw.metrics import (
     ComputeRecord,
     collision_rate,
     completion_lift,
-    hopfield_rank_improved_rate,
     estimate_attention_flops,
     estimate_kv_bytes,
+    hopfield_rank_improved_rate,
     mrr,
     near_miss_rate,
     precision_at_k,
@@ -188,10 +188,45 @@ def _apply_gate(
     return indexed, diagnostics
 
 
-def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
+def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
+    """Return a compact summary for a gate metrics subset."""
+
+    calibration_raw = metrics.get("calibration")
+    calibration: list[dict[str, Any]]
+    if isinstance(calibration_raw, Sequence):
+        calibration = [bucket for bucket in calibration_raw if isinstance(bucket, Mapping)]
+    else:
+        calibration = []
+    clutter_rate = float(metrics.get("clutter_rate", 0.0))
+    subset = {
+        "precision": float(metrics.get("precision", 0.0)),
+        "recall": float(metrics.get("recall", 0.0)),
+        "pr_auc": float(metrics.get("pr_auc", 0.0)),
+        "writes": int(metrics.get("writes", 0)),
+        "write_rate": clutter_rate,
+        "write_rate_per_1k": clutter_rate * 1000.0,
+        "calibration": calibration,
+        "calibration_bins": len(calibration),
+        "total": int(metrics.get("total", 0)),
+        "positives": int(metrics.get("positives", 0)),
+    }
+    return subset
+
+
+def _summarize_gate(
+    diagnostics: Sequence[dict[str, Any]], *, pins_only: bool = False
+) -> dict[str, Any]:
     """Compute aggregate statistics for gate diagnostics."""
 
-    telemetry = compute_gate_metrics(diagnostics)
+    diag_list = list(diagnostics)
+    pin_diag = [diag for diag in diag_list if diag.get("features", {}).get("pin")]
+    non_pin_diag = [diag for diag in diag_list if not diag.get("features", {}).get("pin")]
+    primary_diag = pin_diag if pins_only else diag_list
+    telemetry = compute_gate_metrics(primary_diag)
+    pin_metrics = telemetry if pins_only else compute_gate_metrics(pin_diag)
+    non_pin_metrics = compute_gate_metrics(non_pin_diag)
+    telemetry["pins_only"] = _subset_gate_metrics(pin_metrics)
+    telemetry["non_pins"] = _subset_gate_metrics(non_pin_metrics)
     total = int(telemetry["total"])
     if total == 0:
         return {
@@ -204,19 +239,19 @@ def _summarize_gate(diagnostics: Sequence[dict[str, Any]]) -> dict[str, Any]:
             "telemetry": telemetry,
         }
     writes = int(telemetry["writes"])
-    scores = [float(diag["score"]) for diag in diagnostics]
-    pinned = sum(1 for diag in diagnostics if diag["features"].get("pin", False))
-    reward_flags = sum(1 for diag in diagnostics if diag["features"].get("reward", False))
+    scores = [float(diag["score"]) for diag in primary_diag]
+    pinned = sum(1 for diag in primary_diag if diag.get("features", {}).get("pin", False))
+    reward_flags = sum(1 for diag in primary_diag if diag.get("features", {}).get("reward", False))
     return {
         "total": total,
         "writes": writes,
         "write_rate": writes / total,
         "pinned": pinned,
         "reward_flags": reward_flags,
-        "score_mean": float(sum(scores) / total),
-        "score_min": float(min(scores)),
-        "score_max": float(max(scores)),
-        "decisions": diagnostics,
+        "score_mean": float(sum(scores) / total) if scores else 0.0,
+        "score_min": float(min(scores)) if scores else 0.0,
+        "score_max": float(max(scores)) if scores else 0.0,
+        "decisions": primary_diag,
         "telemetry": telemetry,
     }
 
@@ -374,6 +409,12 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         help="Decision threshold τ for the write gate.",
     )
     parser.add_argument(
+        "--eval.pins_only",
+        dest="eval_pins_only",
+        action="store_true",
+        help="Restrict gate metrics to records flagged as pins.",
+    )
+    parser.add_argument(
         "--qa.answer_hint",
         dest="qa_answer_hint",
         action=argparse.BooleanOptionalAction,
@@ -439,7 +480,8 @@ def _build_prompt(
         )
     else:
         hint_instruction = (
-            "Answer the question using the episode. Reply with ONLY the single correct word or name."
+            "Answer the question using the episode. "
+            "Reply with ONLY the single correct word or name."
             if answer_hint
             else "Answer the question using the episode."
         )
@@ -450,7 +492,9 @@ def _build_prompt(
 
     if prompt_style == "chat":
         if omit_episode:
-            system_message = "You are a helpful assistant. Answer the question accurately and concisely."
+            system_message = (
+                "You are a helpful assistant. Answer the question accurately and concisely."
+            )
             if answer_hint:
                 system_message = (
                     "You are a helpful assistant. Answer with ONLY the single correct word or name."
@@ -458,7 +502,9 @@ def _build_prompt(
             user_lines = [f"Question: {cue_text}" if cue_text else "Question:"]
             if answer_hint:
                 user_lines.append("Respond with only the single correct word or name.")
-                user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
+                user_lines.append(
+                    "Respond with only the single word (no punctuation, no Markdown)."
+                )
             else:
                 user_lines.append("Respond with a concise answer.")
         else:
@@ -475,7 +521,9 @@ def _build_prompt(
             user_lines.extend(["", f"Question: {cue_text}" if cue_text else "Question:"])
             if answer_hint:
                 user_lines.append("Respond with only the single correct word or name.")
-                user_lines.append("Respond with only the single word (no punctuation, no Markdown).")
+                user_lines.append(
+                    "Respond with only the single word (no punctuation, no Markdown)."
+                )
             else:
                 user_lines.append("Respond with a concise answer.")
         messages: list[dict[str, str]] = [
@@ -945,6 +993,7 @@ def _evaluate_mode_b1(
     mem_max_tokens: int = 128,
     adapter_scale: float = 0.2,
     gate: NeuromodulatedGate | None = None,
+    pins_only: bool = False,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -966,7 +1015,10 @@ def _evaluate_mode_b1(
         hopfield_temperature=hopfield_settings.temperature,
         keyer=dg_keyer,
     )
-    b0_items, _ = _evaluate_b0_records(records, geom, qa_settings)
+    if dev_settings.retrieval_only:
+        b0_items: list[EvalItem] = []
+    else:
+        b0_items, _ = _evaluate_b0_records(records, geom, qa_settings)
     items: list[EvalItem] = []
     compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
     final_cand_groups: list[list[int]] = []
@@ -1056,9 +1108,7 @@ def _evaluate_mode_b1(
                     "banned_keys": [key for key in _BANNED_TRACE_KEYS if key in trace],
                 }
                 if has_pointer and isinstance(pointer, Mapping):
-                    sample["pointer"] = {
-                        key: pointer.get(key) for key in ("doc", "start", "end")
-                    }
+                    sample["pointer"] = {key: pointer.get(key) for key in ("doc", "start", "end")}
                 answers_field = trace.get("answers")
                 if isinstance(answers_field, Sequence):
                     sample["answers_preview"] = [str(ans) for ans in answers_field[:2]]
@@ -1178,7 +1228,7 @@ def _evaluate_mode_b1(
         with_pointer=pointer_with,
         banned_keys=pointer_banned,
     )
-    gate_info = _summarize_gate(gate_diagnostics)
+    gate_info = _summarize_gate(gate_diagnostics, pins_only=pins_only)
     gate_info["weights"] = {
         "alpha": gate_module.alpha,
         "beta": gate_module.beta,
@@ -1190,10 +1240,12 @@ def _evaluate_mode_b1(
         telemetry = gate_info["telemetry"]
         clutter_rate = float(telemetry.get("clutter_rate", 0.0))
         telemetry["writes_per_1k"] = clutter_rate * 1000.0
+        telemetry["pins_only_eval"] = pins_only
     write_rate_val = gate_info.get("write_rate")
     gate_info["write_rate_per_1k"] = (
-        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, (int, float)) else None
+        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, int | float) else None
     )
+    gate_info["pins_only_eval"] = pins_only
     gate_info["pointer_check"] = pointer_check
     if trace_samples:
         gate_info["trace_samples"] = trace_samples
@@ -1268,10 +1320,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         handler_kwargs: dict[str, Any] = {}
         if args.mode == "B1":
-            assert resolved_mem_max_tokens is not None
+            if resolved_mem_max_tokens is None:
+                msg = "mem_max_tokens must be resolved for B1 runs"
+                raise RuntimeError(msg)
             handler_kwargs["mem_max_tokens"] = resolved_mem_max_tokens
             handler_kwargs["adapter_scale"] = args.adapter_scale
             handler_kwargs["gate"] = gate_module
+            handler_kwargs["pins_only"] = args.eval_pins_only
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1329,6 +1384,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "gamma": args.gate_gamma,
             "delta": args.gate_delta,
             "threshold": args.gate_threshold,
+            "pins_only": args.eval_pins_only,
         },
     }
 

@@ -193,6 +193,12 @@ def test_run_m3_gate_calibration_has_threshold_sweep_flag() -> None:
     assert "--threshold-sweep" in script_text
 
 
+def test_run_m3_gate_calibration_has_pin_eval_flag() -> None:
+    script_text = Path("scripts/run_m3_gate_calibration.sh").read_text(encoding="utf8")
+    assert "--pin-eval" in script_text
+    assert "--eval.pins_only" in script_text
+
+
 def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     script = Path("scripts/run_m3_gate_calibration.sh")
 
@@ -216,6 +222,7 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
             parser.add_argument("--model")
             parser.add_argument("--outdir")
             parser.add_argument("--gate.threshold", dest="gate_threshold", type=float)
+            parser.add_argument("--eval.pins_only", dest="eval_pins_only", action="store_true")
             args = parser.parse_args()
 
             outdir = Path(args.outdir)
@@ -247,9 +254,46 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
                             "mean_score": 0.7,
                         },
                     ],
+                    "pins_only": {
+                        "total": 1,
+                        "writes": 1,
+                        "precision": 1.0,
+                        "recall": 1.0,
+                        "pr_auc": 1.0,
+                        "write_rate": 1.0,
+                        "calibration": [
+                            {
+                                "lower": 0.5,
+                                "upper": 1.0,
+                                "count": 1,
+                                "fraction_positive": 1.0,
+                                "mean_score": 0.8,
+                            }
+                        ],
+                    },
+                    "non_pins": {
+                        "total": 1,
+                        "writes": 1,
+                        "precision": 0.5,
+                        "recall": 0.5,
+                        "pr_auc": 0.5,
+                        "write_rate": 0.5,
+                        "calibration": [
+                            {
+                                "lower": 0.0,
+                                "upper": 0.5,
+                                "count": 1,
+                                "fraction_positive": 0.25,
+                                "mean_score": 0.25,
+                            }
+                        ],
+                    },
                 },
                 "trace_samples": [{"index": 0, "score": 0.7}],
+                "pins_only_eval": args.eval_pins_only,
             }
+
+            gate["telemetry"]["pins_only_eval"] = args.eval_pins_only
 
             metrics = {
                 "dataset": {"scenario": args.scenario},
@@ -324,3 +368,162 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     index_text = index_md.read_text(encoding="utf8")
     assert "tau_0.9" in index_text
     assert "tau_1.1" in index_text
+
+
+def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
+    script = Path("scripts/run_m3_gate_calibration.sh")
+
+    stub_root = tmp_path / "stub"
+    harness_pkg = stub_root / "hei_nw" / "eval"
+    datasets_pkg = stub_root / "hei_nw" / "datasets"
+    harness_pkg.mkdir(parents=True, exist_ok=True)
+    datasets_pkg.mkdir(parents=True, exist_ok=True)
+    (stub_root / "hei_nw/__init__.py").write_text("", encoding="utf8")
+    (harness_pkg / "__init__.py").write_text("", encoding="utf8")
+    (datasets_pkg / "__init__.py").write_text(
+        "from . import scenario_a\n__all__ = ['scenario_a']\n", encoding="utf8"
+    )
+
+    harness_code = textwrap.dedent(
+        """
+        import argparse
+        import json
+        from pathlib import Path
+
+        def main() -> None:
+            parser = argparse.ArgumentParser()
+            parser.add_argument("--mode")
+            parser.add_argument("--scenario")
+            parser.add_argument("-n")
+            parser.add_argument("--seed")
+            parser.add_argument("--model")
+            parser.add_argument("--outdir")
+            parser.add_argument("--gate.threshold", dest="gate_threshold", type=float)
+            parser.add_argument("--eval.pins_only", dest="eval_pins_only", action="store_true")
+            args = parser.parse_args()
+
+            outdir = Path(args.outdir)
+            outdir.mkdir(parents=True, exist_ok=True)
+
+            gate = {
+                "threshold": args.gate_threshold,
+                "writes": 1,
+                "total": 1,
+                "write_rate": 1.0,
+                "write_rate_per_1k": 1000.0,
+                "pinned": 1,
+                "reward_flags": 0,
+                "telemetry": {
+                    "pr_auc": 1.0,
+                    "calibration": [
+                        {
+                            "lower": 0.5,
+                            "upper": 1.0,
+                            "count": 1,
+                            "fraction_positive": 1.0,
+                            "mean_score": 0.8,
+                        }
+                    ],
+                    "pins_only": {
+                        "total": 1,
+                        "writes": 1,
+                        "precision": 1.0,
+                        "recall": 1.0,
+                        "pr_auc": 1.0,
+                        "write_rate": 1.0,
+                        "calibration": [
+                            {
+                                "lower": 0.5,
+                                "upper": 1.0,
+                                "count": 1,
+                                "fraction_positive": 1.0,
+                                "mean_score": 0.85,
+                            }
+                        ],
+                    },
+                    "non_pins": {
+                        "total": 1,
+                        "writes": 0,
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "pr_auc": 0.0,
+                        "write_rate": 0.0,
+                        "calibration": [
+                            {
+                                "lower": 0.0,
+                                "upper": 0.5,
+                                "count": 1,
+                                "fraction_positive": 0.0,
+                                "mean_score": 0.1,
+                            }
+                        ],
+                    },
+                    "pins_only_eval": args.eval_pins_only,
+                },
+                "pins_only_eval": args.eval_pins_only,
+            }
+
+            metrics = {
+                "dataset": {"scenario": args.scenario},
+                "gate": gate,
+            }
+
+            metrics_path = outdir / f"{args.scenario}_B1_metrics.json"
+            metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf8")
+
+
+        if __name__ == "__main__":
+            main()
+        """
+    )
+    (harness_pkg / "harness.py").write_text(harness_code, encoding="utf8")
+
+    dataset_code = textwrap.dedent(
+        """
+        from __future__ import annotations
+
+        def generate(n: int, seed: int) -> list[dict[str, object]]:  # noqa: ARG001
+            records: list[dict[str, object]] = []
+            for idx in range(n):
+                records.append(
+                    {
+                        "gate_features": {"pin": idx == 0},
+                        "should_remember": idx == 0,
+                    }
+                )
+            return records
+        """
+    )
+    (datasets_pkg / "scenario_a.py").write_text(dataset_code, encoding="utf8")
+
+    env = os.environ.copy()
+    env["PYTHONPATH"] = f"{stub_root}{os.pathsep}{Path('src').resolve()}"
+    out_dir = tmp_path / "reports"
+    env["OUT"] = str(out_dir)
+
+    result = subprocess.run(
+        [
+            str(script),
+            "--scenario",
+            "A",
+            "--n",
+            "2",
+            "--seed",
+            "1",
+            "--pin-eval",
+        ],
+        env=env,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+
+    telemetry_path = out_dir / "A_gate_telemetry_pins.json"
+    calibration_path = out_dir / "A_gate_calibration_pins.png"
+    assert telemetry_path.exists()
+    assert calibration_path.exists()
+
+    telemetry_data = json.loads(telemetry_path.read_text(encoding="utf8"))
+    assert telemetry_data.get("pins_only_eval") is True
+    assert telemetry_data.get("pins_only")

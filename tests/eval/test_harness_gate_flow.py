@@ -107,7 +107,9 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     )
 
     geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
-    qa_settings = QAPromptSettings(prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True)
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
 
     items, _compute, _baseline, extra = _evaluate_mode_b1(
         records,
@@ -148,3 +150,97 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     sample = trace_samples[0]
     assert sample["has_pointer"] is False
     assert "episode_text" in sample["banned_keys"]
+
+
+def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Pinned server configuration.",
+            "cues": ["Which server?"],
+            "answers": ["alpha"],
+            "group_id": 1,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 2.5,
+                "novelty": 0.9,
+                "reward": False,
+                "pin": True,
+            },
+        },
+        {
+            "episode_text": "Background status update.",
+            "cues": ["What status?"],
+            "answers": ["green"],
+            "group_id": 2,
+            "should_remember": False,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 0.1,
+                "novelty": 0.1,
+                "reward": False,
+                "pin": False,
+            },
+        },
+    ]
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        return _StubRecallService(records)
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    _, _, _, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=None,
+    )
+
+    telemetry = extra["gate"]["telemetry"]
+    pins_slice = telemetry.get("pins_only")
+    assert pins_slice
+    assert pins_slice["total"] == 1
+    assert pins_slice["writes"] >= 1
+    non_pins_slice = telemetry.get("non_pins")
+    assert non_pins_slice
+    assert non_pins_slice["total"] == 1
+
+    _, _, _, extra_pins = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=None,
+        pins_only=True,
+    )
+
+    gate_info = extra_pins["gate"]
+    assert gate_info["pins_only_eval"] is True
+    assert gate_info["total"] == 1
+    telemetry_pins = gate_info["telemetry"]
+    assert telemetry_pins["total"] == 1
+    assert telemetry_pins["pins_only"]["total"] == 1
+    assert telemetry_pins["non_pins"]["total"] == 1
+    assert len(gate_info["decisions"]) == 1
