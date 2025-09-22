@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-"""Render a calibration plot for neuromodulated gate telemetry."""
-
 from __future__ import annotations
 
 import argparse
 import json
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -41,6 +39,16 @@ def _parse_args() -> argparse.Namespace:
         default=None,
         help="Custom plot title. Defaults to scenario/threshold metadata when available.",
     )
+    parser.add_argument(
+        "--pins-only",
+        action="store_true",
+        help="Render the pins-only calibration slice when available.",
+    )
+    parser.add_argument(
+        "--overlay-nonpins",
+        action="store_true",
+        help="Overlay non-pinned calibration data when plotting pins-only curves.",
+    )
     return parser.parse_args()
 
 
@@ -56,30 +64,26 @@ def _resolve_title(meta: dict[str, Any], explicit: str | None) -> str:
         return explicit
     scenario = meta.get("scenario")
     threshold = meta.get("threshold")
-    if scenario and isinstance(threshold, (int, float)):
+    if scenario and isinstance(threshold, int | float):
         return f"Scenario {scenario} — τ={threshold:.2f}"
     if scenario:
         return f"Scenario {scenario}"
     return "Gate calibration"
 
 
-def main() -> None:
-    args = _parse_args()
-    telemetry_path: Path = args.telemetry
-    telemetry = _load_json(telemetry_path)
-    calibration = telemetry.get("calibration")
-    if not calibration:
-        raise SystemExit("Telemetry JSON does not contain calibration buckets")
-    buckets: list[dict[str, Any]] = []
-    for bucket in calibration:
-        if isinstance(bucket, dict):
-            buckets.append(bucket)
-    if not buckets:
-        raise SystemExit("No valid calibration buckets found")
+def _calibration_buckets(section: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    calibration = section.get("calibration")
+    if isinstance(calibration, Sequence):
+        return [bucket for bucket in calibration if isinstance(bucket, Mapping)]
+    return []
 
-    x_vals = []
-    y_vals = []
-    sizes = []
+
+def _calibration_points(
+    buckets: Sequence[Mapping[str, Any]],
+) -> tuple[list[float], list[float], list[int]]:
+    x_vals: list[float] = []
+    y_vals: list[float] = []
+    sizes: list[int] = []
     for bucket in buckets:
         lower = float(bucket.get("lower", 0.0))
         upper = float(bucket.get("upper", lower))
@@ -89,10 +93,48 @@ def main() -> None:
         x_vals.append(mean_score)
         y_vals.append(frac_pos)
         sizes.append(max(count, 1))
+    return x_vals, y_vals, sizes
+
+
+def main() -> None:
+    args = _parse_args()
+    telemetry_path: Path = args.telemetry
+    telemetry = _load_json(telemetry_path)
+    if args.overlay_nonpins and not args.pins_only:
+        raise SystemExit("--overlay-nonpins requires --pins-only")
+
+    primary_section: Mapping[str, Any] = telemetry
+    primary_label = "Gate"
+    if args.pins_only:
+        pins_section = telemetry.get("pins_only")
+        if not isinstance(pins_section, Mapping):
+            raise SystemExit("Telemetry JSON does not contain pins_only metrics")
+        primary_section = pins_section
+        primary_label = "Pins"
+    buckets = _calibration_buckets(primary_section)
+    if not buckets:
+        raise SystemExit("Telemetry JSON does not contain calibration buckets")
+
+    x_vals, y_vals, sizes = _calibration_points(buckets)
 
     fig, ax = plt.subplots()
     ax.plot([0.0, 1.0], [0.0, 1.0], linestyle="--", color="0.6", label="Ideal")
-    ax.scatter(x_vals, y_vals, c="tab:blue", s=[10 + 5 * size for size in sizes], label="Gate")
+    ax.scatter(x_vals, y_vals, s=[10 + 5 * size for size in sizes], label=primary_label)
+
+    if args.pins_only and args.overlay_nonpins:
+        non_pins_section = telemetry.get("non_pins")
+        if isinstance(non_pins_section, Mapping):
+            overlay_buckets = _calibration_buckets(non_pins_section)
+            if overlay_buckets:
+                overlay_x, overlay_y, overlay_sizes = _calibration_points(overlay_buckets)
+                ax.scatter(
+                    overlay_x,
+                    overlay_y,
+                    s=[10 + 5 * size for size in overlay_sizes],
+                    marker="s",
+                    label="Non-pins",
+                )
+
     ax.set_xlim(0.0, 1.0)
     ax.set_ylim(0.0, 1.0)
     ax.set_xlabel("Mean gate score")

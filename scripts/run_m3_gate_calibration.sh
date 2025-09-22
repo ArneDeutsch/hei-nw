@@ -10,6 +10,7 @@ SEED="13"
 THRESHOLD="1.5"
 PLOT_TITLE=""
 declare -a THRESHOLD_SWEEP=()
+PIN_EVAL="false"
 
 usage() {
   cat <<'USAGE'
@@ -27,6 +28,7 @@ Options:
   --threshold-sweep "τ …"   Space or comma-separated list of τ values to sweep
   --out DIR                 Output directory (default: reports/m3-write-gate)
   --title TITLE             Custom title for the calibration plot
+  --pin-eval                Evaluate pins-only slice and emit pins-specific artifacts
   --help, -h                Show this help message and exit
 USAGE
 }
@@ -123,6 +125,10 @@ while [[ $# -gt 0 ]]; do
       PLOT_TITLE="${1#*=}"
       shift 1
       ;;
+    --pin-eval)
+      PIN_EVAL="true"
+      shift 1
+      ;;
     --help|-h)
       usage
       exit 0
@@ -135,9 +141,48 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ "$PIN_EVAL" == "true" ]]; then
+  echo "[m3] Checking for pinned records in scenario ${SCENARIO} (n=${N}, seed=${SEED})"
+  if ! python - "$SCENARIO" "$N" "$SEED" <<'PY'
+import sys
+
+from hei_nw import datasets
+
+scenario = sys.argv[1].upper()
+n = int(sys.argv[2])
+seed = int(sys.argv[3])
+
+module = getattr(datasets, f"scenario_{scenario.lower()}", None)
+if module is None or not hasattr(module, "generate"):
+    raise SystemExit(f"Unknown scenario '{scenario}' for pin evaluation")
+
+records = module.generate(n, seed=seed)
+has_pin = any(
+    isinstance(record, dict)
+    and isinstance(record.get("gate_features"), dict)
+    and record["gate_features"].get("pin")
+    for record in records
+)
+if not has_pin:
+    sys.stderr.write(
+        f"Scenario {scenario} generated 0 pinned records (n={n}, seed={seed}).\n"
+    )
+    sys.exit(3)
+PY
+  then
+    echo "[m3] Scenario ${SCENARIO} has no pinned records for the provided seed." >&2
+    echo "[m3] Try a different scenario/seed or omit --pin-eval." >&2
+    exit 3
+  fi
+fi
+
 mkdir -p "$OUT"
 
 metrics_base="${SCENARIO}_B1"
+summary_suffix=""
+if [[ "$PIN_EVAL" == "true" ]]; then
+  summary_suffix="_pins"
+fi
 
 run_calibration_for_threshold() {
   local tau="$1"
@@ -146,30 +191,47 @@ run_calibration_for_threshold() {
 
   mkdir -p "$run_out_dir"
 
-  local metrics_json="${run_out_dir}/${metrics_base}_metrics.json"
-  local telemetry_json="${run_out_dir}/${SCENARIO}_gate_telemetry.json"
-  local calibration_png="${run_out_dir}/${SCENARIO}_gate_calibration.png"
-  local trace_samples_json="${run_out_dir}/${SCENARIO}_trace_samples.json"
+  local suffix=""
+  local mode_note=""
+  if [[ "$PIN_EVAL" == "true" ]]; then
+    suffix="_pins"
+    mode_note=" (pins-only)"
+    if [[ -n "$plot_title" ]]; then
+      plot_title+=" (pins-only)"
+    fi
+  fi
 
-  echo "[m3] Running harness for scenario ${SCENARIO} at τ=${tau} (n=${N}, seed=${SEED})"
-  python -m hei_nw.eval.harness \
-    --mode B1 \
-    --scenario "$SCENARIO" \
-    -n "$N" \
-    --seed "$SEED" \
-    --model "$MODEL" \
-    --outdir "$run_out_dir" \
+  local metrics_json="${run_out_dir}/${metrics_base}_metrics.json"
+  local telemetry_json="${run_out_dir}/${SCENARIO}_gate_telemetry${suffix}.json"
+  local calibration_png="${run_out_dir}/${SCENARIO}_gate_calibration${suffix}.png"
+  local trace_samples_json="${run_out_dir}/${SCENARIO}_trace_samples${suffix}.json"
+
+  echo "[m3] Running harness for scenario ${SCENARIO} at τ=${tau} (n=${N}, seed=${SEED})${mode_note}"
+  local -a harness_cmd=(
+    python -m hei_nw.eval.harness
+    --mode B1
+    --scenario "$SCENARIO"
+    -n "$N"
+    --seed "$SEED"
+    --model "$MODEL"
+    --outdir "$run_out_dir"
     --gate.threshold "$tau"
+  )
+  if [[ "$PIN_EVAL" == "true" ]]; then
+    harness_cmd+=("--eval.pins_only")
+  fi
+  "${harness_cmd[@]}"
 
   if [[ ! -f "$metrics_json" ]]; then
     echo "Expected metrics file not found: $metrics_json" >&2
     exit 1
   fi
 
-  echo "[m3] Extracting gate telemetry for τ=${tau}"
+  echo "[m3] Extracting gate telemetry for τ=${tau}${mode_note}"
   export M3_METRICS_PATH="$metrics_json"
   export M3_TELEMETRY_PATH="$telemetry_json"
   export M3_TRACE_SAMPLES_PATH="$trace_samples_json"
+  export M3_PIN_EVAL="$PIN_EVAL"
   python - <<'PY'
 import json
 import os
@@ -178,6 +240,7 @@ from pathlib import Path
 metrics_path = Path(os.environ["M3_METRICS_PATH"])
 telemetry_path = Path(os.environ["M3_TELEMETRY_PATH"])
 trace_samples_path = Path(os.environ["M3_TRACE_SAMPLES_PATH"])
+pin_eval = os.environ.get("M3_PIN_EVAL", "false").lower() == "true"
 
 data = json.loads(metrics_path.read_text(encoding="utf8"))
 gate = data.get("gate", {})
@@ -190,6 +253,7 @@ telemetry["write_rate"] = gate.get("write_rate")
 telemetry["write_rate_per_1k"] = gate.get("write_rate_per_1k")
 telemetry["pinned"] = gate.get("pinned")
 telemetry["reward_flags"] = gate.get("reward_flags")
+telemetry["pins_only_eval"] = pin_eval
 telemetry_path.write_text(json.dumps(telemetry, indent=2), encoding="utf8")
 
 samples = gate.get("trace_samples")
@@ -198,14 +262,17 @@ if isinstance(samples, list) and samples:
 elif trace_samples_path.exists():
     trace_samples_path.unlink()
 PY
-  unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH
+  unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH M3_PIN_EVAL
 
   local -a plot_cmd=("scripts/plot_gate_calibration.py" "$telemetry_json" "--out" "$calibration_png" "--metrics" "$metrics_json")
   if [[ -n "$plot_title" ]]; then
     plot_cmd+=("--title" "$plot_title")
   fi
+  if [[ "$PIN_EVAL" == "true" ]]; then
+    plot_cmd+=("--pins-only" "--overlay-nonpins")
+  fi
 
-  echo "[m3] Rendering calibration curve for τ=${tau}"
+  echo "[m3] Rendering calibration curve for τ=${tau}${mode_note}"
   python "${plot_cmd[@]}"
 }
 
@@ -225,11 +292,11 @@ if [[ ${#THRESHOLD_SWEEP[@]} -gt 0 ]]; then
     sweep_dirs+=("tau_${tau_key}")
   done
 
-  summary_json="${OUT}/${SCENARIO}_sweep_summary.json"
+  summary_json="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.json"
   echo "[m3] Generating sweep summary at ${summary_json}"
   python scripts/report_gate_write_rates.py "${metrics_paths[@]}" --out "$summary_json"
 
-  summary_tsv="${OUT}/${SCENARIO}_sweep_summary.tsv"
+  summary_tsv="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.tsv"
   python - "$summary_tsv" "${metrics_paths[@]}" <<'PY'
 import json
 import sys
@@ -259,16 +326,24 @@ with out_path.open("w", encoding="utf8") as handle:
         handle.write("\t".join("" if value is None else str(value) for value in row) + "\n")
 PY
 
-  index_md="${OUT}/${SCENARIO}_threshold_sweep.md"
+  index_md="${OUT}/${SCENARIO}_threshold_sweep${summary_suffix}.md"
   {
-    echo "# Threshold sweep for scenario ${SCENARIO}"
+    if [[ "$PIN_EVAL" == "true" ]]; then
+      echo "# Threshold sweep for scenario ${SCENARIO} (pins-only)"
+    else
+      echo "# Threshold sweep for scenario ${SCENARIO}"
+    fi
     echo ""
     echo "| τ | Calibration plot |"
     echo "| --- | --- |"
     for ((i = 0; i < ${#THRESHOLD_SWEEP[@]}; i++)); do
       tau="${THRESHOLD_SWEEP[$i]}"
       dir="${sweep_dirs[$i]}"
-      echo "| ${tau} | [Calibration plot](./${dir}/${SCENARIO}_gate_calibration.png) |"
+      plot_path="${SCENARIO}_gate_calibration"
+      if [[ "$PIN_EVAL" == "true" ]]; then
+        plot_path+="_pins"
+      fi
+      echo "| ${tau} | [Calibration plot](./${dir}/${plot_path}.png) |"
     done
   } > "$index_md"
 
