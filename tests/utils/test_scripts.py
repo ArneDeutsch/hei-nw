@@ -199,6 +199,121 @@ def test_run_m3_gate_calibration_has_pin_eval_flag() -> None:
     assert "--eval.pins_only" in script_text
 
 
+def test_telemetry_includes_provenance(tmp_path: Path) -> None:
+    package_root = tmp_path / "hei_nw"
+    eval_root = package_root / "eval"
+    eval_root.mkdir(parents=True)
+
+    (package_root / "__init__.py").write_text(
+        "from pkgutil import extend_path\n__path__ = extend_path(__path__, __name__)\n",
+        encoding="utf8",
+    )
+    (eval_root / "__init__.py").write_text(
+        "from pkgutil import extend_path\n__path__ = extend_path(__path__, __name__)\n",
+        encoding="utf8",
+    )
+
+    harness_code = textwrap.dedent(
+        """
+        from __future__ import annotations
+
+        import argparse
+        import json
+        from pathlib import Path
+
+
+        def main() -> None:
+            parser = argparse.ArgumentParser()
+            parser.add_argument("--mode")
+            parser.add_argument("--scenario")
+            parser.add_argument("-n", dest="n")
+            parser.add_argument("--seed")
+            parser.add_argument("--model")
+            parser.add_argument("--outdir")
+            parser.add_argument("--gate.threshold", dest="gate_threshold")
+            parser.add_argument("--eval.pins_only", action="store_true")
+            args = parser.parse_args()
+
+            out_dir = Path(args.outdir)
+            out_dir.mkdir(parents=True, exist_ok=True)
+            n = max(int(args.n), 1)
+            threshold = float(args.gate_threshold)
+            metrics = {
+                "dataset": {"scenario": args.scenario},
+                "gate": {
+                    "threshold": threshold,
+                    "writes": 1,
+                    "total": n,
+                    "write_rate": 1.0 / n,
+                    "write_rate_per_1k": 1000.0 / n,
+                    "pinned": 0,
+                    "reward_flags": 0,
+                    "telemetry": {
+                        "pr_auc": 0.5,
+                        "calibration": [
+                            {
+                                "lower": 0.0,
+                                "upper": 0.5,
+                                "count": 1,
+                                "fraction_positive": 0.25,
+                                "mean_score": 0.25,
+                            },
+                            {
+                                "lower": 0.5,
+                                "upper": 1.0,
+                                "count": 1,
+                                "fraction_positive": 0.75,
+                                "mean_score": 0.75,
+                            },
+                        ],
+                    },
+                    "trace_samples": [],
+                },
+            }
+            metrics_path = out_dir / f"{args.scenario}_B1_metrics.json"
+            metrics_path.write_text(json.dumps(metrics), encoding="utf8")
+
+
+        if __name__ == "__main__":
+            main()
+        """
+    )
+    (eval_root / "harness.py").write_text(harness_code, encoding="utf8")
+
+    out_dir = tmp_path / "out"
+    env = os.environ.copy()
+    env["PYTHONPATH"] = f"{tmp_path}:{Path('src').resolve()}"
+    env["OUT"] = str(out_dir)
+    env["MODEL"] = "Test/Model@1"
+
+    script = Path("scripts/run_m3_gate_calibration.sh")
+    result = subprocess.run(
+        [
+            str(script),
+            "--scenario",
+            "A",
+            "--n",
+            "10",
+            "--seed",
+            "23",
+            "--threshold",
+            "1.7",
+        ],
+        env=env,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    telemetry_path = out_dir / "A_gate_telemetry.json"
+    assert telemetry_path.exists()
+    telemetry = json.loads(telemetry_path.read_text(encoding="utf8"))
+    assert telemetry["model"] == "Test/Model@1"
+    assert telemetry["n"] == 10
+    assert telemetry["seed"] == 23
+
+
 def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     script = Path("scripts/run_m3_gate_calibration.sh")
 

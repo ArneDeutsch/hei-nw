@@ -62,12 +62,68 @@ def _load_json(path: Path) -> dict[str, Any]:
 def _resolve_title(meta: dict[str, Any], explicit: str | None) -> str:
     if explicit:
         return explicit
+
     scenario = meta.get("scenario")
     threshold = meta.get("threshold")
-    if scenario and isinstance(threshold, int | float):
-        return f"Scenario {scenario} — τ={threshold:.2f}"
-    if scenario:
+    n_value = meta.get("n")
+    seed_value = meta.get("seed")
+    model = meta.get("model")
+
+    def _has_value(value: Any) -> bool:
+        if value is None:
+            return False
+        if isinstance(value, str) and value == "":
+            return False
+        return True
+
+    def _format_threshold(value: Any) -> str:
+        if isinstance(value, int | float):
+            if isinstance(value, float):
+                return f"{value:.2f}"
+            return str(value)
+        try:
+            float_value = float(value)
+        except (TypeError, ValueError):
+            return str(value)
+        return f"{float_value:.2f}"
+
+    def _format_int_like(value: Any) -> str:
+        if isinstance(value, bool):
+            return str(value)
+        if isinstance(value, int | float) and float(value).is_integer():
+            return str(int(float(value)))
+        if isinstance(value, str):
+            try:
+                return str(int(value))
+            except ValueError:
+                return value
+        return str(value)
+
+    if (
+        _has_value(scenario)
+        and _has_value(threshold)
+        and _has_value(n_value)
+        and _has_value(seed_value)
+        and _has_value(model)
+    ):
+        scenario_text = str(scenario)
+        threshold_text = _format_threshold(threshold)
+        n_text = _format_int_like(n_value)
+        seed_text = _format_int_like(seed_value)
+        model_text = str(model)
+        return (
+            f"{scenario_text} — τ={threshold_text} — n={n_text}, "
+            f"seed={seed_text}, model={model_text}"
+        )
+
+    if _has_value(scenario) and _has_value(threshold):
+        scenario_text = str(scenario)
+        threshold_text = _format_threshold(threshold)
+        return f"Scenario {scenario_text} — τ={threshold_text}"
+
+    if _has_value(scenario):
         return f"Scenario {scenario}"
+
     return "Gate calibration"
 
 

@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
 from pathlib import Path
+
+MODULE_PATH = Path(__file__).resolve().parents[2] / "scripts" / "plot_gate_calibration.py"
+spec = importlib.util.spec_from_file_location("plot_gate_calibration", MODULE_PATH)
+assert spec is not None and spec.loader is not None
+plot_gate_calibration = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(plot_gate_calibration)
 
 
 def test_pins_only_render_smoke(tmp_path: Path) -> None:
@@ -76,3 +83,24 @@ def test_pins_only_render_smoke(tmp_path: Path) -> None:
     )
     assert result.returncode == 0
     assert out_path.exists()
+
+
+def test_default_title_uses_provenance_when_available() -> None:
+    telemetry = {
+        "scenario": "A",
+        "threshold": 1.5,
+        "n": 16,
+        "seed": 7,
+        "model": "Test/Model",
+    }
+    title = plot_gate_calibration._resolve_title(telemetry, explicit=None)
+    assert title == "A — τ=1.50 — n=16, seed=7, model=Test/Model"
+
+
+def test_default_title_falls_back_cleanly() -> None:
+    assert (
+        plot_gate_calibration._resolve_title({"scenario": "B", "threshold": 0.7}, explicit=None)
+        == "Scenario B — τ=0.70"
+    )
+    assert plot_gate_calibration._resolve_title({"scenario": "B"}, explicit=None) == "Scenario B"
+    assert plot_gate_calibration._resolve_title({}, explicit=None) == "Gate calibration"
