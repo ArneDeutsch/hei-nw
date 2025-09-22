@@ -3,8 +3,8 @@ import math
 import numpy as np
 import torch
 
-from hei_nw.eviction import DecayPolicy, PinProtector
 from hei_nw.datasets import scenario_a
+from hei_nw.eviction import DecayPolicy, PinProtector
 from hei_nw.store import EpisodicStore, HopfieldReadout
 
 

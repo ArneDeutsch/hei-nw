@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any, Mapping
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 __all__ = ["compute_gate_metrics"]
 
@@ -26,12 +26,12 @@ def _pr_auc(scores: Sequence[float], labels: Sequence[bool]) -> float:
     positives = sum(1 for label in labels if label)
     if positives == 0 or not scores:
         return 0.0
-    pairs = sorted(zip(scores, labels), key=lambda item: item[0], reverse=True)
+    pairs = sorted(zip(scores, labels, strict=False), key=lambda item: item[0], reverse=True)
     tp = 0
     fp = 0
     last_recall = 0.0
     area = 0.0
-    for score, label in pairs:
+    for _score, label in pairs:
         if label:
             tp += 1
         else:
@@ -45,7 +45,11 @@ def _pr_auc(scores: Sequence[float], labels: Sequence[bool]) -> float:
     return float(area)
 
 
-def _calibration(scores: Sequence[float], labels: Sequence[bool], bins: int) -> list[dict[str, float | int]]:
+def _calibration(
+    scores: Sequence[float],
+    labels: Sequence[bool],
+    bins: int,
+) -> list[dict[str, float | int]]:
     if bins <= 0:
         raise ValueError("calibration bins must be positive")
     if not scores:

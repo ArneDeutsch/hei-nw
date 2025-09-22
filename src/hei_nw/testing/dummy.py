@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import Iterable, Sequence
+from typing import cast
 
 import torch
 from torch import Tensor, nn
@@ -14,8 +15,8 @@ DUMMY_MODEL_ID = "hei-nw/dummy-model"
 class DummyTokenizer:
     """Minimal tokenizer with a mutable vocabulary."""
 
-    pad_token = "<pad>"
-    eos_token = "<eos>"
+    pad_token = "<pad>"  # noqa: S105 - placeholder token for deterministic tests
+    eos_token = "<eos>"  # noqa: S105 - placeholder token for deterministic tests
 
     def __init__(self) -> None:
         self.pad_token_id = 0
@@ -69,7 +70,7 @@ class DummyTokenizer:
         padding: bool | str = False,
         truncation: bool | str = False,
         **_: object,
-    ) -> dict[str, list[int] | Tensor]:
+    ) -> dict[str, list[int] | list[list[int]] | Tensor]:
         if isinstance(text, Sequence) and not isinstance(text, str):
             batch = [self.encode(t, add_special_tokens=add_special_tokens) for t in text]
             if padding:
@@ -120,7 +121,7 @@ class _DynamicEmbedding(nn.Module):
 
     def forward(self, input_ids: Tensor) -> Tensor:  # pragma: no cover - torch contract
         self._ensure_capacity(int(input_ids.max().item()) + 1)
-        return self.embedding(input_ids)
+        return cast(Tensor, self.embedding(input_ids))
 
     def _ensure_capacity(self, size: int) -> None:
         if size <= self.embedding.num_embeddings:
@@ -151,21 +152,14 @@ class DummyModel(nn.Module):
         super().__init__()
         self.tokenizer = tokenizer
         self.config = DummyConfig(pad_token_id=tokenizer.pad_token_id)
-        self.device = torch.device("cpu")
         self._embeddings = _DynamicEmbedding(embed_dim=self.config.hidden_size)
 
     def get_input_embeddings(self) -> nn.Module:
         return self._embeddings
 
-    def to(self, device: torch.device | str | None = None, *_, **__: object) -> DummyModel:  # type: ignore[override]
-        if device is not None:
-            self.device = torch.device(device)
-            self._embeddings.to(self.device)
-        return self
-
-    def eval(self) -> DummyModel:  # type: ignore[override]
-        super().eval()
-        return self
+    @property
+    def device(self) -> torch.device:
+        return self._embeddings.embedding.weight.device
 
     def generate(  # noqa: D401 - matches transformers signature subset
         self,
@@ -198,7 +192,7 @@ class DummyModel(nn.Module):
             repeats = (max_new_tokens + len(pattern) - 1) // len(pattern)
             generated_core = pattern.repeat(repeats)[:max_new_tokens]
 
-        outputs = []
+        outputs: list[Tensor] = []
         for row in prompt:
             outputs.append(torch.cat([row, generated_core], dim=-1))
         return torch.stack(outputs)
@@ -212,7 +206,8 @@ class DummyPipeline:
         self.model = model
 
     def __call__(self, prompt: str, max_new_tokens: int = 16, **_: object) -> list[dict[str, str]]:
-        inputs = self.tokenizer(prompt, return_tensors="pt")["input_ids"].to(self.model.device)
+        encoded = self.tokenizer(prompt, return_tensors="pt")["input_ids"]
+        inputs = cast(Tensor, encoded).to(self.model.device)
         output = self.model.generate(inputs, max_new_tokens=max_new_tokens)
         prompt_len = inputs.shape[-1]
         gen_ids = output[0][prompt_len:]
@@ -227,7 +222,7 @@ def create_dummy_components() -> tuple[DummyTokenizer, DummyModel, DummyPipeline
     """Return freshly constructed dummy components."""
 
     tokenizer = DummyTokenizer()
-    model = DummyModel(tokenizer).to(torch.device("cpu"))
+    model = DummyModel(tokenizer)
     model.eval()
     pipeline = DummyPipeline(tokenizer, model)
     return tokenizer, model, pipeline

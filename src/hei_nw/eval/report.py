@@ -36,9 +36,7 @@ def bin_by_lag(records: Sequence[dict[str, Any]], bins: Sequence[int]) -> list[d
     for start, end in zip(bins, bins[1:], strict=False):
         members = [r for r in records if start <= int(r.get("lag", 0)) < end]
         count = len(members)
-        em_relaxed_vals = [
-            float(r.get("em_relaxed", r.get("em", 0.0))) for r in members
-        ]
+        em_relaxed_vals = [float(r.get("em_relaxed", r.get("em", 0.0))) for r in members]
         em_strict_vals = [float(r.get("em_strict", r.get("em", 0.0))) for r in members]
         em_relaxed = sum(em_relaxed_vals) / count if count else 0.0
         em_strict = sum(em_strict_vals) / count if count else 0.0
@@ -77,7 +75,7 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
             return stop_str
 
     def _fmt_float(value: Any) -> str:
-        return f"{float(value):.3f}" if isinstance(value, (int, float)) else "n/a"
+        return f"{float(value):.3f}" if isinstance(value, int | float) else "n/a"
 
     agg = summary.get("aggregate", {})
     lines = ["# Evaluation Report", "", "## Aggregate Metrics", ""]
@@ -110,7 +108,7 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         lines.append(f"- Memory cap: {mem_str}")
         adapter_cfg = run_config.get("adapter", {}) if isinstance(run_config, dict) else {}
         adapter_scale = adapter_cfg.get("scale")
-        if isinstance(adapter_scale, (int, float)):
+        if isinstance(adapter_scale, int | float):
             adapter_line = f"- Adapter residual scale: {float(adapter_scale):.3f}"
         elif adapter_scale is None:
             adapter_line = "- Adapter residual scale: n/a"
@@ -184,17 +182,17 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     if gate:
         lines.append("## Write gate")
         threshold = gate.get("threshold")
-        if isinstance(threshold, (int, float)):
+        if isinstance(threshold, int | float):
             lines.append(f"- Threshold τ: {float(threshold):.3f}")
         writes = gate.get("writes")
         total = gate.get("total")
         write_rate = gate.get("write_rate")
         write_rate_per_1k = gate.get("write_rate_per_1k")
-        if isinstance(write_rate, (int, float)):
+        if isinstance(write_rate, int | float):
             rate_str = f"{float(write_rate):.3f}"
         else:
             rate_str = "n/a"
-        if isinstance(write_rate_per_1k, (int, float)):
+        if isinstance(write_rate_per_1k, int | float):
             per_1k_str = f"{float(write_rate_per_1k):.1f}"
         else:
             per_1k_str = "n/a"
@@ -209,7 +207,7 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         clutter_rate = _fmt_float(telemetry.get("clutter_rate"))
         writes_per_1k = telemetry.get("writes_per_1k")
         writes_per_1k_str = (
-            f"{float(writes_per_1k):.1f}" if isinstance(writes_per_1k, (int, float)) else per_1k_str
+            f"{float(writes_per_1k):.1f}" if isinstance(writes_per_1k, int | float) else per_1k_str
         )
         lines.append(f"- Precision: {precision} | Recall: {recall} | PR-AUC: {pr_auc}")
         lines.append(f"- Clutter rate: {clutter_rate} ({writes_per_1k_str} writes/1k)")
@@ -247,13 +245,13 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
     debug = summary.get("debug")
     if debug:
         mem_len = debug.get("mem_len")
-        if isinstance(mem_len, Sequence) and not isinstance(mem_len, (str, bytes)):
+        if isinstance(mem_len, Sequence) and not isinstance(mem_len, str | bytes):
             mem_len_str = ", ".join(str(v) for v in mem_len)
             lines.append(f"- Memory token counts: [{mem_len_str}]")
         else:
             lines.append(f"- Memory token counts: {mem_len}")
         preview = debug.get("mem_preview") or []
-        if isinstance(preview, Sequence) and not isinstance(preview, (str, bytes)):
+        if isinstance(preview, Sequence) and not isinstance(preview, str | bytes):
             preview_str = ", ".join(str(tok) for tok in preview)
             lines.append(f"- Memory token preview: [{preview_str}]")
         else:

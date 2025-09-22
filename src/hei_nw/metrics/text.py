@@ -2,18 +2,16 @@
 
 from __future__ import annotations
 
+import unicodedata
 from collections import Counter
 from collections.abc import Sequence
-import unicodedata
 
 
 def canonicalize(text: str) -> str:
     """Return a normalized version of ``text`` for relaxed comparisons."""
 
     stripped = text.strip().lower()
-    no_punct = "".join(
-        ch for ch in stripped if not unicodedata.category(ch).startswith("P")
-    )
+    no_punct = "".join(ch for ch in stripped if not unicodedata.category(ch).startswith("P"))
     return " ".join(no_punct.split())
 
 

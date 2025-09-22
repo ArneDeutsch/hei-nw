@@ -3,10 +3,18 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable
 
-__all__ = ["SalienceFeatures", "NeuromodulatedGate", "GateDecision", "surprise_from_prob", "surprise_from_logits", "novelty_from_similarity", "bool_to_signal"]
+__all__ = [
+    "SalienceFeatures",
+    "NeuromodulatedGate",
+    "GateDecision",
+    "surprise_from_prob",
+    "surprise_from_logits",
+    "novelty_from_similarity",
+    "bool_to_signal",
+]
 
 
 _EPSILON = 1e-9
@@ -38,7 +46,7 @@ class SalienceFeatures:
     reward: bool = False
     pin: bool = False
 
-    def clamp(self) -> "SalienceFeatures":
+    def clamp(self) -> SalienceFeatures:
         """Return a new instance with values clamped to safe ranges."""
 
         surprise = max(0.0, float(self.surprise))

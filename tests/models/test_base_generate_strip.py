@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import torch
 import pytest
+import torch
 
 import hei_nw.models.base as base
 from hei_nw.adapter import EpisodicAdapter

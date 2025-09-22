@@ -3,8 +3,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 DEFAULT_INVALID_PREFIXES = ("<", "•")
 DEFAULT_INVALID_CASELESS_PREFIXES = ("human:", "user:", "assistant:")
