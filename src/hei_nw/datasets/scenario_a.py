@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import random
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from datetime import datetime, timedelta
 
 NAMES = [
@@ -71,7 +71,7 @@ def _build_record(
     lag: int,
     should_remember: bool,
     group_id: int,
-    gate_features: dict[str, object],
+    gate_features: Mapping[str, object],
 ) -> dict[str, object]:
     date_str = _format_date(day)
     text = f"On {date_str}, {name} left a {item} at {place}."
@@ -82,6 +82,7 @@ def _build_record(
         f"when did {name} leave the {item} at {place}?",
     ]
     answers = [name, item, place, date_str]
+    gate_payload = dict(gate_features)
     return {
         "episode_text": text,
         "cues": cues,
@@ -89,7 +90,7 @@ def _build_record(
         "should_remember": should_remember,
         "lag": lag,
         "group_id": group_id,
-        "gate_features": gate_features,
+        "gate_features": gate_payload,
     }
 
 

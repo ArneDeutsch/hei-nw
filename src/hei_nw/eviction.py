@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Iterable
 
 __all__ = ["TraceEvictionState", "DecayPolicy", "PinProtector"]
 

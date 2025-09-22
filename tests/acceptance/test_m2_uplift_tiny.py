@@ -27,7 +27,12 @@ class DummyTokenizer:
 
 
 class TinyRecallService:
-    def __init__(self, records: list[dict[str, object]], tokenizer: DummyTokenizer, max_mem_tokens: int) -> None:
+    def __init__(
+        self,
+        records: list[dict[str, object]],
+        tokenizer: DummyTokenizer,
+        max_mem_tokens: int,
+    ) -> None:
         self.records = records
         self.tokenizer = tokenizer
         self.max_mem_tokens = max_mem_tokens
@@ -68,8 +73,11 @@ def test_m2_uplift_tiny(monkeypatch) -> None:
     def build_service(records, tokenizer, max_mem_tokens, **_kwargs):
         return TinyRecallService(records, tokenizer, max_mem_tokens)
 
+    def fake_build_default_adapter(_model, *, scale=0.2):  # noqa: ANN001 - signature from prod code
+        return object()
+
     monkeypatch.setattr("hei_nw.models.base.generate", fake_generate)
-    monkeypatch.setattr("hei_nw.models.base.build_default_adapter", lambda _model, *, scale=0.2: object())
+    monkeypatch.setattr("hei_nw.models.base.build_default_adapter", fake_build_default_adapter)
     monkeypatch.setattr("hei_nw.eval.harness.relaxed_em", fake_em)
     monkeypatch.setattr("hei_nw.eval.harness.strict_em", fake_em)
     monkeypatch.setattr("hei_nw.eval.harness.token_f1", fake_f1)

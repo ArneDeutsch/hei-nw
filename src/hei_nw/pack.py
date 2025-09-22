@@ -5,7 +5,6 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-
 _POINTER_KEYS = {"doc", "start", "end"}
 _BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
 
@@ -51,8 +50,7 @@ def _normalise_entity_slots(trace: Mapping[str, Any]) -> dict[str, str | dict[st
         if banned in source:
             raise ValueError(f"entity slots may not contain disallowed key '{banned}'")
     slots: dict[str, str | dict[str, str]] = {
-        key: str(source.get(key, "") or "").strip()
-        for key in ("who", "what", "where", "when")
+        key: str(source.get(key, "") or "").strip() for key in ("who", "what", "where", "when")
     }
     extras = source.get("extras")
     if extras is not None:

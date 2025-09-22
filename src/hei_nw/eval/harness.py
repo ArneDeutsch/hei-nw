@@ -194,7 +194,7 @@ def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
     calibration_raw = metrics.get("calibration")
     calibration: list[dict[str, Any]]
     if isinstance(calibration_raw, Sequence):
-        calibration = [bucket for bucket in calibration_raw if isinstance(bucket, Mapping)]
+        calibration = [dict(bucket) for bucket in calibration_raw if isinstance(bucket, Mapping)]
     else:
         calibration = []
     clutter_rate = float(metrics.get("clutter_rate", 0.0))
@@ -222,8 +222,9 @@ def _summarize_gate(
     pin_diag = [diag for diag in diag_list if diag.get("features", {}).get("pin")]
     non_pin_diag = [diag for diag in diag_list if not diag.get("features", {}).get("pin")]
     primary_diag = pin_diag if pins_only else diag_list
-    telemetry = compute_gate_metrics(primary_diag)
-    pin_metrics = telemetry if pins_only else compute_gate_metrics(pin_diag)
+    telemetry_raw = compute_gate_metrics(primary_diag)
+    telemetry: dict[str, Any] = dict(telemetry_raw)
+    pin_metrics = telemetry_raw if pins_only else compute_gate_metrics(pin_diag)
     non_pin_metrics = compute_gate_metrics(non_pin_diag)
     telemetry["pins_only"] = _subset_gate_metrics(pin_metrics)
     telemetry["non_pins"] = _subset_gate_metrics(non_pin_metrics)
@@ -546,7 +547,7 @@ def _build_prompt(
 class EvalItem:
     """Per-record evaluation result."""
 
-    prompt: str
+    prompt: PromptInput
     prediction: str
     truth: str
     em_relaxed: float
@@ -999,7 +1000,7 @@ def _evaluate_mode_b1(
 
     from transformers import PreTrainedModel
 
-    from hei_nw.models.base import build_default_adapter
+    from hei_nw.models.base import build_default_adapter, generate
 
     qa_settings = _resolve_qa_settings(qa)
     hopfield_settings = hopfield or HopfieldSettings()
@@ -1124,11 +1125,11 @@ def _evaluate_mode_b1(
             tokens: list[int] = []
             for trace in selected_traces:
                 answers = trace.get("answers", [])
-                fields = {
+                slot_fields = {
                     key: answers[i] if i < len(answers) else ""
                     for i, key in enumerate(["who", "what", "where", "when"])
                 }
-                tokens.extend(pack_trace(fields, service.tokenizer, service.max_mem_tokens))
+                tokens.extend(pack_trace(slot_fields, service.tokenizer, service.max_mem_tokens))
                 if len(tokens) >= mem_max_tokens:
                     break
             mem_tokens = truncate_memory_tokens(tokens, mem_max_tokens)
@@ -1146,7 +1147,7 @@ def _evaluate_mode_b1(
                 answers = trace.get("answers", [])
                 if not isinstance(answers, list):
                     continue
-                fields = []
+                fields: list[str] = []
                 for label, idx in ("who", 0), ("what", 1), ("where", 2), ("when", 3):
                     if idx < len(answers):
                         value = str(answers[idx]).strip()
@@ -1162,6 +1163,17 @@ def _evaluate_mode_b1(
                 prompt_style=qa_settings.prompt_style,
                 answer_hint=qa_settings.answer_hint,
                 omit_episode=qa_settings.omit_episode,
+            )
+            generate(
+                prompt,
+                max_new_tokens=qa_settings.max_new_tokens,
+                adapter=None,
+                mem_tokens=[],
+                memory_prompt=mem_text,
+                stop=qa_settings.stop_value(),
+                prompt_style=qa_settings.prompt_style,
+                stop_mode=qa_settings.stop_mode,
+                template_policy=qa_settings.template_policy,
             )
             pred = ""
             top_group = final_candidates_raw[0].get("group_id") if final_candidates_raw else None

@@ -18,9 +18,7 @@ def test_prompt_styles_and_stop_behavior() -> None:
         "answers": ["Alice"],
     }
 
-    qa_plain = QAPromptSettings(
-        prompt_style="plain", max_new_tokens=8, stop="\n", answer_hint=True
-    )
+    qa_plain = QAPromptSettings(prompt_style="plain", max_new_tokens=8, stop="\n", answer_hint=True)
     plain_prompt, _ = _build_prompt(
         record,
         prompt_style=qa_plain.prompt_style,
@@ -39,9 +37,7 @@ def test_prompt_styles_and_stop_behavior() -> None:
     assert plain_output["generated_tokens"] <= qa_plain.max_new_tokens
     assert "ASSISTANT:" not in plain_output["text"]
 
-    qa_chat = QAPromptSettings(
-        prompt_style="chat", max_new_tokens=8, stop="\n", answer_hint=True
-    )
+    qa_chat = QAPromptSettings(prompt_style="chat", max_new_tokens=8, stop="\n", answer_hint=True)
     chat_prompt, _ = _build_prompt(
         record,
         prompt_style=qa_chat.prompt_style,
@@ -49,9 +45,14 @@ def test_prompt_styles_and_stop_behavior() -> None:
         omit_episode=qa_chat.omit_episode,
     )
     assert isinstance(chat_prompt, list)
-    assert any("no Markdown" in msg.get("content", "") for msg in chat_prompt if msg.get("role") == "user")
+    assert any(
+        "no Markdown" in msg.get("content", "") for msg in chat_prompt if msg.get("role") == "user"
+    )
     rendered = build_prompt(
-        tok, chat_prompt, qa_chat.prompt_style, template_policy=qa_chat.template_policy
+        tok,
+        chat_prompt,
+        qa_chat.prompt_style,
+        template_policy=qa_chat.template_policy,
     )
     assert "Question:" in rendered
     chat_output = generate(

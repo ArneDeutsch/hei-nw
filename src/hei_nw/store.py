@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping, MutableMapping, Sequence
 from datetime import datetime, timezone
 from typing import Any
 
@@ -12,9 +12,9 @@ import numpy as np
 import torch
 from torch import Tensor, nn
 
-from .keyer import DGKeyer, to_dense
-from .gate import GateDecision
 from .eviction import DecayPolicy, PinProtector, TraceEvictionState
+from .gate import GateDecision
+from .keyer import DGKeyer, to_dense
 
 __all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore", "TraceWriter"]
 
@@ -106,9 +106,13 @@ class TraceWriter:
         doc = str(pointer.get("doc", "")).strip()
         if not doc:
             raise ValueError("pointer.doc must be a non-empty string")
+        start_raw = pointer.get("start")
+        end_raw = pointer.get("end")
+        if start_raw is None or end_raw is None:
+            raise ValueError("pointer.start and pointer.end must be provided")
         try:
-            start = int(pointer.get("start"))
-            end = int(pointer.get("end"))
+            start = int(start_raw)
+            end = int(end_raw)
         except (TypeError, ValueError) as exc:  # pragma: no cover - sanity guard
             raise ValueError("pointer.start and pointer.end must be integers") from exc
         if start < 0 or end < 0:
@@ -124,9 +128,8 @@ class TraceWriter:
         for banned in _BANNED_TEXT_KEYS:
             if banned in slots:
                 raise ValueError(f"entity_slots cannot contain raw text key '{banned}'")
-        normalised = {
-            key: str(slots.get(key, "") or "").strip()
-            for key in ("who", "what", "where", "when")
+        normalised: dict[str, Any] = {
+            key: str(slots.get(key, "") or "").strip() for key in ("who", "what", "where", "when")
         }
         extras = slots.get("extras")
         if extras is not None:
@@ -137,9 +140,7 @@ class TraceWriter:
                     raise ValueError(
                         f"entity_slots['extras'] cannot contain raw text key '{banned}'"
                     )
-            normalised["extras"] = {
-                str(k): str(v) for k, v in extras.items() if v is not None
-            }
+            normalised["extras"] = {str(k): str(v) for k, v in extras.items() if v is not None}
         return normalised
 
     @staticmethod
@@ -731,34 +732,36 @@ class EpisodicStore:
             baseline_norm = _softmax_norm(baseline_scores)
             hopfield_norm = _softmax_norm(cos_scores / max(self.hopfield.temperature, 1e-6))
             hopfield_scores = (
-                (1.0 - self._hopfield_blend) * baseline_norm
-                + self._hopfield_blend * hopfield_norm
-            )
+                1.0 - self._hopfield_blend
+            ) * baseline_norm + self._hopfield_blend * hopfield_norm
             order = torch.argsort(hopfield_scores, descending=True)
 
             if order.numel():
-                top_idx = int(order[0])
+                top_index = int(order[0])
                 baseline_idx = 0
                 baseline_ref = baseline_norm[baseline_idx] if baseline_norm.numel() else 0.0
-                hopfield_ref = hopfield_scores[top_idx]
-                if top_idx != baseline_idx and hopfield_ref <= baseline_ref + self._hopfield_margin:
+                hopfield_ref = hopfield_scores[top_index]
+                if (
+                    top_index != baseline_idx
+                    and hopfield_ref <= baseline_ref + self._hopfield_margin
+                ):
                     order = torch.arange(len(results))
         else:
             order = torch.arange(len(results))
         if use_hopfield and order.numel():
             baseline_order = list(range(len(results)))
-            top_idx = int(order[0])
-            if top_idx != baseline_order[0]:
-                order_list = [top_idx] + [idx for idx in baseline_order if idx != top_idx]
+            top_index = int(order[0])
+            if top_index != baseline_order[0]:
+                order_list = [top_index] + [idx for idx in baseline_order if idx != top_index]
             else:
                 order_list = baseline_order
         else:
             order_list = [int(idx) for idx in order.tolist()]
-            if not order_list:
-                order_list = list(range(len(results)))
+        if not order_list:
+            order_list = list(range(len(results)))
         ordered_results = [results[i] for i in order_list]
         top_k = min(return_m, len(order_list))
-        top_idx = order_list[:top_k]
+        top_indices = order_list[:top_k]
         post_top1_group = ordered_results[0]["group_id"] if ordered_results else baseline_top1_group
         post_rank: int | None = None
         if pre_rank is not None:
@@ -769,9 +772,9 @@ class EpisodicStore:
         rank_delta = 0
         if pre_rank is not None and post_rank is not None:
             rank_delta = pre_rank - post_rank
-        selected = [results[i]["trace"] for i in top_idx]
+        selected = [results[i]["trace"] for i in top_indices]
         accessed_states: dict[str, TraceEvictionState] = {}
-        for idx in top_idx:
+        for idx in top_indices:
             res = results[idx]
             trace_id = res.get("trace_id")
             if trace_id is None:
@@ -782,11 +785,11 @@ class EpisodicStore:
         for idx in order_list:
             r = results[idx]
             r_copy = {k: v for k, v in r.items() if k != "key_vector"}
-            state = accessed_states.get(str(r.get("trace_id")))
-            if state is not None:
-                r_copy["last_access"] = state.last_access.isoformat()
-                r_copy["ttl_seconds"] = state.ttl_seconds
-                r_copy["expires_at"] = state.expires_at.isoformat()
+            cached_state = accessed_states.get(str(r.get("trace_id")))
+            if cached_state is not None:
+                r_copy["last_access"] = cached_state.last_access.isoformat()
+                r_copy["ttl_seconds"] = cached_state.ttl_seconds
+                r_copy["expires_at"] = cached_state.expires_at.isoformat()
             candidates.append(r_copy)
         baseline_candidates: list[dict[str, Any]] = []
         for idx in baseline_indices:
@@ -850,7 +853,10 @@ class EpisodicStore:
                     meta = getattr(self.index, "meta", None)
                     if isinstance(meta, list):
                         for entry in meta:
-                            if isinstance(entry, Mapping) and entry.get("trace_id") == trace_id:
+                            if (
+                                isinstance(entry, MutableMapping)
+                                and entry.get("trace_id") == trace_id
+                            ):
                                 entry["_active"] = False
                 self._eviction_state.pop(trace_id, None)
         return removed
@@ -885,7 +891,7 @@ class EpisodicStore:
         if not isinstance(meta, list):
             return False
         for entry in meta:
-            if not isinstance(entry, Mapping):
+            if not isinstance(entry, MutableMapping):
                 continue
             if entry.get("trace_id") == trace_id:
                 trace_info = entry.get("trace")
@@ -902,7 +908,7 @@ class EpisodicStore:
         if not isinstance(meta, list):
             return
         for entry in meta:
-            if isinstance(entry, Mapping) and entry.get("trace_id") == trace_id:
+            if isinstance(entry, MutableMapping) and entry.get("trace_id") == trace_id:
                 entry.update(payload)
 
     @staticmethod

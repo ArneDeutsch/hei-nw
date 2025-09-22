@@ -90,17 +90,11 @@ def generate(n: int, seed: int) -> list[dict[str, object]]:
             expected = str(port)
             reward_annotation: str | None
             if reward:
-                reward_annotation = (
-                    f"Service {service} is marked critical; reward applied."
-                )
+                reward_annotation = f"Service {service} is marked critical; reward applied."
             else:
                 reward_annotation = None
             pin = server in PINNED_SERVERS
-            pin_annotation = (
-                f"{server} belongs to the always-pin SRE list."
-                if pin
-                else None
-            )
+            pin_annotation = f"{server} belongs to the always-pin SRE list." if pin else None
             event_type = "config_update"
             novelty_counters = {
                 "config_index": config_index,

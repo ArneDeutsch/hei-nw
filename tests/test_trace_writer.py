@@ -6,9 +6,7 @@ from hei_nw.store import TraceWriter
 
 def test_pointer_only_payload() -> None:
     gate = NeuromodulatedGate(threshold=0.8)
-    decision = gate.decision(
-        SalienceFeatures(surprise=1.2, novelty=0.6, reward=True, pin=False)
-    )
+    decision = gate.decision(SalienceFeatures(surprise=1.2, novelty=0.6, reward=True, pin=False))
     writer = TraceWriter()
     payload = writer.write(
         trace_id="trace-001",

@@ -29,7 +29,11 @@ class DummyIndex:
     ef_search = 1
 
 
-def _make_store(policy: DecayPolicy, protector: PinProtector, state_time: datetime) -> EpisodicStore:
+def _make_store(
+    policy: DecayPolicy,
+    protector: PinProtector,
+    state_time: datetime,
+) -> EpisodicStore:
     store = EpisodicStore.__new__(EpisodicStore)
     store.index = DummyIndex()
     store.decay_policy = policy

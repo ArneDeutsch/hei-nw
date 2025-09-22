@@ -260,9 +260,7 @@ def generate(
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
 
-    prompt_text = build_prompt(
-        _tokenizer, prompt, prompt_style, template_policy=template_policy
-    )
+    prompt_text = build_prompt(_tokenizer, prompt, prompt_style, template_policy=template_policy)
     if memory_prompt:
         memory_prompt = str(memory_prompt).strip()
         if memory_prompt:
@@ -350,9 +348,7 @@ def generate(
     return result
 
 
-def build_default_adapter(
-    model: PreTrainedModel, *, scale: float = 0.2
-) -> EpisodicAdapter:
+def build_default_adapter(model: PreTrainedModel, *, scale: float = 0.2) -> EpisodicAdapter:
     """Construct a default ``EpisodicAdapter`` matching ``model`` geometry."""
 
     hidden_size = getattr(model.config, "hidden_size", None)

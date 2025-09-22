@@ -8,9 +8,8 @@ import json
 import math
 import random
 import statistics
-import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 
 def _positive_int(value: str) -> int:
@@ -136,7 +135,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     em_b1 = _extract_em(records_b1, indices)
     non_empty = _non_empty_rate(records_b1, indices)
 
-    rng = random.Random(args.seed)
+    rng = random.Random(args.seed)  # noqa: S311 - deterministic seeding is sufficient here
     lift_mean, ci_low, ci_high = _bootstrap_lift(em_b0, em_b1, resamples=args.resamples, rng=rng)
 
     print(f"Records evaluated: {len(indices)}")

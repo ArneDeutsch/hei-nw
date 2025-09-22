@@ -36,10 +36,6 @@ def test_reward_pin_annotations() -> None:
             assert record["pin_annotation"]
 
     novelty_progression = [
-        r["novelty_counters"]["config_index"]
-        for r in records
-        if r["gate_features"]["pin"]
+        r["novelty_counters"]["config_index"] for r in records if r["gate_features"]["pin"]
     ]
     assert novelty_progression == sorted(novelty_progression)
-
-
