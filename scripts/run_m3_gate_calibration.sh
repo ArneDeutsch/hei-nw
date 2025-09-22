@@ -9,6 +9,7 @@ N="48"
 SEED="13"
 THRESHOLD="1.5"
 PLOT_TITLE=""
+declare -a THRESHOLD_SWEEP=()
 
 usage() {
   cat <<'USAGE'
@@ -18,15 +19,42 @@ Runs the B1 harness with gate telemetry enabled and produces calibration assets.
 Artifacts are written to reports/m3-write-gate by default.
 
 Options:
-  --scenario SCENARIO   Scenario identifier (default: A)
-  --n N                 Number of records to evaluate (default: 48)
-  --seed SEED           Random seed (default: 13)
-  --model MODEL         Model identifier (default: Qwen/Qwen2.5-1.5B-Instruct)
-  --threshold TAU       Gate threshold τ (default: 1.5)
-  --out DIR             Output directory (default: reports/m3-write-gate)
-  --title TITLE         Custom title for the calibration plot
-  --help, -h            Show this help message and exit
+  --scenario SCENARIO       Scenario identifier (default: A)
+  --n N                     Number of records to evaluate (default: 48)
+  --seed SEED               Random seed (default: 13)
+  --model MODEL             Model identifier (default: Qwen/Qwen2.5-1.5B-Instruct)
+  --threshold TAU           Gate threshold τ (default: 1.5)
+  --threshold-sweep "τ …"   Space or comma-separated list of τ values to sweep
+  --out DIR                 Output directory (default: reports/m3-write-gate)
+  --title TITLE             Custom title for the calibration plot
+  --help, -h                Show this help message and exit
 USAGE
+}
+
+parse_threshold_sweep() {
+  local arg="$1"
+  if [[ -z "$arg" ]]; then
+    echo "Missing argument for --threshold-sweep" >&2
+    exit 2
+  fi
+  arg="${arg//,/ }"
+  THRESHOLD_SWEEP=()
+  for token in $arg; do
+    if [[ -n "$token" ]]; then
+      THRESHOLD_SWEEP+=("$token")
+    fi
+  done
+  if [[ ${#THRESHOLD_SWEEP[@]} -eq 0 ]]; then
+    echo "No thresholds provided for --threshold-sweep" >&2
+    exit 2
+  fi
+}
+
+sanitize_tau_value() {
+  local value="$1"
+  value="${value// /}"
+  value="${value//\//_}"
+  echo "$value"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -71,6 +99,14 @@ while [[ $# -gt 0 ]]; do
       THRESHOLD="${1#*=}"
       shift 1
       ;;
+    --threshold-sweep)
+      parse_threshold_sweep "${2:-}"
+      shift 2
+      ;;
+    --threshold-sweep=*)
+      parse_threshold_sweep "${1#*=}"
+      shift 1
+      ;;
     --out)
       OUT="${2:-}"
       shift 2
@@ -102,31 +138,39 @@ done
 mkdir -p "$OUT"
 
 metrics_base="${SCENARIO}_B1"
-metrics_json="${OUT}/${metrics_base}_metrics.json"
-telemetry_json="${OUT}/${SCENARIO}_gate_telemetry.json"
-calibration_png="${OUT}/${SCENARIO}_gate_calibration.png"
-trace_samples_json="${OUT}/${SCENARIO}_trace_samples.json"
 
-echo "[m3] Running harness for scenario ${SCENARIO} (n=${N}, seed=${SEED})"
-python -m hei_nw.eval.harness \
-  --mode B1 \
-  --scenario "$SCENARIO" \
-  -n "$N" \
-  --seed "$SEED" \
-  --model "$MODEL" \
-  --outdir "$OUT" \
-  --gate.threshold "$THRESHOLD"
+run_calibration_for_threshold() {
+  local tau="$1"
+  local run_out_dir="$2"
+  local plot_title="${3:-}"
 
-if [[ ! -f "$metrics_json" ]]; then
-  echo "Expected metrics file not found: $metrics_json" >&2
-  exit 1
-fi
+  mkdir -p "$run_out_dir"
 
-echo "[m3] Extracting gate telemetry"
-export M3_METRICS_PATH="$metrics_json"
-export M3_TELEMETRY_PATH="$telemetry_json"
-export M3_TRACE_SAMPLES_PATH="$trace_samples_json"
-python - <<'PY'
+  local metrics_json="${run_out_dir}/${metrics_base}_metrics.json"
+  local telemetry_json="${run_out_dir}/${SCENARIO}_gate_telemetry.json"
+  local calibration_png="${run_out_dir}/${SCENARIO}_gate_calibration.png"
+  local trace_samples_json="${run_out_dir}/${SCENARIO}_trace_samples.json"
+
+  echo "[m3] Running harness for scenario ${SCENARIO} at τ=${tau} (n=${N}, seed=${SEED})"
+  python -m hei_nw.eval.harness \
+    --mode B1 \
+    --scenario "$SCENARIO" \
+    -n "$N" \
+    --seed "$SEED" \
+    --model "$MODEL" \
+    --outdir "$run_out_dir" \
+    --gate.threshold "$tau"
+
+  if [[ ! -f "$metrics_json" ]]; then
+    echo "Expected metrics file not found: $metrics_json" >&2
+    exit 1
+  fi
+
+  echo "[m3] Extracting gate telemetry for τ=${tau}"
+  export M3_METRICS_PATH="$metrics_json"
+  export M3_TELEMETRY_PATH="$telemetry_json"
+  export M3_TRACE_SAMPLES_PATH="$trace_samples_json"
+  python - <<'PY'
 import json
 import os
 from pathlib import Path
@@ -154,14 +198,85 @@ if isinstance(samples, list) and samples:
 elif trace_samples_path.exists():
     trace_samples_path.unlink()
 PY
-unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH
+  unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH
 
-plot_cmd=("scripts/plot_gate_calibration.py" "$telemetry_json" "--out" "$calibration_png" "--metrics" "$metrics_json")
-if [[ -n "$PLOT_TITLE" ]]; then
-  plot_cmd+=("--title" "$PLOT_TITLE")
+  local -a plot_cmd=("scripts/plot_gate_calibration.py" "$telemetry_json" "--out" "$calibration_png" "--metrics" "$metrics_json")
+  if [[ -n "$plot_title" ]]; then
+    plot_cmd+=("--title" "$plot_title")
+  fi
+
+  echo "[m3] Rendering calibration curve for τ=${tau}"
+  python "${plot_cmd[@]}"
+}
+
+if [[ ${#THRESHOLD_SWEEP[@]} -gt 0 ]]; then
+  echo "[m3] Performing threshold sweep for scenario ${SCENARIO}: ${THRESHOLD_SWEEP[*]}"
+  metrics_paths=()
+  sweep_dirs=()
+  for tau in "${THRESHOLD_SWEEP[@]}"; do
+    tau_key="$(sanitize_tau_value "$tau")"
+    run_dir="${OUT}/tau_${tau_key}"
+    plot_title="$PLOT_TITLE"
+    if [[ -n "$plot_title" ]]; then
+      plot_title+=" (τ=${tau})"
+    fi
+    run_calibration_for_threshold "$tau" "$run_dir" "$plot_title"
+    metrics_paths+=("${run_dir}/${metrics_base}_metrics.json")
+    sweep_dirs+=("tau_${tau_key}")
+  done
+
+  summary_json="${OUT}/${SCENARIO}_sweep_summary.json"
+  echo "[m3] Generating sweep summary at ${summary_json}"
+  python scripts/report_gate_write_rates.py "${metrics_paths[@]}" --out "$summary_json"
+
+  summary_tsv="${OUT}/${SCENARIO}_sweep_summary.tsv"
+  python - "$summary_tsv" "${metrics_paths[@]}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+out_path = Path(sys.argv[1])
+metric_paths = [Path(p) for p in sys.argv[2:] if p]
+out_path.parent.mkdir(parents=True, exist_ok=True)
+with out_path.open("w", encoding="utf8") as handle:
+    handle.write("scenario\ttau\twrite_rate\twrites_per_1k\tpr_auc\n")
+    for metrics_path in metric_paths:
+        data = json.loads(metrics_path.read_text(encoding="utf8"))
+        dataset = data.get("dataset") or {}
+        gate = data.get("gate") or {}
+        telemetry = gate.get("telemetry") or {}
+        scenario = dataset.get("scenario")
+        threshold = gate.get("threshold")
+        write_rate = gate.get("write_rate")
+        writes_per_1k = gate.get("write_rate_per_1k")
+        if writes_per_1k in (None, "") and write_rate not in (None, ""):
+            try:
+                writes_per_1k = float(write_rate) * 1000.0
+            except (TypeError, ValueError):
+                writes_per_1k = ""
+        pr_auc = telemetry.get("pr_auc")
+        row = [scenario, threshold, write_rate, writes_per_1k, pr_auc]
+        handle.write("\t".join("" if value is None else str(value) for value in row) + "\n")
+PY
+
+  index_md="${OUT}/${SCENARIO}_threshold_sweep.md"
+  {
+    echo "# Threshold sweep for scenario ${SCENARIO}"
+    echo ""
+    echo "| τ | Calibration plot |"
+    echo "| --- | --- |"
+    for ((i = 0; i < ${#THRESHOLD_SWEEP[@]}; i++)); do
+      tau="${THRESHOLD_SWEEP[$i]}"
+      dir="${sweep_dirs[$i]}"
+      echo "| ${tau} | [Calibration plot](./${dir}/${SCENARIO}_gate_calibration.png) |"
+    done
+  } > "$index_md"
+
+  echo "[m3] Sweep summary written to ${summary_json} and ${summary_tsv}"
+  echo "[m3] Calibration assets written to $OUT"
+  exit 0
 fi
 
-echo "[m3] Rendering calibration curve"
-python "${plot_cmd[@]}"
+run_calibration_for_threshold "$THRESHOLD" "$OUT" "$PLOT_TITLE"
 
 echo "[m3] Calibration assets written to $OUT"
