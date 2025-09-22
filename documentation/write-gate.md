@@ -38,11 +38,14 @@ store. You can also override ``α``–``δ`` for ablation studies using the harn
 flags (``--gate.alpha``, ``--gate.beta`` …), but the default mixture is tuned
 for scenarios A and C.
 
-## Calibration workflow
+## Calibration workflows
 
 Use ``scripts/run_m3_gate_calibration.sh`` to generate write-gate telemetry and
 calibration plots. The script wraps the evaluation harness, extracts the gate
-summary, and renders a reliability diagram.
+summary, and renders a reliability diagram. The sub-sections below cover the
+supported operating modes.
+
+### Single-τ run
 
 ```bash
 # Scenario A defaults (Qwen2.5-1.5B, n=48, τ=1.5)
@@ -56,7 +59,8 @@ Artifacts are written to ``reports/m3-write-gate/`` by default:
 
 * ``*_metrics.json`` – per-run harness metrics with an embedded ``gate`` block.
 * ``*_gate_telemetry.json`` – distilled telemetry containing precision/recall,
-  PR-AUC, clutter rate, and calibration bins.
+  PR-AUC, clutter rate, provenance fields (scenario/τ/n/seed/model), and
+  calibration bins.
 * ``*_gate_calibration.png`` – scatter plot of mean score vs. empirical
   positive rate.
 * ``*_trace_samples.json`` – pointer-only trace samples suitable for privacy
@@ -67,6 +71,54 @@ Sweep ``--threshold`` until the ``write_rate_per_1k`` reported in the metrics
 JSON sits inside that band. Lower thresholds increase the write rate; higher
 thresholds reduce it. When the gate is too loose, expect clutter rate and
 pointer-check warnings to rise.
+
+### Threshold sweep (``--threshold-sweep``)
+
+Provide a space or comma separated list of τ values to benchmark multiple gate
+settings in one pass:
+
+```bash
+bash scripts/run_m3_gate_calibration.sh \
+  --scenario A \
+  --n 64 \
+  --threshold-sweep "1.3 1.4 1.5 1.6" \
+  --seed 7
+```
+
+Each τ gets its own directory (``reports/m3-write-gate/tau_1.3/``, ``tau_1.4/``
+…), containing the same artifacts described above. The script also emits:
+
+* ``${SCENARIO}_sweep_summary.json`` – consolidated metrics from
+  ``scripts/report_gate_write_rates.py``.
+* ``${SCENARIO}_sweep_summary.tsv`` – tab-separated table with ``scenario``,
+  ``tau``, ``write_rate``, ``writes_per_1k``, and ``pr_auc`` for spreadsheet
+  review.
+* ``${SCENARIO}_threshold_sweep.md`` – Markdown index linking τ values to their
+  calibration plots.
+
+Use the TSV/JSON summaries to select the target τ band quickly, then open the
+per-τ calibration plots to confirm reliability. Sweeps can be re-run with a
+different seed to stress test stability.
+
+### Pins-only evaluation (``--pin-eval``)
+
+Scenario C produces ``pin=True`` records that should survive threshold tuning.
+Enable ``--pin-eval`` to run a pins-only slice and compare it against the full
+distribution:
+
+```bash
+bash scripts/run_m3_gate_calibration.sh --scenario C --n 64 --pin-eval
+```
+
+The script checks that the scenario/seed emit pinned examples and exits with a
+helpful message if none are present. Pins-only runs suffix their outputs with
+``_pins`` (for example ``C_gate_telemetry_pins.json`` and
+``C_gate_calibration_pins.png``) and overlay the non-pin calibration curve for
+side-by-side inspection. Combine ``--pin-eval`` with ``--threshold-sweep`` to
+trace how pin precision changes across τ. Focus on matching the pins-only
+``writes_per_1k`` and PR-AUC against the overall metrics—pins should stay inside
+the desired write band while retaining higher precision than non-pinned
+episodes.
 
 ## Interpreting telemetry
 

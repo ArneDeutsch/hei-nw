@@ -64,3 +64,12 @@ bash scripts/make_report.sh
   1–5 writes/1k target band. Lower τ increases the write rate; higher τ reduces it.
 - See [documentation/write-gate.md](documentation/write-gate.md) for a detailed
   explanation of salience features, default weights, telemetry fields, and tuning tips.
+
+#### Quick commands
+
+- `bash scripts/run_m3_gate_calibration.sh` — single-τ run with default scenario A.
+- `bash scripts/run_m3_gate_calibration.sh --threshold-sweep "1.3 1.5 1.7"` — sweep τ values and collect summary reports.
+- `bash scripts/run_m3_gate_calibration.sh --scenario C --pin-eval` — pins-only slice for Scenario C (combine with `--threshold-sweep` as needed).
+
+Refer to [documentation/write-gate.md](documentation/write-gate.md) for artifact
+paths, sweep outputs, and pins-only interpretation guidance.
