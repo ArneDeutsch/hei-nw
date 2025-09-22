@@ -1,0 +1,64 @@
+{
+  "trace_samples": [
+    {
+      "answers_preview": [
+        "Gus",
+        "umbrella"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 153,
+      "has_pointer": false,
+      "trace_id": null
+    },
+    {
+      "answers_preview": [
+        "Ivan",
+        "bottle"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 182,
+      "has_pointer": false,
+      "trace_id": null
+    },
+    {
+      "answers_preview": [
+        "Alice",
+        "umbrella"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 448,
+      "has_pointer": false,
+      "trace_id": null
+    },
+    {
+      "answers_preview": [
+        "Ivan",
+        "wallet"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 460,
+      "has_pointer": false,
+      "trace_id": null
+    },
+    {
+      "answers_preview": [
+        "Charlie",
+        "umbrella"
+      ],
+      "banned_keys": [
+        "episode_text"
+      ],
+      "group_id": 1,
+      "has_pointer": false,
+      "trace_id": null
+    }
+  ]
+}
