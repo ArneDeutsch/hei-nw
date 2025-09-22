@@ -232,6 +232,9 @@ run_calibration_for_threshold() {
   export M3_TELEMETRY_PATH="$telemetry_json"
   export M3_TRACE_SAMPLES_PATH="$trace_samples_json"
   export M3_PIN_EVAL="$PIN_EVAL"
+  export M3_MODEL="$MODEL"
+  export M3_N="$N"
+  export M3_SEED="$SEED"
   python - <<'PY'
 import json
 import os
@@ -241,6 +244,18 @@ metrics_path = Path(os.environ["M3_METRICS_PATH"])
 telemetry_path = Path(os.environ["M3_TELEMETRY_PATH"])
 trace_samples_path = Path(os.environ["M3_TRACE_SAMPLES_PATH"])
 pin_eval = os.environ.get("M3_PIN_EVAL", "false").lower() == "true"
+model = os.environ.get("M3_MODEL")
+n_value = os.environ.get("M3_N")
+seed_value = os.environ.get("M3_SEED")
+
+
+def _coerce_int(value: str | None) -> int | str | None:
+    if value is None or value == "":
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        return value
 
 data = json.loads(metrics_path.read_text(encoding="utf8"))
 gate = data.get("gate", {})
@@ -254,6 +269,14 @@ telemetry["write_rate_per_1k"] = gate.get("write_rate_per_1k")
 telemetry["pinned"] = gate.get("pinned")
 telemetry["reward_flags"] = gate.get("reward_flags")
 telemetry["pins_only_eval"] = pin_eval
+if model:
+    telemetry["model"] = model
+n_value = _coerce_int(n_value)
+if n_value is not None:
+    telemetry["n"] = n_value
+seed_value = _coerce_int(seed_value)
+if seed_value is not None:
+    telemetry["seed"] = seed_value
 telemetry_path.write_text(json.dumps(telemetry, indent=2), encoding="utf8")
 
 samples = gate.get("trace_samples")
@@ -262,7 +285,7 @@ if isinstance(samples, list) and samples:
 elif trace_samples_path.exists():
     trace_samples_path.unlink()
 PY
-  unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH M3_PIN_EVAL
+  unset M3_METRICS_PATH M3_TELEMETRY_PATH M3_TRACE_SAMPLES_PATH M3_PIN_EVAL M3_MODEL M3_N M3_SEED
 
   local -a plot_cmd=("scripts/plot_gate_calibration.py" "$telemetry_json" "--out" "$calibration_png" "--metrics" "$metrics_json")
   if [[ -n "$plot_title" ]]; then
