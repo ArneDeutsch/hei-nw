@@ -6,6 +6,8 @@ import sys
 import textwrap
 from pathlib import Path
 
+import pytest
+
 
 def test_compare_b0_b1_runs_help() -> None:
     script = Path("scripts/compare_b0_b1.py")
@@ -314,6 +316,7 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
     assert telemetry["seed"] == 23
 
 
+@pytest.mark.slow
 def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     script = Path("scripts/run_m3_gate_calibration.sh")
 
