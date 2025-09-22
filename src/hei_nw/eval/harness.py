@@ -191,6 +191,8 @@ def _apply_gate(
             "fallback_write": fallback,
             "indexed_for_store": bool(store_flag),
             "label_kept": keep_via_label,
+            "prompt_tokens": 0,
+            "generated_tokens": 0,
         }
         diagnostics.append(diag_entry)
         if store_flag:
@@ -198,6 +200,13 @@ def _apply_gate(
             indexed_record["should_remember"] = True
             indexed.append(indexed_record)
     return indexed, diagnostics
+
+
+def _safe_int(value: Any) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
 
 
 def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
@@ -210,17 +219,27 @@ def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
     else:
         calibration = []
     clutter_rate = float(metrics.get("clutter_rate", 0.0))
+    writes_per_1k_tokens = metrics.get("writes_per_1k_tokens")
+    if isinstance(writes_per_1k_tokens, int | float):
+        per_1k_tokens = float(writes_per_1k_tokens)
+    else:
+        per_1k_tokens = None
     subset = {
         "precision": float(metrics.get("precision", 0.0)),
         "recall": float(metrics.get("recall", 0.0)),
         "pr_auc": float(metrics.get("pr_auc", 0.0)),
         "writes": int(metrics.get("writes", 0)),
         "write_rate": clutter_rate,
-        "write_rate_per_1k": clutter_rate * 1000.0,
+        "write_rate_per_1k_records": float(
+            metrics.get("writes_per_1k_records", clutter_rate * 1000.0)
+        ),
+        "write_rate_per_1k_tokens": per_1k_tokens,
         "calibration": calibration,
         "calibration_bins": len(calibration),
         "total": int(metrics.get("total", 0)),
         "positives": int(metrics.get("positives", 0)),
+        "generated_tokens": int(metrics.get("generated_tokens", 0)),
+        "prompt_tokens": int(metrics.get("prompt_tokens", 0)),
     }
     return subset
 
@@ -246,10 +265,14 @@ def _summarize_gate(
             "total": 0,
             "writes": 0,
             "write_rate": 0.0,
+            "write_rate_per_1k_records": 0.0,
+            "write_rate_per_1k_tokens": None,
             "store_writes": 0,
             "store_write_rate": 0.0,
             "pinned": 0,
             "reward_flags": 0,
+            "prompt_tokens": 0,
+            "generated_tokens": 0,
             "decisions": [],
             "telemetry": telemetry,
         }
@@ -258,14 +281,26 @@ def _summarize_gate(
     pinned = sum(1 for diag in primary_diag if diag.get("features", {}).get("pin", False))
     reward_flags = sum(1 for diag in primary_diag if diag.get("features", {}).get("reward", False))
     store_writes = sum(1 for diag in primary_diag if diag.get("indexed_for_store"))
+    prompt_tokens_total = sum(_safe_int(diag.get("prompt_tokens")) for diag in primary_diag)
+    generated_tokens_total = sum(_safe_int(diag.get("generated_tokens")) for diag in primary_diag)
+    write_rate = writes / total
+    store_write_rate = store_writes / total if total else 0.0
+    if generated_tokens_total > 0:
+        writes_per_1k_tokens = writes / (generated_tokens_total / 1000.0)
+    else:
+        writes_per_1k_tokens = None
     return {
         "total": total,
         "writes": writes,
-        "write_rate": writes / total,
+        "write_rate": write_rate,
+        "write_rate_per_1k_records": write_rate * 1000.0,
+        "write_rate_per_1k_tokens": writes_per_1k_tokens,
         "store_writes": store_writes,
-        "store_write_rate": store_writes / total,
+        "store_write_rate": store_write_rate,
         "pinned": pinned,
         "reward_flags": reward_flags,
+        "prompt_tokens": prompt_tokens_total,
+        "generated_tokens": generated_tokens_total,
         "score_mean": float(sum(scores) / total) if scores else 0.0,
         "score_min": float(min(scores)) if scores else 0.0,
         "score_max": float(max(scores)) if scores else 0.0,
@@ -629,7 +664,9 @@ def _evaluate_records(
     from hei_nw.models.base import generate
 
     items: list[EvalItem] = []
-    compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
+    compute = ComputeRecord(
+        attention_flops=0, kv_cache_bytes=0, prompt_tokens=0, generated_tokens=0
+    )
     for rec in records:
         prompt, truth = _build_prompt(
             rec,
@@ -675,6 +712,8 @@ def _evaluate_records(
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + estimate_kv_bytes(
             ptoks + gtoks, geom.hidden, geom.dtype
         )
+        compute.prompt_tokens = (compute.prompt_tokens or 0) + ptoks
+        compute.generated_tokens = (compute.generated_tokens or 0) + gtoks
     return items, compute
 
 
@@ -1063,7 +1102,9 @@ def _evaluate_mode_b1(
     else:
         b0_items, _ = _evaluate_b0_records(records, geom, qa_settings)
     items: list[EvalItem] = []
-    compute = ComputeRecord(attention_flops=0, kv_cache_bytes=0)
+    compute = ComputeRecord(
+        attention_flops=0, kv_cache_bytes=0, prompt_tokens=0, generated_tokens=0
+    )
     final_cand_groups: list[list[int]] = []
     baseline_cand_groups: list[list[int]] = []
     truths: list[int] = []
@@ -1080,6 +1121,8 @@ def _evaluate_mode_b1(
     pointer_missing = 0
     pointer_banned: set[str] = set()
     trace_samples: list[dict[str, Any]] = []
+    total_prompt_tokens = 0
+    total_generated_tokens = 0
 
     def _coerce_group_id(value: Any) -> int:
         try:
@@ -1087,7 +1130,10 @@ def _evaluate_mode_b1(
         except (TypeError, ValueError):
             return -1
 
-    for rec in records:
+    for idx, rec in enumerate(records):
+        diag_entry: dict[str, Any] | None = None
+        if idx < len(gate_diagnostics):
+            diag_entry = gate_diagnostics[idx]
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
         should_remember = bool(rec.get("should_remember"))
@@ -1206,7 +1252,7 @@ def _evaluate_mode_b1(
                 answer_hint=qa_settings.answer_hint,
                 omit_episode=qa_settings.omit_episode,
             )
-            generate(
+            out = generate(
                 prompt,
                 max_new_tokens=qa_settings.max_new_tokens,
                 adapter=None,
@@ -1217,6 +1263,17 @@ def _evaluate_mode_b1(
                 stop_mode=qa_settings.stop_mode,
                 template_policy=qa_settings.template_policy,
             )
+            ptoks = int(out.get("prompt_tokens", 0))
+            gtoks = int(out.get("generated_tokens", 0))
+            total_prompt_tokens += ptoks
+            total_generated_tokens += gtoks
+            compute.prompt_tokens = (compute.prompt_tokens or 0) + ptoks
+            compute.generated_tokens = (compute.generated_tokens or 0) + gtoks
+            if diag_entry is not None:
+                diag_entry["prompt_tokens"] = _safe_int(diag_entry.get("prompt_tokens")) + ptoks
+                diag_entry["generated_tokens"] = (
+                    _safe_int(diag_entry.get("generated_tokens")) + gtoks
+                )
             pred = ""
             top_group = final_candidates_raw[0].get("group_id") if final_candidates_raw else None
             if selected_traces:
@@ -1263,6 +1320,19 @@ def _evaluate_mode_b1(
             first_tokens.append(first_token)
         compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
         compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
+        comp_prompt_tokens = int(comp.prompt_tokens or 0)
+        comp_generated_tokens = int(comp.generated_tokens or 0)
+        total_prompt_tokens += comp_prompt_tokens
+        total_generated_tokens += comp_generated_tokens
+        compute.prompt_tokens = (compute.prompt_tokens or 0) + comp_prompt_tokens
+        compute.generated_tokens = (compute.generated_tokens or 0) + comp_generated_tokens
+        if diag_entry is not None:
+            diag_entry["prompt_tokens"] = (
+                _safe_int(diag_entry.get("prompt_tokens")) + comp_prompt_tokens
+            )
+            diag_entry["generated_tokens"] = (
+                _safe_int(diag_entry.get("generated_tokens")) + comp_generated_tokens
+            )
     baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
@@ -1298,18 +1368,16 @@ def _evaluate_mode_b1(
     )
     if isinstance(gate_info.get("telemetry"), dict):
         telemetry = gate_info["telemetry"]
-        clutter_rate = float(telemetry.get("clutter_rate", 0.0))
-        telemetry["writes_per_1k"] = clutter_rate * 1000.0
         telemetry["pins_only_eval"] = pins_only
-    write_rate_val = gate_info.get("write_rate")
-    gate_info["write_rate_per_1k"] = (
-        float(write_rate_val) * 1000.0 if isinstance(write_rate_val, (int, float)) else None
-    )
+        if "writes_per_1k_tokens" not in telemetry:
+            telemetry["writes_per_1k_tokens"] = gate_info.get("write_rate_per_1k_tokens")
+        telemetry.setdefault("writes_per_1k_records", gate_info.get("write_rate_per_1k_records"))
+        telemetry["writes_per_1k"] = telemetry.get("writes_per_1k_tokens")
+    gate_info.setdefault("prompt_tokens", total_prompt_tokens)
+    gate_info.setdefault("generated_tokens", total_generated_tokens)
     store_write_rate = gate_info.get("store_write_rate")
-    gate_info["store_write_rate_per_1k"] = (
-        float(store_write_rate) * 1000.0
-        if isinstance(store_write_rate, (int, float))
-        else None
+    gate_info["store_write_rate_per_1k_records"] = (
+        float(store_write_rate) * 1000.0 if isinstance(store_write_rate, int | float) else None
     )
     gate_info["pins_only_eval"] = pins_only
     gate_info["pointer_check"] = pointer_check
@@ -1322,11 +1390,11 @@ def _evaluate_mode_b1(
         if index_obj is not None:
             faiss_index = getattr(index_obj, "index", None)
             if hasattr(faiss_index, "ntotal"):
-                store_ntotal = int(getattr(faiss_index, "ntotal"))
+                store_ntotal = int(faiss_index.ntotal)
             elif hasattr(index_obj, "ntotal"):
-                store_ntotal = int(getattr(index_obj, "ntotal"))
+                store_ntotal = int(index_obj.ntotal)
         elif hasattr(store_obj, "ntotal"):
-            store_ntotal = int(getattr(store_obj, "ntotal"))
+            store_ntotal = int(store_obj.ntotal)
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,

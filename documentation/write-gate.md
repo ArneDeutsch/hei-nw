@@ -67,7 +67,7 @@ Artifacts are written to ``reports/m3-write-gate/`` by default:
   spot checks (created when samples are emitted).
 
 The goal for Milestone 3 is **1–5 writes per 1 000 tokens with high precision**.
-Sweep ``--threshold`` until the ``write_rate_per_1k`` reported in the metrics
+Sweep ``--threshold`` until the ``write_rate_per_1k_tokens`` reported in the metrics
 JSON sits inside that band. Lower thresholds increase the write rate; higher
 thresholds reduce it. When the gate is too loose, expect clutter rate and
 pointer-check warnings to rise.
@@ -91,7 +91,7 @@ Each τ gets its own directory (``reports/m3-write-gate/tau_1.3/``, ``tau_1.4/``
 * ``${SCENARIO}_sweep_summary.json`` – consolidated metrics from
   ``scripts/report_gate_write_rates.py``.
 * ``${SCENARIO}_sweep_summary.tsv`` – tab-separated table with ``scenario``,
-  ``tau``, ``write_rate``, ``writes_per_1k``, and ``pr_auc`` for spreadsheet
+  ``tau``, ``write_rate``, ``writes_per_1k_tokens``, ``writes_per_1k_records``, and ``pr_auc`` for spreadsheet
   review.
 * ``${SCENARIO}_threshold_sweep.md`` – Markdown index linking τ values to their
   calibration plots.
@@ -116,9 +116,9 @@ helpful message if none are present. Pins-only runs suffix their outputs with
 ``C_gate_calibration_pins.png``) and overlay the non-pin calibration curve for
 side-by-side inspection. Combine ``--pin-eval`` with ``--threshold-sweep`` to
 trace how pin precision changes across τ. Focus on matching the pins-only
-``writes_per_1k`` and PR-AUC against the overall metrics—pins should stay inside
-the desired write band while retaining higher precision than non-pinned
-episodes.
+``writes_per_1k_tokens`` (and the legacy ``writes_per_1k_records``) and PR-AUC
+against the overall metrics—pins should stay inside the desired write band while
+retaining higher precision than non-pinned episodes.
 
 ## Interpreting telemetry
 
@@ -127,9 +127,10 @@ The ``gate`` section in the harness metrics summarizes the run:
 * ``writes`` / ``total`` and ``write_rate`` quantify how many records cleared the
   gate.
 * ``pinned`` / ``reward_flags`` count how often the respective signals fired.
-* ``write_rate_per_1k`` normalizes the write rate for long sequences.
-* ``telemetry`` embeds precision, recall, PR-AUC, clutter rate, ``writes_per_1k``,
-  and calibration histogram buckets.
+* ``write_rate_per_1k_tokens`` normalizes the write rate by generated tokens, while
+  ``write_rate_per_1k_records`` preserves the per-record view.
+* ``telemetry`` embeds precision, recall, PR-AUC, clutter rate,
+  ``writes_per_1k_tokens``, ``writes_per_1k_records``, and calibration histogram buckets.
 * ``pointer_check`` confirms that stored traces remain pointer-only. Investigate
   any run that reports missing pointers or banned keys.
 

@@ -65,6 +65,8 @@ class ComputeRecord(BaseModel):
 
     attention_flops: int | None = None
     kv_cache_bytes: int | None = None
+    prompt_tokens: int | None = None
+    generated_tokens: int | None = None
 
     model_config = {
         "validate_assignment": True,

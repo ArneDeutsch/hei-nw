@@ -265,7 +265,10 @@ telemetry["threshold"] = gate.get("threshold")
 telemetry["writes"] = gate.get("writes")
 telemetry["total"] = gate.get("total")
 telemetry["write_rate"] = gate.get("write_rate")
-telemetry["write_rate_per_1k"] = gate.get("write_rate_per_1k")
+telemetry["write_rate_per_1k_tokens"] = gate.get("write_rate_per_1k_tokens")
+telemetry["write_rate_per_1k_records"] = gate.get("write_rate_per_1k_records")
+telemetry["write_rate_per_1k"] = telemetry.get("write_rate_per_1k_tokens")
+telemetry["generated_tokens"] = gate.get("generated_tokens")
 telemetry["pinned"] = gate.get("pinned")
 telemetry["reward_flags"] = gate.get("reward_flags")
 telemetry["pins_only_eval"] = pin_eval
@@ -329,7 +332,9 @@ out_path = Path(sys.argv[1])
 metric_paths = [Path(p) for p in sys.argv[2:] if p]
 out_path.parent.mkdir(parents=True, exist_ok=True)
 with out_path.open("w", encoding="utf8") as handle:
-    handle.write("scenario\ttau\twrite_rate\twrites_per_1k\tpr_auc\n")
+    handle.write(
+        "scenario\ttau\twrite_rate\twrites_per_1k_tokens\twrites_per_1k_records\tpr_auc\n"
+    )
     for metrics_path in metric_paths:
         data = json.loads(metrics_path.read_text(encoding="utf8"))
         dataset = data.get("dataset") or {}
@@ -338,14 +343,34 @@ with out_path.open("w", encoding="utf8") as handle:
         scenario = dataset.get("scenario")
         threshold = gate.get("threshold")
         write_rate = gate.get("write_rate")
-        writes_per_1k = gate.get("write_rate_per_1k")
-        if writes_per_1k in (None, "") and write_rate not in (None, ""):
-            try:
-                writes_per_1k = float(write_rate) * 1000.0
-            except (TypeError, ValueError):
-                writes_per_1k = ""
+        writes_per_1k_tokens = gate.get("write_rate_per_1k_tokens")
+        if writes_per_1k_tokens in (None, ""):
+            tokens_val = telemetry.get("writes_per_1k_tokens")
+            if isinstance(tokens_val, (int, float)):
+                writes_per_1k_tokens = float(tokens_val)
+            else:
+                writes_per_1k_tokens = ""
+        writes_per_1k_records = gate.get("write_rate_per_1k_records")
+        if writes_per_1k_records in (None, ""):
+            records_val = telemetry.get("writes_per_1k_records")
+            if isinstance(records_val, (int, float)):
+                writes_per_1k_records = float(records_val)
+            elif write_rate not in (None, ""):
+                try:
+                    writes_per_1k_records = float(write_rate) * 1000.0
+                except (TypeError, ValueError):
+                    writes_per_1k_records = ""
+            else:
+                writes_per_1k_records = ""
         pr_auc = telemetry.get("pr_auc")
-        row = [scenario, threshold, write_rate, writes_per_1k, pr_auc]
+        row = [
+            scenario,
+            threshold,
+            write_rate,
+            writes_per_1k_tokens,
+            writes_per_1k_records,
+            pr_auc,
+        ]
         handle.write("\t".join("" if value is None else str(value) for value in row) + "\n")
 PY
 

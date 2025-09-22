@@ -247,11 +247,14 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
                     "writes": 1,
                     "total": n,
                     "write_rate": 1.0 / n,
-                    "write_rate_per_1k": 1000.0 / n,
+                    "write_rate_per_1k_tokens": 1000.0 / n,
+                    "write_rate_per_1k_records": 1000.0 / n,
                     "pinned": 0,
                     "reward_flags": 0,
                     "telemetry": {
                         "pr_auc": 0.5,
+                        "writes_per_1k_tokens": 1000.0 / n,
+                        "writes_per_1k_records": 1000.0 / n,
                         "calibration": [
                             {
                                 "lower": 0.0,
@@ -351,11 +354,14 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
                 "writes": 2,
                 "total": 10,
                 "write_rate": 0.2,
-                "write_rate_per_1k": 200.0,
+                "write_rate_per_1k_tokens": 200.0,
+                "write_rate_per_1k_records": 200.0,
                 "pinned": 1,
                 "reward_flags": 0,
                 "telemetry": {
                     "pr_auc": 0.42,
+                    "writes_per_1k_tokens": 200.0,
+                    "writes_per_1k_records": 200.0,
                     "calibration": [
                         {
                             "lower": 0.0,
@@ -480,7 +486,14 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     assert len(summary_data.get("runs", [])) == 2
 
     tsv_lines = summary_tsv.read_text(encoding="utf8").strip().splitlines()
-    assert tsv_lines[0].split("\t") == ["scenario", "tau", "write_rate", "writes_per_1k", "pr_auc"]
+    assert tsv_lines[0].split("\t") == [
+        "scenario",
+        "tau",
+        "write_rate",
+        "writes_per_1k_tokens",
+        "writes_per_1k_records",
+        "pr_auc",
+    ]
     assert len(tsv_lines) == 3
 
     index_text = index_md.read_text(encoding="utf8")
@@ -528,11 +541,14 @@ def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
                 "writes": 1,
                 "total": 1,
                 "write_rate": 1.0,
-                "write_rate_per_1k": 1000.0,
+                "write_rate_per_1k_tokens": 1000.0,
+                "write_rate_per_1k_records": 1000.0,
                 "pinned": 1,
                 "reward_flags": 0,
                 "telemetry": {
                     "pr_auc": 1.0,
+                    "writes_per_1k_tokens": 1000.0,
+                    "writes_per_1k_records": 1000.0,
                     "calibration": [
                         {
                             "lower": 0.5,

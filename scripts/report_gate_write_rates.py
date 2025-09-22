@@ -5,9 +5,9 @@ Usage:
     python scripts/report_gate_write_rates.py reports/*/A_B1_metrics.json --out reports/summary.json
 
 The script extracts write rate, counts, and threshold settings from each
-metrics file and emits a JSON summary sorted by threshold. The summary also
-includes a convenience field with writes per 1k records to match the design
-acceptance target.
+metrics file and emits a JSON summary sorted by threshold. The summary exposes
+both writes per 1k tokens (current target) and per 1k records for backward
+compatibility.
 """
 
 from __future__ import annotations
@@ -40,6 +40,7 @@ def main() -> None:
         with metrics_path.open("r", encoding="utf8") as handle:
             data = json.load(handle)
         gate = data.get("gate", {})
+        telemetry = gate.get("telemetry") or {}
         row = {
             "metrics_path": str(metrics_path),
             "scenario": data.get("dataset", {}).get("scenario"),
@@ -47,13 +48,25 @@ def main() -> None:
             "write_rate": gate.get("write_rate"),
             "writes": gate.get("writes"),
             "total": gate.get("total"),
-            "writes_per_1k": None,
+            "writes_per_1k_tokens": gate.get("write_rate_per_1k_tokens"),
+            "writes_per_1k_records": gate.get("write_rate_per_1k_records"),
         }
-        try:
-            if row["write_rate"] is not None:
-                row["writes_per_1k"] = float(row["write_rate"]) * 1000.0
-        except TypeError:
-            row["writes_per_1k"] = None
+        if row["writes_per_1k_tokens"] is None:
+            tokens_val = telemetry.get("writes_per_1k_tokens")
+            row["writes_per_1k_tokens"] = (
+                float(tokens_val) if isinstance(tokens_val, int | float) else None
+            )
+        if row["writes_per_1k_records"] is None:
+            clutter = telemetry.get("writes_per_1k_records")
+            if isinstance(clutter, int | float):
+                row["writes_per_1k_records"] = float(clutter)
+            else:
+                try:
+                    if row["write_rate"] is not None:
+                        row["writes_per_1k_records"] = float(row["write_rate"]) * 1000.0
+                except TypeError:
+                    row["writes_per_1k_records"] = None
+        row["writes_per_1k"] = row["writes_per_1k_tokens"]
         rows.append(row)
 
     rows.sort(key=lambda record: (record["scenario"], record["threshold"]))

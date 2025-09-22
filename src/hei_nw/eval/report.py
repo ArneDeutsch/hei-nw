@@ -187,16 +187,25 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         writes = gate.get("writes")
         total = gate.get("total")
         write_rate = gate.get("write_rate")
-        write_rate_per_1k = gate.get("write_rate_per_1k")
+        write_rate_per_1k_tokens = gate.get("write_rate_per_1k_tokens")
+        write_rate_per_1k_records = gate.get("write_rate_per_1k_records")
         if isinstance(write_rate, int | float):
             rate_str = f"{float(write_rate):.3f}"
         else:
             rate_str = "n/a"
-        if isinstance(write_rate_per_1k, int | float):
-            per_1k_str = f"{float(write_rate_per_1k):.1f}"
+        if isinstance(write_rate_per_1k_tokens, int | float):
+            per_1k_tokens_str = f"{float(write_rate_per_1k_tokens):.1f}"
         else:
-            per_1k_str = "n/a"
-        lines.append(f"- Writes: {writes}/{total} (rate {rate_str}; {per_1k_str} writes/1k)")
+            per_1k_tokens_str = "n/a"
+        if isinstance(write_rate_per_1k_records, int | float):
+            per_1k_records_str = f"{float(write_rate_per_1k_records):.1f}"
+        else:
+            per_1k_records_str = "n/a"
+        lines.append(
+            "- Writes: " f"{writes}/{total} (rate {rate_str}; {per_1k_tokens_str} writes/1k tokens)"
+        )
+        if per_1k_records_str != per_1k_tokens_str:
+            lines.append(f"  • Legacy normalization: {per_1k_records_str} writes/1k records")
         pinned = gate.get("pinned")
         reward_flags = gate.get("reward_flags")
         lines.append(f"- Pinned episodes: {pinned} | Reward flags: {reward_flags}")
@@ -205,12 +214,15 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         recall = _fmt_float(telemetry.get("recall"))
         pr_auc = _fmt_float(telemetry.get("pr_auc"))
         clutter_rate = _fmt_float(telemetry.get("clutter_rate"))
-        writes_per_1k = telemetry.get("writes_per_1k")
-        writes_per_1k_str = (
-            f"{float(writes_per_1k):.1f}" if isinstance(writes_per_1k, int | float) else per_1k_str
-        )
+        writes_per_1k_tokens = telemetry.get("writes_per_1k_tokens")
+        if isinstance(writes_per_1k_tokens, int | float):
+            writes_per_1k_tokens_str = f"{float(writes_per_1k_tokens):.1f}"
+        else:
+            writes_per_1k_tokens_str = per_1k_tokens_str
         lines.append(f"- Precision: {precision} | Recall: {recall} | PR-AUC: {pr_auc}")
-        lines.append(f"- Clutter rate: {clutter_rate} ({writes_per_1k_str} writes/1k)")
+        lines.append(
+            f"- Clutter rate: {clutter_rate} ({writes_per_1k_tokens_str} writes/1k tokens)"
+        )
         calibration = telemetry.get("calibration") or []
         lines.append(f"- Calibration bins: {len(calibration)}")
         pointer_check = gate.get("pointer_check") or {}
