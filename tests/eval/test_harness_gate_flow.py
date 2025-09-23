@@ -163,16 +163,103 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert store_info["indexed_records"] == 1
 
     pointer_check = gate_info["pointer_check"]
-    assert pointer_check["pointer_only"] is False
-    assert pointer_check["missing_pointer"] >= 1
-    assert "episode_text" in pointer_check["banned_keys"]
+    assert pointer_check["pointer_only"] is True
+    assert pointer_check["missing_pointer"] == 0
+    assert pointer_check["banned_keys"] == []
+    assert pointer_check["banned_key_counts"] == {}
 
     trace_samples = gate_info.get("trace_samples")
     assert isinstance(trace_samples, list)
     assert trace_samples
     sample = trace_samples[0]
-    assert sample["has_pointer"] is False
-    assert "episode_text" in sample["banned_keys"]
+    assert sample["has_pointer"] is True
+    assert sample.get("banned_keys") == []
+    pointer = sample.get("pointer")
+    assert pointer
+    assert pointer.get("doc")
+    assert pointer.get("end") > pointer.get("start")
+
+
+def test_trace_samples_are_pointer_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Alice left a notebook at the park.",
+            "cues": ["Who left the notebook?"],
+            "answers": ["Alice"],
+            "group_id": 1,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 2.1,
+                "novelty": 0.9,
+                "reward": False,
+                "pin": False,
+            },
+        },
+        {
+            "episode_text": "Ben misplaced a key at the cafe.",
+            "cues": ["Who misplaced the key?"],
+            "answers": ["Ben"],
+            "group_id": 2,
+            "should_remember": False,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 0.1,
+                "novelty": 0.1,
+                "reward": False,
+                "pin": False,
+            },
+        },
+    ]
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        return _StubRecallService(records)
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    _, _, _, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=None,
+    )
+
+    gate_info = extra["gate"]
+    trace_samples = gate_info.get("trace_samples")
+    assert isinstance(trace_samples, list)
+    assert trace_samples
+    for sample in trace_samples:
+        assert sample["has_pointer"] is True
+        assert sample.get("banned_keys") == []
+        pointer = sample.get("pointer")
+        assert pointer
+        assert pointer.get("doc")
+        assert pointer.get("end") > pointer.get("start")
+
+    pointer_check = gate_info["pointer_check"]
+    assert pointer_check["pointer_only"] is True
+    assert pointer_check["missing_pointer"] == 0
+    assert pointer_check["banned_key_counts"] == {}
 
 
 def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:

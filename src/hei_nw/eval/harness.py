@@ -41,6 +41,7 @@ from hei_nw.metrics import (
 )
 from hei_nw.pack import pack_trace, truncate_memory_tokens
 from hei_nw.recall import RecallService
+from hei_nw.store import TraceWriter
 from hei_nw.telemetry import compute_gate_metrics
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.seed import set_global_seed
@@ -160,14 +161,16 @@ def _apply_gate(
     *,
     use_for_writes: bool = True,
     debug_keep_labels: bool = False,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[GateDecision]]:
     """Return filtered records for indexing and per-record diagnostics."""
 
     indexed: list[dict[str, Any]] = []
     diagnostics: list[dict[str, Any]] = []
+    decisions: list[GateDecision] = []
     for idx, record in enumerate(records):
         features = _extract_gate_features(record)
         decision: GateDecision = gate.decision(features)
+        decisions.append(decision)
         raw_feats = record.get("gate_features")
         has_gate_payload = isinstance(raw_feats, dict) and bool(raw_feats)
         truth_label = bool(record.get("should_remember"))
@@ -202,7 +205,7 @@ def _apply_gate(
             indexed_record = dict(record)
             indexed_record["should_remember"] = True
             indexed.append(indexed_record)
-    return indexed, diagnostics
+    return indexed, diagnostics, decisions
 
 
 def _safe_int(value: Any) -> int:
@@ -1087,7 +1090,7 @@ def _evaluate_mode_b1(
     dev_settings = dev or DevIsolationSettings()
     adapter = build_default_adapter(cast(PreTrainedModel, model), scale=adapter_scale)
     gate_module = gate or NeuromodulatedGate()
-    indexed_records, gate_diagnostics = _apply_gate(
+    indexed_records, gate_diagnostics, gate_decisions = _apply_gate(
         records,
         gate_module,
         use_for_writes=gate_use_for_writes,
@@ -1125,6 +1128,8 @@ def _evaluate_mode_b1(
     pointer_missing = 0
     pointer_banned: set[str] = set()
     trace_samples: list[dict[str, Any]] = []
+    persisted_samples: list[dict[str, Any]] = []
+    trace_writer: TraceWriter | None = TraceWriter() if gate_use_for_writes else None
     total_prompt_tokens = 0
     total_generated_tokens = 0
 
@@ -1138,6 +1143,25 @@ def _evaluate_mode_b1(
         diag_entry: dict[str, Any] | None = None
         if idx < len(gate_diagnostics):
             diag_entry = gate_diagnostics[idx]
+        gate_decision: GateDecision | None = None
+        if idx < len(gate_decisions):
+            gate_decision = gate_decisions[idx]
+        if (
+            trace_writer is not None
+            and gate_decision is not None
+            and diag_entry is not None
+            and diag_entry.get("indexed_for_store")
+        ):
+            payload = _persist_gate_record(
+                trace_writer,
+                rec,
+                gate_decision,
+                record_index=idx,
+            )
+            if len(persisted_samples) < _MAX_TRACE_SAMPLES:
+                persisted_samples.append(
+                    _persisted_sample_from_payload(payload, rec.get("group_id"))
+                )
         cue = rec.get("cues", [""])[0]
         group_id = int(rec.get("group_id", -1))
         should_remember = bool(rec.get("should_remember"))
@@ -1350,12 +1374,18 @@ def _evaluate_mode_b1(
         "completion_lift": completion_lift(baseline_top1, hopfield_top1),
         "hopfield_rank_improved_rate": hopfield_rank_improved_rate(hopfield_diagnostics),
     }
-    pointer_check = _pointer_summary(
-        total=pointer_total,
-        missing_pointer=pointer_missing,
-        with_pointer=pointer_with,
-        banned_keys=pointer_banned,
-    )
+    if trace_writer is not None:
+        persisted_records = trace_writer.records
+        pointer_check = _pointer_summary_from_payloads(persisted_records)
+        final_trace_samples = persisted_samples if persisted_samples else trace_samples
+    else:
+        pointer_check = _pointer_summary(
+            total=pointer_total,
+            missing_pointer=pointer_missing,
+            with_pointer=pointer_with,
+            banned_keys=pointer_banned,
+        )
+        final_trace_samples = trace_samples
     gate_info = _summarize_gate(gate_diagnostics, pins_only=pins_only)
     gate_info["weights"] = {
         "alpha": gate_module.alpha,
@@ -1387,8 +1417,8 @@ def _evaluate_mode_b1(
     )
     gate_info["pins_only_eval"] = pins_only
     gate_info["pointer_check"] = pointer_check
-    if trace_samples:
-        gate_info["trace_samples"] = trace_samples
+    if final_trace_samples:
+        gate_info["trace_samples"] = final_trace_samples
     store_ntotal = len(indexed_records)
     store_obj = getattr(service, "store", None)
     if store_obj is not None:
@@ -1559,25 +1589,147 @@ def main(argv: Sequence[str] | None = None) -> int:
     return 0
 
 
+def _persist_gate_record(
+    writer: TraceWriter,
+    record: Mapping[str, Any],
+    decision: GateDecision,
+    *,
+    record_index: int,
+) -> dict[str, Any]:
+    """Persist *record* via *writer* and return the stored payload."""
+
+    episode_text = str(record.get("episode_text", "") or "")
+    group_raw = record.get("group_id")
+    if isinstance(group_raw, int | str) and str(group_raw):
+        doc_prefix = f"group-{group_raw}"
+    else:
+        doc_prefix = f"record-{record_index}"
+    digest_source = episode_text or json.dumps(record.get("answers", []), ensure_ascii=False)
+    digest = hashlib.sha256(digest_source.encode("utf8")).hexdigest()[:8]
+    pointer_doc = f"{doc_prefix}-{digest}"
+    span_length = max(len(episode_text), 1)
+    pointer = {"doc": pointer_doc, "start": 0, "end": span_length}
+
+    answers = record.get("answers")
+    if isinstance(answers, Sequence):
+        slot_values = [str(ans) for ans in answers]
+    else:
+        slot_values = []
+    entity_slots = {
+        "who": slot_values[0] if len(slot_values) > 0 else "",
+        "what": slot_values[1] if len(slot_values) > 1 else "",
+        "where": slot_values[2] if len(slot_values) > 2 else "",
+        "when": slot_values[3] if len(slot_values) > 3 else "",
+    }
+
+    trace_id_raw = record.get("trace_id")
+    if isinstance(trace_id_raw, str) and trace_id_raw.strip():
+        trace_id = trace_id_raw.strip()
+    elif trace_id_raw is not None:
+        candidate = str(trace_id_raw).strip()
+        trace_id = candidate or f"{pointer_doc}:{record_index}"
+    else:
+        trace_id = f"{pointer_doc}:{record_index}"
+
+    return writer.write(
+        trace_id=trace_id,
+        pointer=pointer,
+        entity_slots=entity_slots,
+        decision=decision,
+    )
+
+
+def _pointer_payload_has_pointer(pointer: Any) -> bool:
+    """Return ``True`` if *pointer* describes a valid span."""
+
+    if not isinstance(pointer, Mapping):
+        return False
+    doc = pointer.get("doc")
+    start_raw = pointer.get("start")
+    end_raw = pointer.get("end")
+    if not isinstance(doc, str) or not doc.strip():
+        return False
+    try:
+        start_val = int(start_raw) if start_raw is not None else None
+        end_val = int(end_raw) if end_raw is not None else None
+    except (TypeError, ValueError):
+        return False
+    if start_val is None or end_val is None:
+        return False
+    if start_val < 0 or end_val <= start_val:
+        return False
+    return True
+
+
+def _persisted_sample_from_payload(payload: Mapping[str, Any], group_id: Any) -> dict[str, Any]:
+    """Return a lightweight audit sample derived from *payload*."""
+
+    pointer = payload.get("tokens_span_ref")
+    has_pointer = _pointer_payload_has_pointer(pointer)
+    sample: dict[str, Any] = {
+        "trace_id": payload.get("trace_id"),
+        "group_id": group_id,
+        "has_pointer": has_pointer,
+        "banned_keys": [key for key in _BANNED_TRACE_KEYS if key in payload],
+    }
+    if has_pointer and isinstance(pointer, Mapping):
+        sample["pointer"] = {key: pointer.get(key) for key in ("doc", "start", "end")}
+    entity_slots = payload.get("entity_slots")
+    if isinstance(entity_slots, Mapping):
+        sample["entity_slots_keys"] = sorted(str(key) for key in entity_slots.keys())
+    return sample
+
+
+def _pointer_summary_from_payloads(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Return pointer diagnostics computed from persisted payloads."""
+
+    missing_pointer = 0
+    banned_counts: dict[str, int] = {}
+    for payload in payloads:
+        pointer = payload.get("tokens_span_ref")
+        if not _pointer_payload_has_pointer(pointer):
+            missing_pointer += 1
+        for banned in _BANNED_TRACE_KEYS:
+            if banned in payload and payload[banned]:
+                banned_counts[banned] = banned_counts.get(banned, 0) + 1
+    total = len(payloads)
+    with_pointer = total - missing_pointer
+    return _pointer_summary(
+        total=total,
+        missing_pointer=missing_pointer,
+        with_pointer=with_pointer,
+        banned_keys=set(banned_counts),
+        banned_key_counts=banned_counts,
+    )
+
+
 def _pointer_summary(
     *,
     total: int,
     missing_pointer: int,
     with_pointer: int,
     banned_keys: set[str],
+    banned_key_counts: Mapping[str, int] | None = None,
 ) -> dict[str, Any]:
     """Return pointer-only diagnostic metadata."""
 
+    counts = {
+        key: int(value)
+        for key, value in sorted((banned_key_counts or {}).items())
+        if int(value) > 0
+    }
+    all_banned = set(banned_keys) | set(counts)
     pointer_only: bool | None
     if total == 0:
         pointer_only = None
     else:
-        pointer_only = missing_pointer == 0 and not banned_keys
+        pointer_only = missing_pointer == 0 and not all_banned
     return {
         "checked": total,
         "with_pointer": with_pointer,
         "missing_pointer": missing_pointer,
-        "banned_keys": sorted(banned_keys),
+        "banned_keys": sorted(all_banned),
+        "banned_key_counts": counts,
         "pointer_only": pointer_only,
     }
 
