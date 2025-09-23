@@ -107,6 +107,13 @@ def _audit_pointer_check(data: Mapping[str, Any], stats: _AuditStats) -> None:
         for key in banned:
             if isinstance(key, str) and key in _BANNED_TEXT_KEYS:
                 stats.pointer_check_banned.add(key)
+    banned_counts = pointer_check.get("banned_key_counts")
+    if isinstance(banned_counts, Mapping):
+        for key, value in banned_counts.items():
+            if isinstance(key, str) and key in _BANNED_TEXT_KEYS:
+                stats.pointer_check_banned.add(key)
+                if isinstance(value, int) and value > 0:
+                    stats.banned_key_counts[key] += int(value)
 
 
 def _audit_trace_samples(data: Mapping[str, Any], stats: _AuditStats) -> None:

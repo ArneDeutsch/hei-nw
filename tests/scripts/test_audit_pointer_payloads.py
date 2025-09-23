@@ -13,7 +13,12 @@ def _run_audit(paths: list[Path]) -> subprocess.CompletedProcess[str]:
 def test_detects_banned_keys(tmp_path: Path) -> None:
     metrics = {
         "gate": {
-            "pointer_check": {"pointer_only": True, "banned_keys": [], "missing_pointer": 0},
+            "pointer_check": {
+                "pointer_only": False,
+                "banned_keys": [],
+                "missing_pointer": 0,
+                "banned_key_counts": {"episode_text": 1},
+            },
             "trace_samples": [
                 {
                     "trace_id": "trace-001",
@@ -64,7 +69,12 @@ def test_detects_banned_keys(tmp_path: Path) -> None:
 def test_passes_clean_payloads(tmp_path: Path) -> None:
     metrics = {
         "gate": {
-            "pointer_check": {"pointer_only": True, "banned_keys": [], "missing_pointer": 0},
+            "pointer_check": {
+                "pointer_only": True,
+                "banned_keys": [],
+                "missing_pointer": 0,
+                "banned_key_counts": {},
+            },
             "trace_samples": [
                 {
                     "trace_id": "trace-002",
