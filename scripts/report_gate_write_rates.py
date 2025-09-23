@@ -42,13 +42,42 @@ def _iter_metric_files(paths: Iterable[str]) -> Iterable[Path]:
             yield path
 
 
+def _parse_band(argument: str | None) -> tuple[float, float] | None:
+    if not argument:
+        return None
+    tokens = argument.replace(",", " ").split()
+    if len(tokens) != 2:
+        raise ValueError("--target-band expects exactly two values")
+    lower, upper = (float(token) for token in tokens)
+    if lower > upper:
+        lower, upper = upper, lower
+    return lower, upper
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Summarize gate write rates")
     parser.add_argument("paths", nargs="+", help="Metrics JSON files or their directories")
     parser.add_argument("--out", type=Path, default=Path("reports/m3-gate-write-rate-summary.json"))
+    parser.add_argument(
+        "--target-band",
+        type=str,
+        default=None,
+        help="Optional writes/1k tokens target band (e.g. '1,5') to annotate summaries",
+    )
     args = parser.parse_args()
 
+    try:
+        band = _parse_band(args.target_band)
+    except ValueError as exc:
+        parser.error(str(exc))
+
+    band_lower: float | None = None
+    band_upper: float | None = None
+    if band is not None:
+        band_lower, band_upper = band
+
     rows = []
+    first_in_band: Any | None = None
     for metrics_path in _iter_metric_files(args.paths):
         if not metrics_path.exists():
             continue
@@ -97,12 +126,28 @@ def main() -> None:
                 if writes_val is not None:
                     row["writes_per_1k_tokens"] = writes_val / (total_tokens / 1000.0)
         row["writes_per_1k"] = row["writes_per_1k_tokens"]
+        if (
+            band_lower is not None
+            and band_upper is not None
+            and first_in_band is None
+            and row["writes_per_1k_tokens"] is not None
+        ):
+            try:
+                token_value = float(row["writes_per_1k_tokens"])
+            except (TypeError, ValueError):
+                token_value = None
+            if token_value is not None and band_lower <= token_value <= band_upper:
+                first_in_band = row["threshold"]
         rows.append(row)
 
     rows.sort(key=lambda record: (record["scenario"], record["threshold"]))
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    summary: dict[str, Any] = {"runs": rows}
+    if band_lower is not None and band_upper is not None:
+        summary["target_band"] = {"lower": band_lower, "upper": band_upper}
+        summary["first_tau_within_target_band"] = first_in_band
     with args.out.open("w", encoding="utf8") as handle:
-        json.dump({"runs": rows}, handle, indent=2)
+        json.dump(summary, handle, indent=2)
 
 
 if __name__ == "__main__":

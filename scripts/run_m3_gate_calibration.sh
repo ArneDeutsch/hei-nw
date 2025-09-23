@@ -13,6 +13,12 @@ declare -a THRESHOLD_SWEEP=()
 declare -a DEFAULT_THRESHOLD_SWEEP=(0.5 1.0 1.5 2.0 2.5 3.0 3.5)
 THRESHOLD_PROVIDED="false"
 PIN_EVAL="false"
+THRESHOLD_SWEEP_MODE="manual"
+TARGET_BAND_LOWER="1"
+TARGET_BAND_UPPER="5"
+TARGET_BAND_PROVIDED="false"
+RUN_LAST_METRICS_PATH=""
+RUN_LAST_WRITES_PER_1K=""
 
 usage() {
   cat <<'USAGE'
@@ -27,7 +33,8 @@ Options:
   --seed SEED               Random seed (default: 13)
   --model MODEL             Model identifier (default: Qwen/Qwen2.5-1.5B-Instruct)
   --threshold TAU           Gate threshold τ (default: 1.5)
-  --threshold-sweep "τ …"   Space or comma-separated list of τ values to sweep
+  --threshold-sweep "τ …"   Space/comma-separated list or "auto" to search τ automatically
+  --target-band "LOW,HIGH"  Desired writes/1k tokens band for auto sweep (default: 1,5)
   --out DIR                 Output directory (default: reports/m3-write-gate)
   --title TITLE             Custom title for the calibration plot
   --pin-eval                Evaluate pins-only slice and emit pins-specific artifacts
@@ -41,6 +48,13 @@ parse_threshold_sweep() {
     echo "Missing argument for --threshold-sweep" >&2
     exit 2
   fi
+  local normalized="${arg,,}"
+  if [[ "$normalized" == "auto" ]]; then
+    THRESHOLD_SWEEP_MODE="auto"
+    THRESHOLD_SWEEP=()
+    return
+  fi
+  THRESHOLD_SWEEP_MODE="manual"
   arg="${arg//,/ }"
   THRESHOLD_SWEEP=()
   for token in $arg; do
@@ -52,6 +66,28 @@ parse_threshold_sweep() {
     echo "No thresholds provided for --threshold-sweep" >&2
     exit 2
   fi
+}
+
+parse_target_band() {
+  local arg="$1"
+  if [[ -z "$arg" ]]; then
+    echo "Missing argument for --target-band" >&2
+    exit 2
+  fi
+  arg="${arg//,/ }"
+  local -a parts=()
+  for token in $arg; do
+    if [[ -n "$token" ]]; then
+      parts+=("$token")
+    fi
+  done
+  if [[ ${#parts[@]} -ne 2 ]]; then
+    echo "--target-band expects two comma or space separated values" >&2
+    exit 2
+  fi
+  TARGET_BAND_LOWER="${parts[0]}"
+  TARGET_BAND_UPPER="${parts[1]}"
+  TARGET_BAND_PROVIDED="true"
 }
 
 sanitize_tau_value() {
@@ -113,6 +149,14 @@ while [[ $# -gt 0 ]]; do
       parse_threshold_sweep "${1#*=}"
       shift 1
       ;;
+    --target-band)
+      parse_target_band "${2:-}"
+      shift 2
+      ;;
+    --target-band=*)
+      parse_target_band "${1#*=}"
+      shift 1
+      ;;
     --out)
       OUT="${2:-}"
       shift 2
@@ -145,9 +189,14 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THRESHOLD_PROVIDED" != "true" ]]; then
+if [[ "$THRESHOLD_SWEEP_MODE" != "auto" && ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THRESHOLD_PROVIDED" != "true" ]]; then
   THRESHOLD_SWEEP=("${DEFAULT_THRESHOLD_SWEEP[@]}")
   echo "[m3] --threshold-sweep not provided; using default sweep: ${THRESHOLD_SWEEP[*]}"
+fi
+
+if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
+  echo "[m3] Auto threshold sweep enabled; target band: [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]"
+  echo "[m3] Starting search from τ=${THRESHOLD}"
 fi
 
 if [[ "$PIN_EVAL" == "true" ]]; then
@@ -192,6 +241,9 @@ summary_suffix=""
 if [[ "$PIN_EVAL" == "true" ]]; then
   summary_suffix="_pins"
 fi
+
+declare -a METRICS_PATHS=()
+declare -a SWEEP_DIRS=()
 
 run_calibration_for_threshold() {
   local tau="$1"
@@ -309,30 +361,149 @@ PY
 
   echo "[m3] Rendering calibration curve for τ=${tau}${mode_note}"
   python "${plot_cmd[@]}"
+
+  RUN_LAST_METRICS_PATH="$metrics_json"
+  RUN_LAST_WRITES_PER_1K="$(python - "$metrics_json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+try:
+    data = json.loads(path.read_text(encoding="utf8"))
+except FileNotFoundError:
+    print("")
+    raise SystemExit(0)
+
+gate = data.get("gate") or {}
+telemetry = gate.get("telemetry") or {}
+value = gate.get("write_rate_per_1k_tokens")
+if value is None:
+    value = telemetry.get("writes_per_1k_tokens")
+
+def _to_int(raw):
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return None
+
+if value is None:
+    prompt_tokens = gate.get("prompt_tokens")
+    generated_tokens = gate.get("generated_tokens")
+    if prompt_tokens is None:
+        prompt_tokens = telemetry.get("prompt_tokens")
+    if generated_tokens is None:
+        generated_tokens = telemetry.get("generated_tokens")
+    prompt_tokens = _to_int(prompt_tokens) or 0
+    generated_tokens = _to_int(generated_tokens) or 0
+    total_tokens = prompt_tokens + generated_tokens
+    if total_tokens > 0:
+        writes_value = gate.get("writes")
+        if writes_value is None:
+            writes_value = telemetry.get("writes")
+        try:
+            writes_value = float(writes_value)
+        except (TypeError, ValueError):
+            writes_value = None
+        if writes_value is not None:
+            value = writes_value / (total_tokens / 1000.0)
+
+if value is None:
+    print("")
+else:
+    print(value)
+PY
+)"
 }
 
-if [[ ${#THRESHOLD_SWEEP[@]} -gt 0 ]]; then
-  echo "[m3] Performing threshold sweep for scenario ${SCENARIO}: ${THRESHOLD_SWEEP[*]}"
-  metrics_paths=()
-  sweep_dirs=()
-  for tau in "${THRESHOLD_SWEEP[@]}"; do
-    tau_key="$(sanitize_tau_value "$tau")"
-    run_dir="${OUT}/tau_${tau_key}"
-    plot_title="$PLOT_TITLE"
-    if [[ -n "$plot_title" ]]; then
-      plot_title+=" (τ=${tau})"
-    fi
-    run_calibration_for_threshold "$tau" "$run_dir" "$plot_title"
-    metrics_paths+=("${run_dir}/${metrics_base}_metrics.json")
-    sweep_dirs+=("tau_${tau_key}")
-  done
+format_tau_value() {
+  python - "$1" <<'PY'
+import sys
 
-  summary_json="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.json"
+try:
+    value = float(sys.argv[1])
+except (IndexError, ValueError):
+    value = 0.0
+
+text = f"{value:.6f}".rstrip("0").rstrip(".")
+if not text:
+    text = "0"
+print(text)
+PY
+}
+
+midpoint_tau() {
+  python - "$1" "$2" <<'PY'
+import sys
+
+low = float(sys.argv[1])
+high = float(sys.argv[2])
+value = (low + high) / 2.0
+text = f"{value:.6f}".rstrip("0").rstrip(".")
+if not text:
+    text = "0"
+print(text)
+PY
+}
+
+increase_tau_value() {
+  python - "$1" <<'PY'
+import sys
+
+current = float(sys.argv[1])
+if current <= 0.0:
+    candidate = 0.5
+else:
+    candidate = current * 2.0
+text = f"{candidate:.6f}".rstrip("0").rstrip(".")
+if not text:
+    text = "0"
+print(text)
+PY
+}
+
+decrease_tau_value() {
+  python - "$1" <<'PY'
+import sys
+
+current = float(sys.argv[1])
+if current <= 0.0:
+    candidate = 0.25
+else:
+    candidate = current / 2.0
+if candidate <= 0.0:
+    candidate = 0.0001
+text = f"{candidate:.6f}".rstrip("0").rstrip(".")
+if not text:
+    text = "0"
+print(text)
+PY
+}
+
+generate_sweep_summary() {
+  local -n metrics_paths_ref="$1"
+  local -n sweep_dirs_ref="$2"
+  local -n thresholds_ref="$3"
+
+  if [[ ${#metrics_paths_ref[@]} -eq 0 ]]; then
+    echo "[m3] No metrics collected for sweep; aborting" >&2
+    exit 4
+  fi
+
+  local summary_json="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.json"
   echo "[m3] Generating sweep summary at ${summary_json}"
-  python scripts/report_gate_write_rates.py "${metrics_paths[@]}" --out "$summary_json"
+  local -a summary_cmd=(
+    python scripts/report_gate_write_rates.py
+    "${metrics_paths_ref[@]}"
+    --out "$summary_json"
+  )
+  if [[ -n "$TARGET_BAND_LOWER" && -n "$TARGET_BAND_UPPER" ]]; then
+    summary_cmd+=("--target-band" "${TARGET_BAND_LOWER},${TARGET_BAND_UPPER}")
+  fi
+  "${summary_cmd[@]}"
 
-  summary_tsv="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.tsv"
-  python - "$summary_tsv" "${metrics_paths[@]}" <<'PY'
+  local summary_tsv="${OUT}/${SCENARIO}_sweep_summary${summary_suffix}.tsv"
+  python - "$summary_tsv" "${metrics_paths_ref[@]}" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -387,7 +558,7 @@ with out_path.open("w", encoding="utf8") as handle:
         handle.write("\t".join("" if value is None else str(value) for value in row) + "\n")
 PY
 
-  index_md="${OUT}/${SCENARIO}_threshold_sweep${summary_suffix}.md"
+  local index_md="${OUT}/${SCENARIO}_threshold_sweep${summary_suffix}.md"
   {
     if [[ "$PIN_EVAL" == "true" ]]; then
       echo "# Threshold sweep for scenario ${SCENARIO} (pins-only)"
@@ -397,10 +568,11 @@ PY
     echo ""
     echo "| τ | Calibration plot |"
     echo "| --- | --- |"
-    for ((i = 0; i < ${#THRESHOLD_SWEEP[@]}; i++)); do
-      tau="${THRESHOLD_SWEEP[$i]}"
-      dir="${sweep_dirs[$i]}"
-      plot_path="${SCENARIO}_gate_calibration"
+    local idx
+    for ((idx = 0; idx < ${#thresholds_ref[@]}; idx++)); do
+      local tau="${thresholds_ref[$idx]}"
+      local dir="${sweep_dirs_ref[$idx]}"
+      local plot_path="${SCENARIO}_gate_calibration"
       if [[ "$PIN_EVAL" == "true" ]]; then
         plot_path+="_pins"
       fi
@@ -410,6 +582,117 @@ PY
 
   echo "[m3] Sweep summary written to ${summary_json} and ${summary_tsv}"
   echo "[m3] Calibration assets written to $OUT"
+}
+
+auto_threshold_sweep() {
+  METRICS_PATHS=()
+  SWEEP_DIRS=()
+  THRESHOLD_SWEEP=()
+
+  local tau_current
+  tau_current="$(format_tau_value "$THRESHOLD")"
+  local max_iterations=20
+  local iteration=0
+  local found_within="false"
+  local tau_low=""
+  local tau_high=""
+  declare -A tau_seen=()
+
+  while (( iteration < max_iterations )); do
+    iteration=$((iteration + 1))
+    tau_current="$(format_tau_value "$tau_current")"
+    if [[ -n "${tau_seen[$tau_current]+x}" ]]; then
+      echo "[m3] Auto sweep encountered repeated τ=${tau_current}; stopping search" >&2
+      break
+    fi
+    tau_seen[$tau_current]=1
+
+    local tau_key="$(sanitize_tau_value "$tau_current")"
+    local run_dir="${OUT}/tau_${tau_key}"
+    local plot_title="$PLOT_TITLE"
+    if [[ -n "$plot_title" ]]; then
+      plot_title+=" (τ=${tau_current})"
+    fi
+    run_calibration_for_threshold "$tau_current" "$run_dir" "$plot_title"
+
+    local metrics_path="${run_dir}/${metrics_base}_metrics.json"
+    local writes_per_1k="$RUN_LAST_WRITES_PER_1K"
+    if [[ -z "$writes_per_1k" ]]; then
+      echo "[m3] Unable to determine writes per 1k tokens for τ=${tau_current}" >&2
+      exit 4
+    fi
+
+    METRICS_PATHS+=("$metrics_path")
+    SWEEP_DIRS+=("tau_${tau_key}")
+    THRESHOLD_SWEEP+=("$tau_current")
+
+    local band_state
+    band_state="$(python - "$writes_per_1k" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY'
+import sys
+
+value = float(sys.argv[1])
+lower = float(sys.argv[2])
+upper = float(sys.argv[3])
+if value < lower:
+    print("below")
+elif value > upper:
+    print("above")
+else:
+    print("within")
+PY
+)"
+
+    echo "[m3] τ=${tau_current} yields ${writes_per_1k} writes/1k tokens (${band_state})"
+
+    if [[ "$band_state" == "within" ]]; then
+      found_within="true"
+      break
+    elif [[ "$band_state" == "above" ]]; then
+      tau_low="$tau_current"
+      if [[ -n "$tau_high" ]]; then
+        tau_current="$(midpoint_tau "$tau_low" "$tau_high")"
+      else
+        tau_current="$(increase_tau_value "$tau_current")"
+      fi
+    else
+      tau_high="$tau_current"
+      if [[ -n "$tau_low" ]]; then
+        tau_current="$(midpoint_tau "$tau_low" "$tau_high")"
+      else
+        tau_current="$(decrease_tau_value "$tau_current")"
+      fi
+    fi
+  done
+
+  if [[ "$found_within" != "true" ]]; then
+    echo "[m3] Auto sweep did not locate a τ with writes/1k tokens in [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]" >&2
+    exit 4
+  fi
+}
+
+if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
+  auto_threshold_sweep
+  generate_sweep_summary METRICS_PATHS SWEEP_DIRS THRESHOLD_SWEEP
+  exit 0
+fi
+
+if [[ ${#THRESHOLD_SWEEP[@]} -gt 0 ]]; then
+  echo "[m3] Performing threshold sweep for scenario ${SCENARIO}: ${THRESHOLD_SWEEP[*]}"
+  METRICS_PATHS=()
+  SWEEP_DIRS=()
+  for tau in "${THRESHOLD_SWEEP[@]}"; do
+    tau_key="$(sanitize_tau_value "$tau")"
+    run_dir="${OUT}/tau_${tau_key}"
+    plot_title="$PLOT_TITLE"
+    if [[ -n "$plot_title" ]]; then
+      plot_title+=" (τ=${tau})"
+    fi
+    run_calibration_for_threshold "$tau" "$run_dir" "$plot_title"
+    METRICS_PATHS+=("${run_dir}/${metrics_base}_metrics.json")
+    SWEEP_DIRS+=("tau_${tau_key}")
+  done
+
+  generate_sweep_summary METRICS_PATHS SWEEP_DIRS THRESHOLD_SWEEP
   exit 0
 fi
 
