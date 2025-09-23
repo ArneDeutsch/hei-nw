@@ -72,6 +72,42 @@ def test_markdown_includes_baseline_and_notes() -> None:
     assert "- None" in debug_section.split("## Dataset", maxsplit=1)[0]
 
 
+def test_markdown_mentions_pins_slice() -> None:
+    summary = {
+        "aggregate": {"em": 0.0, "em_relaxed": 0.0, "em_strict": 0.0, "f1": 0.0, "latency": 0.0},
+        "lag_bins": [],
+        "compute": {"b0": {"attention_flops": 0, "kv_cache_bytes": 0}},
+        "gate": {
+            "writes": 1,
+            "total": 2,
+            "write_rate": 0.5,
+            "write_rate_per_1k_tokens": 10.0,
+            "write_rate_per_1k_records": 500.0,
+            "pinned": 1,
+            "reward_flags": 0,
+            "telemetry": {
+                "precision": 0.75,
+                "recall": 0.5,
+                "pr_auc": 0.6,
+                "clutter_rate": 0.25,
+                "writes_per_1k_tokens": 10.0,
+                "pins_only_eval": False,
+                "pins_only": {
+                    "precision": 0.9,
+                    "recall": 0.8,
+                    "pr_auc": 0.85,
+                    "write_rate": 0.1,
+                    "write_rate_per_1k_tokens": 3.2,
+                    "calibration": [],
+                },
+            },
+        },
+    }
+    md = build_markdown_report(summary, scenario="A")
+    assert "Pins-only PR-AUC" in md
+    assert "Clutter" in md
+
+
 def test_ablation_plot_written(tmp_path: Path) -> None:
     with_hp = {"retrieval": {"completion_lift": 0.2}}
     without_hp = {"retrieval": {"completion_lift": 0.0}}

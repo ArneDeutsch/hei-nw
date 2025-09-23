@@ -104,3 +104,14 @@ def test_default_title_falls_back_cleanly() -> None:
     )
     assert plot_gate_calibration._resolve_title({"scenario": "B"}, explicit=None) == "Scenario B"
     assert plot_gate_calibration._resolve_title({}, explicit=None) == "Gate calibration"
+
+
+def test_pins_only_title_appends_suffix() -> None:
+    telemetry = {"scenario": "C", "threshold": 1.25}
+    assert (
+        plot_gate_calibration._final_title(telemetry, explicit=None, pins_only=True)
+        == "Scenario C — τ=1.25 (pins-only)"
+    )
+    assert (
+        plot_gate_calibration._final_title(telemetry, explicit="Custom", pins_only=True) == "Custom"
+    )

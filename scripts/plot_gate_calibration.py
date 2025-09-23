@@ -59,7 +59,7 @@ def _load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def _resolve_title(meta: dict[str, Any], explicit: str | None) -> str:
+def _resolve_title(meta: Mapping[str, Any], explicit: str | None) -> str:
     if explicit:
         return explicit
 
@@ -125,6 +125,15 @@ def _resolve_title(meta: dict[str, Any], explicit: str | None) -> str:
         return f"Scenario {scenario}"
 
     return "Gate calibration"
+
+
+def _final_title(meta: Mapping[str, Any], explicit: str | None, pins_only: bool) -> str:
+    """Return the rendered plot title, annotating pins-only slices."""
+
+    title = _resolve_title(meta, explicit)
+    if pins_only and explicit is None:
+        return f"{title} (pins-only)"
+    return title
 
 
 def _calibration_buckets(section: Mapping[str, Any]) -> list[Mapping[str, Any]]:
@@ -195,7 +204,7 @@ def main() -> None:
     ax.set_ylim(0.0, 1.0)
     ax.set_xlabel("Mean gate score")
     ax.set_ylabel("Fraction positive")
-    ax.set_title(_resolve_title(telemetry, args.title))
+    ax.set_title(_final_title(telemetry, args.title, args.pins_only))
     ax.legend(loc="lower right")
     fig.tight_layout()
     args.out.parent.mkdir(parents=True, exist_ok=True)

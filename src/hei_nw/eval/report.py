@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -223,6 +223,20 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         lines.append(
             f"- Clutter rate: {clutter_rate} ({writes_per_1k_tokens_str} writes/1k tokens)"
         )
+        pins_only = telemetry.get("pins_only")
+        if isinstance(pins_only, Mapping):
+            pins_pr_auc = _fmt_float(pins_only.get("pr_auc"))
+            pins_clutter = _fmt_float(pins_only.get("write_rate"))
+            pins_per_1k_tokens = pins_only.get("write_rate_per_1k_tokens")
+            if isinstance(pins_per_1k_tokens, int | float):
+                pins_per_1k_tokens_str = f"{float(pins_per_1k_tokens):.1f}"
+            else:
+                pins_per_1k_tokens_str = "n/a"
+            lines.append(
+                "- Pins-only PR-AUC: "
+                f"{pins_pr_auc} | Clutter: {pins_clutter} "
+                f"({pins_per_1k_tokens_str} writes/1k tokens)"
+            )
         calibration = telemetry.get("calibration") or []
         lines.append(f"- Calibration bins: {len(calibration)}")
         pointer_check = gate.get("pointer_check") or {}
