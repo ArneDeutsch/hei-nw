@@ -17,8 +17,13 @@ THRESHOLD_SWEEP_MODE="manual"
 TARGET_BAND_LOWER="1"
 TARGET_BAND_UPPER="5"
 TARGET_BAND_PROVIDED="false"
+TARGET_PER="tokens"
 RUN_LAST_METRICS_PATH=""
-RUN_LAST_WRITES_PER_1K=""
+RUN_LAST_WRITES_PER_1K_TOKENS=""
+RUN_LAST_WRITES_PER_1K_RECORDS=""
+RUN_LAST_TARGET_METRIC=""
+AUTO_SELECTED_TAU=""
+AUTO_SELECTED_METRIC_VALUE=""
 
 usage() {
   cat <<'USAGE'
@@ -35,6 +40,8 @@ Options:
   --threshold TAU           Gate threshold τ (default: 1.5)
   --threshold-sweep "τ …"   Space/comma-separated list or "auto" to search τ automatically
   --target-band "LOW,HIGH"  Desired writes/1k tokens band for auto sweep (default: 1,5)
+  --target-per {tokens|records}
+                            Metric used for the target band evaluation (default: tokens)
   --out DIR                 Output directory (default: reports/m3-write-gate)
   --title TITLE             Custom title for the calibration plot
   --pin-eval                Evaluate pins-only slice and emit pins-specific artifacts
@@ -88,6 +95,27 @@ parse_target_band() {
   TARGET_BAND_LOWER="${parts[0]}"
   TARGET_BAND_UPPER="${parts[1]}"
   TARGET_BAND_PROVIDED="true"
+}
+
+parse_target_per() {
+  local arg="$1"
+  if [[ -z "$arg" ]]; then
+    echo "Missing argument for --target-per" >&2
+    exit 2
+  fi
+  local normalized="${arg,,}"
+  case "$normalized" in
+    token|tokens)
+      TARGET_PER="tokens"
+      ;;
+    record|records)
+      TARGET_PER="records"
+      ;;
+    *)
+      echo "Invalid value for --target-per: $arg" >&2
+      exit 2
+      ;;
+  esac
 }
 
 sanitize_tau_value() {
@@ -157,6 +185,14 @@ while [[ $# -gt 0 ]]; do
       parse_target_band "${1#*=}"
       shift 1
       ;;
+    --target-per)
+      parse_target_per "${2:-}"
+      shift 2
+      ;;
+    --target-per=*)
+      parse_target_per "${1#*=}"
+      shift 1
+      ;;
     --out)
       OUT="${2:-}"
       shift 2
@@ -195,7 +231,7 @@ if [[ "$THRESHOLD_SWEEP_MODE" != "auto" && ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THR
 fi
 
 if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
-  echo "[m3] Auto threshold sweep enabled; target band: [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]"
+  echo "[m3] Auto threshold sweep enabled; target band: [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}] per 1k ${TARGET_PER}"
   echo "[m3] Starting search from τ=${THRESHOLD}"
 fi
 
@@ -363,57 +399,91 @@ PY
   python "${plot_cmd[@]}"
 
   RUN_LAST_METRICS_PATH="$metrics_json"
-  RUN_LAST_WRITES_PER_1K="$(python - "$metrics_json" <<'PY'
+  mapfile -t _metric_lines < <(python - "$metrics_json" <<'PY'
 import json
 import sys
 from pathlib import Path
 
-path = Path(sys.argv[1])
-try:
-    data = json.loads(path.read_text(encoding="utf8"))
-except FileNotFoundError:
-    print("")
-    raise SystemExit(0)
 
-gate = data.get("gate") or {}
-telemetry = gate.get("telemetry") or {}
-value = gate.get("write_rate_per_1k_tokens")
-if value is None:
-    value = telemetry.get("writes_per_1k_tokens")
-
-def _to_int(raw):
+def _as_int(value):
     try:
-        return int(raw)
+        return int(value)
     except (TypeError, ValueError):
         return None
 
-if value is None:
-    prompt_tokens = gate.get("prompt_tokens")
-    generated_tokens = gate.get("generated_tokens")
-    if prompt_tokens is None:
-        prompt_tokens = telemetry.get("prompt_tokens")
-    if generated_tokens is None:
-        generated_tokens = telemetry.get("generated_tokens")
-    prompt_tokens = _to_int(prompt_tokens) or 0
-    generated_tokens = _to_int(generated_tokens) or 0
-    total_tokens = prompt_tokens + generated_tokens
-    if total_tokens > 0:
-        writes_value = gate.get("writes")
-        if writes_value is None:
-            writes_value = telemetry.get("writes")
-        try:
-            writes_value = float(writes_value)
-        except (TypeError, ValueError):
-            writes_value = None
-        if writes_value is not None:
-            value = writes_value / (total_tokens / 1000.0)
 
-if value is None:
+def _as_float(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+path = Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf8"))
+gate = data.get("gate") or {}
+telemetry = gate.get("telemetry") or {}
+
+tokens_value = gate.get("write_rate_per_1k_tokens")
+if tokens_value is None:
+    candidate = telemetry.get("writes_per_1k_tokens")
+    if isinstance(candidate, (int, float)):
+        tokens_value = float(candidate)
+    else:
+        writes_val = _as_float(gate.get("writes"))
+        if writes_val is None:
+            writes_val = _as_float(telemetry.get("writes"))
+        prompt_tokens = _as_int(gate.get("prompt_tokens"))
+        if prompt_tokens is None:
+            prompt_tokens = _as_int(telemetry.get("prompt_tokens"))
+        generated_tokens = _as_int(gate.get("generated_tokens"))
+        if generated_tokens is None:
+            generated_tokens = _as_int(telemetry.get("generated_tokens"))
+        total_tokens = 0
+        for component in (prompt_tokens, generated_tokens):
+            if component is not None:
+                total_tokens += component
+        if total_tokens > 0 and writes_val is not None:
+            tokens_value = writes_val / (total_tokens / 1000.0)
+
+records_value = gate.get("write_rate_per_1k_records")
+if records_value is None:
+    candidate = telemetry.get("writes_per_1k_records")
+    if isinstance(candidate, (int, float)):
+        records_value = float(candidate)
+    else:
+        write_rate = _as_float(gate.get("write_rate"))
+        if write_rate is None:
+            write_rate = _as_float(telemetry.get("write_rate"))
+        if write_rate is not None:
+            records_value = write_rate * 1000.0
+
+if tokens_value is None:
     print("")
 else:
-    print(value)
+    print(tokens_value)
+
+if records_value is None:
+    print("")
+else:
+    print(records_value)
 PY
-)"
+)
+  if [[ ${#_metric_lines[@]} -ge 1 ]]; then
+    RUN_LAST_WRITES_PER_1K_TOKENS="${_metric_lines[0]}"
+  else
+    RUN_LAST_WRITES_PER_1K_TOKENS=""
+  fi
+  if [[ ${#_metric_lines[@]} -ge 2 ]]; then
+    RUN_LAST_WRITES_PER_1K_RECORDS="${_metric_lines[1]}"
+  else
+    RUN_LAST_WRITES_PER_1K_RECORDS=""
+  fi
+  if [[ "$TARGET_PER" == "records" ]]; then
+    RUN_LAST_TARGET_METRIC="$RUN_LAST_WRITES_PER_1K_RECORDS"
+  else
+    RUN_LAST_TARGET_METRIC="$RUN_LAST_WRITES_PER_1K_TOKENS"
+  fi
 }
 
 format_tau_value() {
@@ -499,6 +569,10 @@ generate_sweep_summary() {
   )
   if [[ -n "$TARGET_BAND_LOWER" && -n "$TARGET_BAND_UPPER" ]]; then
     summary_cmd+=("--target-band" "${TARGET_BAND_LOWER},${TARGET_BAND_UPPER}")
+  fi
+  summary_cmd+=("--target-per" "$TARGET_PER")
+  if [[ -n "$AUTO_SELECTED_TAU" ]]; then
+    summary_cmd+=("--auto-selected-tau" "$AUTO_SELECTED_TAU")
   fi
   "${summary_cmd[@]}"
 
@@ -588,12 +662,13 @@ auto_threshold_sweep() {
   METRICS_PATHS=()
   SWEEP_DIRS=()
   THRESHOLD_SWEEP=()
+  AUTO_SELECTED_TAU=""
+  AUTO_SELECTED_METRIC_VALUE=""
 
   local tau_current
   tau_current="$(format_tau_value "$THRESHOLD")"
   local max_iterations=20
   local iteration=0
-  local found_within="false"
   local tau_low=""
   local tau_high=""
   declare -A tau_seen=()
@@ -616,9 +691,9 @@ auto_threshold_sweep() {
     run_calibration_for_threshold "$tau_current" "$run_dir" "$plot_title"
 
     local metrics_path="${run_dir}/${metrics_base}_metrics.json"
-    local writes_per_1k="$RUN_LAST_WRITES_PER_1K"
-    if [[ -z "$writes_per_1k" ]]; then
-      echo "[m3] Unable to determine writes per 1k tokens for τ=${tau_current}" >&2
+    local metric_value="$RUN_LAST_TARGET_METRIC"
+    if [[ -z "$metric_value" ]]; then
+      echo "[m3] Unable to determine writes per 1k ${TARGET_PER} for τ=${tau_current}" >&2
       exit 4
     fi
 
@@ -627,12 +702,17 @@ auto_threshold_sweep() {
     THRESHOLD_SWEEP+=("$tau_current")
 
     local band_state
-    band_state="$(python - "$writes_per_1k" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY'
+    band_state="$(python - "$metric_value" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY'
 import sys
 
-value = float(sys.argv[1])
-lower = float(sys.argv[2])
-upper = float(sys.argv[3])
+try:
+    value = float(sys.argv[1])
+    lower = float(sys.argv[2])
+    upper = float(sys.argv[3])
+except (IndexError, ValueError):
+    print("invalid")
+    raise SystemExit(0)
+
 if value < lower:
     print("below")
 elif value > upper:
@@ -642,11 +722,50 @@ else:
 PY
 )"
 
-    echo "[m3] τ=${tau_current} yields ${writes_per_1k} writes/1k tokens (${band_state})"
+    local metric_label="tokens"
+    if [[ "$TARGET_PER" == "records" ]]; then
+      metric_label="records"
+    fi
+    echo "[m3] τ=${tau_current} yields ${metric_value} writes/1k ${metric_label} (${band_state})"
+
+    if [[ "$band_state" == "invalid" ]]; then
+      echo "[m3] Invalid metric value '${metric_value}' for τ=${tau_current}" >&2
+      exit 4
+    fi
 
     if [[ "$band_state" == "within" ]]; then
-      found_within="true"
-      break
+      local update_decision
+      update_decision="$(python - "$AUTO_SELECTED_TAU" "$tau_current" <<'PY'
+import sys
+
+previous = sys.argv[1]
+current = sys.argv[2]
+if not previous:
+    print("update")
+else:
+    try:
+        prev_val = float(previous)
+        curr_val = float(current)
+    except ValueError:
+        print("keep")
+    else:
+        if curr_val < prev_val:
+            print("update")
+        else:
+            print("keep")
+PY
+)"
+      if [[ "$update_decision" == "update" || -z "$AUTO_SELECTED_TAU" ]]; then
+        AUTO_SELECTED_TAU="$tau_current"
+        AUTO_SELECTED_METRIC_VALUE="$metric_value"
+      fi
+      tau_high="$tau_current"
+      if [[ -n "$tau_low" ]]; then
+        tau_current="$(midpoint_tau "$tau_low" "$tau_high")"
+      else
+        tau_current="$(decrease_tau_value "$tau_current")"
+      fi
+      continue
     elif [[ "$band_state" == "above" ]]; then
       tau_low="$tau_current"
       if [[ -n "$tau_high" ]]; then
@@ -664,10 +783,12 @@ PY
     fi
   done
 
-  if [[ "$found_within" != "true" ]]; then
-    echo "[m3] Auto sweep did not locate a τ with writes/1k tokens in [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]" >&2
+  if [[ -z "$AUTO_SELECTED_TAU" ]]; then
+    echo "[m3] Auto sweep did not locate a τ with writes/1k ${TARGET_PER} in [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]" >&2
     exit 4
   fi
+
+  echo "[m3] Auto-selected τ=${AUTO_SELECTED_TAU} with ${AUTO_SELECTED_METRIC_VALUE} writes/1k ${TARGET_PER}"
 }
 
 if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
