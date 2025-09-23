@@ -150,8 +150,9 @@ The ``gate`` section in the harness metrics summarizes the run:
 * ``writes`` / ``total`` and ``write_rate`` quantify how many records cleared the
   gate.
 * ``pinned`` / ``reward_flags`` count how often the respective signals fired.
-* ``write_rate_per_1k_tokens`` normalizes the write rate by generated tokens, while
-  ``write_rate_per_1k_records`` preserves the per-record view.
+* ``write_rate_per_1k_tokens`` normalizes the write rate by the combined prompt
+  and generated token budget, while ``write_rate_per_1k_records`` preserves the
+  per-record view.
 * ``telemetry`` embeds precision, recall, PR-AUC, clutter rate,
   ``writes_per_1k_tokens``, ``writes_per_1k_records``, and calibration histogram buckets.
 * ``pointer_check`` confirms that stored traces remain pointer-only. Investigate

@@ -333,7 +333,7 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="HEI-NW evaluation harness")
     parser.add_argument("--mode", choices=["B0", "B1", "B2", "B3"], required=True)
     parser.add_argument("--scenario", choices=list("ABCDE"), required=True)
-    parser.add_argument("-n", type=int, required=True, help="Number of records")
+    parser.add_argument("-n", "--n", type=int, required=True, help="Number of records")
     parser.add_argument(
         "--baseline",
         choices=["none", "long-context", "rag"],
