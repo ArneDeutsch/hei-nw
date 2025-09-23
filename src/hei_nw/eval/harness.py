@@ -478,6 +478,23 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--store.evict_stale",
+        dest="store_evict_stale",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Enable periodic eviction of stale traces between evaluation batches.",
+    )
+    parser.add_argument(
+        "--store.evict_interval",
+        dest="store_evict_interval",
+        type=_positive_int,
+        default=32,
+        help=(
+            "Number of batches processed between eviction sweeps when "
+            "--store.evict_stale is enabled."
+        ),
+    )
+    parser.add_argument(
         "--adapter.scale",
         dest="adapter_scale",
         type=float,
@@ -1139,6 +1156,8 @@ def _evaluate_mode_b1(
     pins_only: bool = False,
     gate_use_for_writes: bool = True,
     gate_debug_keep_labels: bool = False,
+    store_evict_stale: bool = False,
+    store_evict_interval: int = 32,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -1193,12 +1212,38 @@ def _evaluate_mode_b1(
     trace_writer: TraceWriter | None = TraceWriter() if gate_use_for_writes else None
     total_prompt_tokens = 0
     total_generated_tokens = 0
+    store_evict_enabled = bool(store_evict_stale)
+    eviction_interval = max(int(store_evict_interval), 1)
+    batches_since_eviction = 0
+    eviction_runs = 0
+    evicted_total = 0
 
     def _coerce_group_id(value: Any) -> int:
         try:
             return int(value)
         except (TypeError, ValueError):
             return -1
+
+    def _maybe_run_eviction() -> None:
+        """Invoke background eviction when the configured interval elapses."""
+
+        nonlocal batches_since_eviction, eviction_runs, evicted_total
+        if not store_evict_enabled:
+            return
+        batches_since_eviction += 1
+        if batches_since_eviction < eviction_interval:
+            return
+        store_obj = getattr(service, "store", None)
+        evict_fn = getattr(store_obj, "evict_stale", None) if store_obj is not None else None
+        batches_since_eviction = 0
+        if not callable(evict_fn):
+            return
+        removed = evict_fn()
+        eviction_runs += 1
+        if isinstance(removed, Sequence) and not isinstance(removed, str | bytes):
+            evicted_total += len(removed)
+        elif removed:
+            evicted_total += 1
 
     for idx, rec in enumerate(records):
         diag_entry: dict[str, Any] | None = None
@@ -1391,37 +1436,38 @@ def _evaluate_mode_b1(
                 )
             )
             first_tokens.append(pred.split()[0] if pred else "")
-            continue
-        itm_list, comp = _evaluate_records(
-            [rec],
-            geom,
-            qa_settings,
-            adapter=adapter,
-            mem_tokens=mem_tokens,
-            mem_text=mem_text,
-        )
-        items.extend(itm_list)
-        first_token = ""
-        if itm_list:
-            prediction = itm_list[0].prediction.strip()
-            if prediction:
-                first_token = prediction.split()[0]
-            first_tokens.append(first_token)
-        compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
-        compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
-        comp_prompt_tokens = int(comp.prompt_tokens or 0)
-        comp_generated_tokens = int(comp.generated_tokens or 0)
-        total_prompt_tokens += comp_prompt_tokens
-        total_generated_tokens += comp_generated_tokens
-        compute.prompt_tokens = (compute.prompt_tokens or 0) + comp_prompt_tokens
-        compute.generated_tokens = (compute.generated_tokens or 0) + comp_generated_tokens
-        if diag_entry is not None:
-            diag_entry["prompt_tokens"] = (
-                _safe_int(diag_entry.get("prompt_tokens")) + comp_prompt_tokens
+        else:
+            itm_list, comp = _evaluate_records(
+                [rec],
+                geom,
+                qa_settings,
+                adapter=adapter,
+                mem_tokens=mem_tokens,
+                mem_text=mem_text,
             )
-            diag_entry["generated_tokens"] = (
-                _safe_int(diag_entry.get("generated_tokens")) + comp_generated_tokens
-            )
+            items.extend(itm_list)
+            first_token = ""
+            if itm_list:
+                prediction = itm_list[0].prediction.strip()
+                if prediction:
+                    first_token = prediction.split()[0]
+                first_tokens.append(first_token)
+            compute.attention_flops = (compute.attention_flops or 0) + (comp.attention_flops or 0)
+            compute.kv_cache_bytes = (compute.kv_cache_bytes or 0) + (comp.kv_cache_bytes or 0)
+            comp_prompt_tokens = int(comp.prompt_tokens or 0)
+            comp_generated_tokens = int(comp.generated_tokens or 0)
+            total_prompt_tokens += comp_prompt_tokens
+            total_generated_tokens += comp_generated_tokens
+            compute.prompt_tokens = (compute.prompt_tokens or 0) + comp_prompt_tokens
+            compute.generated_tokens = (compute.generated_tokens or 0) + comp_generated_tokens
+            if diag_entry is not None:
+                diag_entry["prompt_tokens"] = (
+                    _safe_int(diag_entry.get("prompt_tokens")) + comp_prompt_tokens
+                )
+                diag_entry["generated_tokens"] = (
+                    _safe_int(diag_entry.get("generated_tokens")) + comp_generated_tokens
+                )
+        _maybe_run_eviction()
     baseline_compute = _run_baseline_with_recalls(baseline, records, model, tok, items)
     b0_latency = cast(float, _aggregate_metrics(b0_items)["latency"])
     b1_latency = cast(float, _aggregate_metrics(items)["latency"])
@@ -1493,14 +1539,19 @@ def _evaluate_mode_b1(
                 store_ntotal = int(cast(Any, index_obj).ntotal)
         elif hasattr(store_obj, "ntotal"):
             store_ntotal = int(cast(Any, store_obj).ntotal)
+    store_info: dict[str, Any] = {
+        "ntotal": store_ntotal,
+        "indexed_records": len(indexed_records),
+        "evicted_count": evicted_total,
+        "eviction_runs": eviction_runs if store_evict_enabled else 0,
+        "eviction_interval": eviction_interval if store_evict_enabled else None,
+        "evict_stale_enabled": store_evict_enabled,
+    }
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
         "retrieval": retrieval,
         "gate": gate_info,
-        "store": {
-            "ntotal": store_ntotal,
-            "indexed_records": len(indexed_records),
-        },
+        "store": store_info,
         "debug": {
             "mem_len": mem_lengths,
             "mem_preview": preview_tokens or [],
@@ -1578,6 +1629,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["pins_only"] = args.eval_pins_only
             handler_kwargs["gate_use_for_writes"] = args.gate_use_for_writes
             handler_kwargs["gate_debug_keep_labels"] = args.gate_debug_keep_labels
+            handler_kwargs["store_evict_stale"] = args.store_evict_stale
+            handler_kwargs["store_evict_interval"] = args.store_evict_interval
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1639,6 +1692,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             "pins_only": args.eval_pins_only,
             "use_for_writes": args.gate_use_for_writes,
             "debug_keep_labels": args.gate_debug_keep_labels,
+        },
+        "store": {
+            "evict_stale": args.store_evict_stale,
+            "evict_interval": args.store_evict_interval,
         },
     }
 
