@@ -238,7 +238,11 @@ def _score_distribution_summary(metrics: Mapping[str, Any]) -> dict[str, Any]:
             if not isinstance(bucket, Mapping):
                 continue
             lower_raw = bucket.get("lower")
+            if lower_raw is None:
+                continue
             upper_raw = bucket.get("upper", lower_raw)
+            if upper_raw is None:
+                upper_raw = lower_raw
             count_raw = bucket.get("count", 0)
             try:
                 lower_val = float(lower_raw)
@@ -272,7 +276,7 @@ def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
         per_1k_tokens = float(writes_per_1k_tokens)
     else:
         per_1k_tokens = None
-    subset = {
+    subset: dict[str, Any] = {
         "precision": float(metrics.get("precision", 0.0)),
         "recall": float(metrics.get("recall", 0.0)),
         "pr_auc": float(metrics.get("pr_auc", 0.0)),

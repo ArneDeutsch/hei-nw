@@ -62,17 +62,18 @@ def _score_distribution(scores: Sequence[float], bins: int) -> dict[str, Any]:
     p90 = _percentile(sorted_scores, 0.90)
     min_score = sorted_scores[0]
     max_score = sorted_scores[-1]
+    histogram: list[dict[str, float | int]]
     if min_score == max_score:
         histogram = [
             {
                 "lower": float(min_score),
                 "upper": float(max_score),
-                "count": len(sorted_scores),
+                "count": int(len(sorted_scores)),
             }
         ]
     else:
         width = (max_score - min_score) / bins
-        histogram: list[dict[str, float | int]] = []
+        histogram = []
         counts = [0 for _ in range(bins)]
         for score in sorted_scores:
             if width == 0:
