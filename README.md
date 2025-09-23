@@ -20,7 +20,9 @@
 ├── models/                  - Pre-trained model assets (do not edit)
 ├── planning/                - Design documents and implementation plans
 ├── prompts/                 - Prompt templates used in development
+├── reports/                 - Generated results to verify algorithm/tasks
 ├── research/                - Research notes and background material
+├── reviews/                 - Review documents of designs, plans and implementation
 ├── src/                     - Source code for HEI-NW
 ├── tests/                   - Automated test suite
 ├── AGENTS.md                - Guidelines and project instructions
