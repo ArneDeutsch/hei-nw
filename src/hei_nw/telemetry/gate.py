@@ -148,8 +148,9 @@ def compute_gate_metrics(
     clutter_rate = writes / total if total else 0.0
     generated_tokens = sum(_safe_int(diag.get("generated_tokens")) for diag in diagnostics)
     prompt_tokens = sum(_safe_int(diag.get("prompt_tokens")) for diag in diagnostics)
-    if generated_tokens > 0:
-        writes_per_1k_tokens = writes / (generated_tokens / 1000.0)
+    total_tokens = generated_tokens + prompt_tokens
+    if total_tokens > 0:
+        writes_per_1k_tokens = writes / (total_tokens / 1000.0)
     else:
         writes_per_1k_tokens = None
     return {
