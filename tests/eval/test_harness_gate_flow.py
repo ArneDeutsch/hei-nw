@@ -157,6 +157,10 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert telemetry["total"] == 2
     assert telemetry["calibration"]
     assert "writes_per_1k_tokens" in telemetry
+    distribution = telemetry["score_distribution"]
+    assert isinstance(distribution["histogram"], list)
+    assert distribution["histogram"]
+    assert gate_info["score_distribution"] == distribution
     store_info = extra.get("store")
     assert store_info
     assert store_info["ntotal"] == 1

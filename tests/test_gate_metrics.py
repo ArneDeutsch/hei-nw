@@ -21,3 +21,24 @@ def test_precision_recall_computation() -> None:
     assert metrics["total"] == 3
     assert len(metrics["calibration"]) == 2
     assert sum(bucket["count"] for bucket in metrics["calibration"]) == 3
+    distribution = metrics["score_distribution"]
+    assert isinstance(distribution, dict)
+    assert distribution["p10"] <= distribution["p50"] <= distribution["p90"]
+    histogram = distribution["histogram"]
+    assert isinstance(histogram, list)
+    assert sum(entry["count"] for entry in histogram) == 3
+
+
+def test_score_distribution_fields_present() -> None:
+    diagnostics = [
+        {"score": 0.1, "should_write": False, "should_remember_label": False},
+        {"score": 0.5, "should_write": True, "should_remember_label": True},
+        {"score": 0.9, "should_write": True, "should_remember_label": True},
+        {"score": 1.2, "should_write": False, "should_remember_label": False},
+    ]
+    metrics = compute_gate_metrics(diagnostics, calibration_bins=4)
+    distribution = metrics["score_distribution"]
+    assert distribution["p10"] <= distribution["p50"] <= distribution["p90"]
+    histogram = distribution["histogram"]
+    assert len(histogram) == 4
+    assert sum(entry["count"] for entry in histogram) == len(diagnostics)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections.abc import Mapping, Sequence
 from typing import Any
 
@@ -21,6 +22,84 @@ def _safe_int(value: Any) -> int:
         return int(value)
     except (TypeError, ValueError):
         return 0
+
+
+def _empty_score_distribution() -> dict[str, Any]:
+    return {
+        "p10": None,
+        "p50": None,
+        "p90": None,
+        "histogram": [],
+    }
+
+
+def _percentile(sorted_scores: Sequence[float], fraction: float) -> float:
+    if not sorted_scores:
+        return 0.0
+    if fraction <= 0.0:
+        return float(sorted_scores[0])
+    if fraction >= 1.0:
+        return float(sorted_scores[-1])
+    position = fraction * (len(sorted_scores) - 1)
+    lower_idx = math.floor(position)
+    upper_idx = math.ceil(position)
+    if lower_idx == upper_idx:
+        return float(sorted_scores[int(position)])
+    lower = float(sorted_scores[lower_idx])
+    upper = float(sorted_scores[upper_idx])
+    weight = position - lower_idx
+    return lower + weight * (upper - lower)
+
+
+def _score_distribution(scores: Sequence[float], bins: int) -> dict[str, Any]:
+    if bins <= 0:
+        raise ValueError("score histogram bins must be positive")
+    if not scores:
+        return _empty_score_distribution()
+    sorted_scores = sorted(float(score) for score in scores)
+    p10 = _percentile(sorted_scores, 0.10)
+    p50 = _percentile(sorted_scores, 0.50)
+    p90 = _percentile(sorted_scores, 0.90)
+    min_score = sorted_scores[0]
+    max_score = sorted_scores[-1]
+    if min_score == max_score:
+        histogram = [
+            {
+                "lower": float(min_score),
+                "upper": float(max_score),
+                "count": len(sorted_scores),
+            }
+        ]
+    else:
+        width = (max_score - min_score) / bins
+        histogram: list[dict[str, float | int]] = []
+        counts = [0 for _ in range(bins)]
+        for score in sorted_scores:
+            if width == 0:
+                idx = 0
+            else:
+                idx = int((score - min_score) / width)
+            if idx >= bins:
+                idx = bins - 1
+            counts[idx] += 1
+        for idx, count in enumerate(counts):
+            lower = min_score + idx * width
+            upper = min_score + (idx + 1) * width
+            if idx == bins - 1:
+                upper = max_score
+            histogram.append(
+                {
+                    "lower": float(lower),
+                    "upper": float(upper),
+                    "count": int(count),
+                }
+            )
+    return {
+        "p10": float(p10),
+        "p50": float(p50),
+        "p90": float(p90),
+        "histogram": histogram,
+    }
 
 
 def _precision_recall(tp: int, fp: int, fn: int) -> tuple[float, float]:
@@ -112,7 +191,7 @@ def compute_gate_metrics(
     diagnostics: Sequence[Mapping[str, Any]],
     *,
     calibration_bins: int = 10,
-) -> dict[str, float | int | None | list[dict[str, float | int]]]:
+) -> dict[str, Any]:
     """Return aggregate telemetry metrics for gate diagnostics."""
 
     total = len(diagnostics)
@@ -126,6 +205,7 @@ def compute_gate_metrics(
             "positives": 0,
             "total": 0,
             "calibration": [],
+            "score_distribution": _empty_score_distribution(),
             "writes_per_1k_records": 0.0,
             "writes_per_1k_tokens": None,
             "generated_tokens": 0,
@@ -145,6 +225,7 @@ def compute_gate_metrics(
     labels = [_safe_bool(diag.get("should_remember_label")) for diag in diagnostics]
     pr_auc = _pr_auc(scores, labels)
     calibration = _calibration(scores, labels, calibration_bins)
+    score_distribution = _score_distribution(scores, calibration_bins)
     clutter_rate = writes / total if total else 0.0
     generated_tokens = sum(_safe_int(diag.get("generated_tokens")) for diag in diagnostics)
     prompt_tokens = sum(_safe_int(diag.get("prompt_tokens")) for diag in diagnostics)
@@ -162,6 +243,7 @@ def compute_gate_metrics(
         "positives": positives,
         "total": total,
         "calibration": calibration,
+        "score_distribution": score_distribution,
         "writes_per_1k_records": clutter_rate * 1000.0,
         "writes_per_1k_tokens": writes_per_1k_tokens,
         "generated_tokens": generated_tokens,
