@@ -262,7 +262,7 @@ def test_trace_samples_are_pointer_only(monkeypatch: pytest.MonkeyPatch) -> None
     assert pointer_check["banned_key_counts"] == {}
 
 
-def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_pins_only_metrics_present(monkeypatch: pytest.MonkeyPatch) -> None:
     records = [
         {
             "episode_text": "Pinned server configuration.",
@@ -327,6 +327,7 @@ def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
     )
 
     telemetry = extra["gate"]["telemetry"]
+    assert telemetry.get("pins_only_eval") is False
     pins_slice = telemetry.get("pins_only")
     assert pins_slice
     assert pins_slice["total"] == 1
@@ -354,6 +355,7 @@ def test_pins_only_metrics_slice(monkeypatch: pytest.MonkeyPatch) -> None:
     assert gate_info["pins_only_eval"] is True
     assert gate_info["total"] == 1
     telemetry_pins = gate_info["telemetry"]
+    assert telemetry_pins.get("pins_only_eval") is True
     assert telemetry_pins["total"] == 1
     assert telemetry_pins["pins_only"]["total"] == 1
     assert telemetry_pins["non_pins"]["total"] == 1
