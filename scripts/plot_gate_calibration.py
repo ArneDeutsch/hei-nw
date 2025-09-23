@@ -161,6 +161,88 @@ def _calibration_points(
     return x_vals, y_vals, sizes
 
 
+def _as_float(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _format_score_value(value: Any) -> str:
+    parsed = _as_float(value)
+    if parsed is None:
+        return "—"
+    return f"{parsed:.2f}"
+
+
+def _score_annotation_lines(
+    section: Mapping[str, Any], label: str, include_histogram: bool = True
+) -> list[str]:
+    distribution = section.get("score_distribution")
+    if not isinstance(distribution, Mapping):
+        return []
+    lines: list[str] = []
+    quantiles = " / ".join(
+        _format_score_value(distribution.get(key)) for key in ("p10", "p50", "p90")
+    )
+    lines.append(f"{label} S p10/p50/p90: {quantiles}")
+    if not include_histogram:
+        return lines
+    histogram = distribution.get("histogram")
+    if not isinstance(histogram, Sequence):
+        return lines
+    total = 0
+    densest: Mapping[str, Any] | None = None
+    max_count = -1
+    for bucket in histogram:
+        if not isinstance(bucket, Mapping):
+            continue
+        count_val = bucket.get("count", 0)
+        try:
+            count = int(count_val)
+        except (TypeError, ValueError):
+            count = 0
+        if count < 0:
+            count = 0
+        total += count
+        if count > max_count:
+            densest = bucket
+            max_count = count
+    if densest is None or max_count <= 0:
+        return lines
+    lower = _as_float(densest.get("lower"))
+    upper = _as_float(densest.get("upper"))
+    if lower is None and upper is None:
+        return lines
+    if lower is None:
+        lower = upper
+    if upper is None:
+        upper = lower
+    share = (max_count / total) if total else 0.0
+    lines.append(f"{label} mode bin: {lower:.2f}–{upper:.2f} ({share:.0%} of samples)")
+    return lines
+
+
+def _annotate_score_distribution(
+    ax: Any, sections: Sequence[tuple[str, Mapping[str, Any], bool]]
+) -> None:
+    lines: list[str] = []
+    for label, section, include_hist in sections:
+        lines.extend(_score_annotation_lines(section, label, include_histogram=include_hist))
+    if not lines:
+        return
+    ax.text(
+        0.02,
+        0.98,
+        "\n".join(lines),
+        transform=ax.transAxes,
+        fontsize=9,
+        verticalalignment="top",
+        horizontalalignment="left",
+        bbox={"boxstyle": "round,pad=0.4", "facecolor": "white", "alpha": 0.85},
+    )
+
+
 def main() -> None:
     args = _parse_args()
     telemetry_path: Path = args.telemetry
@@ -186,9 +268,14 @@ def main() -> None:
     ax.plot([0.0, 1.0], [0.0, 1.0], linestyle="--", color="0.6", label="Ideal")
     ax.scatter(x_vals, y_vals, s=[10 + 5 * size for size in sizes], label=primary_label)
 
+    annotation_sections: list[tuple[str, Mapping[str, Any], bool]] = [
+        (primary_label, primary_section, True)
+    ]
+
     if args.pins_only and args.overlay_nonpins:
         non_pins_section = telemetry.get("non_pins")
         if isinstance(non_pins_section, Mapping):
+            annotation_sections.append(("Non-pins", non_pins_section, False))
             overlay_buckets = _calibration_buckets(non_pins_section)
             if overlay_buckets:
                 overlay_x, overlay_y, overlay_sizes = _calibration_points(overlay_buckets)
@@ -206,6 +293,7 @@ def main() -> None:
     ax.set_ylabel("Fraction positive")
     ax.set_title(_final_title(telemetry, args.title, args.pins_only))
     ax.legend(loc="lower right")
+    _annotate_score_distribution(ax, annotation_sections)
     fig.tight_layout()
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out)

@@ -215,6 +215,48 @@ def _safe_int(value: Any) -> int:
         return 0
 
 
+def _score_distribution_summary(metrics: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize score distribution diagnostics from *metrics*."""
+
+    summary: dict[str, Any] = {
+        "p10": None,
+        "p50": None,
+        "p90": None,
+        "histogram": [],
+    }
+    distribution = metrics.get("score_distribution")
+    if not isinstance(distribution, Mapping):
+        return summary
+    for key in ("p10", "p50", "p90"):
+        value = distribution.get(key)
+        if isinstance(value, int | float):
+            summary[key] = float(value)
+    histogram_raw = distribution.get("histogram")
+    histogram: list[dict[str, Any]] = []
+    if isinstance(histogram_raw, Sequence):
+        for bucket in histogram_raw:
+            if not isinstance(bucket, Mapping):
+                continue
+            lower_raw = bucket.get("lower")
+            upper_raw = bucket.get("upper", lower_raw)
+            count_raw = bucket.get("count", 0)
+            try:
+                lower_val = float(lower_raw)
+            except (TypeError, ValueError):
+                continue
+            try:
+                upper_val = float(upper_raw)
+            except (TypeError, ValueError):
+                upper_val = lower_val
+            try:
+                count_val = int(count_raw)
+            except (TypeError, ValueError):
+                count_val = 0
+            histogram.append({"lower": lower_val, "upper": upper_val, "count": count_val})
+    summary["histogram"] = histogram
+    return summary
+
+
 def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
     """Return a compact summary for a gate metrics subset."""
 
@@ -247,6 +289,7 @@ def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
         "generated_tokens": int(metrics.get("generated_tokens", 0)),
         "prompt_tokens": int(metrics.get("prompt_tokens", 0)),
     }
+    subset["score_distribution"] = _score_distribution_summary(metrics)
     return subset
 
 
@@ -261,6 +304,8 @@ def _summarize_gate(
     primary_diag = pin_diag if pins_only else diag_list
     telemetry_raw = compute_gate_metrics(primary_diag)
     telemetry: dict[str, Any] = dict(telemetry_raw)
+    score_distribution = _score_distribution_summary(telemetry_raw)
+    telemetry["score_distribution"] = score_distribution
     pin_metrics = telemetry_raw if pins_only else compute_gate_metrics(pin_diag)
     non_pin_metrics = compute_gate_metrics(non_pin_diag)
     telemetry["pins_only"] = _subset_gate_metrics(pin_metrics)
@@ -281,6 +326,7 @@ def _summarize_gate(
             "generated_tokens": 0,
             "decisions": [],
             "telemetry": telemetry,
+            "score_distribution": score_distribution,
         }
     writes = int(telemetry["writes"])
     scores = [float(diag["score"]) for diag in primary_diag]
@@ -311,6 +357,7 @@ def _summarize_gate(
         "score_mean": float(sum(scores) / total) if scores else 0.0,
         "score_min": float(min(scores)) if scores else 0.0,
         "score_max": float(max(scores)) if scores else 0.0,
+        "score_distribution": score_distribution,
         "decisions": primary_diag,
         "telemetry": telemetry,
     }
