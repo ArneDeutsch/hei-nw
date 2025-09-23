@@ -8,48 +8,14 @@
         "where",
         "who"
       ],
-      "group_id": 0,
-      "has_pointer": true,
-      "pointer": {
-        "doc": "group-0-dda0d9ca",
-        "end": 46,
-        "start": 0
-      },
-      "trace_id": "group-0-dda0d9ca:0"
-    },
-    {
-      "banned_keys": [],
-      "entity_slots_keys": [
-        "what",
-        "when",
-        "where",
-        "who"
-      ],
-      "group_id": 1,
-      "has_pointer": true,
-      "pointer": {
-        "doc": "group-1-e3c583b0",
-        "end": 54,
-        "start": 0
-      },
-      "trace_id": "group-1-e3c583b0:1"
-    },
-    {
-      "banned_keys": [],
-      "entity_slots_keys": [
-        "what",
-        "when",
-        "where",
-        "who"
-      ],
       "group_id": 2,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-2-d2d80d72",
-        "end": 49,
+        "doc": "group-2-cc23331e",
+        "end": 39,
         "start": 0
       },
-      "trace_id": "group-2-d2d80d72:2"
+      "trace_id": "group-2-cc23331e:2"
     },
     {
       "banned_keys": [],
@@ -59,14 +25,14 @@
         "where",
         "who"
       ],
-      "group_id": 3,
+      "group_id": 6,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-3-e44d5830",
-        "end": 47,
+        "doc": "group-6-a9cab793",
+        "end": 39,
         "start": 0
       },
-      "trace_id": "group-3-e44d5830:3"
+      "trace_id": "group-6-a9cab793:6"
     },
     {
       "banned_keys": [],
@@ -76,14 +42,48 @@
         "where",
         "who"
       ],
-      "group_id": 4,
+      "group_id": 34,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-4-4af5a9fd",
-        "end": 46,
+        "doc": "group-34-ad8108b9",
+        "end": 37,
         "start": 0
       },
-      "trace_id": "group-4-4af5a9fd:4"
+      "trace_id": "group-34-ad8108b9:34"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 36,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-36-7250e738",
+        "end": 40,
+        "start": 0
+      },
+      "trace_id": "group-36-7250e738:36"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 54,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-54-7dd6681e",
+        "end": 37,
+        "start": 0
+      },
+      "trace_id": "group-54-7dd6681e:54"
     }
   ]
 }
