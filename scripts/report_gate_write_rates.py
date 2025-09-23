@@ -64,6 +64,18 @@ def main() -> None:
         default=None,
         help="Optional writes/1k tokens target band (e.g. '1,5') to annotate summaries",
     )
+    parser.add_argument(
+        "--target-per",
+        choices=("tokens", "records"),
+        default="tokens",
+        help="Metric used for target-band evaluation (tokens or records per 1k)",
+    )
+    parser.add_argument(
+        "--auto-selected-tau",
+        type=float,
+        default=None,
+        help="Optional τ chosen by auto calibration to record in the summary",
+    )
     args = parser.parse_args()
 
     try:
@@ -78,6 +90,8 @@ def main() -> None:
 
     rows = []
     first_in_band: Any | None = None
+    metric_field = "writes_per_1k_tokens" if args.target_per == "tokens" else "writes_per_1k_records"
+
     for metrics_path in _iter_metric_files(args.paths):
         if not metrics_path.exists():
             continue
@@ -129,15 +143,23 @@ def main() -> None:
         if (
             band_lower is not None
             and band_upper is not None
-            and first_in_band is None
-            and row["writes_per_1k_tokens"] is not None
+            and row.get(metric_field) is not None
         ):
             try:
-                token_value = float(row["writes_per_1k_tokens"])
+                token_value = float(row[metric_field])
             except (TypeError, ValueError):
                 token_value = None
             if token_value is not None and band_lower <= token_value <= band_upper:
-                first_in_band = row["threshold"]
+                if first_in_band is None:
+                    first_in_band = row["threshold"]
+                else:
+                    try:
+                        current_threshold = float(row["threshold"])
+                        recorded_threshold = float(first_in_band)
+                    except (TypeError, ValueError):
+                        continue
+                    if current_threshold < recorded_threshold:
+                        first_in_band = row["threshold"]
         rows.append(row)
 
     rows.sort(key=lambda record: (record["scenario"], record["threshold"]))
@@ -146,6 +168,9 @@ def main() -> None:
     if band_lower is not None and band_upper is not None:
         summary["target_band"] = {"lower": band_lower, "upper": band_upper}
         summary["first_tau_within_target_band"] = first_in_band
+    summary["target_per"] = args.target_per
+    if args.auto_selected_tau is not None:
+        summary["auto_selected_tau"] = args.auto_selected_tau
     with args.out.open("w", encoding="utf8") as handle:
         json.dump(summary, handle, indent=2)
 

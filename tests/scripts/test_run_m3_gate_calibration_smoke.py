@@ -102,6 +102,8 @@ def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
             "auto",
             "--target-band",
             "1,5",
+            "--target-per",
+            "tokens",
             "--out",
             str(out_dir),
         ],
@@ -116,8 +118,12 @@ def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
     assert summary_path.exists()
     summary = json.loads(summary_path.read_text(encoding="utf8"))
     assert summary.get("target_band") == {"lower": 1.0, "upper": 5.0}
+    assert summary.get("target_per") == "tokens"
     first_tau = summary.get("first_tau_within_target_band")
     assert first_tau is not None
+    auto_selected_tau = summary.get("auto_selected_tau")
+    assert auto_selected_tau is not None
+    assert auto_selected_tau == first_tau
 
     runs = summary.get("runs") or []
     assert len(runs) >= 2
