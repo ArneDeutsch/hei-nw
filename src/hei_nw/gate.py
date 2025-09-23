@@ -37,8 +37,13 @@ class SalienceFeatures:
         Reward flag supplied by the calling environment. Set to ``True`` when
         an external reinforcement event should amplify the write decision.
     pin:
-        User pin flag. When ``True`` the episode should be written regardless of
-        other terms provided it clears basic sanity checks.
+        User pin flag. Pins always receive the strongest boost in the salience
+        score. By default the gate still compares the boosted score against the
+        threshold, but higher-level callers (for example the evaluation harness)
+        persist pinned episodes regardless of the decision. When the
+        :class:`NeuromodulatedGate` is created with ``pin_override=True`` the
+        threshold comparison is bypassed and ``pin=True`` yields a write
+        decision directly.
     """
 
     surprise: float
@@ -86,7 +91,8 @@ class NeuromodulatedGate:
 
     The gate evaluates ``S = α·surprise + β·novelty + γ·reward + δ·pin`` and
     writes an episode when ``S > τ``. Coefficients are configurable, with design
-    defaults described in :mod:`planning.design` §5.7.
+    defaults described in :mod:`planning.design` §5.7. Set ``pin_override=True``
+    to bypass the threshold whenever ``pin`` is asserted.
     """
 
     def __init__(
@@ -97,6 +103,7 @@ class NeuromodulatedGate:
         gamma: float = 0.5,
         delta: float = 0.8,
         threshold: float = 1.5,
+        pin_override: bool = False,
     ) -> None:
         if threshold <= 0.0:
             msg = "threshold must be positive"
@@ -106,6 +113,7 @@ class NeuromodulatedGate:
         self.gamma = float(gamma)
         self.delta = float(delta)
         self.threshold = float(threshold)
+        self.pin_override = bool(pin_override)
 
     def score(self, features: SalienceFeatures) -> float:
         """Return salience score for *features* after clamping."""
@@ -126,7 +134,7 @@ class NeuromodulatedGate:
         reward_term = self.gamma * bool_to_signal(canonical.reward)
         pin_term = self.delta * bool_to_signal(canonical.pin)
         total = surprise_term + novelty_term + reward_term + pin_term
-        should_write = total > self.threshold
+        should_write = total > self.threshold or (self.pin_override and canonical.pin)
         contributions = {
             "surprise": surprise_term,
             "novelty": novelty_term,

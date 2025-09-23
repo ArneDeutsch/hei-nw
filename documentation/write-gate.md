@@ -15,7 +15,7 @@ For each decoded record the harness derives a ``hei_nw.gate.SalienceFeatures`` o
 | ``surprise`` | Negative log-probability of the ground-truth token emitted by the base model. Larger values indicate the model was more surprised by the observation. |
 | ``novelty`` | Cosine-distance novelty relative to the sparse-key index. ``1.0`` means no similar key exists; ``0.0`` means the episode matches an existing trace. |
 | ``reward`` | Boolean flag surfaced by the scenario generator when an external reward is observed. Reward-positive episodes should receive a salience boost even if they are not novel. |
-| ``pin`` | Boolean flag that forces high salience when an operator explicitly pins an episode. Pins should survive decay/eviction and therefore receive the largest boost. |
+| ``pin`` | Boolean flag that marks operator-specified episodes. Pins receive the largest salience boost and the harness persists them even when the score falls below τ. Enable ``--gate.pin_override`` (or ``NeuromodulatedGate(pin_override=True)``) to make the gate bypass the threshold directly. |
 
 The helper utilities in ``hei_nw.gate`` clamp these inputs to safe ranges
 before applying the gate weights.
@@ -30,13 +30,19 @@ Milestone 3 defaults match the design spec:
 | ``α`` (surprise weight) | ``1.0`` | Balances predictive surprise against other terms. |
 | ``β`` (novelty weight) | ``1.0`` | Encourages storing episodes that expand coverage. |
 | ``γ`` (reward weight) | ``0.5`` | Provides a moderate boost when reward annotations arrive. |
-| ``δ`` (pin weight) | ``0.8`` | Keeps pinned episodes near the threshold even when surprise/novelty are low. |
+| ``δ`` (pin weight) | ``0.8`` | Keeps pinned episodes near the threshold even when surprise/novelty are low. Combine with ``pin_override`` to force writes via the gate itself. |
 | ``τ`` (threshold) | ``1.5`` | Minimum salience required to persist an episode. |
 
 Reduce ``τ`` to allow more writes per 1k tokens; increase it to tighten the
 store. You can also override ``α``–``δ`` for ablation studies using the harness
 flags (``--gate.alpha``, ``--gate.beta`` …), but the default mixture is tuned
 for scenarios A and C.
+
+Pins therefore affect the score twice: the ``δ`` weight lifts their salience and
+the harness treats ``pin=True`` as a forced write when persisting traces. If you
+need the gate decision itself to reflect that forced-write policy—e.g. when
+embedding the gate in a different pipeline—enable ``--gate.pin_override`` or
+instantiate ``NeuromodulatedGate(pin_override=True)`` to bypass the threshold.
 
 ### Store construction during Milestone 3
 
