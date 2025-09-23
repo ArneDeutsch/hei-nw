@@ -29,6 +29,8 @@ class _StubRecallService:
         self.tokenizer = _SimpleTokenizer()
         self.max_mem_tokens = 64
         self.ntotal = len(records)
+        self._eviction_batches: list[list[str]] = []
+        self.eviction_calls = 0
 
     def query(
         self,
@@ -66,6 +68,12 @@ class _StubRecallService:
             "baseline_candidates": candidates,
             "baseline_diagnostics": diag,
         }
+
+    def evict_stale(self, *, now: Any | None = None) -> list[str]:  # noqa: ARG002
+        self.eviction_calls += 1
+        if self._eviction_batches:
+            return list(self._eviction_batches.pop(0))
+        return []
 
 
 def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -182,6 +190,91 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     assert pointer
     assert pointer.get("doc")
     assert pointer.get("end") > pointer.get("start")
+
+
+def test_optional_eviction_path(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Critical outage summary.",
+            "cues": ["What happened?"],
+            "answers": ["Outage"],
+            "group_id": 1,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 2.0,
+                "novelty": 1.0,
+                "reward": False,
+                "pin": False,
+            },
+        },
+        {
+            "episode_text": "Follow-up status update.",
+            "cues": ["Which status?"],
+            "answers": ["Green"],
+            "group_id": 2,
+            "should_remember": True,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 1.8,
+                "novelty": 0.9,
+                "reward": False,
+                "pin": False,
+            },
+        },
+    ]
+
+    holder: dict[str, _StubRecallService] = {}
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        service = _StubRecallService(records)
+        batches: list[list[str]] = []
+        if records:
+            batches.append([f"trace-{records[0]['group_id']}"])
+        batches.append([])
+        service._eviction_batches = batches
+        holder["service"] = service
+        return service
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    _, _, _, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=NeuromodulatedGate(threshold=0.1),
+        store_evict_stale=True,
+        store_evict_interval=1,
+    )
+
+    store_info = extra["store"]
+    assert store_info["evict_stale_enabled"] is True
+    assert store_info["eviction_interval"] == 1
+    assert store_info["eviction_runs"] == len(records)
+    assert store_info["evicted_count"] == 1
+
+    service = holder["service"]
+    assert service.eviction_calls == len(records)
 
 
 def test_trace_samples_are_pointer_only(monkeypatch: pytest.MonkeyPatch) -> None:

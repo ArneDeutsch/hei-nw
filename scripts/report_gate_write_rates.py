@@ -90,7 +90,10 @@ def main() -> None:
 
     rows = []
     first_in_band: Any | None = None
-    metric_field = "writes_per_1k_tokens" if args.target_per == "tokens" else "writes_per_1k_records"
+    if args.target_per == "tokens":
+        metric_field = "writes_per_1k_tokens"
+    else:
+        metric_field = "writes_per_1k_records"
 
     for metrics_path in _iter_metric_files(args.paths):
         if not metrics_path.exists():
@@ -140,11 +143,7 @@ def main() -> None:
                 if writes_val is not None:
                     row["writes_per_1k_tokens"] = writes_val / (total_tokens / 1000.0)
         row["writes_per_1k"] = row["writes_per_1k_tokens"]
-        if (
-            band_lower is not None
-            and band_upper is not None
-            and row.get(metric_field) is not None
-        ):
+        if band_lower is not None and band_upper is not None and row.get(metric_field) is not None:
             try:
                 token_value = float(row[metric_field])
             except (TypeError, ValueError):
