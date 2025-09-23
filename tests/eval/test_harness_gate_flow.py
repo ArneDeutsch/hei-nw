@@ -10,6 +10,7 @@ from hei_nw.eval.harness import (
     QAPromptSettings,
     _aggregate_metrics,
     _evaluate_mode_b1,
+    _summarize_gate,
 )
 from hei_nw.gate import NeuromodulatedGate
 
@@ -467,3 +468,36 @@ def test_writes_per_1k_tokens_present(monkeypatch: pytest.MonkeyPatch) -> None:
     assert per_1k_tokens is not None and per_1k_tokens > 0
     telemetry = gate_info["telemetry"]
     assert telemetry["writes_per_1k_tokens"] == pytest.approx(per_1k_tokens)
+
+
+def test_writes_per_1k_tokens_uses_prompt_and_generated() -> None:
+    diagnostics = [
+        {
+            "score": 0.9,
+            "should_write": True,
+            "should_remember_label": True,
+            "indexed_for_store": True,
+            "features": {"pin": False, "reward": False},
+            "prompt_tokens": 900,
+            "generated_tokens": 100,
+        },
+        {
+            "score": 0.1,
+            "should_write": False,
+            "should_remember_label": False,
+            "indexed_for_store": False,
+            "features": {"pin": False, "reward": False},
+            "prompt_tokens": 100,
+            "generated_tokens": 300,
+        },
+    ]
+
+    gate_info = _summarize_gate(diagnostics)
+    assert gate_info["prompt_tokens"] == 1000
+    assert gate_info["generated_tokens"] == 400
+    expected = pytest.approx(1 / ((1000 + 400) / 1000.0))
+    assert gate_info["write_rate_per_1k_tokens"] == expected
+    telemetry = gate_info["telemetry"]
+    assert telemetry["prompt_tokens"] == 1000
+    assert telemetry["generated_tokens"] == 400
+    assert telemetry["writes_per_1k_tokens"] == expected

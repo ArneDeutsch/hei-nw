@@ -286,10 +286,11 @@ def _summarize_gate(
     store_writes = sum(1 for diag in primary_diag if diag.get("indexed_for_store"))
     prompt_tokens_total = sum(_safe_int(diag.get("prompt_tokens")) for diag in primary_diag)
     generated_tokens_total = sum(_safe_int(diag.get("generated_tokens")) for diag in primary_diag)
+    total_tokens = prompt_tokens_total + generated_tokens_total
     write_rate = writes / total
     store_write_rate = store_writes / total if total else 0.0
-    if generated_tokens_total > 0:
-        writes_per_1k_tokens = writes / (generated_tokens_total / 1000.0)
+    if total_tokens > 0:
+        writes_per_1k_tokens = writes / (total_tokens / 1000.0)
     else:
         writes_per_1k_tokens = None
     return {
@@ -1375,6 +1376,8 @@ def _evaluate_mode_b1(
         if "writes_per_1k_tokens" not in telemetry:
             telemetry["writes_per_1k_tokens"] = gate_info.get("write_rate_per_1k_tokens")
         telemetry.setdefault("writes_per_1k_records", gate_info.get("write_rate_per_1k_records"))
+        telemetry.setdefault("prompt_tokens", gate_info.get("prompt_tokens"))
+        telemetry.setdefault("generated_tokens", gate_info.get("generated_tokens"))
         telemetry["writes_per_1k"] = telemetry.get("writes_per_1k_tokens")
     gate_info.setdefault("prompt_tokens", total_prompt_tokens)
     gate_info.setdefault("generated_tokens", total_generated_tokens)
@@ -1581,4 +1584,3 @@ def _pointer_summary(
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())
-

@@ -16,6 +16,21 @@ import argparse
 import json
 from collections.abc import Iterable
 from pathlib import Path
+from typing import Any
+
+
+def _as_int(value: Any) -> int | None:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _as_float(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
 
 def _iter_metric_files(paths: Iterable[str]) -> Iterable[Path]:
@@ -51,11 +66,15 @@ def main() -> None:
             "writes_per_1k_tokens": gate.get("write_rate_per_1k_tokens"),
             "writes_per_1k_records": gate.get("write_rate_per_1k_records"),
         }
+        prompt_tokens = _as_int(gate.get("prompt_tokens"))
+        generated_tokens = _as_int(gate.get("generated_tokens"))
         if row["writes_per_1k_tokens"] is None:
             tokens_val = telemetry.get("writes_per_1k_tokens")
             row["writes_per_1k_tokens"] = (
                 float(tokens_val) if isinstance(tokens_val, int | float) else None
             )
+        prompt_tokens = prompt_tokens or _as_int(telemetry.get("prompt_tokens"))
+        generated_tokens = generated_tokens or _as_int(telemetry.get("generated_tokens"))
         if row["writes_per_1k_records"] is None:
             clutter = telemetry.get("writes_per_1k_records")
             if isinstance(clutter, int | float):
@@ -66,6 +85,17 @@ def main() -> None:
                         row["writes_per_1k_records"] = float(row["write_rate"]) * 1000.0
                 except TypeError:
                     row["writes_per_1k_records"] = None
+        if row["writes_per_1k_tokens"] is None:
+            total_tokens = 0
+            for value in (prompt_tokens, generated_tokens):
+                if value is not None:
+                    total_tokens += value
+            if total_tokens > 0:
+                writes_val = _as_float(gate.get("writes"))
+                if writes_val is None:
+                    writes_val = _as_float(telemetry.get("writes"))
+                if writes_val is not None:
+                    row["writes_per_1k_tokens"] = writes_val / (total_tokens / 1000.0)
         row["writes_per_1k"] = row["writes_per_1k_tokens"]
         rows.append(row)
 
