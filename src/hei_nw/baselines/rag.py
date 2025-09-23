@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Protocol, cast
+from typing import Any, Protocol, TypeAlias, cast
 
 import faiss
 import numpy as np
@@ -17,7 +17,7 @@ from hei_nw.metrics import (
     recall_at_k,
 )
 
-FloatArray = NDArray[np.float32]
+FloatArray: TypeAlias = NDArray[np.float32]
 
 
 class Embedder(Protocol):
@@ -34,8 +34,10 @@ class HFEmbedder:
         import torch
         from transformers import AutoModel, AutoTokenizer
 
-        self.tok = AutoTokenizer.from_pretrained(model_id)  # type: ignore[no-untyped-call]
-        self.model = AutoModel.from_pretrained(model_id)
+        tokenizer_cls = cast(Any, AutoTokenizer)
+        model_cls = cast(Any, AutoModel)
+        self.tok = tokenizer_cls.from_pretrained(model_id)
+        self.model = model_cls.from_pretrained(model_id)
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
         self.model.eval()

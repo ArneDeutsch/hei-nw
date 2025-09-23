@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from dataclasses import asdict, dataclass
 
 _DTYPE_SIZES = {
     "fp8": 1,
@@ -57,7 +57,8 @@ def estimate_kv_bytes(tokens: int, d_model: int, dtype: str = "fp16") -> int:
     return tokens * d_model * nbytes * 2
 
 
-class ComputeRecord(BaseModel):
+@dataclass
+class ComputeRecord:
     """Record of compute-related metrics.
 
     Fields are optional but always included in serialized output.
@@ -68,6 +69,7 @@ class ComputeRecord(BaseModel):
     prompt_tokens: int | None = None
     generated_tokens: int | None = None
 
-    model_config = {
-        "validate_assignment": True,
-    }
+    def model_dump(self) -> dict[str, int | None]:
+        """Return a dictionary with all fields present."""
+
+        return asdict(self)

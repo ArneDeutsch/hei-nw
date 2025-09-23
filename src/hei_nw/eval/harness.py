@@ -9,7 +9,7 @@ import sys
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, cast
+from typing import Any, TypeAlias, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -45,7 +45,7 @@ from hei_nw.telemetry import compute_gate_metrics
 from hei_nw.utils.cli import add_common_args
 from hei_nw.utils.seed import set_global_seed
 
-FloatArray = NDArray[np.float32]
+FloatArray: TypeAlias = NDArray[np.float32]
 
 SCENARIOS: dict[str, Callable[..., list[dict[str, Any]]]] = {
     "A": datasets.scenario_a.generate,

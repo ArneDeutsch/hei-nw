@@ -7,8 +7,10 @@ from typing import cast
 import torch
 from torch import Tensor, nn
 
+from hei_nw.utils.torch_types import TorchModule
 
-class EpisodicAdapter(nn.Module):
+
+class EpisodicAdapter(TorchModule):
     """Cross-attention adapter over episodic memory tokens.
 
     The adapter is **read-only**: it does not modify any external state and
