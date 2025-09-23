@@ -358,7 +358,74 @@ def test_pins_only_metrics_present(monkeypatch: pytest.MonkeyPatch) -> None:
     assert telemetry_pins.get("pins_only_eval") is True
     assert telemetry_pins["total"] == 1
     assert telemetry_pins["pins_only"]["total"] == 1
-    assert telemetry_pins["non_pins"]["total"] == 1
+
+
+def test_pin_semantics_documented(monkeypatch: pytest.MonkeyPatch) -> None:
+    records = [
+        {
+            "episode_text": "Pinned episode.",
+            "cues": ["What happened?"],
+            "answers": ["Pinned"],
+            "group_id": 7,
+            "should_remember": False,
+            "lag": 0,
+            "gate_features": {
+                "surprise": 0.0,
+                "novelty": 0.0,
+                "reward": False,
+                "pin": True,
+            },
+        }
+    ]
+
+    def fake_build(records: list[dict[str, Any]], *_: Any, **__: Any) -> _StubRecallService:
+        return _StubRecallService(records)
+
+    monkeypatch.setattr("hei_nw.eval.harness.RecallService.build", fake_build)
+    monkeypatch.setattr(
+        "hei_nw.models.base.build_default_adapter",
+        lambda _model, *, scale=0.2: object(),
+    )
+    monkeypatch.setattr(
+        "hei_nw.models.base.generate",
+        lambda *args, **kwargs: {"text": "", "prompt_tokens": 0, "generated_tokens": 0},
+    )
+
+    geometry = ModelGeometry(layers=2, hidden=8, heads=1, dtype="float32")
+    qa_settings = QAPromptSettings(
+        prompt_style="plain", max_new_tokens=4, stop=None, answer_hint=True
+    )
+
+    gate = NeuromodulatedGate(threshold=3.0, pin_override=True)
+    _items, _compute, _baseline, extra = _evaluate_mode_b1(
+        records,
+        baseline="none",
+        model=object(),
+        tok=object(),
+        geom=geometry,
+        no_hopfield=False,
+        dg_keyer=None,
+        qa=qa_settings,
+        hopfield=None,
+        dev=DevIsolationSettings(retrieval_only=True),
+        gate=gate,
+    )
+
+    gate_info = extra["gate"]
+    assert gate_info["pin_override"] is True
+    decisions = gate_info["decisions"]
+    assert decisions
+    decision = decisions[0]
+    assert decision["features"]["pin"] is True
+    assert decision["should_write"] is True
+    assert decision["indexed_for_store"] is True
+    assert decision["score"] < gate.threshold
+    telemetry = gate_info["telemetry"]
+    assert telemetry["pins_only"]["writes"] == 1
+    assert telemetry["pins_only"]["total"] == 1
+    non_pin_slice = telemetry.get("non_pins")
+    assert non_pin_slice is not None
+    assert non_pin_slice["total"] == 0
     assert len(gate_info["decisions"]) == 1
 
 

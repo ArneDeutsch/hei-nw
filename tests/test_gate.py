@@ -47,6 +47,17 @@ def test_gate_threshold_controls_write_rate() -> None:
     assert strict_rate < 0.1
 
 
+def test_pin_override_forces_write() -> None:
+    features = SalienceFeatures(surprise=0.0, novelty=0.0, reward=False, pin=True)
+    baseline_gate = NeuromodulatedGate(threshold=3.0, pin_override=False)
+    assert baseline_gate.decision(features).should_write is False
+    override_gate = NeuromodulatedGate(threshold=3.0, pin_override=True)
+    decision = override_gate.decision(features)
+    assert decision.should_write is True
+    assert override_gate.should_write(features) is True
+    assert decision.score == pytest.approx(baseline_gate.score(features))
+
+
 @pytest.mark.parametrize(
     "prob, expected",
     [

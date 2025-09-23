@@ -469,6 +469,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         help="Decision threshold τ for the write gate.",
     )
     parser.add_argument(
+        "--gate.pin_override",
+        dest="gate_pin_override",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Bypass the gate threshold when the pin flag is present. This keeps gate"
+            " decisions aligned with the store's forced-write policy."
+        ),
+    )
+    parser.add_argument(
         "--gate.use_for_writes",
         dest="gate_use_for_writes",
         action=argparse.BooleanOptionalAction,
@@ -1394,6 +1404,7 @@ def _evaluate_mode_b1(
         "delta": gate_module.delta,
     }
     gate_info["threshold"] = gate_module.threshold
+    gate_info["pin_override"] = bool(getattr(gate_module, "pin_override", False))
     gate_info["used_for_writes"] = bool(gate_use_for_writes)
     gate_info["debug_keep_labels"] = bool(gate_debug_keep_labels)
     gate_info["indexed_records"] = len(indexed_records)
@@ -1503,6 +1514,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             gamma=args.gate_gamma,
             delta=args.gate_delta,
             threshold=args.gate_threshold,
+            pin_override=args.gate_pin_override,
         )
         handler_kwargs: dict[str, Any] = {}
         if args.mode == "B1":
@@ -1572,6 +1584,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "gamma": args.gate_gamma,
             "delta": args.gate_delta,
             "threshold": args.gate_threshold,
+            "pin_override": args.gate_pin_override,
             "pins_only": args.eval_pins_only,
             "use_for_writes": args.gate_use_for_writes,
             "debug_keep_labels": args.gate_debug_keep_labels,
