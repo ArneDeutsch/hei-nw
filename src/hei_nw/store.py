@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Mapping, MutableMapping, Sequence
 from datetime import datetime, timezone
-from typing import Any, cast
+from typing import Any, TypeAlias, cast
 
 import faiss
 import numpy as np
@@ -16,6 +16,7 @@ from torch import Tensor, nn
 from .eviction import DecayPolicy, PinProtector, TraceEvictionState
 from .gate import GateDecision
 from .keyer import DGKeyer, to_dense
+from .utils.torch_types import TorchModule
 
 __all__ = ["ANNIndex", "HopfieldReadout", "EpisodicStore", "TraceWriter"]
 
@@ -24,7 +25,7 @@ _POINTER_KEYS = {"doc", "start", "end"}
 _BANNED_TEXT_KEYS = {"episode_text", "raw_text", "snippet", "full_text", "text"}
 
 
-FloatArray = NDArray[np.float32]
+FloatArray: TypeAlias = NDArray[np.float32]
 
 
 class TraceWriter:
@@ -391,7 +392,7 @@ class ANNIndex:
                 entry.update(updates)
 
 
-class HopfieldReadout(nn.Module):
+class HopfieldReadout(TorchModule):
     """Inference-only modern Hopfield network readout.
 
     This module stores a pattern matrix ``M`` and performs a fixed number of
@@ -572,14 +573,7 @@ class EpisodicStore:
                 continue
             H = cls._hash_embed(str(rec["episode_text"]), tokenizer, embed_dim)
             key = keyer_module(H)
-            dense = (
-                to_dense(key)
-                .squeeze(0)
-                .detach()
-                .cpu()
-                .numpy()
-                .astype("float32", copy=False)
-            )
+            dense = to_dense(key).squeeze(0).detach().cpu().numpy().astype("float32", copy=False)
             trace = {
                 "group_id": rec["group_id"],
                 "answers": rec["answers"],

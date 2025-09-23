@@ -9,6 +9,8 @@ from typing import cast
 import torch
 from torch import Tensor, nn
 
+from hei_nw.utils.torch_types import TorchModule
+
 DUMMY_MODEL_ID = "hei-nw/dummy-model"
 
 
@@ -111,7 +113,7 @@ class DummyTokenizer:
         return rendered
 
 
-class _DynamicEmbedding(nn.Module):
+class _DynamicEmbedding(TorchModule):
     """Embedding layer that grows with the tokenizer vocabulary."""
 
     def __init__(self, embed_dim: int = 16) -> None:
@@ -145,7 +147,7 @@ class DummyConfig:
     pad_token_id: int = 0
 
 
-class DummyModel(nn.Module):
+class DummyModel(TorchModule):
     """Minimal causal language model used by tests."""
 
     def __init__(self, tokenizer: DummyTokenizer) -> None:
@@ -154,7 +156,7 @@ class DummyModel(nn.Module):
         self.config = DummyConfig(pad_token_id=tokenizer.pad_token_id)
         self._embeddings = _DynamicEmbedding(embed_dim=self.config.hidden_size)
 
-    def get_input_embeddings(self) -> nn.Module:
+    def get_input_embeddings(self) -> TorchModule:
         return self._embeddings
 
     @property

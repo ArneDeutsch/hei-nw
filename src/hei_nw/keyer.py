@@ -7,6 +7,8 @@ from typing import TypedDict
 import torch
 from torch import Tensor, nn
 
+from hei_nw.utils.torch_types import TorchModule
+
 __all__ = ["KeyDict", "DGKeyer", "to_dense"]
 
 
@@ -18,7 +20,7 @@ class KeyDict(TypedDict):
     dim: int
 
 
-class DGKeyer(nn.Module):
+class DGKeyer(TorchModule):
     """Project hidden states into a sparse, L1-normalized key.
 
     The keyer applies a linear projection followed by k-Winners-Take-All
