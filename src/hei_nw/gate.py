@@ -14,6 +14,7 @@ __all__ = [
     "surprise_from_logits",
     "novelty_from_similarity",
     "bool_to_signal",
+    "make_gate_features",
 ]
 
 
@@ -196,6 +197,52 @@ def novelty_from_similarity(similarity: float | None) -> float:
     if similarity is None:
         return 1.0
     return 1.0 - min(max(float(similarity), 0.0), 1.0)
+
+
+def _features_to_payload(features: SalienceFeatures) -> dict[str, object]:
+    """Return a serialisable payload for *features* after clamping."""
+
+    canonical = features.clamp()
+    return {
+        "surprise": canonical.surprise,
+        "novelty": canonical.novelty,
+        "reward": canonical.reward,
+        "pin": canonical.pin,
+    }
+
+
+def make_gate_features(
+    *,
+    recall_prob: float,
+    similarity: float | None,
+    reward: bool = False,
+    pin: bool = False,
+) -> dict[str, object]:
+    """Return a canonical gate feature mapping for heuristic priors.
+
+    Parameters
+    ----------
+    recall_prob:
+        Estimated probability that the model already recalls the fact. This is
+        converted to a surprise signal via :func:`surprise_from_prob`.
+    similarity:
+        Similarity between the current episode and existing memories in
+        ``[0, 1]``. ``None`` indicates no comparable memories and yields
+        maximal novelty.
+    reward:
+        External reward signal.
+    pin:
+        Pin override supplied by the user interface or higher-level policy.
+    """
+
+    prob = min(max(float(recall_prob), _EPSILON), 1.0)
+    features = SalienceFeatures(
+        surprise=surprise_from_prob(prob),
+        novelty=novelty_from_similarity(similarity),
+        reward=reward,
+        pin=pin,
+    )
+    return _features_to_payload(features)
 
 
 def bool_to_signal(value: bool) -> float:
