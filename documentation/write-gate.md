@@ -149,6 +149,48 @@ trace how pin precision changes across τ. Focus on matching the pins-only
 against the overall metrics—pins should stay inside the desired write band while
 retaining higher precision than non-pinned episodes.
 
+### Milestone 3 τ policy
+
+Milestone 3 locks in one τ per scenario using the sweeps committed under
+``reports/m3-run*/``. The summary files make it easy to re-verify the choices
+and compare future reruns.
+
+* **Scenario A:** The automatic sweep (``reports/m3-run0``) shows that τ below
+  roughly ``0.7`` floods the store with clutter—precision drops to ``0.65`` even
+  though the write rate stays inside the 1–5/1 000 band.【F:reports/m3-run0/tau_0.369919/A_gate_telemetry.json†L392-L459】
+  The manual confirmation sweep with a different seed (``reports/m3-run1``)
+  keeps precision and PR-AUC at ``1.0`` for τ≥1.2 while holding the write rate at
+  ``≈3.21`` writes/1 000 tokens.【F:reports/m3-run1/A_sweep_summary.tsv†L1-L6】【F:reports/m3-run1/tau_1.2/A_gate_telemetry.json†L171-L237】【F:reports/m3-run1/tau_1.2/A_gate_telemetry.json†L393-L470】
+  Adopt **τ = 1.2** for production runs and reference the seed-17 sweep when
+  validating future updates.
+
+* **Scenario C:** The pins-only sweep (``reports/m3-run2``) reports both the pin
+  slice and the non-pin overlay. τ = 1.5 keeps non-pin precision/recall at ``1.0``
+  with ``≈4.40`` writes/1 000 tokens, well inside the policy band, while pins
+  remain fully recalled.【F:reports/m3-run2/tau_1.5/C_gate_telemetry_pins.json†L86-L237】【F:reports/m3-run2/tau_1.5/C_gate_telemetry_pins.json†L322-L470】
+  Increasing τ to 3.0 drops non-pin recall to ``≈0.18`` and reduces the write
+  rate below target, so **τ = 1.5** is the highest setting that still preserves
+  non-pin coverage.【F:reports/m3-run2/tau_3/C_gate_telemetry_pins.json†L160-L237】
+
+Record future calibrations by appending to this section: list the chosen τ,
+briefly justify the selection (write rate, precision/recall, and any pin
+considerations), and link to the relevant ``reports/`` directory.
+
+#### When to declare calibration failure
+
+Mark the task as failed and escalate if **any** of the following occur:
+
+* No τ tested lands in the requested write-rate band (``first_tau_within_target_band``
+  remains ``null`` in the sweep summary).
+* Every in-band τ drives precision or PR-AUC unacceptably low—for example,
+  precision <0.5 implies heavy clutter even if the write rate is nominal.
+* The telemetry histogram shows a flat score plateau around τ (little
+  separation between the 50th and 90th percentiles), indicating the current
+  feature mix cannot enforce the target policy without retuning the weights.
+
+Capture the sweep TSV/JSON and a short explanation when logging a failure so
+the next reviewer can reproduce the issue quickly.
+
 ## Interpreting telemetry
 
 The ``gate`` section in the harness metrics summarizes the run:
