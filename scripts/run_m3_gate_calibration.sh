@@ -207,7 +207,8 @@ compute_target_tolerance() {
 
   if [[ "$TARGET_BAND_PROVIDED" == "true" ]]; then
     local band_tol
-    if band_tol="$(python - "$TARGET_VALUE" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY')"; then
+    if band_tol="$(
+      python - "$TARGET_VALUE" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY'
 import math
 import sys
 
@@ -217,6 +218,7 @@ upper = float(sys.argv[3])
 tolerance = max(abs(target - lower), abs(upper - target))
 print(f"{tolerance:.6f}")
 PY
+    )"; then
         TARGET_TOLERANCE="$band_tol"
         TARGET_TOLERANCE_SET="true"
         return
@@ -224,7 +226,8 @@ PY
   fi
 
   local default_tol
-  default_tol="$(python - "$TARGET_VALUE" <<'PY')"
+  default_tol="$(
+    python - "$TARGET_VALUE" <<'PY'
 import math
 import sys
 
@@ -233,6 +236,7 @@ base = max(target, 1.0)
 tolerance = max(0.1, 0.05 * base)
 print(f"{tolerance:.6f}")
 PY
+  )"
   TARGET_TOLERANCE="$default_tol"
   TARGET_TOLERANCE_SET="true"
 }
@@ -988,7 +992,8 @@ auto_threshold_sweep() {
     local auto_diff=""
     if [[ "$TARGET_VALUE_SET" == "true" ]]; then
       local eval_output
-      eval_output="$(python - "$metric_value" "$TARGET_VALUE" "$TARGET_TOLERANCE" <<'PY')"
+      eval_output="$(
+        python - "$metric_value" "$TARGET_VALUE" "$TARGET_TOLERANCE" <<'PY'
 import math
 import sys
 
@@ -1012,13 +1017,15 @@ if not diff_text:
 print(f"AUTO_DIRECTION={direction}")
 print(f"AUTO_DIFF={diff_text}")
 PY
+      )"
       eval "$eval_output"
       auto_direction="${AUTO_DIRECTION:-}"
       auto_diff="${AUTO_DIFF:-}"
       unset AUTO_DIRECTION AUTO_DIFF
       band_state="$auto_direction"
     else
-      band_state="$(python - "$metric_value" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY' 2>/dev/null)"
+      band_state="$(
+        python - "$metric_value" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY' 2>/dev/null
 import sys
 
 try:
@@ -1036,6 +1043,7 @@ elif value > upper:
 else:
     print("within")
 PY
+      )"
     fi
 
     local metric_label="tokens"
@@ -1078,7 +1086,8 @@ PY
         should_update="true"
       else
         local compare
-        compare="$(python - "$auto_diff" "$AUTO_SELECTED_DIFF" "$tau_current" "$AUTO_SELECTED_TAU" <<'PY')"
+        compare="$(
+          python - "$auto_diff" "$AUTO_SELECTED_DIFF" "$tau_current" "$AUTO_SELECTED_TAU" <<'PY'
 import math
 import sys
 
@@ -1093,13 +1102,15 @@ elif math.isclose(new_diff, prev_diff, rel_tol=1e-9, abs_tol=1e-9) and new_tau <
 else:
     print("keep")
 PY
+        )"
         if [[ "$compare" == "update" ]]; then
           should_update="true"
         fi
       fi
     elif [[ "$band_state" == "within" ]]; then
       local update_decision
-      update_decision="$(python - "$AUTO_SELECTED_TAU" "$tau_current" <<'PY')"
+      update_decision="$(
+        python - "$AUTO_SELECTED_TAU" "$tau_current" <<'PY'
 import sys
 
 previous = sys.argv[1]
@@ -1118,6 +1129,7 @@ else:
         else:
             print("keep")
 PY
+      )"
       if [[ "$update_decision" == "update" || -z "$AUTO_SELECTED_TAU" ]]; then
         should_update="true"
       fi
