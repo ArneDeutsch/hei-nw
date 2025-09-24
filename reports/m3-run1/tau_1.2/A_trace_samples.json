@@ -1,0 +1,89 @@
+{
+  "trace_samples": [
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 0,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-0-a8ba2c19",
+        "end": 43,
+        "start": 0
+      },
+      "trace_id": "group-0-a8ba2c19:0"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 1,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-1-772626e5",
+        "end": 48,
+        "start": 0
+      },
+      "trace_id": "group-1-772626e5:1"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 2,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-2-99337851",
+        "end": 48,
+        "start": 0
+      },
+      "trace_id": "group-2-99337851:2"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 3,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-3-06d5ba3c",
+        "end": 51,
+        "start": 0
+      },
+      "trace_id": "group-3-06d5ba3c:3"
+    },
+    {
+      "banned_keys": [],
+      "entity_slots_keys": [
+        "what",
+        "when",
+        "where",
+        "who"
+      ],
+      "group_id": 4,
+      "has_pointer": true,
+      "pointer": {
+        "doc": "group-4-497217af",
+        "end": 48,
+        "start": 0
+      },
+      "trace_id": "group-4-497217af:4"
+    }
+  ]
+}

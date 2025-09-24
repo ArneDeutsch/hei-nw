@@ -1,2 +1,0 @@
-scenario	tau	writes	write_rate	writes_per_1k_tokens	writes_per_1k_records	pr_auc
-A	1.5	512	0.5	3.275144087149537	500.0	1.0

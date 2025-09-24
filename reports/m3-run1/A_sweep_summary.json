@@ -1,0 +1,65 @@
+{
+  "runs": [
+    {
+      "metrics_path": "reports/m3-run1/tau_1.2/A_B1_metrics.json",
+      "scenario": "A",
+      "threshold": 1.2,
+      "write_rate": 0.5,
+      "writes": 256,
+      "total": 512,
+      "writes_per_1k_tokens": 3.2119645680158593,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 3.2119645680158593
+    },
+    {
+      "metrics_path": "reports/m3-run1/tau_1.4/A_B1_metrics.json",
+      "scenario": "A",
+      "threshold": 1.4,
+      "write_rate": 0.5,
+      "writes": 256,
+      "total": 512,
+      "writes_per_1k_tokens": 3.2119645680158593,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 3.2119645680158593
+    },
+    {
+      "metrics_path": "reports/m3-run1/tau_1.6/A_B1_metrics.json",
+      "scenario": "A",
+      "threshold": 1.6,
+      "write_rate": 0.5,
+      "writes": 256,
+      "total": 512,
+      "writes_per_1k_tokens": 3.2119645680158593,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 3.2119645680158593
+    },
+    {
+      "metrics_path": "reports/m3-run1/tau_1.8/A_B1_metrics.json",
+      "scenario": "A",
+      "threshold": 1.8,
+      "write_rate": 0.5,
+      "writes": 256,
+      "total": 512,
+      "writes_per_1k_tokens": 3.2119645680158593,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 3.2119645680158593
+    },
+    {
+      "metrics_path": "reports/m3-run1/tau_2.0/A_B1_metrics.json",
+      "scenario": "A",
+      "threshold": 2.0,
+      "write_rate": 0.5,
+      "writes": 256,
+      "total": 512,
+      "writes_per_1k_tokens": 3.2119645680158593,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k": 3.2119645680158593
+    }
+  ],
+  "target_band": {
+    "lower": 1.0,
+    "upper": 5.0
+  },
+  "first_tau_within_target_band": 1.2,
+  "target_per": "tokens"
+}
