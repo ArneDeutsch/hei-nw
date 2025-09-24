@@ -84,5 +84,8 @@
   },
   "first_tau_within_target_band": 0.5,
   "target_per": "tokens",
-  "target_value": 3.0
+  "target_value": 3.0,
+  "auto_selected_tau": 0.5,
+  "auto_selected_metric": "writes_per_1k_tokens",
+  "auto_selected_metric_value": 3.882007406461499
 }
