@@ -375,3 +375,54 @@ def save_completion_ablation_plot(
     fig.savefig(path)
     plt.close(fig)
     return path
+def gate_calibration_footer_lines(
+    telemetry: Mapping[str, Any] | None, *, prefix: str = ""
+) -> list[str]:
+    """Return footer annotation lines for gate calibration plots."""
+
+    if not isinstance(telemetry, Mapping):
+        return []
+
+    def _fmt_float(value: Any, digits: int = 3) -> str:
+        try:
+            return f"{float(value):.{digits}f}"
+        except (TypeError, ValueError):
+            return "n/a"
+
+    def _safe_int(value: Any) -> int | None:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    lines: list[str] = []
+    write_rate = telemetry.get("write_rate")
+    if write_rate is None:
+        write_rate = telemetry.get("clutter_rate")
+    if write_rate is not None:
+        lines.append(f"{prefix}Write rate: {_fmt_float(write_rate)}")
+
+    writes_per_1k_tokens = telemetry.get("writes_per_1k_tokens")
+    if writes_per_1k_tokens is None:
+        writes_per_1k_tokens = telemetry.get("write_rate_per_1k_tokens")
+    if writes_per_1k_tokens is not None:
+        lines.append(f"{prefix}Writes/1k tokens: {_fmt_float(writes_per_1k_tokens, digits=2)}")
+
+    label_distribution = telemetry.get("label_distribution")
+    if isinstance(label_distribution, Mapping):
+        positives = _safe_int(label_distribution.get("positives")) or 0
+        negatives = _safe_int(label_distribution.get("negatives"))
+        if negatives is None:
+            total = _safe_int(label_distribution.get("total"))
+            if total is not None:
+                negatives = max(total - positives, 0)
+            else:
+                negatives = 0
+        positive_rate = label_distribution.get("positive_rate")
+        lines.append(
+            f"{prefix}Label mix: {positives}/{negatives}"
+            f" (pos={_fmt_float(positive_rate)})"
+        )
+
+    return lines
+

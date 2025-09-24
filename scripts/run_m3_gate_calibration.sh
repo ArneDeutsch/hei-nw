@@ -18,12 +18,24 @@ TARGET_BAND_LOWER="1"
 TARGET_BAND_UPPER="5"
 TARGET_BAND_PROVIDED="false"
 TARGET_PER="tokens"
+TARGET_PER_SOURCE="default"
+TARGET_RATE_PER_1K="tokens"
+TARGET_RATE_PER_SOURCE="default"
+TARGET_VALUE=""
+TARGET_VALUE_SET="false"
+TARGET_TOLERANCE=""
+TARGET_TOLERANCE_SET="false"
 RUN_LAST_METRICS_PATH=""
 RUN_LAST_WRITES_PER_1K_TOKENS=""
 RUN_LAST_WRITES_PER_1K_RECORDS=""
-RUN_LAST_TARGET_METRIC=""
+RUN_LAST_TARGET_METRIC_VALUE=""
+RUN_LAST_TARGET_METRIC_NAME=""
+RUN_LAST_WRITE_RATE=""
 AUTO_SELECTED_TAU=""
 AUTO_SELECTED_METRIC_VALUE=""
+AUTO_SELECTED_METRIC_NAME=""
+AUTO_SELECTED_DIFF=""
+AUTO_SELECTED_METRICS_PATH=""
 
 usage() {
   cat <<'USAGE'
@@ -42,6 +54,9 @@ Options:
   --target-band "LOW,HIGH"  Desired writes/1k tokens band for auto sweep (default: 1,5)
   --target-per {tokens|records}
                             Metric used for the target band evaluation (default: tokens)
+  --target-rate-per-1k {tokens|records}
+                            Metric used for the auto target evaluation (default: tokens)
+  --target VALUE           Desired writes per 1k metric value for auto τ selection
   --out DIR                 Output directory (default: reports/m3-write-gate)
   --title TITLE             Custom title for the calibration plot
   --pin-eval                Evaluate pins-only slice and emit pins-specific artifacts
@@ -106,10 +121,10 @@ parse_target_per() {
   local normalized="${arg,,}"
   case "$normalized" in
     token|tokens)
-      TARGET_PER="tokens"
+      set_target_metric_kind "tokens" "target-per"
       ;;
     record|records)
-      TARGET_PER="records"
+      set_target_metric_kind "records" "target-per"
       ;;
     *)
       echo "Invalid value for --target-per: $arg" >&2
@@ -118,11 +133,108 @@ parse_target_per() {
   esac
 }
 
+set_target_metric_kind() {
+  local value="$1"
+  local source="$2"
+  if [[ "$TARGET_PER_SOURCE" != "default" && "$TARGET_PER" != "$value" ]]; then
+    echo "Conflicting target metric specifications: --${source} vs previous setting" >&2
+    exit 2
+  fi
+  if [[ "$TARGET_RATE_PER_SOURCE" != "default" && "$TARGET_RATE_PER_1K" != "$value" ]]; then
+    echo "Conflicting target metric specifications: --${source} vs previous setting" >&2
+    exit 2
+  fi
+  TARGET_PER="$value"
+  TARGET_PER_SOURCE="$source"
+  TARGET_RATE_PER_1K="$value"
+  TARGET_RATE_PER_SOURCE="$source"
+}
+
+parse_target_rate_per_1k() {
+  local arg="$1"
+  if [[ -z "$arg" ]]; then
+    echo "Missing argument for --target-rate-per-1k" >&2
+    exit 2
+  fi
+  local normalized="${arg,,}"
+  case "$normalized" in
+    token|tokens)
+      set_target_metric_kind "tokens" "target-rate-per-1k"
+      ;;
+    record|records)
+      set_target_metric_kind "records" "target-rate-per-1k"
+      ;;
+    *)
+      echo "Invalid value for --target-rate-per-1k: $arg" >&2
+      exit 2
+      ;;
+  esac
+}
+
+parse_target_value() {
+  local arg="$1"
+  if [[ -z "$arg" ]]; then
+    echo "Missing argument for --target" >&2
+    exit 2
+  fi
+  if ! python - "$arg" <<'PY' >/dev/null 2>&1; then
+import sys
+try:
+    float(sys.argv[1])
+except (IndexError, ValueError):
+    raise SystemExit(1)
+PY
+    echo "--target expects a numeric value" >&2
+    exit 2
+  fi
+  TARGET_VALUE="$arg"
+  TARGET_VALUE_SET="true"
+}
+
 sanitize_tau_value() {
   local value="$1"
   value="${value// /}"
   value="${value//\//_}"
   echo "$value"
+}
+
+compute_target_tolerance() {
+  if [[ "$TARGET_VALUE_SET" != "true" ]]; then
+    TARGET_TOLERANCE=""
+    TARGET_TOLERANCE_SET="false"
+    return
+  fi
+
+  if [[ "$TARGET_BAND_PROVIDED" == "true" ]]; then
+    local band_tol
+    if band_tol="$(python - "$TARGET_VALUE" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY')"; then
+import math
+import sys
+
+target = float(sys.argv[1])
+lower = float(sys.argv[2])
+upper = float(sys.argv[3])
+tolerance = max(abs(target - lower), abs(upper - target))
+print(f"{tolerance:.6f}")
+PY
+        TARGET_TOLERANCE="$band_tol"
+        TARGET_TOLERANCE_SET="true"
+        return
+      fi
+  fi
+
+  local default_tol
+  default_tol="$(python - "$TARGET_VALUE" <<'PY')"
+import math
+import sys
+
+target = abs(float(sys.argv[1]))
+base = max(target, 1.0)
+tolerance = max(0.1, 0.05 * base)
+print(f"{tolerance:.6f}")
+PY
+  TARGET_TOLERANCE="$default_tol"
+  TARGET_TOLERANCE_SET="true"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -193,6 +305,22 @@ while [[ $# -gt 0 ]]; do
       parse_target_per "${1#*=}"
       shift 1
       ;;
+    --target-rate-per-1k)
+      parse_target_rate_per_1k "${2:-}"
+      shift 2
+      ;;
+    --target-rate-per-1k=*)
+      parse_target_rate_per_1k "${1#*=}"
+      shift 1
+      ;;
+    --target)
+      parse_target_value "${2:-}"
+      shift 2
+      ;;
+    --target=*)
+      parse_target_value "${1#*=}"
+      shift 1
+      ;;
     --out)
       OUT="${2:-}"
       shift 2
@@ -230,8 +358,18 @@ if [[ "$THRESHOLD_SWEEP_MODE" != "auto" && ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THR
   echo "[m3] --threshold-sweep not provided; using default sweep: ${THRESHOLD_SWEEP[*]}"
 fi
 
+compute_target_tolerance
+
 if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
-  echo "[m3] Auto threshold sweep enabled; target band: [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}] per 1k ${TARGET_PER}"
+  if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+    if [[ "$TARGET_TOLERANCE_SET" == "true" && -n "$TARGET_TOLERANCE" ]]; then
+      echo "[m3] Auto threshold sweep targeting ${TARGET_VALUE} writes/1k ${TARGET_PER} (tolerance ±${TARGET_TOLERANCE})"
+    else
+      echo "[m3] Auto threshold sweep targeting ${TARGET_VALUE} writes/1k ${TARGET_PER}"
+    fi
+  else
+    echo "[m3] Auto threshold sweep enabled; target band: [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}] per 1k ${TARGET_PER}"
+  fi
   echo "[m3] Starting search from τ=${THRESHOLD}"
 fi
 
@@ -468,6 +606,14 @@ if records_value is None:
     print("")
 else:
     print(records_value)
+
+write_rate_value = gate.get("write_rate")
+if write_rate_value is None:
+    write_rate_value = telemetry.get("write_rate")
+if write_rate_value is None:
+    print("")
+else:
+    print(write_rate_value)
 PY
 )
   if [[ ${#_metric_lines[@]} -ge 1 ]]; then
@@ -480,10 +626,17 @@ PY
   else
     RUN_LAST_WRITES_PER_1K_RECORDS=""
   fi
-  if [[ "$TARGET_PER" == "records" ]]; then
-    RUN_LAST_TARGET_METRIC="$RUN_LAST_WRITES_PER_1K_RECORDS"
+  if [[ ${#_metric_lines[@]} -ge 3 ]]; then
+    RUN_LAST_WRITE_RATE="${_metric_lines[2]}"
   else
-    RUN_LAST_TARGET_METRIC="$RUN_LAST_WRITES_PER_1K_TOKENS"
+    RUN_LAST_WRITE_RATE=""
+  fi
+  if [[ "$TARGET_PER" == "records" ]]; then
+    RUN_LAST_TARGET_METRIC_VALUE="$RUN_LAST_WRITES_PER_1K_RECORDS"
+    RUN_LAST_TARGET_METRIC_NAME="writes_per_1k_records"
+  else
+    RUN_LAST_TARGET_METRIC_VALUE="$RUN_LAST_WRITES_PER_1K_TOKENS"
+    RUN_LAST_TARGET_METRIC_NAME="writes_per_1k_tokens"
   fi
 }
 
@@ -571,9 +724,18 @@ generate_sweep_summary() {
   if [[ -n "$TARGET_BAND_LOWER" && -n "$TARGET_BAND_UPPER" ]]; then
     summary_cmd+=("--target-band" "${TARGET_BAND_LOWER},${TARGET_BAND_UPPER}")
   fi
+  if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+    summary_cmd+=("--target-value" "$TARGET_VALUE")
+  fi
   summary_cmd+=("--target-per" "$TARGET_PER")
   if [[ -n "$AUTO_SELECTED_TAU" ]]; then
     summary_cmd+=("--auto-selected-tau" "$AUTO_SELECTED_TAU")
+    if [[ -n "$AUTO_SELECTED_METRIC_NAME" ]]; then
+      summary_cmd+=("--auto-selected-metric" "$AUTO_SELECTED_METRIC_NAME")
+    fi
+    if [[ -n "$AUTO_SELECTED_METRIC_VALUE" ]]; then
+      summary_cmd+=("--auto-selected-metric-value" "$AUTO_SELECTED_METRIC_VALUE")
+    fi
   fi
   "${summary_cmd[@]}"
 
@@ -632,7 +794,6 @@ with out_path.open("w", encoding="utf8") as handle:
         ]
         handle.write("\t".join("" if value is None else str(value) for value in row) + "\n")
 PY
-
   local index_md="${OUT}/${SCENARIO}_threshold_sweep${summary_suffix}.md"
   {
     if [[ "$PIN_EVAL" == "true" ]]; then
@@ -659,12 +820,124 @@ PY
   echo "[m3] Calibration assets written to $OUT"
 }
 
+persist_auto_selected_tau() {
+  local tau_value="$1"
+  local metric_name="$2"
+  local metric_value="$3"
+  local target_metric="$4"
+  local target_value="$5"
+  local tolerance_value="$6"
+  local band_lower="$7"
+  local band_upper="$8"
+  local metrics_path="$9"
+  local diff_value="${10}"
+  local out_path="${OUT}/${SCENARIO}_auto_selected_tau${summary_suffix}.json"
+  python - "$out_path" "$SCENARIO" "$PIN_EVAL" "$tau_value" "$metric_name" "$metric_value" \
+    "$target_metric" "$target_value" "$tolerance_value" "$band_lower" "$band_upper" \
+    "$metrics_path" "$diff_value" <<'PY'
+import json
+import math
+import sys
+from pathlib import Path
+
+
+def _as_float(value: str | None) -> float | None:
+    if value is None or value == "":
+        return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+out_path = Path(sys.argv[1])
+scenario = sys.argv[2]
+pins_flag = sys.argv[3].lower() == "true"
+tau_raw = sys.argv[4]
+metric_name = sys.argv[5] or None
+metric_value_raw = sys.argv[6]
+target_metric = sys.argv[7] or None
+target_value_raw = sys.argv[8]
+tolerance_raw = sys.argv[9]
+band_lower_raw = sys.argv[10]
+band_upper_raw = sys.argv[11]
+metrics_path_raw = sys.argv[12]
+diff_raw = sys.argv[13] if len(sys.argv) > 13 else None
+
+data: dict[str, object] = {
+    "scenario": scenario,
+    "tau": _as_float(tau_raw),
+    "metric": metric_name,
+    "metric_value": _as_float(metric_value_raw),
+}
+
+if pins_flag:
+    data["pins_only"] = True
+if target_metric:
+    data["target_metric"] = target_metric
+target_value = _as_float(target_value_raw)
+if target_value is not None:
+    data["target_value"] = target_value
+    if target_metric:
+        data.setdefault("target_metric", target_metric)
+tolerance = _as_float(tolerance_raw)
+if tolerance is not None:
+    data["tolerance"] = tolerance
+band_lower = _as_float(band_lower_raw)
+band_upper = _as_float(band_upper_raw)
+if band_lower is not None or band_upper is not None:
+    data["target_band"] = {
+        "lower": band_lower,
+        "upper": band_upper,
+    }
+diff_value = _as_float(diff_raw)
+if diff_value is not None:
+    data["delta_from_target"] = diff_value
+
+metrics_path = Path(metrics_path_raw) if metrics_path_raw else None
+if metrics_path and metrics_path.exists():
+    data["metrics_path"] = str(metrics_path)
+    try:
+        metrics = json.loads(metrics_path.read_text(encoding="utf8"))
+    except json.JSONDecodeError:
+        metrics = None
+    if isinstance(metrics, dict):
+        gate = metrics.get("gate") or {}
+        telemetry = gate.get("telemetry") or {}
+        write_rate = gate.get("write_rate")
+        if write_rate is None:
+            write_rate = telemetry.get("write_rate")
+        write_rate_value = _as_float(write_rate)
+        if write_rate_value is not None:
+            data["write_rate"] = write_rate_value
+        writes_per_1k_tokens = gate.get("write_rate_per_1k_tokens")
+        if writes_per_1k_tokens is None:
+            writes_per_1k_tokens = telemetry.get("writes_per_1k_tokens")
+        tokens_value = _as_float(writes_per_1k_tokens)
+        if tokens_value is not None:
+            data.setdefault("writes_per_1k_tokens", tokens_value)
+        writes_per_1k_records = gate.get("write_rate_per_1k_records")
+        if writes_per_1k_records is None:
+            writes_per_1k_records = telemetry.get("writes_per_1k_records")
+        records_value = _as_float(writes_per_1k_records)
+        if records_value is not None:
+            data.setdefault("writes_per_1k_records", records_value)
+
+out_path.parent.mkdir(parents=True, exist_ok=True)
+out_path.write_text(json.dumps(data, indent=2), encoding="utf8")
+PY
+  echo "[m3] Auto-selected τ metadata written to ${out_path}"
+}
+
 auto_threshold_sweep() {
   METRICS_PATHS=()
   SWEEP_DIRS=()
   THRESHOLD_SWEEP=()
   AUTO_SELECTED_TAU=""
   AUTO_SELECTED_METRIC_VALUE=""
+  AUTO_SELECTED_METRIC_NAME=""
+  AUTO_SELECTED_DIFF=""
+  AUTO_SELECTED_METRICS_PATH=""
 
   local tau_current
   tau_current="$(format_tau_value "$THRESHOLD")"
@@ -692,18 +965,60 @@ auto_threshold_sweep() {
     run_calibration_for_threshold "$tau_current" "$run_dir" "$plot_title"
 
     local metrics_path="${run_dir}/${metrics_base}_metrics.json"
-    local metric_value="$RUN_LAST_TARGET_METRIC"
+    local metric_value="$RUN_LAST_TARGET_METRIC_VALUE"
+    local metric_name="$RUN_LAST_TARGET_METRIC_NAME"
     if [[ -z "$metric_value" ]]; then
       echo "[m3] Unable to determine writes per 1k ${TARGET_PER} for τ=${tau_current}" >&2
       exit 4
+    fi
+    if [[ -z "$metric_name" ]]; then
+      if [[ "$TARGET_PER" == "records" ]]; then
+        metric_name="writes_per_1k_records"
+      else
+        metric_name="writes_per_1k_tokens"
+      fi
     fi
 
     METRICS_PATHS+=("$metrics_path")
     SWEEP_DIRS+=("tau_${tau_key}")
     THRESHOLD_SWEEP+=("$tau_current")
 
-    local band_state
-    band_state="$(python - "$metric_value" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY'
+    local band_state="unknown"
+    local auto_direction=""
+    local auto_diff=""
+    if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+      local eval_output
+      eval_output="$(python - "$metric_value" "$TARGET_VALUE" "$TARGET_TOLERANCE" <<'PY')"
+import math
+import sys
+
+value = float(sys.argv[1])
+target = float(sys.argv[2])
+tolerance = None
+if len(sys.argv) >= 4 and sys.argv[3]:
+    tolerance = float(sys.argv[3])
+delta = value - target
+if delta > 0:
+    direction = "above"
+elif delta < 0:
+    direction = "below"
+else:
+    direction = "within"
+if tolerance is not None and math.isfinite(tolerance) and abs(delta) <= tolerance:
+    direction = "within"
+diff_text = f"{abs(delta):.6f}".rstrip("0").rstrip(".")
+if not diff_text:
+    diff_text = "0"
+print(f"AUTO_DIRECTION={direction}")
+print(f"AUTO_DIFF={diff_text}")
+PY
+      eval "$eval_output"
+      auto_direction="${AUTO_DIRECTION:-}"
+      auto_diff="${AUTO_DIFF:-}"
+      unset AUTO_DIRECTION AUTO_DIFF
+      band_state="$auto_direction"
+    else
+      band_state="$(python - "$metric_value" "$TARGET_BAND_LOWER" "$TARGET_BAND_UPPER" <<'PY' 2>/dev/null)"
 import sys
 
 try:
@@ -721,22 +1036,70 @@ elif value > upper:
 else:
     print("within")
 PY
-)"
+    fi
 
     local metric_label="tokens"
     if [[ "$TARGET_PER" == "records" ]]; then
       metric_label="records"
     fi
-    echo "[m3] τ=${tau_current} yields ${metric_value} writes/1k ${metric_label} (${band_state})"
 
-    if [[ "$band_state" == "invalid" ]]; then
+    local log_message="[m3] τ=${tau_current} yields ${metric_value} writes/1k ${metric_label}"
+    if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+      if [[ -n "$auto_diff" ]]; then
+        log_message+=" (Δ=${auto_diff}"
+        case "$auto_direction" in
+          above)
+            log_message+="; above target"
+            ;;
+          below)
+            log_message+="; below target"
+            ;;
+          within)
+            log_message+="; within tolerance"
+            ;;
+        esac
+        log_message+=")"
+      elif [[ -n "$auto_direction" ]]; then
+        log_message+=" (${auto_direction} target)"
+      fi
+    else
+      log_message+=" (${band_state})"
+    fi
+    echo "$log_message"
+
+    if [[ "$TARGET_VALUE_SET" != "true" && "$band_state" == "invalid" ]]; then
       echo "[m3] Invalid metric value '${metric_value}' for τ=${tau_current}" >&2
       exit 4
     fi
 
-    if [[ "$band_state" == "within" ]]; then
+    local should_update="false"
+    if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+      if [[ -z "$AUTO_SELECTED_TAU" || -z "$AUTO_SELECTED_DIFF" ]]; then
+        should_update="true"
+      else
+        local compare
+        compare="$(python - "$auto_diff" "$AUTO_SELECTED_DIFF" "$tau_current" "$AUTO_SELECTED_TAU" <<'PY')"
+import math
+import sys
+
+new_diff = float(sys.argv[1])
+prev_diff = float(sys.argv[2])
+new_tau = float(sys.argv[3])
+prev_tau = float(sys.argv[4])
+if new_diff < prev_diff:
+    print("update")
+elif math.isclose(new_diff, prev_diff, rel_tol=1e-9, abs_tol=1e-9) and new_tau < prev_tau:
+    print("update")
+else:
+    print("keep")
+PY
+        if [[ "$compare" == "update" ]]; then
+          should_update="true"
+        fi
+      fi
+    elif [[ "$band_state" == "within" ]]; then
       local update_decision
-      update_decision="$(python - "$AUTO_SELECTED_TAU" "$tau_current" <<'PY'
+      update_decision="$(python - "$AUTO_SELECTED_TAU" "$tau_current" <<'PY')"
 import sys
 
 previous = sys.argv[1]
@@ -755,11 +1118,20 @@ else:
         else:
             print("keep")
 PY
-)"
       if [[ "$update_decision" == "update" || -z "$AUTO_SELECTED_TAU" ]]; then
-        AUTO_SELECTED_TAU="$tau_current"
-        AUTO_SELECTED_METRIC_VALUE="$metric_value"
+        should_update="true"
       fi
+    fi
+
+    if [[ "$should_update" == "true" ]]; then
+      AUTO_SELECTED_TAU="$tau_current"
+      AUTO_SELECTED_METRIC_VALUE="$metric_value"
+      AUTO_SELECTED_METRIC_NAME="$metric_name"
+      AUTO_SELECTED_DIFF="$auto_diff"
+      AUTO_SELECTED_METRICS_PATH="$metrics_path"
+    fi
+
+    if [[ "$band_state" == "within" ]]; then
       tau_high="$tau_current"
       if [[ -n "$tau_low" ]]; then
         tau_current="$(midpoint_tau "$tau_low" "$tau_high")"
@@ -785,15 +1157,34 @@ PY
   done
 
   if [[ -z "$AUTO_SELECTED_TAU" ]]; then
-    echo "[m3] Auto sweep did not locate a τ with writes/1k ${TARGET_PER} in [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]" >&2
+    if [[ "$TARGET_VALUE_SET" == "true" ]]; then
+      echo "[m3] Auto sweep failed to select τ for target ${TARGET_VALUE} writes/1k ${TARGET_PER}" >&2
+    else
+      echo "[m3] Auto sweep did not locate a τ with writes/1k ${TARGET_PER} in [${TARGET_BAND_LOWER}, ${TARGET_BAND_UPPER}]" >&2
+    fi
     exit 4
   fi
 
-  echo "[m3] Auto-selected τ=${AUTO_SELECTED_TAU} with ${AUTO_SELECTED_METRIC_VALUE} writes/1k ${TARGET_PER}"
+  if [[ "$TARGET_VALUE_SET" == "true" && -n "$AUTO_SELECTED_DIFF" ]]; then
+    echo "[m3] Auto-selected τ=${AUTO_SELECTED_TAU} with ${AUTO_SELECTED_METRIC_VALUE} writes/1k ${TARGET_PER} (Δ=${AUTO_SELECTED_DIFF})"
+  else
+    echo "[m3] Auto-selected τ=${AUTO_SELECTED_TAU} with ${AUTO_SELECTED_METRIC_VALUE} writes/1k ${TARGET_PER}"
+  fi
 }
 
 if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
   auto_threshold_sweep
+  persist_auto_selected_tau \
+    "$AUTO_SELECTED_TAU" \
+    "$AUTO_SELECTED_METRIC_NAME" \
+    "$AUTO_SELECTED_METRIC_VALUE" \
+    "$TARGET_PER" \
+    "$TARGET_VALUE" \
+    "$TARGET_TOLERANCE" \
+    "$TARGET_BAND_LOWER" \
+    "$TARGET_BAND_UPPER" \
+    "$AUTO_SELECTED_METRICS_PATH" \
+    "$AUTO_SELECTED_DIFF"
   generate_sweep_summary METRICS_PATHS SWEEP_DIRS THRESHOLD_SWEEP
   exit 0
 fi

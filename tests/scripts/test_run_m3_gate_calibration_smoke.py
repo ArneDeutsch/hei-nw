@@ -8,10 +8,23 @@ from pathlib import Path
 
 def _write_stub_harness(root: Path) -> Path:
     package_root = root / "stub_pkg"
+    real_src = Path("src").resolve()
     harness_dir = package_root / "hei_nw" / "eval"
     harness_dir.mkdir(parents=True, exist_ok=True)
-    (package_root / "hei_nw" / "__init__.py").write_text("", encoding="utf8")
-    (harness_dir / "__init__.py").write_text("", encoding="utf8")
+    (package_root / "hei_nw" / "__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
+    (harness_dir / "__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw' / 'eval')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
     harness_code = """
 import argparse
 import json
@@ -28,6 +41,7 @@ def main() -> None:
     parser.add_argument("--outdir")
     parser.add_argument("--gate.threshold", dest="gate_threshold")
     parser.add_argument("--eval.pins_only", action="store_true")
+    parser.add_argument("--no-gate.allow_label_fallback", action="store_true")
     args = parser.parse_args()
 
     outdir = Path(args.outdir)
@@ -82,7 +96,7 @@ if __name__ == "__main__":
     return package_root
 
 
-def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
+def test_m3_auto_tau_selection_runs(tmp_path: Path) -> None:
     stub_root = _write_stub_harness(tmp_path)
     out_dir = tmp_path / "out"
     env = os.environ.copy()
@@ -100,10 +114,10 @@ def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
             "1",
             "--threshold-sweep",
             "auto",
-            "--target-band",
-            "1,5",
-            "--target-per",
+            "--target-rate-per-1k",
             "tokens",
+            "--target",
+            "3",
             "--out",
             str(out_dir),
         ],
@@ -117,13 +131,17 @@ def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
     summary_path = out_dir / "A_sweep_summary.json"
     assert summary_path.exists()
     summary = json.loads(summary_path.read_text(encoding="utf8"))
-    assert summary.get("target_band") == {"lower": 1.0, "upper": 5.0}
     assert summary.get("target_per") == "tokens"
+    assert summary.get("target_value") == 3.0
     first_tau = summary.get("first_tau_within_target_band")
     assert first_tau is not None
     auto_selected_tau = summary.get("auto_selected_tau")
     assert auto_selected_tau is not None
-    assert auto_selected_tau == first_tau
+    auto_metric_value = summary.get("auto_selected_metric_value")
+    assert isinstance(auto_metric_value, float)
+    assert abs(auto_metric_value - 3.0) <= 1.0
+    assert summary.get("auto_selected_metric") == "writes_per_1k_tokens"
+    assert isinstance(summary.get("auto_selected_metric_value"), float)
 
     runs = summary.get("runs") or []
     assert len(runs) >= 2
@@ -132,3 +150,12 @@ def test_auto_sweep_brackets_target(tmp_path: Path) -> None:
     run = matching[0]
     writes_per_1k = float(run["writes_per_1k_tokens"])
     assert 1.0 <= writes_per_1k <= 5.0
+
+    auto_json = out_dir / "A_auto_selected_tau.json"
+    assert auto_json.exists()
+    auto_payload = json.loads(auto_json.read_text(encoding="utf8"))
+    assert auto_payload.get("metric") == "writes_per_1k_tokens"
+    assert isinstance(auto_payload.get("metric_value"), float)
+    assert auto_payload.get("target_metric") == "tokens"
+    assert auto_payload.get("target_value") == 3.0
+    assert auto_payload.get("metrics_path")
