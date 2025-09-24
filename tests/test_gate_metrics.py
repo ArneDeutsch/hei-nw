@@ -42,3 +42,29 @@ def test_score_distribution_fields_present() -> None:
     histogram = distribution["histogram"]
     assert len(histogram) == 4
     assert sum(entry["count"] for entry in histogram) == len(diagnostics)
+
+
+def test_pr_auc_non_trivial_when_labels_mixed() -> None:
+    diagnostics = [
+        {"score": 0.5, "should_write": True, "should_remember_label": True},
+        {"score": 0.5, "should_write": False, "should_remember_label": False},
+        {"score": 0.5, "should_write": True, "should_remember_label": False},
+        {"score": 0.5, "should_write": False, "should_remember_label": True},
+    ]
+    metrics = compute_gate_metrics(diagnostics, calibration_bins=2)
+    assert 0.0 < metrics["pr_auc"] < 1.0
+
+
+def test_label_distribution_present() -> None:
+    diagnostics = [
+        {"score": 0.2, "should_write": False, "should_remember_label": False},
+        {"score": 0.6, "should_write": True, "should_remember_label": True},
+        {"score": 0.8, "should_write": True, "should_remember_label": False},
+        {"score": 1.0, "should_write": False, "should_remember_label": True},
+    ]
+    metrics = compute_gate_metrics(diagnostics, calibration_bins=2)
+    distribution = metrics.get("label_distribution")
+    assert isinstance(distribution, dict)
+    assert distribution["positives"] == metrics["positives"]
+    assert distribution["negatives"] == metrics["total"] - metrics["positives"]
+    assert 0.0 <= distribution["positive_rate"] <= 1.0

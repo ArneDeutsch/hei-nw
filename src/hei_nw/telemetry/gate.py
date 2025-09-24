@@ -111,19 +111,27 @@ def _precision_recall(tp: int, fp: int, fn: int) -> tuple[float, float]:
 
 def _pr_auc(scores: Sequence[float], labels: Sequence[bool]) -> float:
     positives = sum(1 for label in labels if label)
+    total = len(labels)
     if positives == 0 or not scores:
         return 0.0
-    pairs = sorted(zip(scores, labels, strict=False), key=lambda item: item[0], reverse=True)
+    if positives == total:
+        return 1.0
+    grouped: dict[float, list[bool]] = {}
+    for score, label in zip(scores, labels, strict=False):
+        key = float(score)
+        grouped.setdefault(key, []).append(bool(label))
+    sorted_scores = sorted(grouped, reverse=True)
     tp = 0
     fp = 0
     last_recall = 0.0
     area = 0.0
-    for _score, label in pairs:
-        if label:
-            tp += 1
-        else:
-            fp += 1
-        precision = tp / (tp + fp)
+    for key in sorted_scores:
+        labels_for_score = grouped[key]
+        positive_in_group = sum(1 for label in labels_for_score if label)
+        negative_in_group = len(labels_for_score) - positive_in_group
+        tp += positive_in_group
+        fp += negative_in_group
+        precision = tp / (tp + fp) if (tp + fp) else 0.0
         recall = tp / positives
         if recall < last_recall:  # pragma: no cover - defensive guard
             recall = last_recall
@@ -211,6 +219,11 @@ def compute_gate_metrics(
             "writes_per_1k_tokens": None,
             "generated_tokens": 0,
             "prompt_tokens": 0,
+            "label_distribution": {
+                "positives": 0,
+                "negatives": 0,
+                "positive_rate": 0.0,
+            },
         }
     writes = sum(1 for diag in diagnostics if _safe_bool(diag.get("should_write")))
     positives = sum(1 for diag in diagnostics if _safe_bool(diag.get("should_remember_label")))
@@ -235,6 +248,8 @@ def compute_gate_metrics(
         writes_per_1k_tokens = writes / (total_tokens / 1000.0)
     else:
         writes_per_1k_tokens = None
+    negatives = max(total - positives, 0)
+    positive_rate = positives / total if total else 0.0
     return {
         "precision": precision,
         "recall": recall,
@@ -249,4 +264,9 @@ def compute_gate_metrics(
         "writes_per_1k_tokens": writes_per_1k_tokens,
         "generated_tokens": generated_tokens,
         "prompt_tokens": prompt_tokens,
+        "label_distribution": {
+            "positives": positives,
+            "negatives": negatives,
+            "positive_rate": positive_rate,
+        },
     }
