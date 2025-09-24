@@ -233,6 +233,18 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
             parser.add_argument("--model")
             parser.add_argument("--outdir")
             parser.add_argument("--gate.threshold", dest="gate_threshold")
+            parser.add_argument(
+                "--gate.allow_label_fallback",
+                dest="gate_allow_label_fallback",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
+            parser.add_argument(
+                "--gate.use_for_writes",
+                dest="gate_use_for_writes",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
             parser.add_argument("--eval.pins_only", action="store_true")
             args = parser.parse_args()
 
@@ -343,6 +355,18 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
             parser.add_argument("--model")
             parser.add_argument("--outdir")
             parser.add_argument("--gate.threshold", dest="gate_threshold", type=float)
+            parser.add_argument(
+                "--gate.allow_label_fallback",
+                dest="gate_allow_label_fallback",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
+            parser.add_argument(
+                "--gate.use_for_writes",
+                dest="gate_use_for_writes",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
             parser.add_argument("--eval.pins_only", dest="eval_pins_only", action="store_true")
             args = parser.parse_args()
 
@@ -568,6 +592,18 @@ def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
             parser.add_argument("--model")
             parser.add_argument("--outdir")
             parser.add_argument("--gate.threshold", dest="gate_threshold", type=float)
+            parser.add_argument(
+                "--gate.allow_label_fallback",
+                dest="gate_allow_label_fallback",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
+            parser.add_argument(
+                "--gate.use_for_writes",
+                dest="gate_use_for_writes",
+                action=argparse.BooleanOptionalAction,
+                default=True,
+            )
             parser.add_argument("--eval.pins_only", dest="eval_pins_only", action="store_true")
             args = parser.parse_args()
 

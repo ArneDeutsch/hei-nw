@@ -313,6 +313,7 @@ run_calibration_for_threshold() {
     --model "$MODEL"
     --outdir "$run_out_dir"
     --gate.threshold "$tau"
+    --no-gate.allow_label_fallback
   )
   if [[ "$PIN_EVAL" == "true" ]]; then
     harness_cmd+=("--eval.pins_only")

@@ -158,6 +158,7 @@ def test_gate_metrics_logged(monkeypatch: pytest.MonkeyPatch) -> None:
     )
     assert gate_info["used_for_writes"] is True
     assert gate_info["debug_keep_labels"] is False
+    assert gate_info["allow_label_fallback"] is True
     assert gate_info["indexed_records"] == 1
     assert gate_info["label_positive_records"] == 1
     telemetry = gate_info["telemetry"]

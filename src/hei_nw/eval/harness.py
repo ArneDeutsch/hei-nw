@@ -161,6 +161,7 @@ def _apply_gate(
     *,
     use_for_writes: bool = True,
     debug_keep_labels: bool = False,
+    allow_label_fallback: bool = True,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[GateDecision]]:
     """Return filtered records for indexing and per-record diagnostics."""
 
@@ -176,7 +177,7 @@ def _apply_gate(
         truth_label = bool(record.get("should_remember"))
         write = decision.should_write or bool(features.pin)
         fallback = False
-        if not has_gate_payload and truth_label and not write:
+        if allow_label_fallback and (not has_gate_payload) and truth_label and not write:
             write = True
             fallback = True
         keep_via_label = False
@@ -562,6 +563,15 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help=(
             "When gate-driven writes are enabled, also keep label-positive records for A/B testing."
+        ),
+    )
+    parser.add_argument(
+        "--gate.allow_label_fallback",
+        dest="gate_allow_label_fallback",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help=(
+            "Allow label-positive records lacking gate features to be written during evaluation."
         ),
     )
     parser.add_argument(
@@ -1156,6 +1166,7 @@ def _evaluate_mode_b1(
     pins_only: bool = False,
     gate_use_for_writes: bool = True,
     gate_debug_keep_labels: bool = False,
+    gate_allow_label_fallback: bool = True,
     store_evict_stale: bool = False,
     store_evict_interval: int = 32,
 ) -> ModeResult:
@@ -1175,6 +1186,7 @@ def _evaluate_mode_b1(
         gate_module,
         use_for_writes=gate_use_for_writes,
         debug_keep_labels=gate_debug_keep_labels,
+        allow_label_fallback=gate_allow_label_fallback,
     )
     service = RecallService.build(
         indexed_records,
@@ -1504,6 +1516,7 @@ def _evaluate_mode_b1(
     gate_info["pin_override"] = bool(getattr(gate_module, "pin_override", False))
     gate_info["used_for_writes"] = bool(gate_use_for_writes)
     gate_info["debug_keep_labels"] = bool(gate_debug_keep_labels)
+    gate_info["allow_label_fallback"] = bool(gate_allow_label_fallback)
     gate_info["indexed_records"] = len(indexed_records)
     gate_info["label_positive_records"] = sum(
         1 for rec in records if bool(rec.get("should_remember"))
@@ -1629,6 +1642,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["pins_only"] = args.eval_pins_only
             handler_kwargs["gate_use_for_writes"] = args.gate_use_for_writes
             handler_kwargs["gate_debug_keep_labels"] = args.gate_debug_keep_labels
+            handler_kwargs["gate_allow_label_fallback"] = args.gate_allow_label_fallback
             handler_kwargs["store_evict_stale"] = args.store_evict_stale
             handler_kwargs["store_evict_interval"] = args.store_evict_interval
         items, compute, baseline_compute, extra = handler(
@@ -1692,6 +1706,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "pins_only": args.eval_pins_only,
             "use_for_writes": args.gate_use_for_writes,
             "debug_keep_labels": args.gate_debug_keep_labels,
+            "allow_label_fallback": args.gate_allow_label_fallback,
         },
         "store": {
             "evict_stale": args.store_evict_stale,
