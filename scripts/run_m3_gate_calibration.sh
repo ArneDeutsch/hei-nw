@@ -357,12 +357,17 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+compute_target_tolerance
+
+if [[ "$TARGET_VALUE_SET" == "true" && "$THRESHOLD_SWEEP_MODE" != "auto" && ${#THRESHOLD_SWEEP[@]} -eq 0 ]]; then
+  THRESHOLD_SWEEP_MODE="auto"
+  echo "[m3] --target provided without --threshold-sweep; enabling auto threshold search"
+fi
+
 if [[ "$THRESHOLD_SWEEP_MODE" != "auto" && ${#THRESHOLD_SWEEP[@]} -eq 0 && "$THRESHOLD_PROVIDED" != "true" ]]; then
   THRESHOLD_SWEEP=("${DEFAULT_THRESHOLD_SWEEP[@]}")
   echo "[m3] --threshold-sweep not provided; using default sweep: ${THRESHOLD_SWEEP[*]}"
 fi
-
-compute_target_tolerance
 
 if [[ "$THRESHOLD_SWEEP_MODE" == "auto" ]]; then
   if [[ "$TARGET_VALUE_SET" == "true" ]]; then

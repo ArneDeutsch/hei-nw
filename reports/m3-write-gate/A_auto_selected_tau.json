@@ -1,0 +1,18 @@
+{
+  "scenario": "A",
+  "tau": 0.5,
+  "metric": "writes_per_1k_tokens",
+  "metric_value": 3.882007406461499,
+  "target_metric": "tokens",
+  "target_value": 3.0,
+  "tolerance": 0.15,
+  "target_band": {
+    "lower": 1.0,
+    "upper": 5.0
+  },
+  "delta_from_target": 0.882007406461499,
+  "metrics_path": "reports/m3-write-gate/tau_0.5/A_B1_metrics.json",
+  "write_rate": 0.59375,
+  "writes_per_1k_tokens": 3.882007406461499,
+  "writes_per_1k_records": 593.75
+}
