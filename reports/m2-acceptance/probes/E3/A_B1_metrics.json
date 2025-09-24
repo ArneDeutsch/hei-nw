@@ -1,0 +1,3045 @@
+{
+  "adapter_latency_overhead_s": 0.007492897208445953,
+  "aggregate": {
+    "em": 0.10416666666666667,
+    "em_relaxed": 0.10416666666666667,
+    "em_strict": 0.10416666666666667,
+    "f1": 0.17013888888888892,
+    "latency": 0.15233886837499236,
+    "non_empty_rate": 1.0,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 96267558912,
+      "generated_tokens": 280,
+      "kv_cache_bytes": 45023232,
+      "prompt_tokens": 7048
+    },
+    "baseline": null
+  },
+  "dataset": {
+    "hard_negative_ratio": 1.0,
+    "scenario": "A"
+  },
+  "debug": {
+    "dev_modes": {
+      "oracle_trace": false,
+      "retrieval_only": false
+    },
+    "first_token": [
+      "Eli",
+      "Dana",
+      "Eli",
+      "Dana",
+      "On",
+      "On",
+      "Dana",
+      "Fay",
+      "Fay",
+      "On",
+      "On",
+      "Judy",
+      "Bob",
+      "On",
+      "Judy",
+      "Eli",
+      "On",
+      "Ivan",
+      "Eli",
+      "Judy",
+      "Judy",
+      "On",
+      "Eli",
+      "On",
+      "Eli",
+      "On",
+      "Eli",
+      "Dana",
+      "On",
+      "On",
+      "On",
+      "On",
+      "On",
+      "On",
+      "Hana",
+      "On",
+      "Bob",
+      "Hana",
+      "Hana",
+      "Eli",
+      "On",
+      "Ivan",
+      "On",
+      "Eli",
+      "Judy",
+      "Eli",
+      "Eli",
+      "On"
+    ],
+    "mem_len": [
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64,
+      64
+    ],
+    "mem_preview": [
+      "who",
+      ":",
+      "ĠIvan",
+      "Ġwhat",
+      ":",
+      "Ġphone",
+      "Ġwhere",
+      ":"
+    ],
+    "mem_preview_str": "who : ĠIvan Ġwhat : Ġphone Ġwhere :"
+  },
+  "gate": {
+    "debug_keep_labels": false,
+    "decisions": [
+      {
+        "contributions": {
+          "novelty": 0.9035882004306689,
+          "pin": 0.8,
+          "reward": 0.5,
+          "surprise": 1.2217308860002627
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9035882004306689,
+          "pin": true,
+          "reward": true,
+          "surprise": 1.2217308860002627
+        },
+        "generated_tokens": 3,
+        "group_id": 0,
+        "index": 0,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 3.4253190864309317,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8933645683662386,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2112486975325953
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8933645683662386,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2112486975325953
+        },
+        "generated_tokens": 7,
+        "group_id": 1,
+        "index": 1,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 150,
+        "score": 2.104613265898834,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.906545369419308,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2177331518236967
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.906545369419308,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2177331518236967
+        },
+        "generated_tokens": 3,
+        "group_id": 2,
+        "index": 2,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.1242785212430046,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.947625510559292,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.319004142395234
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.947625510559292,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.319004142395234
+        },
+        "generated_tokens": 7,
+        "group_id": 3,
+        "index": 3,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 150,
+        "score": 2.266629652954526,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8617792238078368,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2432765250072313
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8617792238078368,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2432765250072313
+        },
+        "generated_tokens": 8,
+        "group_id": 4,
+        "index": 4,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.105055748815068,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9047744465709557,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3117192628177192
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9047744465709557,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3117192628177192
+        },
+        "generated_tokens": 8,
+        "group_id": 5,
+        "index": 5,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.2164937093886747,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9031720246580186,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3489243485340474
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9031720246580186,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3489243485340474
+        },
+        "generated_tokens": 7,
+        "group_id": 6,
+        "index": 6,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 150,
+        "score": 2.252096373192066,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9294379481522491,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2899300990591047
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9294379481522491,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2899300990591047
+        },
+        "generated_tokens": 3,
+        "group_id": 7,
+        "index": 7,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.2193680472113537,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9229445289439218,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.4625412486720286
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9229445289439218,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.4625412486720286
+        },
+        "generated_tokens": 3,
+        "group_id": 8,
+        "index": 8,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.3854857776159504,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8842055806159858,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.249488631093072
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8842055806159858,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.249488631093072
+        },
+        "generated_tokens": 8,
+        "group_id": 9,
+        "index": 9,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.1336942117090576,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9073025940277384,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.429371259863844
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9073025940277384,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.429371259863844
+        },
+        "generated_tokens": 8,
+        "group_id": 10,
+        "index": 10,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 150,
+        "score": 2.3366738538915826,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8956205331301412,
+          "pin": 0.0,
+          "reward": 0.5,
+          "surprise": 1.3739685612847476
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8956205331301412,
+          "pin": false,
+          "reward": true,
+          "surprise": 1.3739685612847476
+        },
+        "generated_tokens": 3,
+        "group_id": 11,
+        "index": 11,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.769589094414889,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9201492021304424,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2182008282791659
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9201492021304424,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2182008282791659
+        },
+        "generated_tokens": 7,
+        "group_id": 12,
+        "index": 12,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.138350030409608,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.884700525568845,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.4661120876714275
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.884700525568845,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.4661120876714275
+        },
+        "generated_tokens": 8,
+        "group_id": 13,
+        "index": 13,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.3508126132402727,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.871820777481968,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3481078983670944
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.871820777481968,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3481078983670944
+        },
+        "generated_tokens": 3,
+        "group_id": 14,
+        "index": 14,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.2199286758490624,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8996506699029961,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.4750448678540184
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8996506699029961,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.4750448678540184
+        },
+        "generated_tokens": 6,
+        "group_id": 15,
+        "index": 15,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 2.3746955377570145,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9319279837835741,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.4650151479324536
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9319279837835741,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.4650151479324536
+        },
+        "generated_tokens": 8,
+        "group_id": 16,
+        "index": 16,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.3969431317160277,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8650920905791109,
+          "pin": 0.8,
+          "reward": 0.0,
+          "surprise": 1.4873193611891973
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8650920905791109,
+          "pin": true,
+          "reward": false,
+          "surprise": 1.4873193611891973
+        },
+        "generated_tokens": 4,
+        "group_id": 17,
+        "index": 17,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 3.152411451768308,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9331093561568287,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2036189179531396
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9331093561568287,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2036189179531396
+        },
+        "generated_tokens": 6,
+        "group_id": 18,
+        "index": 18,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 2.1367282741099682,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8869253572894725,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3256839503375983
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8869253572894725,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3256839503375983
+        },
+        "generated_tokens": 3,
+        "group_id": 19,
+        "index": 19,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.212609307627071,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9370979501157771,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3369931166608624
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9370979501157771,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3369931166608624
+        },
+        "generated_tokens": 3,
+        "group_id": 20,
+        "index": 20,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.2740910667766396,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9134289565685709,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.2310611281130972
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9134289565685709,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.2310611281130972
+        },
+        "generated_tokens": 8,
+        "group_id": 21,
+        "index": 21,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.144490084681668,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.8840053652232344,
+          "pin": 0.0,
+          "reward": 0.5,
+          "surprise": 1.248690956331629
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.8840053652232344,
+          "pin": false,
+          "reward": true,
+          "surprise": 1.248690956331629
+        },
+        "generated_tokens": 3,
+        "group_id": 22,
+        "index": 22,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 2.6326963215548633,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.9448948758569433,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 1.3609856063905306
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.9448948758569433,
+          "pin": false,
+          "reward": false,
+          "surprise": 1.3609856063905306
+        },
+        "generated_tokens": 8,
+        "group_id": 23,
+        "index": 23,
+        "indexed_for_store": true,
+        "label_kept": false,
+        "prompt_tokens": 149,
+        "score": 2.305880482247474,
+        "should_remember_label": true,
+        "should_write": true
+      },
+      {
+        "contributions": {
+          "novelty": 0.1421103481682718,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.36229971321214594
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.1421103481682718,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.36229971321214594
+        },
+        "generated_tokens": 3,
+        "group_id": 0,
+        "index": 24,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.5044100613804178,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.14034187834430123,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.38664040717644144
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.14034187834430123,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.38664040717644144
+        },
+        "generated_tokens": 8,
+        "group_id": 1,
+        "index": 25,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 149,
+        "score": 0.5269822855207427,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.12321020885531163,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.13460605483264532
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.12321020885531163,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.13460605483264532
+        },
+        "generated_tokens": 3,
+        "group_id": 2,
+        "index": 26,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.25781626368795696,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.06288269923342484,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.24515039692488083
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.06288269923342484,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.24515039692488083
+        },
+        "generated_tokens": 7,
+        "group_id": 3,
+        "index": 27,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 150,
+        "score": 0.30803309615830565,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.12179329152649868,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.3221053673284282
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.12179329152649868,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.3221053673284282
+        },
+        "generated_tokens": 8,
+        "group_id": 4,
+        "index": 28,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.44389865885492685,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.19264783593120532,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.10692871631357445
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.19264783593120532,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.10692871631357445
+        },
+        "generated_tokens": 8,
+        "group_id": 5,
+        "index": 29,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.29957655224477975,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.18712186741870918,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.30702027576380764
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.18712186741870918,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.30702027576380764
+        },
+        "generated_tokens": 8,
+        "group_id": 6,
+        "index": 30,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.4941421431825168,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.08916727958440429,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.30885903577234053
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.08916727958440429,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.30885903577234053
+        },
+        "generated_tokens": 8,
+        "group_id": 7,
+        "index": 31,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.3980263153567448,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.0834189134082858,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.20670885094688365
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.0834189134082858,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.20670885094688365
+        },
+        "generated_tokens": 8,
+        "group_id": 8,
+        "index": 32,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.29012776435516946,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.168259889615617,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.2839684668440623
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.168259889615617,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.2839684668440623
+        },
+        "generated_tokens": 8,
+        "group_id": 9,
+        "index": 33,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.4522283564596793,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.16098095305635712,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.3454998829976119
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.16098095305635712,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.3454998829976119
+        },
+        "generated_tokens": 7,
+        "group_id": 10,
+        "index": 34,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 151,
+        "score": 0.506480836053969,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.10333438150324373,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.25529161727305166
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.10333438150324373,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.25529161727305166
+        },
+        "generated_tokens": 8,
+        "group_id": 11,
+        "index": 35,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 0.3586259987762954,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.1208360093748283,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.33703424098957746
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.1208360093748283,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.33703424098957746
+        },
+        "generated_tokens": 7,
+        "group_id": 12,
+        "index": 36,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.45787025036440576,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.19055318019143636,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.23416830333001704
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.19055318019143636,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.23416830333001704
+        },
+        "generated_tokens": 4,
+        "group_id": 13,
+        "index": 37,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 0.4247214835214534,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.06532357211431021,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.12416143764658792
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.06532357211431021,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.12416143764658792
+        },
+        "generated_tokens": 4,
+        "group_id": 14,
+        "index": 38,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 0.18948500976089813,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.12239799532003669,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.20132124395155915
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.12239799532003669,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.20132124395155915
+        },
+        "generated_tokens": 6,
+        "group_id": 15,
+        "index": 39,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 147,
+        "score": 0.32371923927159585,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.10160103529651882,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.3727597593955204
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.10160103529651882,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.3727597593955204
+        },
+        "generated_tokens": 8,
+        "group_id": 16,
+        "index": 40,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.47436079469203923,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.16734543261471352,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.3729331412655169
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.16734543261471352,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.3729331412655169
+        },
+        "generated_tokens": 4,
+        "group_id": 17,
+        "index": 41,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.5402785738802305,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.11508876136221226,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.36670330132213613
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.11508876136221226,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.36670330132213613
+        },
+        "generated_tokens": 8,
+        "group_id": 18,
+        "index": 42,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.4817920626843484,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.19574859334732375,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.3402470706690073
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.19574859334732375,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.3402470706690073
+        },
+        "generated_tokens": 3,
+        "group_id": 19,
+        "index": 43,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.535995664016331,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.19201955096973394,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.22041604536031045
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.19201955096973394,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.22041604536031045
+        },
+        "generated_tokens": 3,
+        "group_id": 20,
+        "index": 44,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.4124355963300444,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.05413232760632488,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.39793370692515007
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.05413232760632488,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.39793370692515007
+        },
+        "generated_tokens": 3,
+        "group_id": 21,
+        "index": 45,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.4520660345314749,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.14173600058240124,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.29675745698699574
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.14173600058240124,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.29675745698699574
+        },
+        "generated_tokens": 3,
+        "group_id": 22,
+        "index": 46,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 146,
+        "score": 0.43849345756939695,
+        "should_remember_label": false,
+        "should_write": false
+      },
+      {
+        "contributions": {
+          "novelty": 0.07338686385973547,
+          "pin": 0.0,
+          "reward": 0.0,
+          "surprise": 0.38124025318862687
+        },
+        "fallback_write": false,
+        "features": {
+          "novelty": 0.07338686385973547,
+          "pin": false,
+          "reward": false,
+          "surprise": 0.38124025318862687
+        },
+        "generated_tokens": 8,
+        "group_id": 23,
+        "index": 47,
+        "indexed_for_store": false,
+        "label_kept": false,
+        "prompt_tokens": 149,
+        "score": 0.45462711704836234,
+        "should_remember_label": false,
+        "should_write": false
+      }
+    ],
+    "generated_tokens": 280,
+    "indexed_records": 24,
+    "label_positive_records": 24,
+    "pin_override": false,
+    "pinned": 2,
+    "pins_only_eval": false,
+    "pointer_check": {
+      "banned_key_counts": {},
+      "banned_keys": [],
+      "checked": 24,
+      "missing_pointer": 0,
+      "pointer_only": true,
+      "with_pointer": 24
+    },
+    "prompt_tokens": 7048,
+    "reward_flags": 3,
+    "score_distribution": {
+      "histogram": [
+        {
+          "count": 21,
+          "lower": 0.18948500976089813,
+          "upper": 0.5130684174279014
+        },
+        {
+          "count": 3,
+          "lower": 0.5130684174279014,
+          "upper": 0.8366518250949048
+        },
+        {
+          "count": 0,
+          "lower": 0.8366518250949048,
+          "upper": 1.160235232761908
+        },
+        {
+          "count": 0,
+          "lower": 1.160235232761908,
+          "upper": 1.4838186404289115
+        },
+        {
+          "count": 0,
+          "lower": 1.4838186404289115,
+          "upper": 1.807402048095915
+        },
+        {
+          "count": 3,
+          "lower": 1.807402048095915,
+          "upper": 2.130985455762918
+        },
+        {
+          "count": 17,
+          "lower": 2.130985455762918,
+          "upper": 2.4545688634299214
+        },
+        {
+          "count": 2,
+          "lower": 2.4545688634299214,
+          "upper": 2.778152271096925
+        },
+        {
+          "count": 0,
+          "lower": 2.778152271096925,
+          "upper": 3.1017356787639283
+        },
+        {
+          "count": 2,
+          "lower": 3.1017356787639283,
+          "upper": 3.4253190864309317
+        }
+      ],
+      "p10": 0.3190133963376088,
+      "p50": 1.3224459198895322,
+      "p90": 2.3889229838459736
+    },
+    "score_max": 3.4253190864309317,
+    "score_mean": 1.389690165337625,
+    "score_min": 0.18948500976089813,
+    "store_write_rate": 0.5,
+    "store_write_rate_per_1k_records": 500.0,
+    "store_writes": 24,
+    "telemetry": {
+      "calibration": [
+        {
+          "count": 21,
+          "fraction_positive": 0.0,
+          "lower": 0.18948500976089813,
+          "mean_score": 0.40109224248975145,
+          "positives": 0,
+          "upper": 0.5130684174279014
+        },
+        {
+          "count": 3,
+          "fraction_positive": 0.0,
+          "lower": 0.5130684174279014,
+          "mean_score": 0.5344188411391014,
+          "positives": 0,
+          "upper": 0.8366518250949048
+        },
+        {
+          "count": 0,
+          "fraction_positive": 0.0,
+          "lower": 0.8366518250949048,
+          "mean_score": 0.0,
+          "positives": 0,
+          "upper": 1.160235232761908
+        },
+        {
+          "count": 0,
+          "fraction_positive": 0.0,
+          "lower": 1.160235232761908,
+          "mean_score": 0.0,
+          "positives": 0,
+          "upper": 1.4838186404289115
+        },
+        {
+          "count": 0,
+          "fraction_positive": 0.0,
+          "lower": 1.4838186404289115,
+          "mean_score": 0.0,
+          "positives": 0,
+          "upper": 1.807402048095915
+        },
+        {
+          "count": 3,
+          "fraction_positive": 1.0,
+          "lower": 1.807402048095915,
+          "mean_score": 2.111315845318969,
+          "positives": 3,
+          "upper": 2.130985455762918
+        },
+        {
+          "count": 17,
+          "fraction_positive": 1.0,
+          "lower": 2.130985455762918,
+          "mean_score": 2.2567629900222363,
+          "positives": 17,
+          "upper": 2.4545688634299214
+        },
+        {
+          "count": 2,
+          "fraction_positive": 1.0,
+          "lower": 2.4545688634299214,
+          "mean_score": 2.701142707984876,
+          "positives": 2,
+          "upper": 2.778152271096925
+        },
+        {
+          "count": 0,
+          "fraction_positive": 0.0,
+          "lower": 2.778152271096925,
+          "mean_score": 0.0,
+          "positives": 0,
+          "upper": 3.1017356787639283
+        },
+        {
+          "count": 2,
+          "fraction_positive": 1.0,
+          "lower": 3.1017356787639283,
+          "mean_score": 3.28886526909962,
+          "positives": 2,
+          "upper": 3.4253190864309317
+        }
+      ],
+      "clutter_rate": 0.5,
+      "generated_tokens": 280,
+      "non_pins": {
+        "calibration": [
+          {
+            "count": 12,
+            "fraction_positive": 0.0,
+            "lower": 0.18948500976089813,
+            "mean_score": 0.345413286323964,
+            "positives": 0,
+            "upper": 0.44749541822629724
+          },
+          {
+            "count": 12,
+            "fraction_positive": 0.0,
+            "lower": 0.44749541822629724,
+            "mean_score": 0.4901028483178765,
+            "positives": 0,
+            "upper": 0.7055058266916963
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 0.7055058266916963,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 0.9635162351570953
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 0.9635162351570953,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 1.2215266436224945
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 1.2215266436224945,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 1.4795370520878937
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 1.4795370520878937,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 1.7375474605532926
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 1.7375474605532926,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 1.9955578690186917
+          },
+          {
+            "count": 12,
+            "fraction_positive": 1.0,
+            "lower": 1.9955578690186917,
+            "mean_score": 2.1673088541779526,
+            "positives": 12,
+            "upper": 2.253568277484091
+          },
+          {
+            "count": 8,
+            "fraction_positive": 1.0,
+            "lower": 2.253568277484091,
+            "mean_score": 2.336401514524936,
+            "positives": 8,
+            "upper": 2.5115786859494897
+          },
+          {
+            "count": 2,
+            "fraction_positive": 1.0,
+            "lower": 2.5115786859494897,
+            "mean_score": 2.701142707984876,
+            "positives": 2,
+            "upper": 2.769589094414889
+          }
+        ],
+        "calibration_bins": 10,
+        "generated_tokens": 273,
+        "positives": 22,
+        "pr_auc": 1.0,
+        "precision": 1.0,
+        "prompt_tokens": 6756,
+        "recall": 1.0,
+        "score_distribution": {
+          "histogram": [
+            {
+              "count": 12,
+              "lower": 0.18948500976089813,
+              "upper": 0.44749541822629724
+            },
+            {
+              "count": 12,
+              "lower": 0.44749541822629724,
+              "upper": 0.7055058266916963
+            },
+            {
+              "count": 0,
+              "lower": 0.7055058266916963,
+              "upper": 0.9635162351570953
+            },
+            {
+              "count": 0,
+              "lower": 0.9635162351570953,
+              "upper": 1.2215266436224945
+            },
+            {
+              "count": 0,
+              "lower": 1.2215266436224945,
+              "upper": 1.4795370520878937
+            },
+            {
+              "count": 0,
+              "lower": 1.4795370520878937,
+              "upper": 1.7375474605532926
+            },
+            {
+              "count": 0,
+              "lower": 1.7375474605532926,
+              "upper": 1.9955578690186917
+            },
+            {
+              "count": 12,
+              "lower": 1.9955578690186917,
+              "upper": 2.253568277484091
+            },
+            {
+              "count": 8,
+              "lower": 2.253568277484091,
+              "upper": 2.5115786859494897
+            },
+            {
+              "count": 2,
+              "lower": 2.5115786859494897,
+              "upper": 2.769589094414889
+            }
+          ],
+          "p10": 0.31587616771495075,
+          "p50": 0.5381371189482808,
+          "p90": 2.3627540754986436
+        },
+        "total": 46,
+        "write_rate": 0.4782608695652174,
+        "write_rate_per_1k_records": 478.26086956521743,
+        "write_rate_per_1k_tokens": 3.1298904538341157,
+        "writes": 22
+      },
+      "pins_only": {
+        "calibration": [
+          {
+            "count": 1,
+            "fraction_positive": 1.0,
+            "lower": 3.152411451768308,
+            "mean_score": 3.152411451768308,
+            "positives": 1,
+            "upper": 3.1797022152345704
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.1797022152345704,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.206992978700833
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.206992978700833,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.234283742167095
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.234283742167095,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.2615745056333574
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.2615745056333574,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.28886526909962
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.28886526909962,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.3161560325658823
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.3161560325658823,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.343446796032145
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.343446796032145,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.370737559498407
+          },
+          {
+            "count": 0,
+            "fraction_positive": 0.0,
+            "lower": 3.370737559498407,
+            "mean_score": 0.0,
+            "positives": 0,
+            "upper": 3.3980283229646693
+          },
+          {
+            "count": 1,
+            "fraction_positive": 1.0,
+            "lower": 3.3980283229646693,
+            "mean_score": 3.4253190864309317,
+            "positives": 1,
+            "upper": 3.4253190864309317
+          }
+        ],
+        "calibration_bins": 10,
+        "generated_tokens": 7,
+        "positives": 2,
+        "pr_auc": 1.0,
+        "precision": 1.0,
+        "prompt_tokens": 292,
+        "recall": 1.0,
+        "score_distribution": {
+          "histogram": [
+            {
+              "count": 1,
+              "lower": 3.152411451768308,
+              "upper": 3.1797022152345704
+            },
+            {
+              "count": 0,
+              "lower": 3.1797022152345704,
+              "upper": 3.206992978700833
+            },
+            {
+              "count": 0,
+              "lower": 3.206992978700833,
+              "upper": 3.234283742167095
+            },
+            {
+              "count": 0,
+              "lower": 3.234283742167095,
+              "upper": 3.2615745056333574
+            },
+            {
+              "count": 0,
+              "lower": 3.2615745056333574,
+              "upper": 3.28886526909962
+            },
+            {
+              "count": 0,
+              "lower": 3.28886526909962,
+              "upper": 3.3161560325658823
+            },
+            {
+              "count": 0,
+              "lower": 3.3161560325658823,
+              "upper": 3.343446796032145
+            },
+            {
+              "count": 0,
+              "lower": 3.343446796032145,
+              "upper": 3.370737559498407
+            },
+            {
+              "count": 0,
+              "lower": 3.370737559498407,
+              "upper": 3.3980283229646693
+            },
+            {
+              "count": 1,
+              "lower": 3.3980283229646693,
+              "upper": 3.4253190864309317
+            }
+          ],
+          "p10": 3.1797022152345704,
+          "p50": 3.28886526909962,
+          "p90": 3.3980283229646693
+        },
+        "total": 2,
+        "write_rate": 1.0,
+        "write_rate_per_1k_records": 1000.0,
+        "write_rate_per_1k_tokens": 6.688963210702341,
+        "writes": 2
+      },
+      "pins_only_eval": false,
+      "positives": 24,
+      "pr_auc": 1.0,
+      "precision": 1.0,
+      "prompt_tokens": 7048,
+      "recall": 1.0,
+      "score_distribution": {
+        "histogram": [
+          {
+            "count": 21,
+            "lower": 0.18948500976089813,
+            "upper": 0.5130684174279014
+          },
+          {
+            "count": 3,
+            "lower": 0.5130684174279014,
+            "upper": 0.8366518250949048
+          },
+          {
+            "count": 0,
+            "lower": 0.8366518250949048,
+            "upper": 1.160235232761908
+          },
+          {
+            "count": 0,
+            "lower": 1.160235232761908,
+            "upper": 1.4838186404289115
+          },
+          {
+            "count": 0,
+            "lower": 1.4838186404289115,
+            "upper": 1.807402048095915
+          },
+          {
+            "count": 3,
+            "lower": 1.807402048095915,
+            "upper": 2.130985455762918
+          },
+          {
+            "count": 17,
+            "lower": 2.130985455762918,
+            "upper": 2.4545688634299214
+          },
+          {
+            "count": 2,
+            "lower": 2.4545688634299214,
+            "upper": 2.778152271096925
+          },
+          {
+            "count": 0,
+            "lower": 2.778152271096925,
+            "upper": 3.1017356787639283
+          },
+          {
+            "count": 2,
+            "lower": 3.1017356787639283,
+            "upper": 3.4253190864309317
+          }
+        ],
+        "p10": 0.3190133963376088,
+        "p50": 1.3224459198895322,
+        "p90": 2.3889229838459736
+      },
+      "total": 48,
+      "writes": 24,
+      "writes_per_1k": 3.2751091703056767,
+      "writes_per_1k_records": 500.0,
+      "writes_per_1k_tokens": 3.2751091703056767
+    },
+    "threshold": 1.5,
+    "total": 48,
+    "trace_samples": [
+      {
+        "banned_keys": [],
+        "entity_slots_keys": [
+          "what",
+          "when",
+          "where",
+          "who"
+        ],
+        "group_id": 0,
+        "has_pointer": true,
+        "pointer": {
+          "doc": "group-0-55bbf707",
+          "end": 49,
+          "start": 0
+        },
+        "trace_id": "group-0-55bbf707:0"
+      },
+      {
+        "banned_keys": [],
+        "entity_slots_keys": [
+          "what",
+          "when",
+          "where",
+          "who"
+        ],
+        "group_id": 1,
+        "has_pointer": true,
+        "pointer": {
+          "doc": "group-1-dc88720b",
+          "end": 45,
+          "start": 0
+        },
+        "trace_id": "group-1-dc88720b:1"
+      },
+      {
+        "banned_keys": [],
+        "entity_slots_keys": [
+          "what",
+          "when",
+          "where",
+          "who"
+        ],
+        "group_id": 2,
+        "has_pointer": true,
+        "pointer": {
+          "doc": "group-2-8ab5eb84",
+          "end": 48,
+          "start": 0
+        },
+        "trace_id": "group-2-8ab5eb84:2"
+      },
+      {
+        "banned_keys": [],
+        "entity_slots_keys": [
+          "what",
+          "when",
+          "where",
+          "who"
+        ],
+        "group_id": 3,
+        "has_pointer": true,
+        "pointer": {
+          "doc": "group-3-73a2e317",
+          "end": 46,
+          "start": 0
+        },
+        "trace_id": "group-3-73a2e317:3"
+      },
+      {
+        "banned_keys": [],
+        "entity_slots_keys": [
+          "what",
+          "when",
+          "where",
+          "who"
+        ],
+        "group_id": 4,
+        "has_pointer": true,
+        "pointer": {
+          "doc": "group-4-7153260e",
+          "end": 49,
+          "start": 0
+        },
+        "trace_id": "group-4-7153260e:4"
+      }
+    ],
+    "used_for_writes": true,
+    "weights": {
+      "alpha": 1.0,
+      "beta": 1.0,
+      "delta": 0.8,
+      "gamma": 0.5
+    },
+    "write_rate": 0.5,
+    "write_rate_per_1k_records": 500.0,
+    "write_rate_per_1k_tokens": 3.2751091703056767,
+    "writes": 24
+  },
+  "lag_bins": [
+    {
+      "count": 12,
+      "em": 0.16666666666666666,
+      "em_relaxed": 0.16666666666666666,
+      "em_strict": 0.16666666666666666,
+      "f1": 0.20833333333333334,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.08333333333333333,
+      "em_relaxed": 0.08333333333333333,
+      "em_strict": 0.08333333333333333,
+      "f1": 0.08333333333333333,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.08333333333333333,
+      "em_relaxed": 0.08333333333333333,
+      "em_strict": 0.08333333333333333,
+      "f1": 0.13888888888888887,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 12,
+      "em": 0.08333333333333333,
+      "em_relaxed": 0.08333333333333333,
+      "em_strict": 0.08333333333333333,
+      "f1": 0.25,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.13228859700029716,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.17408303099909972,
+      "prediction": "Dana Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.11483693899936043,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
+      "lag": 25,
+      "latency": 0.17328166799961764,
+      "prediction": "Dana Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.17332825799894636,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.17355799800134264,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.1734432180001022,
+      "prediction": "Dana Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 18,
+      "latency": 0.11477724799988209,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.11485403900042002,
+      "prediction": "Fay",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.17404253099994094,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.17333621800025867,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Hana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.11481410800115555,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
+      "lag": 0,
+      "latency": 0.17313944600027753,
+      "prediction": "Bob Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the office?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.1733153580007638,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.11492837900004815,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Hana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
+      "lag": 19,
+      "latency": 0.173474848999831,
+      "prediction": "Eli and Charlie.",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.17354510900077003,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 2,
+      "latency": 0.13447295900004974,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.17345594899961725,
+      "prediction": "Eli and Charlie.",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 11,
+      "latency": 0.11647013699985109,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.11488428899974679,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.17435255400050664,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.11485075900054653,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 11,
+      "latency": 0.17339722799988522,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1149504490003892,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.17371996999827388,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.11487391900118382,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
+      "lag": 25,
+      "latency": 0.17354322000028333,
+      "prediction": "Dana Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.17340898899965396,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.17321945799994865,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.17342829900007928,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 18,
+      "latency": 0.17333563800093543,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.17355816000053892,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.17374884099990595,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.6666666666666666,
+      "lag": 3,
+      "latency": 0.17360836999978346,
+      "prediction": "Hana Explanation:",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Hana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.1732782489998499,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.17338214899973536,
+      "prediction": "Bob Explanation: The",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the office?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.13438767899970117,
+      "prediction": "Hana",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 3,
+      "latency": 0.1343678289995296,
+      "prediction": "Hana",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Hana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.5,
+      "lag": 19,
+      "latency": 0.17343803999938245,
+      "prediction": "Eli and Charlie.",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1736039309998887,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.13442506899991713,
+      "prediction": "Ivan",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.1734172500000568,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 11,
+      "latency": 0.1155245730005845,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.11488148999887926,
+      "prediction": "Judy",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.11489753000023484,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.11484406999989005,
+      "prediction": "Eli",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 11,
+      "latency": 0.17349164099869085,
+      "prediction": "On 2025-",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    }
+  ],
+  "retrieval": {
+    "baseline_mrr": 0.492526455026455,
+    "baseline_p_at_1": 0.2916666666666667,
+    "collision_rate": 0.3333333333333333,
+    "completion_lift": 0.0,
+    "hopfield_rank_improved_rate": 0.0,
+    "mrr": 0.492526455026455,
+    "near_miss_rate": 0.125,
+    "p_at_1": 0.2916666666666667
+  },
+  "run_config": {
+    "actual_records": 48,
+    "adapter": {
+      "scale": 0.2
+    },
+    "gate": {
+      "alpha": 1.0,
+      "beta": 1.0,
+      "debug_keep_labels": false,
+      "delta": 0.8,
+      "gamma": 0.5,
+      "pin_override": false,
+      "pins_only": false,
+      "threshold": 1.5,
+      "use_for_writes": true
+    },
+    "hopfield": {
+      "enabled": true,
+      "steps": 2,
+      "temperature": 0.5
+    },
+    "memory": {
+      "max_tokens": 64
+    },
+    "qa": {
+      "answer_hint": true,
+      "max_new_tokens": 8,
+      "memory_dependent_baseline": true,
+      "omit_episode": true,
+      "prompt_style": "chat",
+      "stop": "",
+      "stop_mode": "none",
+      "template_policy": "plain"
+    },
+    "requested_records": 24,
+    "seed": 7,
+    "store": {
+      "evict_interval": 32,
+      "evict_stale": false
+    }
+  },
+  "store": {
+    "evict_stale_enabled": false,
+    "evicted_count": 0,
+    "eviction_interval": null,
+    "eviction_runs": 0,
+    "indexed_records": 24,
+    "ntotal": 24
+  }
+}

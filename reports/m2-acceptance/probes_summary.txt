@@ -1,0 +1,11 @@
+[m2-probes] Running E0 (outdir: reports/m2-acceptance/probes/E0)
+[m2-probes] Running E1 (outdir: reports/m2-acceptance/probes/E1)
+[m2-probes] Running E2 (outdir: reports/m2-acceptance/probes/E2)
+[m2-probes] Running E3 Hopfield on/off pair (outdir: reports/m2-acceptance/probes/E3)
+
+Probe | Variant | EM | Non-empty | Notes
+E0 | baseline | 0.104 | 1.000 | P@1=0.292, MRR=0.493
+E1 | oracle | 0.000 | 1.000 | P@1=0.292, MRR=0.493
+E2 | retrieval-only | 0.292 | 1.000 | P@1=0.292, MRR=0.493
+E3 | hopfield | 0.104 | 1.000 | P@1=0.292, MRR=0.493
+E3 | no-hopfield | 0.104 | 1.000 | P@1=0.292, MRR=0.493
