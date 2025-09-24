@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 0.000
-- Latency: 0.040s
-- Adapter latency overhead: -0.015s
+- Latency: 0.038s
+- Adapter latency overhead: -0.016s
 
 ## Run config
 - Seed: 13
@@ -30,24 +30,24 @@
 | 7-30 | 256 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 2053035307008
-B0 KV cache bytes: 960485376
+B0 attention FLOPs: 2054435561472
+B0 KV cache bytes: 960811008
 
 ## Retrieval
 - P@1: 0.047
-- MRR: 0.107
-- Near-miss rate: 0.017
-- Collision rate: 0.470
+- MRR: 0.104
+- Near-miss rate: 0.018
+- Collision rate: 0.402
 - Completion lift: 0.000
 - Hopfield rank improved rate: 0.000
 
 ## Write gate
 - Threshold τ: 1.400
-- Writes: 512/1024 (rate 0.500; 3.3 writes/1k tokens)
-  • Legacy normalization: 500.0 writes/1k records
+- Writes: 442/1024 (rate 0.432; 2.8 writes/1k tokens)
+  • Legacy normalization: 431.6 writes/1k records
 - Pinned episodes: 31 | Reward flags: 47
-- Precision: 1.000 | Recall: 1.000 | PR-AUC: 1.000
-- Clutter rate: 0.500 (3.3 writes/1k tokens)
+- Precision: 1.000 | Recall: 0.863 | PR-AUC: 1.000
+- Clutter rate: 0.432 (2.8 writes/1k tokens)
 - Pins-only PR-AUC: 1.000 | Clutter: 1.000 (6.5 writes/1k tokens)
 - Calibration bins: 10
 - Pointer-only payload: yes
