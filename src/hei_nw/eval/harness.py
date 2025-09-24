@@ -262,6 +262,35 @@ def _score_distribution_summary(metrics: Mapping[str, Any]) -> dict[str, Any]:
     return summary
 
 
+def _label_distribution_summary(metrics: Mapping[str, Any]) -> dict[str, Any]:
+    """Return normalized label distribution statistics from *metrics*."""
+
+    distribution = metrics.get("label_distribution")
+    total_fallback = _safe_int(metrics.get("total"))
+    if isinstance(distribution, Mapping):
+        positives = _safe_int(distribution.get("positives"))
+        negatives_raw = distribution.get("negatives")
+        if negatives_raw is None:
+            negatives = total_fallback - positives
+        else:
+            negatives = _safe_int(negatives_raw)
+    else:
+        positives = _safe_int(metrics.get("positives"))
+        negatives = total_fallback - positives
+    positives = max(int(positives), 0)
+    negatives = max(int(negatives), 0)
+    total = positives + negatives
+    if total > 0:
+        positive_rate = max(0.0, min(1.0, positives / total))
+    else:
+        positive_rate = 0.0
+    return {
+        "positives": positives,
+        "negatives": negatives,
+        "positive_rate": positive_rate,
+    }
+
+
 def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
     """Return a compact summary for a gate metrics subset."""
 
@@ -295,7 +324,32 @@ def _subset_gate_metrics(metrics: Mapping[str, Any]) -> dict[str, Any]:
         "prompt_tokens": int(metrics.get("prompt_tokens", 0)),
     }
     subset["score_distribution"] = _score_distribution_summary(metrics)
+    subset["label_distribution"] = _label_distribution_summary(metrics)
     return subset
+
+
+def _calibration_guard(label_distribution: Mapping[str, Any]) -> tuple[bool, list[str]]:
+    """Return calibratability flag and warnings for *label_distribution*."""
+
+    positives = _safe_int(label_distribution.get("positives"))
+    negatives = _safe_int(label_distribution.get("negatives"))
+    total = positives + negatives
+    warnings: list[str] = []
+    calibratable = True
+    if total == 0:
+        calibratable = False
+        warnings.append(
+            "Label distribution empty (no positives or negatives); gate telemetry is non-calibratable."
+        )
+    elif positives == 0 or positives == total:
+        calibratable = False
+        warnings.append(
+            (
+                "Label distribution degenerate "
+                f"(positives={positives}, negatives={negatives}); gate telemetry is non-calibratable."
+            )
+        )
+    return calibratable, warnings
 
 
 def _summarize_gate(
@@ -311,6 +365,13 @@ def _summarize_gate(
     telemetry: dict[str, Any] = dict(telemetry_raw)
     score_distribution = _score_distribution_summary(telemetry_raw)
     telemetry["score_distribution"] = score_distribution
+    label_distribution = _label_distribution_summary(telemetry_raw)
+    telemetry["label_distribution"] = label_distribution
+    calibratable, warnings = _calibration_guard(label_distribution)
+    telemetry["calibratable"] = calibratable
+    telemetry["calibration_status"] = "ok" if calibratable else "non_calibratable"
+    if warnings:
+        telemetry["warnings"] = warnings
     pin_metrics = telemetry_raw if pins_only else compute_gate_metrics(pin_diag)
     non_pin_metrics = compute_gate_metrics(non_pin_diag)
     telemetry["pins_only"] = _subset_gate_metrics(pin_metrics)
@@ -366,7 +427,11 @@ def _summarize_gate(
         "decisions": primary_diag,
         "telemetry": telemetry,
     }
-
+    result["calibratable"] = calibratable
+    result["calibration_status"] = telemetry["calibration_status"]
+    if warnings:
+        result["calibration_warnings"] = warnings
+    
 
 def _model_geometry(model: Any) -> ModelGeometry:
     """Extract relevant model configuration fields."""

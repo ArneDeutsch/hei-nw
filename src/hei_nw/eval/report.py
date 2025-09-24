@@ -223,6 +223,35 @@ def build_markdown_report(summary: dict[str, Any], scenario: str | None = None) 
         lines.append(
             f"- Clutter rate: {clutter_rate} ({writes_per_1k_tokens_str} writes/1k tokens)"
         )
+        label_distribution = telemetry.get("label_distribution")
+        if isinstance(label_distribution, Mapping):
+            positives = label_distribution.get("positives", 0)
+            negatives = label_distribution.get("negatives", 0)
+            pos_rate = label_distribution.get("positive_rate")
+            if isinstance(pos_rate, int | float):
+                pos_rate_str = f"{float(pos_rate):.3f}"
+            else:
+                pos_rate_str = "n/a"
+            lines.append(
+                "- Label distribution: "
+                f"{positives} positive / {negatives} negative (rate {pos_rate_str})"
+            )
+        status = telemetry.get("calibration_status")
+        if status is None and isinstance(telemetry.get("calibratable"), bool):
+            status = "ok" if telemetry["calibratable"] else "non_calibratable"
+        warnings_raw = telemetry.get("warnings")
+        if isinstance(warnings_raw, Sequence) and not isinstance(warnings_raw, (str, bytes)):
+            warnings = [str(entry) for entry in warnings_raw if entry]
+        else:
+            warnings = []
+        if status and str(status).lower() != "ok":
+            status_text = str(status).replace("_", " ").title()
+            lines.append(f"- Calibration status: {status_text}")
+        if warnings:
+            if not status or str(status).lower() == "ok":
+                lines.append("- Calibration warnings:")
+            for warning in warnings:
+                lines.append(f"  • {warning}")
         pins_only = telemetry.get("pins_only")
         if isinstance(pins_only, Mapping):
             pins_pr_auc = _fmt_float(pins_only.get("pr_auc"))
