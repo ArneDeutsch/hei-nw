@@ -149,6 +149,48 @@ trace how pin precision changes across τ. Focus on matching the pins-only
 against the overall metrics—pins should stay inside the desired write band while
 retaining higher precision than non-pinned episodes.
 
+## Milestone 3 τ selection
+
+The Milestone 3 calibration runs completed with ``n=256`` records, default gate
+weights, and the Qwen/Qwen2.5-1.5B-Instruct checkpoint. Artifacts live under
+``reports/m3-run0`` (scenario A auto sweep), ``reports/m3-run1`` (scenario A
+manual grid), and ``reports/m3-run2`` (scenario C pins slice).
+
+### Scenario A (base distribution)
+
+* **Chosen τ:** ``1.5``. At this threshold the gate writes **3.27 episodes per
+  1 000 tokens** with perfect precision/recall, and the score distribution keeps
+  p50 well below τ while p90 remains safely above it, indicating a steep shoulder
+  rather than a flat plateau.【F:reports/m3-run0/tau_1.5/A_gate_telemetry.json†L455-L470】【F:reports/m3-run0/tau_1.5/A_gate_telemetry.json†L451-L454】
+* **Lower τ rejected:** Dropping to ``τ=0.375`` pushes the write rate close to
+  the upper target band but precision collapses to ~0.66, signaling excessive
+  clutter despite staying within the 1–5 writes/1 000 tokens envelope.【F:reports/m3-run0/tau_0.375/A_gate_telemetry.json†L455-L470】【F:reports/m3-run0/tau_0.375/A_gate_telemetry.json†L168-L175】【F:reports/m3-run0/tau_0.375/A_gate_telemetry.json†L392-L398】
+* **Stability check:** A second seed sweeping τ∈[1.2, 2.0] keeps the write rate
+  pinned at 3.21 writes/1 000 tokens, confirming that ``τ=1.5`` sits in the
+  center of a broad precision plateau.【F:reports/m3-run1/A_sweep_summary.tsv†L1-L6】
+
+**Recommendation:** Adopt ``τ_A = 1.5`` for scenario A and reuse the associated
+telemetry JSON, calibration plot, and trace samples for future audits.
+
+### Scenario C (pins and non-pins)
+
+* **Chosen τ:** ``1.5``. The pins-only sweep shows that pinned episodes retain a
+  high-salience cluster (p50≈3.05) far above τ with perfect precision, so the
+  policy does not endanger forced writes.【F:reports/m3-run2/tau_1.5/C_gate_telemetry_pins.json†L360-L398】
+* **Non-pin behavior:** Simulating the gate on the scenario C generator confirms
+  that the same τ writes every ``should_remember`` record (pinned and
+  non-pinned) while keeping all ``should_forget`` cases out of the store; raising
+  τ toward ``1.8`` starts dropping non-pin recall.【efa83b†L1-L15】
+
+**Recommendation:** Reuse ``τ_C = 1.5`` for scenario C. When running
+``scripts/run_m3_gate_calibration.sh`` with ``--pin-eval``, expect the auto
+search to keep doubling τ—pins are forced writes (see the gate harness code
+below), so the write-rate metric never declines. Run a baseline sweep **without**
+``--pin-eval`` first to bracket τ, then add the pins slice for validation.
+
+> ``write = decision.should_write or bool(features.pin)`` — pinned records are
+> always persisted by the harness, independently of τ.【F:src/hei_nw/eval/harness.py†L158-L188】
+
 ## Interpreting telemetry
 
 The ``gate`` section in the harness metrics summarizes the run:
