@@ -28,11 +28,11 @@
       "group_id": 1,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-1-e3c583b0",
-        "end": 54,
+        "doc": "group-1-8e1d977f",
+        "end": 51,
         "start": 0
       },
-      "trace_id": "group-1-e3c583b0:1"
+      "trace_id": "group-1-8e1d977f:1"
     },
     {
       "banned_keys": [],
@@ -45,11 +45,11 @@
       "group_id": 2,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-2-d2d80d72",
-        "end": 49,
+        "doc": "group-2-2b4f3f3d",
+        "end": 46,
         "start": 0
       },
-      "trace_id": "group-2-d2d80d72:2"
+      "trace_id": "group-2-2b4f3f3d:2"
     },
     {
       "banned_keys": [],
@@ -62,11 +62,11 @@
       "group_id": 3,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-3-e44d5830",
-        "end": 47,
+        "doc": "group-3-d2d80d72",
+        "end": 49,
         "start": 0
       },
-      "trace_id": "group-3-e44d5830:3"
+      "trace_id": "group-3-d2d80d72:3"
     },
     {
       "banned_keys": [],
@@ -79,11 +79,11 @@
       "group_id": 4,
       "has_pointer": true,
       "pointer": {
-        "doc": "group-4-4af5a9fd",
+        "doc": "group-4-b496ba33",
         "end": 46,
         "start": 0
       },
-      "trace_id": "group-4-4af5a9fd:4"
+      "trace_id": "group-4-b496ba33:4"
     }
   ]
 }
