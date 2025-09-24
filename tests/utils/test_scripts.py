@@ -193,6 +193,8 @@ def test_run_m3_gate_calibration_smoke() -> None:
 def test_run_m3_gate_calibration_has_threshold_sweep_flag() -> None:
     script_text = Path("scripts/run_m3_gate_calibration.sh").read_text(encoding="utf8")
     assert "--threshold-sweep" in script_text
+    assert "--target-rate-per-1k" in script_text
+    assert "--target VALUE" in script_text
 
 
 def test_run_m3_gate_calibration_has_pin_eval_flag() -> None:
@@ -338,8 +340,21 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     stub_root = tmp_path / "stub"
     harness_pkg = stub_root / "hei_nw" / "eval"
     harness_pkg.mkdir(parents=True, exist_ok=True)
-    (stub_root / "hei_nw/__init__.py").write_text("", encoding="utf8")
-    (harness_pkg / "__init__.py").write_text("", encoding="utf8")
+    real_src = Path("src").resolve()
+    (stub_root / "hei_nw/__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
+    (harness_pkg / "__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw' / 'eval')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
     harness_code = textwrap.dedent(
         """
         import argparse
@@ -571,8 +586,21 @@ def test_pin_eval_creates_pins_outputs(tmp_path: Path) -> None:
     datasets_pkg = stub_root / "hei_nw" / "datasets"
     harness_pkg.mkdir(parents=True, exist_ok=True)
     datasets_pkg.mkdir(parents=True, exist_ok=True)
-    (stub_root / "hei_nw/__init__.py").write_text("", encoding="utf8")
-    (harness_pkg / "__init__.py").write_text("", encoding="utf8")
+    real_src = Path("src").resolve()
+    (stub_root / "hei_nw/__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
+    (harness_pkg / "__init__.py").write_text(
+        "import sys\n\n"
+        f"_REAL_PKG = {str(real_src / 'hei_nw' / 'eval')!r}\n"
+        "if _REAL_PKG not in __path__:\n"
+        "    __path__.append(_REAL_PKG)\n",
+        encoding="utf8",
+    )
     (datasets_pkg / "__init__.py").write_text(
         "from . import scenario_a\n__all__ = ['scenario_a']\n", encoding="utf8"
     )

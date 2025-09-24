@@ -76,6 +76,24 @@ def main() -> None:
         default=None,
         help="Optional τ chosen by auto calibration to record in the summary",
     )
+    parser.add_argument(
+        "--auto-selected-metric",
+        type=str,
+        default=None,
+        help="Metric name associated with the auto-selected τ",
+    )
+    parser.add_argument(
+        "--auto-selected-metric-value",
+        type=float,
+        default=None,
+        help="Metric value observed at the auto-selected τ",
+    )
+    parser.add_argument(
+        "--target-value",
+        type=float,
+        default=None,
+        help="Optional writes/1k target used for auto τ selection",
+    )
     args = parser.parse_args()
 
     try:
@@ -170,6 +188,12 @@ def main() -> None:
     summary["target_per"] = args.target_per
     if args.auto_selected_tau is not None:
         summary["auto_selected_tau"] = args.auto_selected_tau
+    if args.auto_selected_metric is not None:
+        summary["auto_selected_metric"] = args.auto_selected_metric
+    if args.auto_selected_metric_value is not None:
+        summary["auto_selected_metric_value"] = args.auto_selected_metric_value
+    if args.target_value is not None:
+        summary["target_value"] = args.target_value
     with args.out.open("w", encoding="utf8") as handle:
         json.dump(summary, handle, indent=2)
 

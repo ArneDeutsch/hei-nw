@@ -11,6 +11,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from hei_nw.eval.report import gate_calibration_footer_lines
+
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -224,11 +226,17 @@ def _score_annotation_lines(
 
 
 def _annotate_score_distribution(
-    ax: Any, sections: Sequence[tuple[str, Mapping[str, Any], bool]]
+    ax: Any,
+    sections: Sequence[tuple[str, Mapping[str, Any], bool]],
+    footer_lines: Sequence[str] | None = None,
 ) -> None:
     lines: list[str] = []
     for label, section, include_hist in sections:
         lines.extend(_score_annotation_lines(section, label, include_histogram=include_hist))
+    if footer_lines:
+        if lines:
+            lines.append("")
+        lines.extend([str(entry) for entry in footer_lines if entry])
     if not lines:
         return
     ax.text(
@@ -293,7 +301,8 @@ def main() -> None:
     ax.set_ylabel("Fraction positive")
     ax.set_title(_final_title(telemetry, args.title, args.pins_only))
     ax.legend(loc="lower right")
-    _annotate_score_distribution(ax, annotation_sections)
+    footer_lines = gate_calibration_footer_lines(primary_section)
+    _annotate_score_distribution(ax, annotation_sections, footer_lines=footer_lines)
     fig.tight_layout()
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out)

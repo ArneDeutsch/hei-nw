@@ -5,6 +5,7 @@ import pytest
 from hei_nw.eval.report import (
     bin_by_lag,
     build_markdown_report,
+    gate_calibration_footer_lines,
     save_completion_ablation_plot,
 )
 
@@ -106,6 +107,18 @@ def test_markdown_mentions_pins_slice() -> None:
     md = build_markdown_report(summary, scenario="A")
     assert "Pins-only PR-AUC" in md
     assert "Clutter" in md
+
+
+def test_gate_calibration_footer_lines_format() -> None:
+    telemetry = {
+        "write_rate": 0.25,
+        "writes_per_1k_tokens": 3.2,
+        "label_distribution": {"positives": 10, "negatives": 22, "positive_rate": 10 / 32},
+    }
+    lines = gate_calibration_footer_lines(telemetry)
+    assert any("Write rate: 0.250" in line for line in lines)
+    assert any("Writes/1k tokens: 3.20" in line for line in lines)
+    assert any("Label mix: 10/22" in line for line in lines)
 
 
 def test_ablation_plot_written(tmp_path: Path) -> None:
