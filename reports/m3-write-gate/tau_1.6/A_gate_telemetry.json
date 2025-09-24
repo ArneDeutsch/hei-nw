@@ -1,4 +1,5 @@
 {
+  "calibratable": true,
   "calibration": [
     {
       "count": 407,
@@ -81,8 +82,14 @@
       "upper": 3.4637866515525477
     }
   ],
+  "calibration_status": "ok",
   "clutter_rate": 0.044921875,
   "generated_tokens": 1229,
+  "label_distribution": {
+    "negatives": 512,
+    "positive_rate": 0.5,
+    "positives": 512
+  },
   "non_pins": {
     "calibration": [
       {
@@ -168,8 +175,13 @@
     ],
     "calibration_bins": 10,
     "generated_tokens": 1198,
+    "label_distribution": {
+      "negatives": 512,
+      "positive_rate": 0.48439073514602216,
+      "positives": 481
+    },
     "positives": 481,
-    "pr_auc": 0.9942981800697924,
+    "pr_auc": 0.9943034341089515,
     "precision": 1.0,
     "prompt_tokens": 150742,
     "recall": 0.031185031185031187,
@@ -321,6 +333,11 @@
     ],
     "calibration_bins": 10,
     "generated_tokens": 31,
+    "label_distribution": {
+      "negatives": 0,
+      "positive_rate": 1.0,
+      "positives": 31
+    },
     "positives": 31,
     "pr_auc": 1.0,
     "precision": 1.0,
@@ -391,7 +408,7 @@
   },
   "pins_only_eval": false,
   "positives": 512,
-  "pr_auc": 0.9949589000919908,
+  "pr_auc": 0.9949632788649301,
   "precision": 1.0,
   "prompt_tokens": 155435,
   "recall": 0.08984375,

@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.001
 - Non-empty rate: 0.021
-- Latency: 0.044s
-- Adapter latency overhead: -0.016s
+- Latency: 0.043s
+- Adapter latency overhead: -0.015s
 
 ## Run config
 - Seed: 13
@@ -30,8 +30,8 @@
 | 7-30 | 256 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 2064350625792
-B0 KV cache bytes: 963072000
+B0 attention FLOPs: 2064088276992
+B0 KV cache bytes: 963010560
 
 ## Retrieval
 - P@1: 0.028
@@ -48,6 +48,7 @@ B0 KV cache bytes: 963072000
 - Pinned episodes: 31 | Reward flags: 47
 - Precision: 1.000 | Recall: 0.283 | PR-AUC: 0.995
 - Clutter rate: 0.142 (0.9 writes/1k tokens)
+- Label distribution: 512 positive / 512 negative (rate 0.500)
 - Pins-only PR-AUC: 1.000 | Clutter: 1.000 (6.6 writes/1k tokens)
 - Calibration bins: 10
 - Pointer-only payload: yes
