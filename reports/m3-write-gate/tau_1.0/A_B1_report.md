@@ -35,7 +35,7 @@ B0 KV cache bytes: 960485376
 
 ## Retrieval
 - P@1: 0.047
-- MRR: 0.108
+- MRR: 0.107
 - Near-miss rate: 0.017
 - Collision rate: 0.470
 - Completion lift: 0.000

@@ -6,8 +6,8 @@
 - EM_strict: 0.000
 - F1: 0.000
 - Non-empty rate: 0.000
-- Latency: 0.038s
-- Adapter latency overhead: -0.017s
+- Latency: 0.037s
+- Adapter latency overhead: -0.016s
 
 ## Run config
 - Seed: 13
@@ -30,8 +30,8 @@
 | 7-30 | 256 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 2052405669888
-B0 KV cache bytes: 960337920
+B0 attention FLOPs: 2052168007680
+B0 KV cache bytes: 960282624
 
 ## Retrieval
 - P@1: 0.048

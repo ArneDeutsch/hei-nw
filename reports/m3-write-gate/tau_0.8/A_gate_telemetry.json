@@ -171,7 +171,7 @@
     "positives": 481,
     "pr_auc": 1.0,
     "precision": 0.8874538745387454,
-    "prompt_tokens": 150568,
+    "prompt_tokens": 150559,
     "recall": 1.0,
     "score_distribution": {
       "histogram": [
@@ -233,7 +233,7 @@
     "total": 993,
     "write_rate": 0.5458207452165156,
     "write_rate_per_1k_records": 545.8207452165155,
-    "write_rate_per_1k_tokens": 3.5761178667335263,
+    "write_rate_per_1k_tokens": 3.576330236486487,
     "writes": 542
   },
   "pins_only": {
@@ -393,7 +393,7 @@
   "positives": 512,
   "pr_auc": 1.0,
   "precision": 0.893542757417103,
-  "prompt_tokens": 155281,
+  "prompt_tokens": 155272,
   "recall": 1.0,
   "score_distribution": {
     "histogram": [
@@ -454,15 +454,15 @@
   },
   "total": 1024,
   "writes": 573,
-  "writes_per_1k": 3.665909599820863,
+  "writes_per_1k": 3.6661206940676667,
   "writes_per_1k_records": 559.5703125,
-  "writes_per_1k_tokens": 3.665909599820863,
+  "writes_per_1k_tokens": 3.6661206940676667,
   "scenario": "A",
   "threshold": 0.8,
   "write_rate": 0.5595703125,
-  "write_rate_per_1k_tokens": 3.665909599820863,
+  "write_rate_per_1k_tokens": 3.6661206940676667,
   "write_rate_per_1k_records": 559.5703125,
-  "write_rate_per_1k": 3.665909599820863,
+  "write_rate_per_1k": 3.6661206940676667,
   "pinned": 31,
   "reward_flags": 47,
   "model": "Qwen/Qwen2.5-1.5B-Instruct",

@@ -7,9 +7,9 @@
       "write_rate": 0.5595703125,
       "writes": 573,
       "total": 1024,
-      "writes_per_1k_tokens": 3.665909599820863,
+      "writes_per_1k_tokens": 3.6661206940676667,
       "writes_per_1k_records": 559.5703125,
-      "writes_per_1k": 3.665909599820863
+      "writes_per_1k": 3.6661206940676667
     },
     {
       "metrics_path": "reports/m3-write-gate/tau_1.0/A_B1_metrics.json",
