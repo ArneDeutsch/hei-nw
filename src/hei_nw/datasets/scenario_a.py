@@ -130,8 +130,8 @@ def generate(
         lag = _cycle_lag(i, rng, bins)
         base_slots.append((name, item, place, day, lag))
         gate_feats = {
-            "surprise": 1.2 + rng.random() * 0.3,
-            "novelty": 0.85 + rng.random() * 0.1,
+            "surprise": 0.6 + rng.random() * 0.7,
+            "novelty": 0.55 + rng.random() * 0.35,
             "reward": bool((i % 11) == 0),
             "pin": bool((i % 17) == 0),
         }
@@ -153,8 +153,8 @@ def generate(
             else:
                 neg_day = rng.randint(0, 27)
             gate_feats = {
-                "surprise": 0.1 + rng.random() * 0.3,
-                "novelty": 0.05 + rng.random() * 0.15,
+                "surprise": 0.1 + rng.random() * 0.5,
+                "novelty": 0.05 + rng.random() * 0.35,
                 "reward": False,
                 "pin": False,
             }

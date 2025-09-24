@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from hei_nw.datasets import scenario_a
 from hei_nw.eval.harness import _apply_gate, _summarize_gate
 from hei_nw.gate import NeuromodulatedGate
 
@@ -85,3 +86,33 @@ def test_tau_moves_write_rate() -> None:
     }
     assert fallback_written_groups == set(fallback_group_ids)
     assert fallback_rate > strict_rate
+
+
+def test_scenario_a_tau_sensitivity() -> None:
+    records = scenario_a.generate(n=64, seed=7)
+
+    permissive_gate = NeuromodulatedGate(threshold=0.8)
+    strict_gate = NeuromodulatedGate(threshold=1.6)
+
+    _, permissive_diags, _ = _apply_gate(
+        records,
+        permissive_gate,
+        use_for_writes=True,
+        debug_keep_labels=False,
+        allow_label_fallback=False,
+    )
+    permissive_summary = _summarize_gate(permissive_diags)
+    permissive_rate = float(permissive_summary["write_rate_per_1k_records"])
+
+    _, strict_diags, _ = _apply_gate(
+        records,
+        strict_gate,
+        use_for_writes=True,
+        debug_keep_labels=False,
+        allow_label_fallback=False,
+    )
+    strict_summary = _summarize_gate(strict_diags)
+    strict_rate = float(strict_summary["write_rate_per_1k_records"])
+
+    assert permissive_rate > strict_rate
+    assert strict_rate > 0.0
