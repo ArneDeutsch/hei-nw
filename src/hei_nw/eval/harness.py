@@ -7,7 +7,7 @@ import hashlib
 import json
 import sys
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from typing import Any, TypeAlias, cast
 
@@ -1244,6 +1244,12 @@ def _evaluate_mode_b1(
     qa_settings = _resolve_qa_settings(qa)
     hopfield_settings = hopfield or HopfieldSettings()
     dev_settings = dev or DevIsolationSettings()
+    if dev_settings.oracle_trace and not qa_settings.memory_dependent_baseline:
+        qa_settings = replace(
+            qa_settings,
+            memory_dependent_baseline=True,
+            omit_episode=True,
+        )
     adapter = build_default_adapter(cast(PreTrainedModel, model), scale=adapter_scale)
     gate_module = gate or NeuromodulatedGate()
     indexed_records, gate_diagnostics, gate_decisions = _apply_gate(
@@ -1436,7 +1442,9 @@ def _evaluate_mode_b1(
         if preview_tokens is None and mem_tokens:
             preview_tokens = _decode_mem_preview(service.tokenizer, mem_tokens[:8])
         mem_text: str | None = None
-        if qa_settings.memory_dependent_baseline and mem_tokens and selected_traces:
+        if mem_tokens and selected_traces and (
+            qa_settings.memory_dependent_baseline or dev_settings.oracle_trace
+        ):
             snippets: list[str] = []
             for trace in selected_traces:
                 episode_text = str(trace.get("episode_text", "")).strip()
