@@ -1,16 +1,11 @@
 from __future__ import annotations
 
-import importlib.util
 import json
 from pathlib import Path
 
 import pytest
 
-SCRIPT_PATH = Path(__file__).resolve().parents[2] / "scripts" / "gate_non_empty_predictions.py"
-_spec = importlib.util.spec_from_file_location("gate_non_empty_predictions", SCRIPT_PATH)
-module = importlib.util.module_from_spec(_spec)
-assert _spec and _spec.loader is not None
-_spec.loader.exec_module(module)  # type: ignore[assignment]
+from hei_nw.cli import gate_non_empty_predictions as module
 
 
 @pytest.mark.parametrize(
