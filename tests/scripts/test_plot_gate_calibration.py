@@ -1,16 +1,11 @@
 from __future__ import annotations
 
-import importlib.util
 import json
 import subprocess
 import sys
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "scripts" / "plot_gate_calibration.py"
-spec = importlib.util.spec_from_file_location("plot_gate_calibration", MODULE_PATH)
-assert spec is not None and spec.loader is not None
-plot_gate_calibration = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(plot_gate_calibration)
+from hei_nw.cli import plot_gate_calibration
 
 
 def test_pins_only_render_smoke(tmp_path: Path) -> None:

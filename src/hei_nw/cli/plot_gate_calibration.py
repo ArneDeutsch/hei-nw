@@ -1,0 +1,355 @@
+from __future__ import annotations
+
+import argparse
+import json
+from collections.abc import Mapping, Sequence
+from pathlib import Path
+from typing import Any
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+from hei_nw.eval.report import gate_calibration_footer_lines
+
+__all__ = [
+    "render_plot",
+    "main",
+    "_resolve_title",
+    "_final_title",
+]
+
+
+def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Plot gate calibration curve from telemetry JSON",
+    )
+    parser.add_argument(
+        "telemetry",
+        type=Path,
+        help="Path to gate telemetry JSON produced by the evaluation harness",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("reports/m3-write-gate/gate_calibration.png"),
+        help="Destination path for the calibration PNG",
+    )
+    parser.add_argument(
+        "--metrics",
+        type=Path,
+        default=None,
+        help="Optional metrics JSON to update with the calibration plot path",
+    )
+    parser.add_argument(
+        "--title",
+        type=str,
+        default=None,
+        help="Custom plot title. Defaults to scenario/threshold metadata when available.",
+    )
+    parser.add_argument(
+        "--pins-only",
+        action="store_true",
+        help="Render the pins-only calibration slice when available.",
+    )
+    parser.add_argument(
+        "--overlay-nonpins",
+        action="store_true",
+        help="Overlay non-pinned calibration data when plotting pins-only curves.",
+    )
+    return parser.parse_args(argv)
+
+
+def _load_json(path: Path) -> dict[str, Any]:
+    data = json.loads(path.read_text(encoding="utf8"))
+    if not isinstance(data, dict):
+        raise TypeError(f"Expected {path} to contain a JSON object")
+    return data
+
+
+def _resolve_title(meta: Mapping[str, Any], explicit: str | None) -> str:
+    if explicit:
+        return explicit
+
+    scenario = meta.get("scenario")
+    threshold = meta.get("threshold")
+    n_value = meta.get("n")
+    seed_value = meta.get("seed")
+    model = meta.get("model")
+
+    def _has_value(value: Any) -> bool:
+        if value is None:
+            return False
+        if isinstance(value, str) and value == "":
+            return False
+        return True
+
+    def _format_threshold(value: Any) -> str:
+        if isinstance(value, int | float):
+            if isinstance(value, float):
+                return f"{value:.2f}"
+            return str(value)
+        try:
+            float_value = float(value)
+        except (TypeError, ValueError):
+            return str(value)
+        return f"{float_value:.2f}"
+
+    def _format_int_like(value: Any) -> str:
+        if isinstance(value, bool):
+            return str(value)
+        if isinstance(value, int | float) and float(value).is_integer():
+            return str(int(float(value)))
+        if isinstance(value, str):
+            try:
+                return str(int(value))
+            except ValueError:
+                return value
+        return str(value)
+
+    if (
+        _has_value(scenario)
+        and _has_value(threshold)
+        and _has_value(n_value)
+        and _has_value(seed_value)
+        and _has_value(model)
+    ):
+        scenario_text = str(scenario)
+        threshold_text = _format_threshold(threshold)
+        n_text = _format_int_like(n_value)
+        seed_text = _format_int_like(seed_value)
+        model_text = str(model)
+        return (
+            f"{scenario_text} — τ={threshold_text} — n={n_text}, "
+            f"seed={seed_text}, model={model_text}"
+        )
+
+    if _has_value(scenario) and _has_value(threshold):
+        scenario_text = str(scenario)
+        threshold_text = _format_threshold(threshold)
+        return f"Scenario {scenario_text} — τ={threshold_text}"
+
+    if _has_value(scenario):
+        return f"Scenario {scenario}"
+
+    return "Gate calibration"
+
+
+def _final_title(meta: Mapping[str, Any], explicit: str | None, pins_only: bool) -> str:
+    """Return the rendered plot title, annotating pins-only slices."""
+
+    title = _resolve_title(meta, explicit)
+    if pins_only and explicit is None:
+        return f"{title} (pins-only)"
+    return title
+
+
+def _calibration_buckets(section: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    calibration = section.get("calibration")
+    if isinstance(calibration, Sequence):
+        return [bucket for bucket in calibration if isinstance(bucket, Mapping)]
+    return []
+
+
+def _calibration_points(
+    buckets: Sequence[Mapping[str, Any]],
+) -> tuple[list[float], list[float], list[int]]:
+    x_vals: list[float] = []
+    y_vals: list[float] = []
+    sizes: list[int] = []
+    for bucket in buckets:
+        lower = float(bucket.get("lower", 0.0))
+        upper = float(bucket.get("upper", lower))
+        mean_score = float(bucket.get("mean_score", (lower + upper) / 2.0))
+        frac_pos = float(bucket.get("fraction_positive", 0.0))
+        count = int(bucket.get("count", 0))
+        x_vals.append(mean_score)
+        y_vals.append(frac_pos)
+        sizes.append(max(count, 1))
+    return x_vals, y_vals, sizes
+
+
+def _as_float(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _format_score_value(value: Any) -> str:
+    parsed = _as_float(value)
+    if parsed is None:
+        return "—"
+    return f"{parsed:.2f}"
+
+
+def _score_annotation_lines(
+    section: Mapping[str, Any], label: str, include_histogram: bool = True
+) -> list[str]:
+    distribution = section.get("score_distribution")
+    if not isinstance(distribution, Mapping):
+        return []
+    lines: list[str] = []
+    quantiles = " / ".join(
+        _format_score_value(distribution.get(key)) for key in ("p10", "p50", "p90")
+    )
+    lines.append(f"{label} S p10/p50/p90: {quantiles}")
+    if not include_histogram:
+        return lines
+    histogram = distribution.get("histogram")
+    if not isinstance(histogram, Sequence):
+        return lines
+    total = 0
+    densest: Mapping[str, Any] | None = None
+    max_count = -1
+    for bucket in histogram:
+        if not isinstance(bucket, Mapping):
+            continue
+        count_val = bucket.get("count", 0)
+        try:
+            count = int(count_val)
+        except (TypeError, ValueError):
+            count = 0
+        if count < 0:
+            count = 0
+        total += count
+        if count > max_count:
+            densest = bucket
+            max_count = count
+    if densest is None or max_count <= 0:
+        return lines
+    lower = _as_float(densest.get("lower"))
+    upper = _as_float(densest.get("upper"))
+    if lower is None and upper is None:
+        return lines
+    if lower is None:
+        lower = upper
+    if upper is None:
+        upper = lower
+    share = (max_count / total) if total else 0.0
+    lines.append(f"{label} mode bin: {lower:.2f}–{upper:.2f} ({share:.0%} of samples)")
+    return lines
+
+
+def _annotate_score_distribution(
+    ax: Any,
+    sections: Sequence[tuple[str, Mapping[str, Any], bool]],
+    footer_lines: Sequence[str] | None = None,
+) -> None:
+    lines: list[str] = []
+    for label, section, include_hist in sections:
+        lines.extend(_score_annotation_lines(section, label, include_histogram=include_hist))
+    if footer_lines:
+        if lines:
+            lines.append("")
+        lines.extend([str(entry) for entry in footer_lines if entry])
+    if not lines:
+        return
+    ax.text(
+        0.02,
+        0.98,
+        "\n".join(lines),
+        transform=ax.transAxes,
+        fontsize=9,
+        verticalalignment="top",
+        horizontalalignment="left",
+        bbox={"boxstyle": "round,pad=0.4", "facecolor": "white", "alpha": 0.85},
+    )
+
+
+def render_plot(
+    telemetry: Mapping[str, Any],
+    out_path: Path,
+    *,
+    telemetry_path: Path | None = None,
+    metrics_path: Path | None = None,
+    title: str | None = None,
+    pins_only: bool = False,
+    overlay_nonpins: bool = False,
+) -> None:
+    if overlay_nonpins and not pins_only:
+        msg = "--overlay-nonpins requires pins_only context"
+        raise ValueError(msg)
+
+    primary_section: Mapping[str, Any] = telemetry
+    primary_label = "Gate"
+    if pins_only:
+        pins_section = telemetry.get("pins_only")
+        if not isinstance(pins_section, Mapping):
+            raise ValueError("Telemetry JSON does not contain pins_only metrics")
+        primary_section = pins_section
+        primary_label = "Pins"
+    buckets = _calibration_buckets(primary_section)
+    if not buckets:
+        raise ValueError("Telemetry JSON does not contain calibration buckets")
+
+    x_vals, y_vals, sizes = _calibration_points(buckets)
+
+    fig, ax = plt.subplots()
+    ax.plot([0.0, 1.0], [0.0, 1.0], linestyle="--", color="0.6", label="Ideal")
+    ax.scatter(x_vals, y_vals, s=[10 + 5 * size for size in sizes], label=primary_label)
+
+    annotation_sections: list[tuple[str, Mapping[str, Any], bool]] = [
+        (primary_label, primary_section, True)
+    ]
+
+    if pins_only and overlay_nonpins:
+        non_pins_section = telemetry.get("non_pins")
+        if isinstance(non_pins_section, Mapping):
+            annotation_sections.append(("Non-pins", non_pins_section, False))
+            overlay_buckets = _calibration_buckets(non_pins_section)
+            if overlay_buckets:
+                overlay_x, overlay_y, overlay_sizes = _calibration_points(overlay_buckets)
+                ax.scatter(
+                    overlay_x,
+                    overlay_y,
+                    s=[10 + 5 * size for size in overlay_sizes],
+                    marker="s",
+                    label="Non-pins",
+                )
+
+    ax.set_xlim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.0)
+    ax.set_xlabel("Mean gate score")
+    ax.set_ylabel("Fraction positive")
+    ax.set_title(_final_title(telemetry, title, pins_only))
+    ax.legend(loc="lower right")
+    footer_lines = gate_calibration_footer_lines(primary_section)
+    _annotate_score_distribution(ax, annotation_sections, footer_lines=footer_lines)
+    fig.tight_layout()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path)
+    plt.close(fig)
+
+    if metrics_path is not None:
+        metrics = _load_json(metrics_path)
+        gate_section = metrics.setdefault("gate", {})
+        if isinstance(gate_section, dict):
+            gate_section["calibration_plot"] = str(out_path)
+            if telemetry_path is not None:
+                gate_section.setdefault("telemetry_path", str(telemetry_path))
+            metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf8")
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = _parse_args(argv)
+    telemetry_path: Path = args.telemetry
+    telemetry = _load_json(telemetry_path)
+    try:
+        render_plot(
+            telemetry,
+            args.out,
+            telemetry_path=telemetry_path,
+            metrics_path=args.metrics,
+            title=args.title,
+            pins_only=args.pins_only,
+            overlay_nonpins=args.overlay_nonpins,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
