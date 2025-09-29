@@ -9,3 +9,6 @@
 - Use the built-in dummy model `hei-nw/dummy-model` for fast unit tests; real
   evaluation runs must rely on the default Qwen/Qwen2.5-1.5B-Instruct
   checkpoint which is already downloaded locally.
+- Avoid short-term, dataset-specific workarounds. Implement the algorithm as
+  specified in the design documents and surface gaps through planning rather
+  than hacking around them.

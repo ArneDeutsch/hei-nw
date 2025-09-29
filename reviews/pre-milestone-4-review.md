@@ -404,30 +404,35 @@ ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh  # allowed for dev
 PYTHONPATH=src scripts/run_m3_gate_calibration.sh --scenario A --n 512 \
   --threshold-sweep "0.8 1.0 1.2 1.4 1.6" --out reports/m3-calibration-sweep
 
-# Acceptance (label-driven writes)
-PYTHONPATH=src ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh
+# Acceptance (label writes)
+PYTHONPATH=src scripts/run_m2_acceptance.sh
+
+# Acceptance (gate writes, τ = 1.0)
+PYTHONPATH=src USE_GATE_WRITES=1 GATE_THRESHOLD=1.0 scripts/run_m2_acceptance.sh
+
+# Example large-sample run
+PYTHONPATH=src USE_GATE_WRITES=1 GATE_THRESHOLD=1.0 python -m hei_nw.eval.harness \
+  --mode B1 --scenario A -n 256 --seed 21 ...
 ```
 
 **Outcomes.**
 
 - **Gate sweep:** write-rate monotone in τ → {0.8: 2.50, 1.0: 1.18, 1.2: 0.82, 1.4: 0.55, 1.6: 0.26 writes/1k tokens}. Telemetry/plots archived at `/tmp/m3-calibration-sweep.tar.gz` (seed 13, n = 512).
-- **Acceptance (label writes):** `ΔEM = +0.542` with 95 % CI `[0.396, 0.688]`; `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
-- **Acceptance (gate writes, τ=1.0):** `ΔEM = +0.417` with 95 % CI `[0.271, 0.562]`; `P@1 = 0.583`, `MRR = 0.722` (`reports/m2-acceptance-summary-gate-writes.md`).
-- **Large-sample check (n = 256, seed 21):** see `reports/m2-large/summary.md`. Scenario A retains modest uplift under τ=1.0 writes (`EM ≈ 0.21`, `P@1 ≈ 0.23`). Scenarios B/C expose high collision rates (P@1 ≈ 0.02–0.05) with the current hashed-key heuristic.
+- **Acceptance (label writes):** `ΔEM = +0.396` with 95 % CI `[0.271, 0.521]`; `P@1 = 0.646`, `MRR = 0.767`.
+- **Acceptance (gate writes, τ = 1.0):** `ΔEM = +0.333` with 95 % CI `[0.188, 0.458]`; `P@1 = 0.604`, `MRR = 0.717` (`reports/m2-acceptance-summary-gate-writes.md`).
+- **Large-sample check (n = 256, seed 21):** `reports/m2-large/summary.md` — Scenario A yields `EM ≈ 0.121`, `P@1 ≈ 0.105`, write-rate ≈ 0.44/1k tokens; Scenarios B/C remain near-random (`P@1 ≈ 0.02–0.035`).
 - **Oracle probe:** EM = 1.000 (normalization fix verified).
-- **Hopfield ablation:** still neutral (no change with/without Hopfield under the hashed-key flow).
+- **Hopfield ablation:** neutral (no change with/without Hopfield under the hashed-key flow).
 
 **Implementation notes.**
 
-- `_normalize_prediction(..., single_token=True)` keeps oracle EM at 1.0; regression tests cover hint/no-hint flows.
-- `RecallService.build(... use_raw_hash=True)` now covers scenario B by emitting `episode_text/cues/answers`, but hashed embeddings still collide at scale — large-sample runs highlight the gap.
-- All acceptance scripts honour `GATE_THRESHOLD` (default 1.5); we locked τ=1.0 for gate-driven runs in this cycle.
-- Summaries:
-  * `reports/m2-acceptance-summary-gate-writes.md` — gate-on acceptance snapshot.
-  * `reports/m2-large/summary.md` — Scenario A/B/C (n = 256) retrieval diagnostics.
+- Scenario B records now include episodic scaffolding (`episode_text`, cues, answers, `company`, `group_id`) so they flow through the shared recall stack.
+- Hashed embeddings absorb cues, answers, and structured slot values; queries inject derived tokens (`company:…`, `server:…`) and heuristics boost structural matches.
+- All acceptance wrappers honour `GATE_THRESHOLD`; τ = 1.0 is the current gate-on setting.
+- Summaries: `reports/m2-acceptance-summary.md`, `reports/m2-acceptance-summary-gate-writes.md`, and `reports/m2-large/summary.md`.
 
 **Next steps.**
 
-- Maintain τ=1.0 for production-like runs; revisit if future sweeps with updated gating features shift the sweet spot.
-- Reduce hashed-key collisions for Scenario B/C (e.g., richer slot features, learned projections, or scenario-specific rerankers) before repeating the n≥200 evaluation with gate writes.
-- Once retrieval stabilises across scenarios, promote the hashed embedding path (design spec §5.3) and add CI coverage for the new rerank logic.
+- Reduce hashed-key collisions before repeating large-n gate evaluations (e.g., composite tokens such as `what@where`, learned projections, scenario-specific rerankers).
+- Revisit τ after improving key quality; the sweep suggests ≈1.0, but recovering ≥0.5 P@1 on Scenario A may require a higher write budget.
+- Once retrieval stabilises across scenarios, rerun the large-n acceptance with gate writes ON and codify the hashed-key path (design spec §5.3) with CI coverage.
