@@ -17,6 +17,7 @@ default_args=(
   --qa.max_new_tokens 16
   --qa.stop ''
   --qa.template_policy plain
+  --gate.threshold "${GATE_THRESHOLD:-1.5}"
 )
 
 python -m hei_nw.eval.harness --mode B0 --scenario A -n "$N" --seed "$SEED" \

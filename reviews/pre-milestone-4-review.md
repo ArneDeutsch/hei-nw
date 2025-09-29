@@ -410,21 +410,24 @@ PYTHONPATH=src ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh
 
 **Outcomes.**
 
-- **Gate sweep:** write-rate monotone in τ → {0.8: 2.50, 1.0: 1.18, 1.2: 0.82, 1.4: 0.55, 1.6: 0.26 writes/1k tokens}. Telemetry/plots packaged at `/tmp/m3-calibration-sweep.tar.gz`.
-- **Uplift:** `ΔEM = +0.542` with 95 % CI `[0.396, 0.688]` (Scenario A small set).
-- **Retrieval:** `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
-- **Oracle probe:** EM = 1.000 (output normalization fix verified).
-- **Hopfield ablation:** still neutral (`P@1 = 0.312` with/without) — acceptable while we rely on hashed ANN + rerank, but keep monitoring if we switch back to DG-only keys.
+- **Gate sweep:** write-rate monotone in τ → {0.8: 2.50, 1.0: 1.18, 1.2: 0.82, 1.4: 0.55, 1.6: 0.26 writes/1k tokens}. Telemetry/plots archived at `/tmp/m3-calibration-sweep.tar.gz` (seed 13, n = 512).
+- **Acceptance (label writes):** `ΔEM = +0.542` with 95 % CI `[0.396, 0.688]`; `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
+- **Acceptance (gate writes, τ=1.0):** `ΔEM = +0.417` with 95 % CI `[0.271, 0.562]`; `P@1 = 0.583`, `MRR = 0.722` (`reports/m2-acceptance-summary-gate-writes.md`).
+- **Large-sample check (n = 256, seed 21):** see `reports/m2-large/summary.md`. Scenario A retains modest uplift under τ=1.0 writes (`EM ≈ 0.21`, `P@1 ≈ 0.23`). Scenarios B/C expose high collision rates (P@1 ≈ 0.02–0.05) with the current hashed-key heuristic.
+- **Oracle probe:** EM = 1.000 (normalization fix verified).
+- **Hopfield ablation:** still neutral (no change with/without Hopfield under the hashed-key flow).
 
 **Implementation notes.**
 
-- `_normalize_prediction(..., single_token=True)` handles answer-hint runs; regression tests cover both hint/no-hint cases.
-- `RecallService.build(... use_raw_hash=True)` indexes hashed episode embeddings; the store adds a lightweight answer-heuristic rerank to pick the right “who” when contexts collide.
-- Acceptance scripts still honour `USE_GATE_WRITES=1`; gate-driven writes can be re-enabled once τ-calibration meets spec in scenario-specific sweeps.
-- Quick recap recorded in `reports/m2-acceptance-summary.md` for future ledger entries.
+- `_normalize_prediction(..., single_token=True)` keeps oracle EM at 1.0; regression tests cover hint/no-hint flows.
+- `RecallService.build(... use_raw_hash=True)` now covers scenario B by emitting `episode_text/cues/answers`, but hashed embeddings still collide at scale — large-sample runs highlight the gap.
+- All acceptance scripts honour `GATE_THRESHOLD` (default 1.5); we locked τ=1.0 for gate-driven runs in this cycle.
+- Summaries:
+  * `reports/m2-acceptance-summary-gate-writes.md` — gate-on acceptance snapshot.
+  * `reports/m2-large/summary.md` — Scenario A/B/C (n = 256) retrieval diagnostics.
 
 **Next steps.**
 
-- Re-run acceptance with `USE_GATE_WRITES=1` after selecting τ from the sweep (e.g., τ≈1.0 for ~1.2 writes/1k tokens) to validate end-to-end behavior of the gate.
-- Stress-test retrieval with larger Scenario A/B/C sets (n≥200) before claiming final uplift, ensuring the hashed-key heuristic generalises.
-- Consider promoting the hashed embedding path to a documented default (design spec §5.3) and adding CI coverage for the new rerank logic.
+- Maintain τ=1.0 for production-like runs; revisit if future sweeps with updated gating features shift the sweet spot.
+- Reduce hashed-key collisions for Scenario B/C (e.g., richer slot features, learned projections, or scenario-specific rerankers) before repeating the n≥200 evaluation with gate writes.
+- Once retrieval stabilises across scenarios, promote the hashed embedding path (design spec §5.3) and add CI coverage for the new rerank logic.

@@ -40,6 +40,7 @@ default_args=(
   --qa.template_policy plain
   --hopfield.steps 2
   --hopfield.temperature 0.5
+  --gate.threshold "${GATE_THRESHOLD:-1.5}"
 )
 
 gate_flag="--no-gate.use_for_writes"
