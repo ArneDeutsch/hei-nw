@@ -70,10 +70,6 @@ default_args=(
   --qa.stop ''
   --hopfield.steps 2
   --hopfield.temperature 0.5
-  --dg.k 12
-  --ann.m 32
-  --ann.ef_construction 200
-  --ann.ef_search 128
 )
 
 run_harness() {

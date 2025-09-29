@@ -62,8 +62,6 @@ def test_run_m2_retrieval_flags() -> None:
     assert "--qa.stop ''" in script_text
     assert "--hopfield.steps 2" in script_text
     assert "--hopfield.temperature 0.5" in script_text
-    assert "--dg.k 12" in script_text
-    assert "--ann.ef_search 128" in script_text
 
 
 def test_run_m2_retrieval_headroom_support() -> None:
@@ -90,8 +88,6 @@ def test_run_m2_acceptance_flags() -> None:
     assert "--qa.prompt_style chat" in script_text
     assert "Qwen/Qwen2.5-1.5B-Instruct" in script_text
     assert "Memory-dependent baseline" in script_text
-    assert "--dg.k 12" in script_text
-    assert "--ann.ef_search 128" in script_text
 
 
 def test_memory_dependent_baseline_helper_uses_flag() -> None:
