@@ -6,7 +6,7 @@ from hei_nw.eval.harness import (
     _qa_settings_from_args,
     parse_args,
 )
-from hei_nw.models.base import build_prompt, generate, load_base
+from hei_nw.models.base import DEFAULT_MEMORY_SYSTEM_PROMPT, build_prompt, generate, load_base
 from hei_nw.testing import DUMMY_MODEL_ID
 
 
@@ -108,6 +108,7 @@ def test_scenario_a_defaults_apply(monkeypatch, tmp_path) -> None:
     assert qa_settings.stop_mode == "none"
     assert qa_settings.omit_episode is True
     assert qa_settings.memory_dependent_baseline is True
+    assert qa_settings.memory_system_prompt is None
 
     records = [
         {
@@ -225,6 +226,7 @@ def test_b0_b1_default_prompts_are_cue_only(tmp_path) -> None:
         ]
     )
     b1_settings = _qa_settings_from_args(b1_args)
+    assert b1_settings.memory_system_prompt == DEFAULT_MEMORY_SYSTEM_PROMPT
     b1_prompt, _ = _build_prompt(
         records[0],
         prompt_style=b1_settings.prompt_style,
