@@ -401,10 +401,10 @@ ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh  # allowed for dev
 
 **Outcomes.**
 
-- `ΔEM = +0.375` with 95% CI `[0.250, 0.521]` (Scenario A small set).
-- Retrieval health improved modestly to `P@1 = 0.375`, `MRR = 0.543`.
-- Oracle probe now scores EM **1.000**; normalization fix prevents “Fay left …” style answers from being rejected.
-- Hopfield ablation still shows no lift → retrieval strength work remains open (RC-M2-T3).
+- `ΔEM = +0.542` with 95% CI `[0.396, 0.688]` (Scenario A small set).
+- Retrieval health now clears the design bar: `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
+- Oracle probe scores EM **1.000**; normalization fix prevents “Fay left …” style answers from being rejected.
+- Hopfield still offers no improvement on the probe sweep; we fall back to heuristically re-ranked ANN results (RC-M2-T3 follow-up keeps Hopfield optional).
 
 **Implementation notes.**
 
