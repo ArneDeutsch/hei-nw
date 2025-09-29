@@ -66,6 +66,8 @@ Below is a *do-once* milestone plan that implements HEI-NW, integrates it with a
 * Add retrieval metrics: P\@k/MRR, collision & near-miss rate, completion lift.&#x20;
 * Build a **schema-agnostic feature pipeline** for episodic keys (text + structured slots) instead of dataset-specific heuristics; demonstrate it on scenarios A–C.&#x20;
 
+> **Status (2025-09):** M2 remains open pending the schema-agnostic retrieval hardening detailed in `planning/milestone-2b-plan.md`. Treat that document as the active execution plan for closing this milestone.
+
 **Verification**
 
 * Scenario **A** (partial-cue): run **B0 vs. B1** immediately after a single exposure (manually write traces for now) and confirm large lift. Expect **B1 ≫ B0**.&#x20;
