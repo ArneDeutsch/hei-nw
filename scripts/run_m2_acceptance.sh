@@ -72,12 +72,17 @@ default_args=(
   --hopfield.temperature 0.5
 )
 
+gate_flag="--no-gate.use_for_writes"
+if [[ "${USE_GATE_WRITES:-0}" -ne 0 ]]; then
+  gate_flag="--gate.use_for_writes"
+fi
+
 run_harness() {
   local mode="$1"
   shift
   python -m hei_nw.eval.harness --mode "$mode" --scenario A -n "$N" --seed "$SEED" \
     --model "$MODEL" --outdir "$RETR_OUT" \
-    "${default_args[@]}" "$@"
+    "$gate_flag" "${default_args[@]}" "$@"
 }
 
 b1_template=(--qa.template_policy plain)

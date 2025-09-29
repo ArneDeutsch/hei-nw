@@ -42,6 +42,11 @@ default_args=(
   --hopfield.temperature 0.5
 )
 
+gate_flag="--no-gate.use_for_writes"
+if [[ "${USE_GATE_WRITES:-0}" -ne 0 ]]; then
+  gate_flag="--gate.use_for_writes"
+fi
+
 append_summary() {
   local probe="$1"
   local variant="$2"
@@ -98,7 +103,7 @@ run_probe() {
   echo "[m2-probes] Running $probe_id (outdir: $outdir)"
   python -m hei_nw.eval.harness --mode B1 --scenario A -n "$N" --seed "$SEED" \
     --model "$MODEL" --outdir "$outdir" \
-    "${default_args[@]}" "$@"
+    "$gate_flag" "${default_args[@]}" "$@"
 }
 
 run_e0() {

@@ -390,3 +390,29 @@ ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh  # allowed for dev
 * **R1: Label distribution still degenerate** → Add **adversarial negatives** in Scenario A; assert mixed labels in tests.
 * **R2: Model prompt drift (chat templates)** → Keep `template_policy=auto` with system memory hint; fall back to plain prompt in tests.
 * **R3: Retrieval knobs regress latency** → Track `adapter_latency_overhead_s` and ANN `efSearch` in reports; cap efSearch in CI mini runs.
+
+---
+
+## Appendix — Post-Fix Acceptance Snapshot (2025-09-25)
+
+**Context.** Follow-up run after implementing the single-token normalization fix and defaulting acceptance scripts to label-driven writes (`USE_GATE_WRITES=0`). See `reports/m2-acceptance/retrieval/A_B1_report.md` (seed 7, n=48) for raw metrics.
+
+**Command.** `PYTHONPATH=src ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh`
+
+**Outcomes.**
+
+- `ΔEM = +0.542` with 95% CI `[0.396, 0.688]` (Scenario A small set).
+- Retrieval health now clears the design bar: `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
+- Oracle probe scores EM **1.000**; normalization fix prevents “Fay left …” style answers from being rejected.
+- Hopfield still offers no improvement on the probe sweep; we fall back to heuristically re-ranked ANN results (RC-M2-T3 follow-up keeps Hopfield optional).
+
+**Implementation notes.**
+
+- `_normalize_prediction(..., single_token=True)` strips boilerplate tokens when the answer-hint is active (`src/hei_nw/eval/harness.py`).
+- New unit tests cover both normalization modes (`tests/test_harness_dev_flags.py`).
+- Acceptance scripts and isolation probes accept `USE_GATE_WRITES=1` to re-enable gate-driven writes once telemetry is trustworthy.
+
+**Next steps.**
+
+- Restore τ-sweeps and gate-driven writes after verifying calibration (RC-M3-T1/T3).
+- Tune retrieval knobs (DG `k`, HNSW `ef_search`, cue embeddings) toward the design target `P@1 ≥ 0.6` before claiming final acceptance.

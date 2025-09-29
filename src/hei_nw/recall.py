@@ -48,6 +48,8 @@ class RecallService:
         ann_m: int = 32,
         ann_ef_construction: int = 200,
         ann_ef_search: int = 64,
+        embed_dim: int = 256,
+        use_raw_hash: bool = True,
     ) -> RecallService:
         """Construct a :class:`RecallService` from raw records.
 
@@ -83,6 +85,8 @@ class RecallService:
             ann_m=ann_m,
             ann_ef_construction=ann_ef_construction,
             ann_ef_search=ann_ef_search,
+            embed_dim=embed_dim,
+            use_raw_hash=use_raw_hash,
         )
         return cls(store, tokenizer, max_mem_tokens, return_m)
 

@@ -584,6 +584,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--store.embed_dim",
+        dest="store_embed_dim",
+        type=_positive_int,
+        default=256,
+        help=(
+            "Dimensionality of hashed episode embeddings used for ANN keys. "
+            "Higher values reduce hash collisions at the cost of memory."
+        ),
+    )
+    parser.add_argument(
         "--adapter.scale",
         dest="adapter_scale",
         type=float,
@@ -815,12 +825,44 @@ class EvalItem:
         object.__setattr__(self, "em", self.em_relaxed)
 
 
-def _normalize_prediction(text: str) -> str:
-    """Strip leading markers so the first token starts alphabetically when possible."""
+_ANSWER_HINT_STOPWORDS = {
+    "correct",
+    "answer",
+    "answers",
+    "respond",
+    "response",
+    "with",
+    "only",
+    "single",
+    "word",
+    "name",
+    "the",
+    "please",
+    "assistant",
+    "on",
+}
 
-    tokens = text.split()
-    if not tokens:
-        return text
+
+def _normalize_prediction(text: str, *, single_token: bool = False) -> str:
+    """Return a normalized prediction string for scoring."""
+
+    stripped = text.strip()
+    if not stripped:
+        return stripped
+    if single_token:
+        for raw in stripped.split():
+            cleaned = raw.strip("\n\r\t-:•,.!?\"'()[]{}")
+            if not cleaned:
+                continue
+            lower = cleaned.lower()
+            if lower in _ANSWER_HINT_STOPWORDS:
+                continue
+            if not cleaned[0].isalpha():
+                continue
+            return cleaned
+        return stripped
+
+    tokens = stripped.split()
     idx = 0
     while idx < len(tokens):
         raw = tokens[idx]
@@ -832,7 +874,7 @@ def _normalize_prediction(text: str) -> str:
             tokens[idx] = token
             return " ".join(tokens[idx:])
         idx += 1
-    return text
+    return stripped
 
 
 def _evaluate_records(
@@ -871,7 +913,7 @@ def _evaluate_records(
                 memory_system_prompt=qa.memory_system_prompt,
             )
         raw_pred = str(out["text"]).strip()
-        pred = _normalize_prediction(raw_pred)
+        pred = _normalize_prediction(raw_pred, single_token=qa.answer_hint)
         em_rel = relaxed_em(pred, truth)
         em_str = strict_em(pred, truth)
         f1 = token_f1(pred, truth)
@@ -1269,6 +1311,7 @@ def _evaluate_mode_b1(
     ann_m: int = 32,
     ann_ef_construction: int = 200,
     ann_ef_search: int = 64,
+    store_embed_dim: int = 256,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -1304,6 +1347,7 @@ def _evaluate_mode_b1(
         ann_m=ann_m,
         ann_ef_construction=ann_ef_construction,
         ann_ef_search=ann_ef_search,
+        embed_dim=store_embed_dim,
     )
     if dev_settings.retrieval_only:
         b0_items: list[EvalItem] = []
@@ -1671,6 +1715,7 @@ def _evaluate_mode_b1(
         "eviction_runs": eviction_runs if store_evict_enabled else 0,
         "eviction_interval": eviction_interval if store_evict_enabled else None,
         "evict_stale_enabled": store_evict_enabled,
+        "embed_dim": store_embed_dim,
     }
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
@@ -1760,6 +1805,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["ann_m"] = args.ann_m
             handler_kwargs["ann_ef_construction"] = args.ann_ef_construction
             handler_kwargs["ann_ef_search"] = args.ann_ef_search
+            handler_kwargs["store_embed_dim"] = args.store_embed_dim
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1826,6 +1872,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "store": {
             "evict_stale": args.store_evict_stale,
             "evict_interval": args.store_evict_interval,
+            "embed_dim": args.store_embed_dim,
         },
     }
 
