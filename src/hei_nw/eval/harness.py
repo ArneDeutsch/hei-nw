@@ -39,6 +39,7 @@ from hei_nw.metrics import (
     time_block,
     token_f1,
 )
+from hei_nw.models.base import DEFAULT_MEMORY_SYSTEM_PROMPT
 from hei_nw.pack import pack_trace, truncate_memory_tokens
 from hei_nw.recall import RecallService
 from hei_nw.store import TraceWriter
@@ -87,6 +88,7 @@ class QAPromptSettings:
     stop_mode: str = "substring"
     omit_episode: bool = False
     memory_dependent_baseline: bool = False
+    memory_system_prompt: str | None = None
 
     def stop_value(self) -> str | None:
         """Return ``stop`` with empty strings normalized to ``None``."""
@@ -493,6 +495,27 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         help="Number of non-zero components retained by the DG keyer.",
     )
     parser.add_argument(
+        "--ann.m",
+        dest="ann_m",
+        type=_positive_int,
+        default=32,
+        help="Degree parameter for the HNSW ANN index.",
+    )
+    parser.add_argument(
+        "--ann.ef_construction",
+        dest="ann_ef_construction",
+        type=_positive_int,
+        default=200,
+        help="Construction breadth for the HNSW ANN index.",
+    )
+    parser.add_argument(
+        "--ann.ef_search",
+        dest="ann_ef_search",
+        type=_positive_int,
+        default=64,
+        help="Search breadth for the HNSW ANN index.",
+    )
+    parser.add_argument(
         "--qa.prompt_style",
         dest="qa_prompt_style",
         choices=["plain", "chat"],
@@ -845,6 +868,7 @@ def _evaluate_records(
                 prompt_style=qa.prompt_style,
                 stop_mode=qa.stop_mode,
                 template_policy=qa.template_policy,
+                memory_system_prompt=qa.memory_system_prompt,
             )
         raw_pred = str(out["text"]).strip()
         pred = _normalize_prediction(raw_pred)
@@ -1142,6 +1166,13 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
     else:
         omit_episode = defaults.omit_episode
     memory_dependent_baseline = args.qa_memory_dependent_baseline or forced_memory_baseline
+    memory_system_prompt: str | None = None
+    if args.mode == "B1":
+        if args.qa_prompt_style is None:
+            prompt_style = "chat"
+        if args.qa_answer_hint is None:
+            answer_hint = True
+        memory_system_prompt = DEFAULT_MEMORY_SYSTEM_PROMPT
     return QAPromptSettings(
         prompt_style=prompt_style,
         max_new_tokens=max_new_tokens,
@@ -1151,6 +1182,7 @@ def _qa_settings_from_args(args: argparse.Namespace) -> QAPromptSettings:
         stop_mode=stop_mode,
         omit_episode=omit_episode,
         memory_dependent_baseline=memory_dependent_baseline,
+        memory_system_prompt=memory_system_prompt,
     )
 
 
@@ -1234,6 +1266,9 @@ def _evaluate_mode_b1(
     gate_allow_label_fallback: bool = True,
     store_evict_stale: bool = False,
     store_evict_interval: int = 32,
+    ann_m: int = 32,
+    ann_ef_construction: int = 200,
+    ann_ef_search: int = 64,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -1266,6 +1301,9 @@ def _evaluate_mode_b1(
         hopfield_steps=hopfield_settings.steps,
         hopfield_temperature=hopfield_settings.temperature,
         keyer=dg_keyer,
+        ann_m=ann_m,
+        ann_ef_construction=ann_ef_construction,
+        ann_ef_search=ann_ef_search,
     )
     if dev_settings.retrieval_only:
         b0_items: list[EvalItem] = []
@@ -1481,6 +1519,7 @@ def _evaluate_mode_b1(
                 prompt_style=qa_settings.prompt_style,
                 stop_mode=qa_settings.stop_mode,
                 template_policy=qa_settings.template_policy,
+                memory_system_prompt=qa_settings.memory_system_prompt,
             )
             ptoks = int(out.get("prompt_tokens", 0))
             gtoks = int(out.get("generated_tokens", 0))
@@ -1718,6 +1757,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["gate_allow_label_fallback"] = args.gate_allow_label_fallback
             handler_kwargs["store_evict_stale"] = args.store_evict_stale
             handler_kwargs["store_evict_interval"] = args.store_evict_interval
+            handler_kwargs["ann_m"] = args.ann_m
+            handler_kwargs["ann_ef_construction"] = args.ann_ef_construction
+            handler_kwargs["ann_ef_search"] = args.ann_ef_search
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,

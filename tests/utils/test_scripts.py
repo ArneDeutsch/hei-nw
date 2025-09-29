@@ -208,14 +208,17 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
     eval_root = package_root / "eval"
     eval_root.mkdir(parents=True)
 
-    (package_root / "__init__.py").write_text(
-        "from pkgutil import extend_path\n__path__ = extend_path(__path__, __name__)\n",
-        encoding="utf8",
+    namespace_pkg = (
+        "import pkgutil\n"
+        "import pathlib\n"
+        "_STUB = pathlib.Path(__file__).resolve().parent\n"
+        "__path__ = [str(_STUB)] + [p for p in __path__ if p != str(_STUB)]\n"
+        "for _extra in pkgutil.extend_path(__path__, __name__):\n"
+        "    if _extra not in __path__:\n"
+        "        __path__.append(_extra)\n"
     )
-    (eval_root / "__init__.py").write_text(
-        "from pkgutil import extend_path\n__path__ = extend_path(__path__, __name__)\n",
-        encoding="utf8",
-    )
+    (package_root / "__init__.py").write_text(namespace_pkg, encoding="utf8")
+    (eval_root / "__init__.py").write_text(namespace_pkg, encoding="utf8")
 
     harness_code = textwrap.dedent(
         """
@@ -303,7 +306,7 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
     env = os.environ.copy()
     env["PYTHONPATH"] = f"{tmp_path}:{Path('src').resolve()}"
     env["OUT"] = str(out_dir)
-    env["MODEL"] = "Test/Model@1"
+    env["MODEL"] = "hei-nw/dummy-model"
 
     script = Path("scripts/run_m3_gate_calibration.sh")
     result = subprocess.run(
@@ -328,7 +331,7 @@ def test_telemetry_includes_provenance(tmp_path: Path) -> None:
     telemetry_path = out_dir / "A_gate_telemetry.json"
     assert telemetry_path.exists()
     telemetry = json.loads(telemetry_path.read_text(encoding="utf8"))
-    assert telemetry["model"] == "Test/Model@1"
+    assert telemetry["model"] == "hei-nw/dummy-model"
     assert telemetry["n"] == 10
     assert telemetry["seed"] == 23
 
@@ -341,20 +344,32 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     harness_pkg = stub_root / "hei_nw" / "eval"
     harness_pkg.mkdir(parents=True, exist_ok=True)
     real_src = Path("src").resolve()
-    (stub_root / "hei_nw/__init__.py").write_text(
-        "import sys\n\n"
+    namespace_with_real = (
+        "import pkgutil\n"
+        "import pathlib\n"
+        "_STUB = pathlib.Path(__file__).resolve().parent\n"
+        "__path__ = [str(_STUB)] + [p for p in __path__ if p != str(_STUB)]\n"
         f"_REAL_PKG = {str(real_src / 'hei_nw')!r}\n"
         "if _REAL_PKG not in __path__:\n"
-        "    __path__.append(_REAL_PKG)\n",
-        encoding="utf8",
+        "    __path__.append(_REAL_PKG)\n"
+        "for _extra in pkgutil.extend_path(__path__, __name__):\n"
+        "    if _extra not in __path__:\n"
+        "        __path__.append(_extra)\n"
     )
-    (harness_pkg / "__init__.py").write_text(
-        "import sys\n\n"
+    namespace_eval_with_real = (
+        "import pkgutil\n"
+        "import pathlib\n"
+        "_STUB = pathlib.Path(__file__).resolve().parent\n"
+        "__path__ = [str(_STUB)] + [p for p in __path__ if p != str(_STUB)]\n"
         f"_REAL_PKG = {str(real_src / 'hei_nw' / 'eval')!r}\n"
         "if _REAL_PKG not in __path__:\n"
-        "    __path__.append(_REAL_PKG)\n",
-        encoding="utf8",
+        "    __path__.append(_REAL_PKG)\n"
+        "for _extra in pkgutil.extend_path(__path__, __name__):\n"
+        "    if _extra not in __path__:\n"
+        "        __path__.append(_extra)\n"
     )
+    (stub_root / "hei_nw/__init__.py").write_text(namespace_with_real, encoding="utf8")
+    (harness_pkg / "__init__.py").write_text(namespace_eval_with_real, encoding="utf8")
     harness_code = textwrap.dedent(
         """
         import argparse
@@ -537,8 +552,8 @@ def test_threshold_sweep_creates_subdirs(tmp_path: Path) -> None:
     ]
     assert len(tsv_lines) == 3
     first_data = tsv_lines[1].split("\t")
-    assert first_data[2] == "2"
-    assert first_data[3] == "0.2"
+    assert first_data[2] == "4"
+    assert first_data[3] == "0.5"
 
     index_text = index_md.read_text(encoding="utf8")
     assert "tau_0.9" in index_text

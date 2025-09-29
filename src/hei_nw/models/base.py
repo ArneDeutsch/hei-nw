@@ -147,14 +147,23 @@ def _truncate_at_stop(text: str, stop: str | None) -> tuple[str, bool]:
     return text[:index], True
 
 
+DEFAULT_MEMORY_SYSTEM_PROMPT = (
+    "Use the provided Memory snippets when answering. Prefer them over prior text."
+)
+
+
 def build_prompt(
     tokenizer: PreTrainedTokenizerBase,
     prompt_or_messages: PromptData,
     prompt_style: str,
     template_policy: str = "auto",
+    *,
+    memory_prompt: str | None = None,
+    memory_system_prompt: str | None = None,
 ) -> str:
     """Render *prompt_or_messages* according to *prompt_style*."""
 
+    memory_text = str(memory_prompt or "").strip()
     if prompt_style == "chat":
         normalized_policy = template_policy.lower()
         if normalized_policy not in {"auto", "plain"}:
@@ -170,6 +179,16 @@ def build_prompt(
                 }
                 for msg in prompt_or_messages
             ]
+        if memory_text:
+            system_hint = str(memory_system_prompt or DEFAULT_MEMORY_SYSTEM_PROMPT).strip()
+            if system_hint:
+                hint_message = {"role": "system", "content": system_hint}
+                if messages and messages[0].get("role") == "system" and str(
+                    messages[0].get("content", "")
+                ).strip() == system_hint:
+                    pass
+                else:
+                    messages = [hint_message, *messages]
         apply_template = getattr(tokenizer, "apply_chat_template", None)
         if normalized_policy == "auto" and callable(apply_template):
             rendered: str | list[int] | None
@@ -213,6 +232,7 @@ def generate(
     mem_tokens: list[int] | None = None,
     adapter: EpisodicAdapter | None = None,
     memory_prompt: str | None = None,
+    memory_system_prompt: str | None = None,
     prompt_style: str = "plain",
     template_policy: str = "auto",
     **kwargs: object,
@@ -245,6 +265,9 @@ def generate(
     memory_prompt:
         Optional textual rendering of episodic memory appended to the prompt
         when provided.
+    memory_system_prompt:
+        Optional instruction injected as a system message for chat prompts when
+        ``memory_prompt`` is non-empty.
     prompt_style:
         Rendering style to apply to ``prompt`` (``"plain"`` or ``"chat"``).
     template_policy:
@@ -260,7 +283,14 @@ def generate(
     if _model is None or _tokenizer is None:  # pragma: no cover - defensive
         raise RuntimeError("Base model is not loaded")
 
-    prompt_text = build_prompt(_tokenizer, prompt, prompt_style, template_policy=template_policy)
+    prompt_text = build_prompt(
+        _tokenizer,
+        prompt,
+        prompt_style,
+        template_policy=template_policy,
+        memory_prompt=memory_prompt,
+        memory_system_prompt=memory_system_prompt,
+    )
     if memory_prompt:
         memory_prompt = str(memory_prompt).strip()
         if memory_prompt:
