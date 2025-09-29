@@ -64,6 +64,7 @@ Below is a *do-once* milestone plan that implements HEI-NW, integrates it with a
 
 * Implement **DG Keyer** (k-WTA sparse key), **ANN index** (HNSW), and **modern-Hopfield completion**; wire **recall()** to return memory tokens. Defaults per spec.  &#x20;
 * Add retrieval metrics: P\@k/MRR, collision & near-miss rate, completion lift.&#x20;
+* Build a **schema-agnostic feature pipeline** for episodic keys (text + structured slots) instead of dataset-specific heuristics; demonstrate it on scenarios A–C.&#x20;
 
 **Verification**
 
@@ -75,7 +76,7 @@ Below is a *do-once* milestone plan that implements HEI-NW, integrates it with a
 
 * **Engineering acceptance:** `B1` with empty memory ≈ `B0` (±0.1 EM); oracle EM ≥ 0.8; retrieval-only EM tracks P\@1 (±5 pts); Hopfield completion lift ≥ 0; decoding sanity checks pass.&#x20;
 * **Headroom-aware uplift:** If the Headroom Gate passes (EM\_{B0} < 0.7 on the hard subset), require `B1−B0 ≥ +0.30 EM` with 95% paired bootstrap CI excluding 0. Otherwise, switch to the memory-dependent baseline and report absolute EM\_{B1}``/``oracle diagnostics instead of uplift.&#x20;
-* **Retrieval Health:** P\@k and MRR logged; near-miss and collision rates finite (non-NaN) on stress mini-set.&#x20;
+* **Retrieval Health:** P\@k and MRR logged; near-miss and collision rates finite (non-NaN) on stress mini-set.&#x20; Achieve `P@1 ≥ 0.6` on Scenario A small set *and* demonstrate ≥0.3 P@1 on Scenarios B/C (n ≥ 200) without scenario-specific hacks.
 
 * Unit/integration test: **modern‑Hopfield parameters are read‑only at inference**; updates occur only during consolidation.
 **Artifacts**

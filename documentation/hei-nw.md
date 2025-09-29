@@ -28,6 +28,8 @@
 5. **Eviction/decay.**
    Low-salience or stale entries decay (age/use TTL + diversity regularizers) so the store doesn’t bloat and retrieval stays precise.&#x20;
 
+> **2025-09 update:** The current reference implementation still relies on deterministic hashed tokens for episodic keys. It works for Scenario A but collides heavily on Scenario B/C (large-sample runs show `P@1 ≈ 0.02`). Upcoming work in M2 will replace these heuristics with schema-agnostic feature extraction / learned projections. Avoid papering over the issue with scenario-specific hacks; fix the keyer instead.
+
 ---
 
 # How a request flows
