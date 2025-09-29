@@ -206,9 +206,14 @@ def test_memory_dependent_baseline_injects_memory_prompt(monkeypatch: pytest.Mon
 
 
 def test_normalize_prediction_strips_prefix_tokens() -> None:
-    assert _normalize_prediction("Result: Fay") == "Fay"
-    assert _normalize_prediction("• bullet") == "bullet"
-    assert _normalize_prediction("Fay") == "Fay"
+    assert _normalize_prediction("Result: Fay", single_token=False) == "Fay"
+    assert _normalize_prediction("• bullet", single_token=False) == "bullet"
+    assert _normalize_prediction("Fay", single_token=False) == "Fay"
+
+
+def test_normalize_prediction_single_token_hint() -> None:
+    assert _normalize_prediction("Correct answer: Charlie", single_token=True) == "Charlie"
+    assert _normalize_prediction("On 2025-01-06, Bob left", single_token=True) == "Bob"
 
 
 def test_oracle_trace_uses_ground_truth_memory_preview(
