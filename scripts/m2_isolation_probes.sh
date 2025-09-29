@@ -40,6 +40,10 @@ default_args=(
   --qa.template_policy plain
   --hopfield.steps 2
   --hopfield.temperature 0.5
+  --dg.k 12
+  --ann.m 32
+  --ann.ef_construction 200
+  --ann.ef_search 128
 )
 
 append_summary() {
