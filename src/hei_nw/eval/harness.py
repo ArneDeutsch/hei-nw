@@ -584,6 +584,16 @@ def parse_args(args: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--store.embed_dim",
+        dest="store_embed_dim",
+        type=_positive_int,
+        default=256,
+        help=(
+            "Dimensionality of hashed episode embeddings used for ANN keys. "
+            "Higher values reduce hash collisions at the cost of memory."
+        ),
+    )
+    parser.add_argument(
         "--adapter.scale",
         dest="adapter_scale",
         type=float,
@@ -1301,6 +1311,7 @@ def _evaluate_mode_b1(
     ann_m: int = 32,
     ann_ef_construction: int = 200,
     ann_ef_search: int = 64,
+    store_embed_dim: int = 256,
 ) -> ModeResult:
     """Evaluate records in B1 mode using episodic recall."""
 
@@ -1336,6 +1347,7 @@ def _evaluate_mode_b1(
         ann_m=ann_m,
         ann_ef_construction=ann_ef_construction,
         ann_ef_search=ann_ef_search,
+        embed_dim=store_embed_dim,
     )
     if dev_settings.retrieval_only:
         b0_items: list[EvalItem] = []
@@ -1703,6 +1715,7 @@ def _evaluate_mode_b1(
         "eviction_runs": eviction_runs if store_evict_enabled else 0,
         "eviction_interval": eviction_interval if store_evict_enabled else None,
         "evict_stale_enabled": store_evict_enabled,
+        "embed_dim": store_embed_dim,
     }
     extra = {
         "adapter_latency_overhead_s": b1_latency - b0_latency,
@@ -1792,6 +1805,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             handler_kwargs["ann_m"] = args.ann_m
             handler_kwargs["ann_ef_construction"] = args.ann_ef_construction
             handler_kwargs["ann_ef_search"] = args.ann_ef_search
+            handler_kwargs["store_embed_dim"] = args.store_embed_dim
         items, compute, baseline_compute, extra = handler(
             records,
             args.baseline,
@@ -1858,6 +1872,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "store": {
             "evict_stale": args.store_evict_stale,
             "evict_interval": args.store_evict_interval,
+            "embed_dim": args.store_embed_dim,
         },
     }
 

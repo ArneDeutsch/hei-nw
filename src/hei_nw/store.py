@@ -502,6 +502,7 @@ class EpisodicStore:
         max_mem_tokens: int,
         decay_policy: DecayPolicy | None = None,
         pin_protector: PinProtector | None = None,
+        use_raw_hash: bool = True,
     ) -> None:
         """Initialise the store with precomputed components."""
 
@@ -518,6 +519,7 @@ class EpisodicStore:
         self.decay_policy = decay_policy or DecayPolicy()
         self.pin_protector = pin_protector or PinProtector()
         self._eviction_state: dict[str, TraceEvictionState] = {}
+        self._use_raw_hash = use_raw_hash
         self._bootstrap_eviction_state()
 
     @staticmethod
@@ -551,6 +553,7 @@ class EpisodicStore:
         ann_ef_search: int = 64,
         decay_policy: DecayPolicy | None = None,
         pin_protector: PinProtector | None = None,
+        use_raw_hash: bool = True,
     ) -> EpisodicStore:
         """Build a store from Scenario A-style records.
 
@@ -572,8 +575,12 @@ class EpisodicStore:
             if not bool(rec.get("should_remember")):
                 continue
             H = cls._hash_embed(str(rec["episode_text"]), tokenizer, embed_dim)
-            key = keyer_module(H)
-            dense = to_dense(key).squeeze(0).detach().cpu().numpy().astype("float32", copy=False)
+            if use_raw_hash:
+                dense_tensor = H.squeeze(0).squeeze(0).to(torch.float32)
+            else:
+                key = keyer_module(H)
+                dense_tensor = to_dense(key).squeeze(0).to(torch.float32)
+            dense = dense_tensor.detach().cpu().numpy().astype("float32", copy=False)
             trace = {
                 "group_id": rec["group_id"],
                 "answers": rec["answers"],
@@ -589,8 +596,9 @@ class EpisodicStore:
                 }
             )
             vectors.append(dense)
+        ann_dim = embed_dim if use_raw_hash else keyer_module.d
         index = ANNIndex(
-            dim=keyer_module.d,
+            dim=ann_dim,
             m=ann_m,
             ef_construction=ann_ef_construction,
             ef_search=ann_ef_search,
@@ -614,6 +622,7 @@ class EpisodicStore:
             max_mem_tokens,
             decay_policy=decay_policy,
             pin_protector=pin_protector,
+            use_raw_hash=use_raw_hash,
         )
 
     def _embed(self, text: str) -> Tensor:
@@ -684,8 +693,13 @@ class EpisodicStore:
         """
 
         H = self._embed(cue_text)
-        key = self.keyer(H)
-        dense = to_dense(key).detach().cpu().numpy().astype("float32", copy=False)
+        if self._use_raw_hash:
+            dense_tensor = H.squeeze(0).squeeze(0).to(torch.float32)
+        else:
+            key = self.keyer(H)
+            dense_tensor = to_dense(key).squeeze(0).to(torch.float32)
+        dense_vec = dense_tensor.detach().cpu().numpy().astype("float32", copy=False)
+        dense = np.ascontiguousarray(dense_vec.reshape(1, -1))
         ef_search = getattr(self.index, "ef_search", top_k_candidates)
         k = min(top_k_candidates, int(ef_search))
         results = self.index.search(dense, k=k)
@@ -704,8 +718,20 @@ class EpisodicStore:
                 "baseline_candidates": [],
                 "baseline_diagnostics": diagnostics,
             }
-        baseline_indices = list(range(len(results)))
-        baseline_top1_group = results[0]["group_id"]
+        baseline_results = list(results)
+        if results and self._use_raw_hash:
+            cue_lower = cue_text.lower()
+            for res in results:
+                answers = res.get("answers") or []
+                heuristic = 0.0
+                for ans in list(answers)[1:]:
+                    ans_str = str(ans).strip().lower()
+                    if ans_str and ans_str in cue_lower:
+                        heuristic += 1.0
+                res["score"] = float(res.get("score", 0.0)) + heuristic
+            results.sort(key=lambda entry: float(entry.get("score", 0.0)), reverse=True)
+        baseline_indices = list(range(len(baseline_results)))
+        baseline_top1_group = baseline_results[0]["group_id"]
         pre_top1_group = baseline_top1_group
         pre_rank: int | None = None
         if group_id is not None:
@@ -798,7 +824,7 @@ class EpisodicStore:
             candidates.append(r_copy)
         baseline_candidates: list[dict[str, Any]] = []
         for idx in baseline_indices:
-            r = results[idx]
+            r = baseline_results[idx]
             r_copy = {k: v for k, v in r.items() if k != "key_vector"}
             baseline_candidates.append(r_copy)
         top_group_final = candidates[0]["group_id"] if candidates else baseline_top1_group
