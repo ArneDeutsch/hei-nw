@@ -4,8 +4,8 @@
 [m2-probes] Running E3 Hopfield on/off pair (outdir: reports/m2-acceptance/probes/E3)
 
 Probe | Variant | EM | Non-empty | Notes
-E0 | baseline | 0.104 | 1.000 | P@1=0.292, MRR=0.493
-E1 | oracle | 0.000 | 1.000 | P@1=0.292, MRR=0.493
-E2 | retrieval-only | 0.292 | 1.000 | P@1=0.292, MRR=0.493
-E3 | hopfield | 0.104 | 1.000 | P@1=0.292, MRR=0.493
-E3 | no-hopfield | 0.104 | 1.000 | P@1=0.292, MRR=0.493
+E0 | baseline | 0.375 | 1.000 | P@1=0.583, MRR=0.722
+E1 | oracle | 1.000 | 1.000 | P@1=0.583, MRR=0.722
+E2 | retrieval-only | 0.583 | 1.000 | P@1=0.583, MRR=0.722
+E3 | hopfield | 0.375 | 1.000 | P@1=0.583, MRR=0.722
+E3 | no-hopfield | 0.375 | 1.000 | P@1=0.583, MRR=0.722

@@ -4,16 +4,16 @@
     "em_relaxed": 0.0,
     "em_strict": 0.0,
     "f1": 0.0,
-    "latency": 0.24523693087504247,
+    "latency": 0.2265484202503861,
     "non_empty_rate": 1.0,
     "recall_at_k": null
   },
   "compute": {
     "b0": {
-      "attention_flops": 19873910784,
-      "generated_tokens": 576,
-      "kv_cache_bytes": 20404224,
-      "prompt_tokens": 2745
+      "attention_flops": 19152838656,
+      "generated_tokens": 517,
+      "kv_cache_bytes": 20017152,
+      "prompt_tokens": 2741
     },
     "baseline": null
   },
@@ -66,8 +66,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.8039549830009491,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
+      "latency": 0.8032069680011773,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -87,15 +87,267 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 1,
-      "latency": 0.060490017998745316,
-      "prediction": "The narrator",
+      "latency": 0.16185531899827765,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a wallet at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.32099125099921366,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 24,
+      "latency": 0.3202424560004147,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10226515000249492,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.10104118200251833,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 4,
+      "latency": 0.31786453099994105,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 10,
+      "latency": 0.31984465300047304,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041573454000172205,
+      "prediction": "Student",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.1027669130016875,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.3367656709997391,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.10307480499977828,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.33589298500010045,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.04416017100083991,
+      "prediction": "thief",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -108,134 +360,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.235576998000397,
-      "prediction": "A patron might have left a jacket at the library.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 25,
-      "latency": 0.06026900600045337,
-      "prediction": "The narrator",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Dana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.31226905600124155,
-      "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Alice"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 1,
-      "latency": 0.3125142570006574,
-      "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 4,
-      "latency": 0.060278195998762385,
-      "prediction": "The narrator",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 18,
-      "latency": 0.07965728199997102,
-      "prediction": "A careless person",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a bottle at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Fay"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.09914137799933087,
-      "prediction": "A careless hiker",
+      "latency": 0.10691106000012951,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -254,93 +380,9 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 2,
-      "latency": 0.2347769159987365,
-      "prediction": "A patron might have left a book at the library.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 3,
-      "latency": 0.3122674360001838,
-      "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a key at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Hana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 22,
-      "latency": 0.04091847200106713,
-      "prediction": "passenger",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a laptop at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Fay"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.040836450998540386,
-      "prediction": "Employee",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a phone at the office?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 2,
-      "latency": 0.09927635900021414,
-      "prediction": "A child did.",
+      "lag": 9,
+      "latency": 0.1052232690017263,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -352,49 +394,7 @@
         }
       ],
       "recall_at_k": null,
-      "truth": "Judy"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 3,
-      "latency": 0.312591727999461,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Hana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 19,
-      "latency": 0.31257573800030514,
-      "prediction": "The question is ambiguous and lacks specific details about which museum and when it happened.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
+      "truth": "Fay"
     },
     {
       "em": 0.0,
@@ -402,8 +402,29 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.09914773799937393,
-      "prediction": "The baker did.",
+      "latency": 0.317417848000332,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.10021087700079079,
+      "prediction": "baker",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -422,16 +443,16 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 2,
-      "latency": 0.312088575999951,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "lag": 5,
+      "latency": 0.3178186300028756,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a book at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -443,58 +464,16 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 4,
-      "latency": 0.31252016800135607,
-      "prediction": "The question is ambiguous and lacks specific details about which museum and when it happened.",
+      "lag": 21,
+      "latency": 0.08291945699966163,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Charlie"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 11,
-      "latency": 0.21559540100133745,
-      "prediction": "A park visitor might have left their phone there.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a phone at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Charlie"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.3124311990013666,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -506,21 +485,42 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 2,
-      "latency": 0.3191034219998983,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a key at the",
+      "lag": 0,
+      "latency": 0.19925966600203537,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a key at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a notebook at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Ivan"
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.23905787999683525,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
     },
     {
       "em": 0.0,
@@ -528,41 +528,41 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.23476396600017324,
-      "prediction": "A patron might have left a jacket at the library.",
+      "latency": 0.31792603099893313,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Alice"
+      "truth": "Eli"
     },
     {
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 11,
-      "latency": 0.31224176800060377,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "lag": 22,
+      "latency": 0.08126549599910504,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a notebook at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Alice"
+      "truth": "Fay"
     },
     {
       "em": 0.0,
@@ -570,8 +570,8 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3124072190003062,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
+      "latency": 0.320182023999223,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -583,69 +583,6 @@
         }
       ],
       "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 1,
-      "latency": 0.3121595189986692,
-      "prediction": "The question is not clear about which person left a phone at Café Lumen.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a phone at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Fay"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 6,
-      "latency": 0.2352526989998296,
-      "prediction": "A patron might have left a jacket at the library.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 25,
-      "latency": 0.06048462900071172,
-      "prediction": "The narrator",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
       "truth": "Dana"
     },
     {
@@ -653,303 +590,9 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 0,
-      "latency": 0.3121522080000432,
-      "prediction": "The question is ambiguous and lacks specific details about which person left the wallet at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a wallet at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Gus"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
       "lag": 1,
-      "latency": 0.3125742110005376,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a book at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 4,
-      "latency": 0.3123367499993037,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a book at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 18,
-      "latency": 0.23498124800062214,
-      "prediction": "A librarian might have left a bottle at the library.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a bottle at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Fay"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.3123183900006552,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left a notebook at the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a notebook at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Dana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 2,
-      "latency": 0.23482100799992622,
-      "prediction": "A visitor might have left a book at the park.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a book at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 3,
-      "latency": 0.31234156000027724,
-      "prediction": "The question is not clear about which Café Lumen you're referring to. Please",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Hana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 22,
-      "latency": 0.3124338910001825,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a jacket at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Fay"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.041018222998900455,
-      "prediction": "Employee",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a phone at the office?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Alice"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 2,
-      "latency": 0.21518948199991428,
-      "prediction": "A park visitor might have left their laptop there.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a laptop at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Judy"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 3,
-      "latency": 0.3127147129998775,
-      "prediction": "The question is ambiguous and lacks context about which bakery and who was present when the",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a laptop at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Hana"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 19,
-      "latency": 0.3124919719994068,
-      "prediction": "The question is ambiguous and lacks specific details about which museum and when it happened.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a umbrella at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Eli"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 0,
-      "latency": 0.09906054899875016,
-      "prediction": "The baker did.",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a bottle at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Ivan"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 2,
-      "latency": 0.31207752999944205,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
-      "prompt": [
-        {
-          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
-          "role": "system"
-        },
-        {
-          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
-          "role": "user"
-        }
-      ],
-      "recall_at_k": null,
-      "truth": "Bob"
-    },
-    {
-      "em": 0.0,
-      "em_relaxed": 0.0,
-      "em_strict": 0.0,
-      "f1": 0.0,
-      "lag": 4,
-      "latency": 0.31185277000076894,
-      "prediction": "The question is ambiguous and lacks specific details about which museum and individuals involved. To",
+      "latency": 0.3166405520023545,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
@@ -961,28 +604,49 @@
         }
       ],
       "recall_at_k": null,
-      "truth": "Charlie"
+      "truth": "Bob"
     },
     {
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 11,
-      "latency": 0.2348902489993634,
-      "prediction": "A patron might have left their phone at the library.",
+      "lag": 6,
+      "latency": 0.06113461900167749,
+      "prediction": "narrator",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a phone at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Charlie"
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 24,
+      "latency": 0.31726750600137166,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Gus"
     },
     {
       "em": 0.0,
@@ -990,15 +654,36 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 0,
-      "latency": 0.3128534639999998,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "latency": 0.10099463100050343,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a laptop at the market?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Gus"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.3191129570004705,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a wallet at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1010,16 +695,331 @@
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 2,
-      "latency": 0.3127316240006621,
-      "prediction": "The question is incomplete and lacks necessary context to determine who left an umbrella at the",
+      "lag": 4,
+      "latency": 0.32337448399994173,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a umbrella at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a jacket at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Alice"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 10,
+      "latency": 0.3183445520007808,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Eli"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041539244000887265,
+      "prediction": "Student",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the school?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.1007325700011279,
+      "prediction": "baker",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 3,
+      "latency": 0.3185577039985219,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a notebook at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 22,
+      "latency": 0.31887156599987065,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3204432650018134,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.3182819620014925,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a jacket at the museum?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 6,
+      "latency": 0.1025525219993142,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a backpack at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Dana"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 9,
+      "latency": 0.10174384600031772,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Fay"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.318297612000606,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the bakery?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 1,
+      "latency": 0.06202133400074672,
+      "prediction": "narrator",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Charlie"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 5,
+      "latency": 0.3184602330002235,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Ivan"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 21,
+      "latency": 0.3164945600001374,
+      "prediction": "question",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a bottle at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Judy"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.23770790900016436,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a book at the park?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "Bob"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 2,
+      "latency": 0.23940501999823027,
+      "prediction": "A",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: who left a phone at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
@@ -1032,41 +1032,41 @@
       "em_strict": 0.0,
       "f1": 0.0,
       "lag": 6,
-      "latency": 0.23472173000118346,
-      "prediction": "A patron might have left a jacket at the library.",
+      "latency": 0.3209419880004134,
+      "prediction": "question",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a jacket at the library?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a key at the station?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Alice"
+      "truth": "Eli"
     },
     {
       "em": 0.0,
       "em_relaxed": 0.0,
       "em_strict": 0.0,
       "f1": 0.0,
-      "lag": 11,
-      "latency": 0.3122205319996283,
-      "prediction": "The question is incomplete and lacks necessary context to provide an accurate answer. Please provide",
+      "lag": 22,
+      "latency": 0.08166578899908927,
+      "prediction": "A",
       "prompt": [
         {
           "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
           "role": "system"
         },
         {
-          "content": "Question: who left a notebook at Café Lumen?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "content": "Question: who left a umbrella at the beach?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
           "role": "user"
         }
       ],
       "recall_at_k": null,
-      "truth": "Alice"
+      "truth": "Fay"
     }
   ],
   "run_config": {
@@ -1075,6 +1075,7 @@
       "scale": null
     },
     "gate": {
+      "allow_label_fallback": true,
       "alpha": 1.0,
       "beta": 1.0,
       "debug_keep_labels": false,
@@ -1082,7 +1083,7 @@
       "gamma": 0.5,
       "pin_override": false,
       "pins_only": false,
-      "threshold": 1.5,
+      "threshold": 1.0,
       "use_for_writes": true
     },
     "hopfield": {
@@ -1106,6 +1107,7 @@
     "requested_records": 24,
     "seed": 7,
     "store": {
+      "embed_dim": 256,
       "evict_interval": 32,
       "evict_stale": false
     }

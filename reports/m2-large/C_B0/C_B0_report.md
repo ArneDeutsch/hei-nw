@@ -2,16 +2,16 @@
 
 ## Aggregate Metrics
 
-- EM (relaxed): 0.000
-- EM_strict: 0.000
-- F1: 0.000
+- EM (relaxed): 0.199
+- EM_strict: 0.098
+- F1: 0.098
 - Non-empty rate: 1.000
-- Latency: 0.227s
+- Latency: 0.160s
 
 ## Run config
-- Seed: 7
-- Requested records: 24
-- Actual records: 48
+- Seed: 21
+- Requested records: 256
+- Actual records: 256
 - QA prompt style: chat
 - QA max new tokens: 16
 - QA stop: (empty string)
@@ -23,14 +23,14 @@
 ## Lag bins
 | Lag bin | count | EM (relaxed) | EM_strict | F1 | Recall@k |
 | ------- | ----- | ------------- | --------- | --- | -------- |
-| 0-1 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 1-3 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 3-7 | 12 | 0.000 | 0.000 | 0.000 | n/a |
-| 7-30 | 12 | 0.000 | 0.000 | 0.000 | n/a |
+| 0-1 | 256 | 0.199 | 0.098 | 0.098 | n/a |
+| 1-3 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 3-7 | 0 | 0.000 | 0.000 | 0.000 | n/a |
+| 7-30 | 0 | 0.000 | 0.000 | 0.000 | n/a |
 
 ## Compute
-B0 attention FLOPs: 19152838656
-B0 KV cache bytes: 20017152
+B0 attention FLOPs: 92343250944
+B0 KV cache bytes: 101431296
 
 ## Retrieval
 - None
@@ -39,4 +39,4 @@ B0 KV cache bytes: 20017152
 - None
 
 ## Dataset notes
-Hard negatives/confounders included (ratio 1.00)
+None

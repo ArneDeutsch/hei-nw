@@ -1,0 +1,5482 @@
+{
+  "aggregate": {
+    "em": 0.19921875,
+    "em_relaxed": 0.19921875,
+    "em_strict": 0.09765625,
+    "f1": 0.09765625,
+    "latency": 0.16019569440615555,
+    "non_empty_rate": 1.0,
+    "recall_at_k": null
+  },
+  "compute": {
+    "b0": {
+      "attention_flops": 92343250944,
+      "generated_tokens": 1988,
+      "kv_cache_bytes": 101431296,
+      "prompt_tokens": 14521
+    },
+    "baseline": null
+  },
+  "dataset": {
+    "scenario": "C"
+  },
+  "lag_bins": [
+    {
+      "count": 256,
+      "em": 0.19921875,
+      "em_relaxed": 0.19921875,
+      "em_strict": 0.09765625,
+      "f1": 0.09765625,
+      "lag_bin": "0-1",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag_bin": "1-3",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag_bin": "3-7",
+      "recall_at_k": null
+    },
+    {
+      "count": 0,
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag_bin": "7-30",
+      "recall_at_k": null
+    }
+  ],
+  "records": [
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.8081901499972446,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7872"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04246489800061681,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10476879099951475,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9420"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04257149800105253,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08208371900036582,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8039"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3305942650003999,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3259456330015382,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8181"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04209736399934627,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2406749870024214,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9175"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.0418266209999274,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3234895099994901,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3069"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32296766500076046,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0821776390002924,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7599"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32343201999901794,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16193964600097388,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8723"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3210456670021813,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24210143700111075,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2186"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3259592499998689,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3269520080029906,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6614"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0434538049994444,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1437237539976195,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9239"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04256054700090317,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08124155000041355,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1463"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04243157699966105,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10375113999907626,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2172"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3209690840012627,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08489484199890285,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2870"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04208236200065585,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08131080999737605,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6047"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3255174440018891,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04226424399894313,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8048"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04207371300071827,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22063567399891326,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4981"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32040207699901657,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12278863599931356,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9067"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3173779899989313,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32051772700287984,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2159"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04138466599761159,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12106268199931947,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1878"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04195152100146515,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04182590999698732,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3819"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04148530699967523,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04165236799963168,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3501"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04271315799996955,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2210254060009902,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8873"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041435487000853755,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.11995440200189478,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8004"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04144651699971291,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.21935146999749122,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5545"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041602067001804244,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.31873069900029805,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1409"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3289959399990039,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10970910099786124,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5237"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32593861100031063,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16227262399843312,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7527"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.043993699000566266,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1074698200027342,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3331"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04497698699924513,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12607866399775958,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9849"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.042218963000777876,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22166096000000834,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3745"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04383353700177395,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22553147199869272,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1780"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04196036999928765,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10189166000054684,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2064"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3237324499968963,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2296124790009344,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6162"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.043489224000950344,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12352591000308166,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5857"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32493056900057127,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24163151399989147,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2007"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3206126110017067,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08295172200087109,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9638"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04155184699993697,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08536875299978419,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4322"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04238850400361116,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1025812859988946,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2787"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04284484799791244,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2424501790010254,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1348"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32321909199890797,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10454232299889554,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7602"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04222974300137139,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14240233600139618,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1712"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3218985000021348,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14146678799806978,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8494"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04177145900030155,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1041568990003725,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4756"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.0429830889988807,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10129366300316178,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7135"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04299324899693602,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24378323899873067,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5319"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0415381159982644,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08063866099837469,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7280"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3165684810010134,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0417784080018464,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6131"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04137947500203154,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3211348699987866,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2326"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3207428650021029,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.141847240000061,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2797"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32127820099776727,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08153264800057514,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7118"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04287305699835997,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3368731269983982,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6301"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3223825790009869,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2593146330000309,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4298"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04542119899997488,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.15042086399989785,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8674"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.044500682000943925,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12458876600067015,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3880"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04276716599997599,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32739529199898243,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1587"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04237851299694739,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24068072800218943,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1667"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04189300899815862,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16092260599907604,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9943"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04181455800062395,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1419931689997611,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7095"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3241203409997979,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2230840519987396,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8104"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04282426699865027,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10113124900090043,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7626"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3193442880001385,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22090718199979165,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8687"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041737677001947304,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.319398347997776,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3516"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32010932300181594,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2406884749980236,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9074"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.31858892899981583,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32189087699953234,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6809"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04169834599815658,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1614160279968928,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4077"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3211646109994035,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08176800799992634,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6797"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04177779699966777,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10111568799766246,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5533"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04160008600229048,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3248742720024893,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6899"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04163031499774661,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041710905999934766,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9618"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04151413500221679,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3231077259988524,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9261"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32111707799776923,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.320961625999189,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1368"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04176670699962415,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10129260900066583,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1332"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32019598899933044,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22000001999913366,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9760"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04274013500253204,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04163930499998969,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8627"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041517743997246725,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2214719419971516,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5368"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04150184300306137,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3247825969992846,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4011"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3211123649998626,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24167155800023465,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5709"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04208860899962019,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14049856099882163,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3944"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3207543809985509,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.15987540999776684,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7953"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3203539659989474,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32000142299875733,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4508"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32395711799836135,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3220710499990673,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3663"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32128337299945997,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10110335500212386,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9129"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04223703899697284,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14087072300026193,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7217"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041668145000585355,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1609418980006012,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9835"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04168954499982647,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2198651040016557,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8237"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.321081049998611,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10491498800183763,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3355"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04233485000077053,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24281750400041346,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5883"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3203861709989724,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041851106001558946,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8934"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04214447900085361,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14063672999691335,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6492"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04312912800014601,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10179318000155035,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2182"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04241324100075872,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08112084900130867,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8540"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3214799599991238,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16019794000021648,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6069"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3184449929976836,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16388906200154452,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5870"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32058888099709293,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.142544584999996,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4593"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3190256669986411,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3206025209983636,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4190"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04210818799765548,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10096546199929435,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2014"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32160984800066217,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14177316799759865,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9018"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04153304200008279,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3202567260013893,
+      "prediction": "Alpha",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is alpha running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7016"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04163524400064489,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10065791899978649,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9441"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.044371006999426754,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16958090899788658,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8477"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04216726799859316,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3283535260015924,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3728"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.042647873000532854,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08308228500027326,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5927"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04433791599876713,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04304424500151072,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3509"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32424948799962294,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.2227824129986402,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2855"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04162054300104501,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.15982796399839572,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4352"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04193186599877663,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04193582600055379,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "2601"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.042898423998849466,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24301716899935855,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1172"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0419441949998145,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12114096599907498,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7868"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04149333200257388,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.22123522800029605,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8923"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04180660400015768,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10373842400076683,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5313"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04211450699949637,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12308778300211998,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9068"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.041683292998641264,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.16387667800154304,
+      "prediction": "AlphaNet",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does alpha use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "5730"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04148002100191661,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32054326299839886,
+      "prediction": "Beta",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is beta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3471"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.041768194001633674,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08099833600135753,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8275"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.0420239560007758,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14069784599996638,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9423"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32194821500161197,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12231784500181675,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4274"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04381455200200435,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08460206699965056,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "8149"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04252131099929102,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on delta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04225164799936465,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3690"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.33201256199754425,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.1526551989991276,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1239"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3488743570014776,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08547713399821077,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9682"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04266538199954084,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.24987167499784846,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is epsilon running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3999"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.33155145600176184,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.08768151299955207,
+      "prediction": "TCP/UDP",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does gamma use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "3412"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 1.0,
+      "f1": 1.0,
+      "lag": 0,
+      "latency": 0.04404569399775937,
+      "prediction": "red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on alpha?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.12483265600167215,
+      "prediction": "5000",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is gamma running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "6392"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.3287196689998382,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.14593226900251466,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: Which port is delta running on?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "1479"
+    },
+    {
+      "em": 1.0,
+      "em_relaxed": 1.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04255012000066927,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on gamma?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "red"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.23022141299952636,
+      "prediction": "Epsilon",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does epsilon use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "4801"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.34559455499766045,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.04201104599997052,
+      "prediction": "Azure",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does beta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "9204"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32052160700186505,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on beta?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "green"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.10209713800213649,
+      "prediction": "Port",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What port does delta use?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "7262"
+    },
+    {
+      "em": 0.0,
+      "em_relaxed": 0.0,
+      "em_strict": 0.0,
+      "f1": 0.0,
+      "lag": 0,
+      "latency": 0.32316970999818295,
+      "prediction": "Red",
+      "prompt": [
+        {
+          "content": "You are a helpful assistant. Answer with ONLY the single correct word or name.",
+          "role": "system"
+        },
+        {
+          "content": "Question: What color is the status light on epsilon?\nRespond with only the single correct word or name.\nRespond with only the single word (no punctuation, no Markdown).",
+          "role": "user"
+        }
+      ],
+      "recall_at_k": null,
+      "truth": "blue"
+    }
+  ],
+  "run_config": {
+    "actual_records": 256,
+    "adapter": {
+      "scale": null
+    },
+    "gate": {
+      "allow_label_fallback": true,
+      "alpha": 1.0,
+      "beta": 1.0,
+      "debug_keep_labels": false,
+      "delta": 0.8,
+      "gamma": 0.5,
+      "pin_override": false,
+      "pins_only": false,
+      "threshold": 1.5,
+      "use_for_writes": true
+    },
+    "hopfield": {
+      "enabled": true,
+      "steps": 1,
+      "temperature": 1.0
+    },
+    "memory": {
+      "max_tokens": null
+    },
+    "qa": {
+      "answer_hint": true,
+      "max_new_tokens": 16,
+      "memory_dependent_baseline": true,
+      "omit_episode": true,
+      "prompt_style": "chat",
+      "stop": "",
+      "stop_mode": "substring",
+      "template_policy": "plain"
+    },
+    "requested_records": 256,
+    "seed": 21,
+    "store": {
+      "embed_dim": 256,
+      "evict_interval": 32,
+      "evict_stale": false
+    }
+  }
+}

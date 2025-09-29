@@ -64,13 +64,18 @@ def generate(n: int, seed: int) -> list[dict[str, object]]:
                 "reward": False,
                 "pin": False,
             }
+        answers = [expected, company, "", ""]
         records.append(
             {
                 "context": context,
+                "episode_text": context,
                 "query": query,
+                "cues": [query],
+                "answers": answers,
                 "expected": expected,
                 "should_remember": should_remember,
                 "gate_features": gate_features,
+                "group_id": i,
             }
         )
     return records
