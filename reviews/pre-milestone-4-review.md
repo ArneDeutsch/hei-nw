@@ -395,24 +395,36 @@ ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh  # allowed for dev
 
 ## Appendix — Post-Fix Acceptance Snapshot (2025-09-25)
 
-**Context.** Follow-up run after implementing the single-token normalization fix and defaulting acceptance scripts to label-driven writes (`USE_GATE_WRITES=0`). See `reports/m2-acceptance/retrieval/A_B1_report.md` (seed 7, n=48) for raw metrics.
+**Context.** Follow-up run after fixing answer normalization, defaulting acceptance scripts to label-driven writes (`USE_GATE_WRITES=0`), and switching the retrieval store to hashed episode embeddings + heuristic rerank. Raw artifacts live under `reports/m2-acceptance/` (seed 7, n = 48).
 
-**Command.** `PYTHONPATH=src ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh`
+**Commands.**
+
+```bash
+# Gate calibration sweep (τ ∈ {0.8…1.6})
+PYTHONPATH=src scripts/run_m3_gate_calibration.sh --scenario A --n 512 \
+  --threshold-sweep "0.8 1.0 1.2 1.4 1.6" --out reports/m3-calibration-sweep
+
+# Acceptance (label-driven writes)
+PYTHONPATH=src ALLOW_SMALL_SAMPLE=1 scripts/run_m2_acceptance.sh
+```
 
 **Outcomes.**
 
-- `ΔEM = +0.542` with 95% CI `[0.396, 0.688]` (Scenario A small set).
-- Retrieval health now clears the design bar: `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
-- Oracle probe scores EM **1.000**; normalization fix prevents “Fay left …” style answers from being rejected.
-- Hopfield still offers no improvement on the probe sweep; we fall back to heuristically re-ranked ANN results (RC-M2-T3 follow-up keeps Hopfield optional).
+- **Gate sweep:** write-rate monotone in τ → {0.8: 2.50, 1.0: 1.18, 1.2: 0.82, 1.4: 0.55, 1.6: 0.26 writes/1k tokens}. Telemetry/plots packaged at `/tmp/m3-calibration-sweep.tar.gz`.
+- **Uplift:** `ΔEM = +0.542` with 95 % CI `[0.396, 0.688]` (Scenario A small set).
+- **Retrieval:** `P@1 = 0.604`, `MRR = 0.757` (`reports/m2-acceptance/retrieval/A_B1_metrics.json`).
+- **Oracle probe:** EM = 1.000 (output normalization fix verified).
+- **Hopfield ablation:** still neutral (`P@1 = 0.312` with/without) — acceptable while we rely on hashed ANN + rerank, but keep monitoring if we switch back to DG-only keys.
 
 **Implementation notes.**
 
-- `_normalize_prediction(..., single_token=True)` strips boilerplate tokens when the answer-hint is active (`src/hei_nw/eval/harness.py`).
-- New unit tests cover both normalization modes (`tests/test_harness_dev_flags.py`).
-- Acceptance scripts and isolation probes accept `USE_GATE_WRITES=1` to re-enable gate-driven writes once telemetry is trustworthy.
+- `_normalize_prediction(..., single_token=True)` handles answer-hint runs; regression tests cover both hint/no-hint cases.
+- `RecallService.build(... use_raw_hash=True)` indexes hashed episode embeddings; the store adds a lightweight answer-heuristic rerank to pick the right “who” when contexts collide.
+- Acceptance scripts still honour `USE_GATE_WRITES=1`; gate-driven writes can be re-enabled once τ-calibration meets spec in scenario-specific sweeps.
+- Quick recap recorded in `reports/m2-acceptance-summary.md` for future ledger entries.
 
 **Next steps.**
 
-- Restore τ-sweeps and gate-driven writes after verifying calibration (RC-M3-T1/T3).
-- Tune retrieval knobs (DG `k`, HNSW `ef_search`, cue embeddings) toward the design target `P@1 ≥ 0.6` before claiming final acceptance.
+- Re-run acceptance with `USE_GATE_WRITES=1` after selecting τ from the sweep (e.g., τ≈1.0 for ~1.2 writes/1k tokens) to validate end-to-end behavior of the gate.
+- Stress-test retrieval with larger Scenario A/B/C sets (n≥200) before claiming final uplift, ensuring the hashed-key heuristic generalises.
+- Consider promoting the hashed embedding path to a documented default (design spec §5.3) and adding CI coverage for the new rerank logic.
