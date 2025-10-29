@@ -1,3 +1,7 @@
+# Notes about the repository content
+
+This is an (unfinished) experimental project. Almost all the content is AI generated. It is more an experiment about todays capabilities of AI then anything else. Take information from this repository with a grain of salt!
+
 # HEI-NW (Hippocampal Episodic Index — Neuromodulated Writes)
 
 **HEI-NW** is a *memory add-on* for an LLM. You keep the base Transformer mostly as-is, and bolt on a small adapter plus a persistent “episodic store.” The system decides *when* to write a fresh memory (based on surprise/novelty/reward), *how* to index it (sparse key for low interference), *how* to recall from partial cues (associative lookup/completion), and *when* to distill the best memories back into the model weights via offline replay. Think: **LLM + smart, content-addressable cache with a write policy and nightly consolidation.**&#x20;
